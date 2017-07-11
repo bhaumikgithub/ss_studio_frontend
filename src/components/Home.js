@@ -16,9 +16,7 @@ class Home extends Component {
                 <Carousel.Item className="full-screen">
                   <div className="overlay" />
                   <img
-                    src={
-                      process.env.PUBLIC_URL + '/assets/images/slider-img-1.png'
-                    }
+                    src={require('../assets/images/slider-img-1.png')}
                     alt=""
                   />
                   <Carousel.Caption className="custom-carousel-caption">
@@ -36,9 +34,7 @@ class Home extends Component {
                 <Carousel.Item className="full-screen">
                   <div className="overlay" />
                   <img
-                    src={
-                      process.env.PUBLIC_URL + 'assets/images/slider-img-2.png'
-                    }
+                    src={require('../assets/images/slider-img-2.png')}
                     alt=""
                   />
                   <Carousel.Caption className="custom-carousel-caption">
@@ -56,9 +52,7 @@ class Home extends Component {
                 <Carousel.Item className="full-screen">
                   <div className="overlay" />
                   <img
-                    src={
-                      process.env.PUBLIC_URL + 'assets/images/slider-img-3.png'
-                    }
+                    src={require('../assets/images/slider-img-3.png')}
                     alt=""
                   />
                   <Carousel.Caption className="custom-carousel-caption">
@@ -76,9 +70,7 @@ class Home extends Component {
                 <Carousel.Item className="full-screen">
                   <div className="overlay" />
                   <img
-                    src={
-                      process.env.PUBLIC_URL + 'assets/images/slider-img-4.png'
-                    }
+                    src={require('../assets/images/slider-img-4.png')}
                     alt=""
                   />
                   <Carousel.Caption className="custom-carousel-caption">
@@ -96,9 +88,7 @@ class Home extends Component {
                 <Carousel.Item className="full-screen">
                   <div className="overlay" />
                   <img
-                    src={
-                      process.env.PUBLIC_URL + 'assets/images/slider-img-5.png'
-                    }
+                    src={require('../assets/images/slider-img-5.png')}
                     alt=""
                   />
                   <Carousel.Caption className="custom-carousel-caption">

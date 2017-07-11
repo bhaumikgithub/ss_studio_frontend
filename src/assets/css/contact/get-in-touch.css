@@ -1,0 +1,35 @@
+.get-in-touch-wrap {
+  background: url('../../images/contact-bg.png');
+  background-size: cover;
+}
+
+.contact-logo {
+  height: 55px;
+  margin-bottom: 30px;
+}
+.contact-control {
+  margin: 15px 0;
+  border-radius: 0;
+  border: 1px dotted #f9a11d;
+  color: #fff;
+  background: transparent;
+}
+.contact-control[type=number]::-webkit-inner-spin-button,
+.contact-control[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+textarea.contact-control {
+  height: 100px;
+}
+.contact-submit-btn {
+  margin-top: 10px;
+}
+.icon-img {
+  display: block;
+}
+.contact-details-block {
+  padding: 15px 0;
+}

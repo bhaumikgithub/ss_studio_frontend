@@ -5,11 +5,9 @@ import Footer from './Footer';
 class Layout extends Component {
   render() {
     return (
-      <div>
-        <div className="page-wrap">
-          <Header />
-          {this.props.children}
-        </div>
+      <div className="app-wrap">
+        <Header />
+        {this.props.children}
         <Footer />
       </div>
     );

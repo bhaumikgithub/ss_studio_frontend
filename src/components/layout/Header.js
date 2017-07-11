@@ -1,29 +1,36 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 class Header extends Component {
   render() {
-    const logo = `${process.env.PUBLIC_URL}/assets/images/logo.png`;
     return (
       <Navbar
         inverse
-        collapseOnSelect
         fixedTop
+        collapseOnSelect
         className="header custom-navbar"
       >
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="">
-              <img src={logo} alt="" className="img-responsive" />
-            </a>
+            <Link to="/">
+              <img
+                src={require('../../assets/images/logo.png')}
+                alt=""
+                className="img-responsive"
+              />
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight className="menu-links">
-            <NavItem eventKey={1} href="#" className="active">
-              Home
-            </NavItem>
+            <LinkContainer to="/">
+              <NavItem eventKey={1} href="#" className="active">
+                Home
+              </NavItem>
+            </LinkContainer>
             <NavItem eventKey={2} href="#">
               Portfolio
             </NavItem>
@@ -39,28 +46,20 @@ class Header extends Component {
               id="basic-nav-dropdown"
               className="navbar-dropdown"
             >
-              <li>
-                <a href="">Get in Touch</a>
-              </li>
-              <li>
-                <a href="">About Us</a>
-              </li>
-              <li>
-                <a href="">Services</a>
-              </li>
-              <li>
-                <a href="">Pricing</a>
-              </li>
+              <LinkContainer to="/get_in_touch">
+                <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
+              </LinkContainer>
+              <MenuItem eventKey={5.2}>About us</MenuItem>
+              <MenuItem eventKey={5.3}>Services</MenuItem>
+              <MenuItem eventKey={5.4}>Pricing</MenuItem>
             </NavDropdown>
-            <li>
-              <a href="">
-                <img
-                  src={process.env.PUBLIC_URL + '/assets/images/lock-icon.png'}
-                  alt=""
-                  className="img-responsive"
-                />
-              </a>
-            </li>
+            <NavItem eventKey={4} href="#">
+              <img
+                src={require('../../assets/images/lock-icon.png')}
+                alt=""
+                className="img-responsive"
+              />
+            </NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

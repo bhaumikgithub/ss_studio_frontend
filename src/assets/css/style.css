@@ -87,7 +87,10 @@
 }
 
 html,
-body {
+body,
+.App,
+#root,
+.app-wrap {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -165,6 +168,52 @@ a:focus {
 
 .f-bold {
   font-weight: bold;
+}
+
+.page-inner-wrap {
+  padding-top: 94px;
+  padding-bottom: 50px;
+  background: Transperent;
+}
+
+.text-white {
+  color: #fff;
+}
+
+.text-grey {
+  color: #666;
+}
+
+.page-main-title {
+  color: #f9a11d;
+  margin-top: 60px;
+  border: 0;
+  position: relative;
+}
+
+.page-main-title label {
+  position: relative;
+}
+
+.page-main-title label:after {
+  position: absolute;
+  content: "]";
+  top: -2px;
+  right: -35px;
+}
+
+.page-main-title label:before {
+  position: absolute;
+  content: "[";
+  top: -2px;
+  left: -35px;
+}
+
+.btn-orange {
+  border-radius: 20px;
+  background: #f9a11d;
+  color: #fff;
+  border: 0;
 }
 
 /** NAVBAR CSS START **/
