@@ -357,9 +357,6 @@ a:focus {
   color: #fff;
   max-height: 35px;
   padding: 8px 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   font-size: 12px;
 }
