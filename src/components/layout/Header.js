@@ -13,7 +13,7 @@ class Header extends Component {
         className="header custom-navbar"
       >
         <Navbar.Header>
-          <Navbar.Brand>
+          <Navbar.Brand className="navbar-logo">
             <Link to="/">
               <img
                 src={require('../../assets/images/logo.png')}
