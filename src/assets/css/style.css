@@ -315,7 +315,7 @@ a:focus {
   font-size: 16px;
 }
 
-.custom-navbar .navbar-nav > .active > a::after {
+.custom-navbar .navbar-nav > li.active > a::after {
   content: "";
   background-image: url("../images/header-active.png");
   height: 20px;
@@ -325,7 +325,7 @@ a:focus {
   position: absolute;
 }
 
-.custom-navbar .navbar-nav > .active > a::before {
+.custom-navbar .navbar-nav > li.active > a::before {
   content: "";
   background-image: url("../images/header-active.png");
   height: 20px;
@@ -340,9 +340,9 @@ a:focus {
   transform: rotate(180deg);
 }
 
-.custom-navbar .navbar-nav > .active > a,
-.custom-navbar .navbar-nav > .active > a:focus,
-.custom-navbar .navbar-nav > .active > a:hover {
+.custom-navbar .navbar-nav > li.active > a,
+.custom-navbar .navbar-nav > li.active > a:focus,
+.custom-navbar .navbar-nav > li.active > a:hover {
   background-color: transparent;
   color: #fff;
 }
@@ -357,9 +357,6 @@ a:focus {
   color: #fff;
   max-height: 35px;
   padding: 8px 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   font-size: 12px;
 }
@@ -390,6 +387,7 @@ a:focus {
   float: left;
   position: relative;
   width: 100%;
+  margin-bottom:-35px;
 }
 
 .home-slider .carousel-inner > .item.active {
@@ -658,7 +656,22 @@ a:focus {
   }
   /** HOMEPAGE CSS END **/
 }
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
+  .page-main-title h1 {
+    font-size: 25px;
+  }
+  .page-main-title label:after {
+    position: absolute;
+    content: "]";
+    top: -2px;
+    right: -20px;
+  }
+  .page-main-title label:before {
+    position: absolute;
+    content: "[";
+    top: -2px;
+    left: -20px;
+  }
 }
 @media screen and (max-width: 767px) {
   /** HOMEPAGE CSS START **/

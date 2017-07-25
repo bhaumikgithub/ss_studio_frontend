@@ -1,0 +1,34 @@
+.service-wrap {
+  padding-top: 92px;
+}
+.service-thumbs {
+  padding: 15px;
+  box-shadow: 2px 2px 3px #e1e1e1;
+  border-color: #f1f1f1;
+}
+.service-thumbs img {
+  padding-top: 30px;
+}
+.sevice-details {
+  padding: 15px 15px 10px;
+}
+.service-title,
+.service-btn {
+  Text-transform: uppercase;
+}
+.service-description {
+  text-align: center;
+}
+.service-btn {
+  padding: 8px 20px !important;
+  color: #666 !important;
+  margin-top: 10px;
+}
+.service-btn:hover,
+.service-btn:focus {
+  color: #fff !important;
+}
+.no-m-l-r {
+  margin-left: 0;
+  margin-right: 0;
+}
