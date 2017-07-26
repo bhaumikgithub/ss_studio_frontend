@@ -1,0 +1,111 @@
+.portfolio-wrap{
+    padding-top: 92px;
+}
+
+.portfolio-custom-tabs{
+    width: 70%;
+    margin-left: 15%;
+}
+
+.portfolio-custom-tabs.nav-tabs > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+     zoom:1; /* hasLayout ie7 trigger */
+     text-transform: uppercase;
+     padding: 0 15px 0 15px;
+}
+.portfolio-links a{
+    color:#666;
+    border: none !important;
+}
+.portfolio-links a:hover, .portfolio-links a:focus{
+    background:none !important;
+    border: none !important;
+    color:#f9a11d;
+    outline:0 !important;
+}
+.portfolio-links.active a{
+    color:#333;
+    font-weight:bold;
+    border:0 !important;
+    border-bottom:2px solid #f9a11d !important;
+}
+
+.portfolio-custom-tabs.nav-tabs, .nav-pills {
+    text-align:center;
+}
+.portfolio-content{
+    padding-bottom:50px;
+}
+.portfolio-thumbs > img{
+    width: 100%;
+}
+.portfolio-thumbs{
+    position : relative;
+}
+.portfolio-thumbs .overlay:after{
+    content:"";
+    background-image:url('../images/portfolio/hover-design.png');
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    display: none;
+    right: 15px;
+    top:15px;
+    z-index:10;
+}
+.portfolio-thumbs .overlay:before{
+    content:"";
+    background-image:url('../images/portfolio/hover-design.png');
+    position: absolute;
+    height: 70px;
+    width: 70px;
+    display: none;
+    left: 15px;
+    bottom:15px;
+    z-index:10;
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.portfolio-thumbs:hover .overlay:after, .portfolio-thumbs:hover .overlay:before{
+    display: block;
+}
+.portfolio-thumbs .overlay{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.7);
+    z-index:1;
+}
+.portfolio-thumbs:hover .overlay{
+    display: block;
+}
+.portfolio-tab-content{
+    margin-top:10px;
+}
+.portfolio-thumbs-wrap{
+    margin-top:15px;
+}
+.portfolio-thumbs .overlay-search{
+    position: absolute;
+    top:43%;
+    left:43%;
+    border: 1px solid #f9a11d;
+    padding: 7px;
+}
+.portfolio-thumbs-wrap{
+
+}
+.portfolio-title{
+    padding:8px 0 0 15px;
+    position: relative;
+    float:left;
+    width: 100%;
+    color:#666;
+    text-transform: capitalize;
+}
