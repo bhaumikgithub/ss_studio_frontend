@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 class Header extends Component {
@@ -26,31 +26,41 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight className="menu-links">
-            <LinkContainer to="/">
+            <IndexLinkContainer to="/">
               <NavItem eventKey={1}>Home</NavItem>
+            </IndexLinkContainer>
+            <LinkContainer to="/portfolio">
+              <NavItem eventKey={2}>Portfolio</NavItem>
             </LinkContainer>
-            <NavItem eventKey={2}>Portfolio</NavItem>
-            <NavItem eventKey={3} href="#">
-              Films
-            </NavItem>
-            <NavItem eventKey={4} href="#">
-              Feedback
-            </NavItem>
-            <NavDropdown
-              eventKey={3}
-              title="Contact"
-              id="basic-nav-dropdown"
+            <LinkContainer to="/films">
+              <NavItem eventKey={3}>Films</NavItem>
+            </LinkContainer>
+            <LinkContainer to="/feedback">
+              <NavItem eventKey={4}>Feedback</NavItem>
+            </LinkContainer>
+            <LinkContainer
+              to="/contact"
               className="navbar-dropdown"
+              onClick={event => event.preventDefault()}
             >
-              <LinkContainer to="/get_in_touch">
-                <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
-              </LinkContainer>
-              <MenuItem eventKey={5.2}>About us</MenuItem>
-              <LinkContainer to="/services">
-                <MenuItem eventKey={5.3}>Services</MenuItem>
-              </LinkContainer>
-              <MenuItem eventKey={5.4}>Pricing</MenuItem>
-            </NavDropdown>
+              <NavDropdown
+                eventKey={3}
+                href="/contact"
+                title="Contact"
+                id="basic-nav-dropdown"
+              >
+                <LinkContainer to="/contact/get_in_touch">
+                  <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
+                </LinkContainer>
+                <LinkContainer to="/contact/about_us">
+                  <MenuItem eventKey={5.2}>About us</MenuItem>
+                </LinkContainer>
+                <LinkContainer to="/contact/services">
+                  <MenuItem eventKey={5.3}>Services</MenuItem>
+                </LinkContainer>
+                <MenuItem eventKey={5.4}>Pricing</MenuItem>
+              </NavDropdown>
+            </LinkContainer>
             <NavItem eventKey={4} href="#">
               <img
                 src={require('../../assets/images/lock-icon.png')}

@@ -170,6 +170,31 @@ a:focus {
   font-weight: bold;
 }
 
+.outline-btn {
+  border: 2px solid #f9a11d;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px; /* border radius */
+  background-color: transparent;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.outline-btn:hover,
+.outline-btn:focus {
+  border: 2px solid #f9a11d;
+  background-color: #f9a11d;
+  color: #fff;
+}
+
+.no-padding,
+.p-none {
+  padding: 0;
+}
+
 .page-inner-wrap {
   padding-top: 94px;
   padding-bottom: 50px;
@@ -189,6 +214,7 @@ a:focus {
   margin-top: 60px;
   border: 0;
   position: relative;
+  text-transform: uppercase;
 }
 
 .page-main-title label {
@@ -214,6 +240,17 @@ a:focus {
   background: #f9a11d;
   color: #fff;
   border: 0;
+}
+
+.btn-grey {
+  border-radius: 20px;
+  background: #666;
+  color: #fff;
+  border: 0;
+}
+
+.btn-round {
+  border-radius: 50%;
 }
 
 /** NAVBAR CSS START **/
@@ -387,7 +424,7 @@ a:focus {
   float: left;
   position: relative;
   width: 100%;
-  margin-bottom:-35px;
+  margin-bottom: -35px;
 }
 
 .home-slider .carousel-inner > .item.active {
@@ -550,6 +587,34 @@ a:focus {
     right: 5%;
   }
   /** HOMEPAGE CSS END **/
+
+  /** FEEDBACK CSS START **/
+  .feedback-img-wrap:after,
+  .feedback-img-wrap:before,
+  .feedback-img-wrap:after,
+  .feedback-img-wrap:before {
+    height: 80px;
+    width: 80px;
+  }
+  .feedback-img-wrap {
+    padding: 20px;
+  }
+  .feedback-content-wrap {
+    padding-top: 20px;
+    padding-left: 30px;
+  }
+  /** FEEDBACK CSS END **/
+
+  /** VIDEO GALLERY CSS START **/
+  .video-wrap .video-react-big-play-button {
+    height: 2em;
+    line-height: 2em;
+    width: 2em;
+  }
+  .video-title {
+    font-size: 22px;
+  }
+  /** VIDEO GALLERY CSS END **/
 }
 @media screen and (max-width: 1024px) {
   /** HOMEPAGE CSS START **/
@@ -655,6 +720,37 @@ a:focus {
     font-size: 46px;
   }
   /** HOMEPAGE CSS END **/
+  /** FEEDBACK CSS START **/
+  .feedback-content-wrap {
+    padding-top: 0px;
+    padding-left: 20px;
+  }
+  .feedback-title {
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .feedback-img-wrap:after,
+  .feedback-img-wrap:before,
+  .feedback-img-wrap:after,
+  .feedback-img-wrap:before {
+    height: 60px;
+    width: 60px;
+  }
+  .feedback-img-wrap {
+    padding: 15px;
+  }
+  /** FEEDBACK CSS END **/
+  /** VIDEO GALLERY CSS START **/
+  .video-wrap .video-react-big-play-button {
+    height: 1.6em;
+    line-height: 1.6em;
+    width: 1.6em;
+    margin-left: -0.6em !important;
+  }
+  .video-title {
+    font-size: 20px;
+  }
+  /** VIDEO GALLERY CSS END **/
 }
 @media only screen and (max-width: 768px) {
   .page-main-title h1 {
@@ -729,6 +825,110 @@ a:focus {
     top: 140px;
   }
   /** HOMEPAGE CSS END **/
+  /** MAIN PAGE CSS START **/
+  .page-main-title h1 {
+    font-size: 25px;
+  }
+  .page-main-title label:after {
+    position: absolute;
+    content: "]";
+    top: -2px;
+    right: -20px;
+  }
+  .page-main-title label:before {
+    position: absolute;
+    content: "[";
+    top: -2px;
+    left: -20px;
+  }
+  /** MAIN PAGE CSS END **/
+  /** PORTFOLIO CSS START **/
+  .portfolio-custom-tabs.nav-tabs > li,
+  .nav-pills > li {
+    padding: 0;
+  }
+  .portfolio-custom-tabs {
+    width: 100%;
+    margin-left: 0;
+  }
+  /** PORTFOLIO CSS END **/
+  /** FEEDBACK CSS START **/
+  .feedback-content-wrap {
+    padding: 30px 0;
+    text-align: justify;
+  }
+  .feedback-img-wrap {
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .feedback-title {
+    padding-top: 0;
+    margin-top: 0;
+    text-align: center;
+  }
+  .feedback-img-wrap:after,
+  .feedback-img-wrap:before,
+  .feedback-img-wrap:after,
+  .feedback-img-wrap:before {
+    height: 60px;
+    width: 60px;
+  }
+  .feedback-carousel .carousel-indicators {
+    bottom: -5px;
+  }
+  .feedback-item {
+    padding: 10px 25px;
+  }
+  /** FEEDBACK CSS END **/
+  /* VIDEO GALLERY CSS START */
+  .video-wrap .video-react-big-play-button {
+    height: 1.4em;
+    line-height: 1.4em;
+    width: 1.4em;
+    font-size: 2.6em;
+    margin-left: -0.9em !important;
+  }
+  .video-title {
+    font-size: 18px;
+  }
+  /* VIDEO GALLERY CSS END */
+  /* ABOUT CSS START */
+  .about-img-wrap {
+    width: 50%;
+    margin-left: 25%;
+  }
+  .about-title {
+    text-align: center;
+  }
+  .about-details-wrap {
+    text-align: justify;
+    padding: 0;
+    padding-bottom: 10px;
+  }
+  .about-details-wrap:after {
+    width: 100%;
+    height: 1px;
+    left: 0;
+  }
+  .media-icons {
+    text-align: center;
+  }
+  .hire-wrap {
+    text-align: center;
+  }
+  .about-title {
+    font-size: 22px;
+  }
+  /* ABOUT CSS END */
+  /* GET IN TOUCH CSS START */
+  .contact-form {
+    position: relative;
+    float: left;
+    width: 100%;
+    margin-top: 30px;
+  }
+  /* GET IN TOUCH CSS END */
 }
 @media screen and (max-width: 640px) {
   /** HOMEPAGE CSS START **/
@@ -790,6 +990,25 @@ a:focus {
   }
   /** HOMEPAGE CSS END **/
 }
+@media only screen and (max-width: 540px) {
+  /*Feedback css*/
+  .feedback-img-wrap {
+    width: 70%;
+    margin-left: 15%;
+  }
+  /*video-gallery css*/
+  .video-title {
+    font-size: 16px;
+  }
+  /*about css*/
+  .about-img-wrap {
+    width: 70%;
+    margin-left: 15%;
+  }
+  .about-title {
+    font-size: 20px;
+  }
+}
 @media screen and (max-width: 479px) {
   /*** HOMEPAGE CSS START***/
   .home-slider .carousel-caption p {
@@ -816,6 +1035,22 @@ a:focus {
     font-size: 11px;
   }
   /*** HOMEPAGE CSS END***/
+}
+@media only screen and (max-width: 460px) {
+  /*feedback css*/
+  .feedback-img-wrap {
+    padding: 15px;
+    width: 100%;
+    margin-left: 0;
+  }
+  /*about css*/
+  .about-img-wrap {
+    width: 100%;
+    margin-left: 0;
+  }
+  .about-title {
+    font-size: 20px;
+  }
 }
 @media screen and (max-width: 360px) {
   /*** HOMEPAGE CSS START***/
