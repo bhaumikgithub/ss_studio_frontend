@@ -8,7 +8,10 @@ import {
   Row
 } from 'react-bootstrap';
 import '../../assets/css/contact/get-in-touch.css';
-import { createContactMessage } from '../../services/Contact';
+import {
+  createContactMessage,
+  getContactDetails
+} from '../../services/Contact';
 import SweetAlert from 'sweetalert-react';
 
 export default class GetInTouch extends Component {
@@ -31,14 +34,26 @@ export default class GetInTouch extends Component {
         text: '',
         type: ''
       },
-      errors: ''
+      errors: '',
+      contactDetails: {}
     };
 
     return initialState;
   }
 
   resetState() {
-    this.setState(this.getInitialState());
+    var initialState = this.getInitialState();
+    this.setState({ contactForm: initialState.contactForm, errors: '' });
+  }
+
+  componentDidMount() {
+    var self = this;
+
+    getContactDetails().then(function(response) {
+      if (response.status === 200) {
+        self.setState({ contactDetails: response.data.data.contact_detail });
+      }
+    });
   }
 
   handleChange(e) {
@@ -80,6 +95,7 @@ export default class GetInTouch extends Component {
 
   render() {
     const contactForm = this.state.contactForm;
+    const contactDetails = this.state.contactDetails;
     const alert = this.state.alert;
     return (
       <div className="get-in-touch-wrap page-wrap">
@@ -111,10 +127,8 @@ export default class GetInTouch extends Component {
                     className="icon-img"
                   />
                 </Col>
-                <Col md={11} xs={10} className="p-none text-white">
-                  2nd floor, Tulsi complex, Nr Azad Society, <br />
-                  Behind Sahjanand Collage, Ambavadi, <br />
-                  Ahemedabad-380 015, Gujarat, India.
+                <Col md={11} xs={10} className="p-none text-white p-wrap">
+                  {contactDetails.address}
                 </Col>
               </Col>
 
@@ -127,7 +141,7 @@ export default class GetInTouch extends Component {
                   />
                 </Col>
                 <Col xs={10} md={11} className="p-none text-white">
-                  johndoe@gmail.com
+                  {contactDetails.email}
                 </Col>
               </Col>
 
@@ -144,7 +158,7 @@ export default class GetInTouch extends Component {
                   md={11}
                   className="col-xs-10 col-md-11 p-none text-white"
                 >
-                  +91-0123456789
+                  {contactDetails.phone}
                 </Col>
               </Col>
             </Col>
