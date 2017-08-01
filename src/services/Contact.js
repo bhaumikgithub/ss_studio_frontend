@@ -15,3 +15,7 @@ export function getActiveServices() {
     process.env.REACT_APP_API_BASE_URL + 'services/active_services'
   );
 }
+
+export function getAboutUs() {
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'abouts');
+}
