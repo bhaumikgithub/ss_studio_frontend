@@ -7,12 +7,16 @@ import {
   Col,
   Row
 } from 'react-bootstrap';
+import SweetAlert from 'sweetalert-react';
+
+// Import css
 import '../../assets/css/contact/get-in-touch.css';
+
+// Import services
 import {
   createContactMessage,
   getContactDetails
 } from '../../services/Contact';
-import SweetAlert from 'sweetalert-react';
 
 export default class GetInTouch extends Component {
   constructor(props) {
