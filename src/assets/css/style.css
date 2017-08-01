@@ -418,6 +418,10 @@ a:focus {
   height: 35px;
 }
 
+.p-wrap {
+  white-space: pre-line;
+}
+
 /** HOMEPAGE CSS START **/
 
 .home-slider {

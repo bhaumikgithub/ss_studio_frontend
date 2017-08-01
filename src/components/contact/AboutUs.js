@@ -1,10 +1,32 @@
 import React, { Component } from 'react';
 import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
 
+// Import css
 import '../../assets/css/contact/about-us.css';
 
+// Import services
+import { getAboutUs } from '../../services/Contact';
+
 export default class AboutUs extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      aboutUs: []
+    };
+  }
+
+  componentWillMount() {
+    var self = this;
+
+    getAboutUs().then(function(response) {
+      if (response.status === 200) {
+        self.setState({ aboutUs: response.data.data.about_us });
+      }
+    });
+  }
+
   render() {
+    const aboutUs = this.state.aboutUs;
     return (
       <div className="page-wrap about-page-wrap">
         <Grid>
@@ -17,38 +39,39 @@ export default class AboutUs extends Component {
           </Col>
           <Col xs={12} className="p-none">
             <Col xs={12} sm={4} className="about-img-wrap">
-              <img
-                className="img-responsive"
-                src={require('../../assets/images/about/about-thumb.png')}
-                alt="user"
-              />
+              {aboutUs.photo &&
+                <img
+                  className="img-responsive"
+                  src={aboutUs.photo.image}
+                  alt="user"
+                />}
             </Col>
             <Col xs={12} sm={8} className="text-grey">
               <Col xs={12} className="about-details-wrap">
                 <h3 className="about-title">
-                  A young photographer taking lovely shots.
+                  {aboutUs.title_text}
                 </h3>
-                <p>
-                  we are capture best moments which is impossible to recapture..
-                  Wedding Photography, Weding Videography, Candid Photography,
-                  Birthday party, Candid Video, Short Film, Wedding Highlight,
-                  Portrait Songs, Pre-wedding Songs, model Photography,
-                  indoor/outdoor Photography, Product Photography, Making
-                  Brochure Design, etc...
-                </p>
-                <p>
-                  I have worked with over the year........ Stay in touch with
-                  Sagar Gadani. Thank you for visiting the website.
+                <p className="p-wrap">
+                  {aboutUs.description}
                 </p>
               </Col>
-              <Col className="media-icons" xs={12}>
-                <a href="" className="btn btn-grey btn-round media-link">
-                  <span className="fa fa-facebook" />
-                </a>
-                <a href="" className="btn btn-grey btn-round media-link">
-                  <span className="fa fa-tumblr" />
-                </a>
-              </Col>
+              {aboutUs.social_links &&
+                <Col className="media-icons" xs={12}>
+                  <a
+                    target="_blank"
+                    href={aboutUs.social_links.facebook_link}
+                    className="btn btn-grey btn-round media-link"
+                  >
+                    <span className="fa fa-facebook" />
+                  </a>
+                  <a
+                    target="_blank"
+                    href={aboutUs.social_links.twitter_link}
+                    className="btn btn-grey btn-round media-link"
+                  >
+                    <span className="fa fa-tumblr" />
+                  </a>
+                </Col>}
               <Col xs={12} className="hire-wrap">
                 <Button className="btn btn-orange hire-btn">hire me</Button>
               </Col>
