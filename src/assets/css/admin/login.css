@@ -1,0 +1,117 @@
+.login-wrap {
+  background: url('../../images/admin/login/login-bg.png');
+  background-size: cover;
+  height: 100%;
+}
+.login-form {
+  background-color: #f5f5f5;
+  -moz-box-shadow: 2px 3px 3px rgba(0, 0, 0, .15);
+  -webkit-box-shadow: 2px 3px 3px rgba(0, 0, 0, .15);
+  box-shadow: 2px 3px 3px rgba(0, 0, 0, .15);
+  padding: 40px 0;
+  display: block;
+  margin: 50px auto;
+  float: none;
+  position: relative;
+}
+.login-details-block {
+  display: block;
+  margin: 0 auto;
+  float: none;
+}
+
+.login-logo {
+  display: block;
+  margin: 0 auto 50px;
+}
+
+.login-btn {
+  position: absolute;
+  bottom: -20px;
+  left: calc(45% - 45px);
+  min-width: 140px;
+  text-align: center;
+  min-height: 40px;
+  padding: 5px;
+}
+.login-btn:hover,
+.login-btn:focus {
+  color: #fff;
+  background-color: #feb547;
+  border-color: #feb547;
+}
+.arrow-icon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+.custom-fromgrp {
+  position: relative;
+}
+.login-control {
+  border-radius: 0px;
+  box-shadow: none;
+  background-color: #efefef;
+  border: none;
+  border-bottom: 1px solid #e7e7e7;
+  color: #777;
+  max-height: 40px;
+  margin-bottom: 25px;
+  position: relative;
+  padding-right: 35px;
+}
+.login-control:hover,
+.login-control:focus {
+  background-color: #e1e1e1;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  box-shadow: none;
+}
+.custom-addon {
+  position: absolute;
+  right: 15px;
+  top: 3px;
+  font-size: 28px;
+  color: #fd6257;
+}
+.login-footer {
+  color: #fff;
+  background-color: transparent;
+  position: absolute;
+  bottom: 10px;
+  text-align: center;
+}
+@media only screen and (max-width: 1200px) {
+  .login-form {
+    margin: 25px auto;
+  }
+  .login-logo {
+    margin: 0px auto 30px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .login-logo {
+    max-width: 200px;
+  }
+  .login-control {
+    margin-bottom: 20px;
+  }
+  .arrow-icon {
+    right: 10px;
+    top: 14px;
+    max-width: 15px;
+  }
+  .login-btn {
+    min-width: 120px;
+    min-height: 35px;
+    bottom: -15px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .login-footer {
+    font-size: 12px;
+  }
+  .design-by {
+    text-align: center !important;
+  }
+}
