@@ -1,15 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import NotFound from '../NotFound';
+import asyncComponent from '../AsyncComponent';
 
 // Import component
-import Home from '../Home';
-import Portfolio from '../Portfolio';
-import Films from '../Films';
-import Feedback from '../Feedback';
-import GetInTouch from '../contact/GetInTouch';
-import Services from '../contact/Services';
-import AboutUs from '../contact/AboutUs';
+const Home = asyncComponent(() => import('../Home'));
+const Portfolio = asyncComponent(() => import('../Portfolio'));
+const Films = asyncComponent(() => import('../Films'));
+const Feedback = asyncComponent(() => import('../Feedback'));
+const GetInTouch = asyncComponent(() => import('../contact/GetInTouch'));
+const AboutUs = asyncComponent(() => import('../contact/AboutUs'));
+const Services = asyncComponent(() => import('../contact/Services'));
+const NotFound = asyncComponent(() => import('../NotFound'));
 
 const routes = () =>
   <Switch>
