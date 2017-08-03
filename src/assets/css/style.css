@@ -127,7 +127,7 @@ a:focus {
 }
 
 .p-none {
-  padding: 0 !important;
+  padding: 0;
 }
 
 .p-t-none {

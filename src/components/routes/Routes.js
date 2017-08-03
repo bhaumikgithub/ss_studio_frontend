@@ -4,8 +4,13 @@ import asyncComponent from '../AsyncComponent';
 import { isLoggedIn } from '../Helper';
 
 // import layout files
-import BeforeLoginLayout from '../layout/BeforeLoginLayout';
-import LoginLayout from '../layout/admin/LoginLayout';
+const BeforeLoginLayout = asyncComponent(() =>
+  import('../layout/BeforeLoginLayout')
+);
+const LoginLayout = asyncComponent(() => import('../layout/admin/LoginLayout'));
+const AfterLoginLayout = asyncComponent(() =>
+  import('../layout/admin/AfterLoginLayout')
+);
 
 // Import before login component
 const Home = asyncComponent(() => import('../Home'));
@@ -43,7 +48,9 @@ const routes = () =>
     <LoginLayout exact path="/admin" component={Login} />
 
     {/* After Login routes start */}
-    <PrivateRoute exact path="/albums" component={AlbumListing} />
+    <AfterLoginLayout>
+      <PrivateRoute exact path="/albums" component={AlbumListing} />
+    </AfterLoginLayout>
     {/* After Login routes end */}
 
     <Route component={NotFound} />
