@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Router>
+        <Router basename={process.env.BASE_PATH}>
           <Routes />
         </Router>
       </div>
