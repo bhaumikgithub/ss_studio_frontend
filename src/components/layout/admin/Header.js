@@ -12,6 +12,13 @@ import {
   FormControl,
   Col
 } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+
+// Import helper
+import { currentUser } from '../../Helper';
+
+// Import services
+import { LogoutService } from '../../../services/admin/Auth';
 
 // Import css
 import '../../../assets/css/admin/header.css';
@@ -20,10 +27,30 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      redirectToReferrer: false
     };
   }
+
+  handleLogout(event) {
+    var self = this;
+    LogoutService({ user_id: currentUser().id }).then(function(response) {
+      self.handleResponse(response);
+    });
+  }
+
+  handleResponse(response) {
+    if (response.status === 200) {
+      localStorage.clear();
+      this.setState({ redirectToReferrer: true });
+    }
+  }
+
   render() {
+    if (this.state.redirectToReferrer) {
+      return <Redirect push to="/admin" />;
+    }
+
     return (
       <Navbar inverse fixedTop className="header">
         <Navbar.Header>
@@ -34,7 +61,10 @@ export default class Header extends Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Button className="logout-btn btn btn-orange">
+          <Button
+            className="logout-btn btn btn-orange"
+            onClick={event => this.handleLogout(event)}
+          >
             <i className="fa fa-logout" /> Logout
           </Button>
           <Nav pullRight className="menu-links">
