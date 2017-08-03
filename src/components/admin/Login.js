@@ -16,7 +16,7 @@ import { isLoggedIn } from '../Helper';
 import '../../assets/css/admin/login.css';
 
 // Import services
-import { LoginService } from '../../services/admin/Login';
+import { LoginService } from '../../services/admin/Auth';
 
 export default class Login extends Component {
   constructor(props) {
