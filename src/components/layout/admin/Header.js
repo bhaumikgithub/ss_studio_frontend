@@ -1,0 +1,92 @@
+import React, { Component } from 'react';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  MenuItem,
+  Collapse,
+  Well,
+  Button,
+  InputGroup,
+  Glyphicon,
+  FormControl,
+  Col
+} from 'react-bootstrap';
+
+// Import css
+import '../../../assets/css/admin/header.css';
+
+export default class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
+  render() {
+    return (
+      <Navbar inverse fixedTop className="header">
+        <Navbar.Header>
+          <Button className="side-toggle-btn" onClick={this.props.handler}>
+            <i className="fa fa-bars" />
+          </Button>
+          <label className="admin-page-title">Categories</label>
+          <Navbar.Toggle />
+        </Navbar.Header>
+        <Navbar.Collapse>
+          <Button className="logout-btn btn btn-orange">
+            <i className="fa fa-logout" /> Logout
+          </Button>
+          <Nav pullRight className="menu-links">
+            <div className="search-wrap">
+              <InputGroup>
+                <FormControl
+                  type="text"
+                  onFocus={() => this.setState({ open: true })}
+                  placeholder="Type Album Name"
+                  className="form-control search-box"
+                />
+                <InputGroup.Addon className="search-btn-wrap">
+                  <Button className="search-btn">
+                    <Glyphicon glyph="search" />
+                  </Button>
+                </InputGroup.Addon>
+              </InputGroup>
+              <Collapse in={this.state.open} className="search-options">
+                <Col xs={12} className="search-Form">
+                  <Well>
+                    <Button onClick={() => this.setState({ open: false })}>
+                      Close
+                    </Button>
+                  </Well>
+                </Col>
+              </Collapse>
+            </div>
+            <NavDropdown
+              eventKey={5}
+              title={
+                <span className="setting-dropdown-wrap">
+                  <img
+                    src={require('../../../assets/images/admin/album/settings-icon.png')}
+                    className="link-icons"
+                    alt=""
+                  />{' '}
+                  <span className="visible-xs setting-label">
+                    Settings
+                  </span>{' '}
+                </span>
+              }
+              id="basic-nav-dropdown"
+              className="admin-setting contact-header-links"
+            >
+              <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
+              <MenuItem eventKey={5.2}>About us</MenuItem>
+              <MenuItem eventKey={5.3}>Services</MenuItem>
+              <MenuItem eventKey={5.4}>Pricing</MenuItem>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    );
+  }
+}

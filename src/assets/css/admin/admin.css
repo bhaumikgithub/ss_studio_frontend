@@ -1,0 +1,413 @@
+@font-face {
+  font-family: 'Quicksand-Regular';
+  src: url('../../fonts/Quicksand-Regular.eot') format('embedded-opentype'),
+    url('../../fonts/Quicksand-Regular.woff') format('woff'),
+    url('../../fonts/Quicksand-Regular.ttf') format('truetype'),
+    url('../../fonts/Quicksand-Regular.svg#Quicksand-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quicksand-Light';
+  src: url('../../fonts/Quicksand-Light.eot') format('embedded-opentype'),
+    url('../../fonts/Quicksand-Light.woff') format('woff'),
+    url('../../fonts/Quicksand-Light.ttf') format('truetype'),
+    url('../../fonts/Quicksand-Light.svg#Quicksand-Light') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Quicksand-Bold';
+  src: url('../../fonts/Quicksand-Bold.woff') format('woff'),
+    url('../../fonts/Quicksand-Bold.eot') format('embedded-opentype'),
+    url('../../fonts/Quicksand-Bold.ttf') format('truetype'),
+    url('../../fonts/Quicksand-Bold.svg#Quicksand-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ralewayregular';
+  src: url('../../fonts/raleway-regular-webfont.eot');
+  src: url('../../fonts/raleway-regular-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('../../fonts/raleway-regular-webfont.woff2') format('woff2'),
+    url('../../fonts/raleway-regular-webfont.woff') format('woff'),
+    url('../../fonts/raleway-regular-webfont.ttf') format('truetype'),
+    url('../../fonts/raleway-regular-webfont.svg#ralewayregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ralewaymedium';
+  src: url('../../fonts/raleway-medium-webfont.eot');
+  src: url('../../fonts/raleway-medium-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('../../fonts/raleway-medium-webfont.woff2') format('woff2'),
+    url('../../fonts/raleway-medium-webfont.woff') format('woff'),
+    url('../../fonts/raleway-medium-webfont.ttf') format('truetype'),
+    url('../../fonts/raleway-medium-webfont.svg#ralewaymedium') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ralewaysemibold';
+  src: url('../../fonts/raleway-semibold-webfont.eot');
+  src: url('../../fonts/raleway-semibold-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('../../fonts/raleway-semibold-webfont.woff2') format('woff2'),
+    url('../../fonts/raleway-semibold-webfont.woff') format('woff'),
+    url('../../fonts/raleway-semibold-webfont.ttf') format('truetype'),
+    url('../../fonts/raleway-semibold-webfont.svg#ralewaysemibold')
+      format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ralewaybold';
+  src: url('../../fonts/raleway-bold-webfont.eot');
+  src: url('../../fonts/raleway-bold-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('../../fonts/raleway-bold-webfont.woff2') format('woff2'),
+    url('../../fonts/raleway-bold-webfont.woff') format('woff'),
+    url('../../fonts/raleway-bold-webfont.ttf') format('truetype'),
+    url('../../fonts/raleway-bold-webfont.svg#ralewaybold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'ralewayregular';
+  font-size: 14px;
+}
+
+.AdminApp .page-wrap {
+  padding-top: 94px;
+  background-color: #f8f8f8;
+  position: relative;
+  float: left;
+  width: 100%;
+}
+.AdminApp .footer {
+  position: relative;
+  float: left;
+  width: 100%;
+  background: #fff;
+  font-family: 'ralewayregular';
+  color: #242424;
+  font-size: 12px;
+  max-height: 40px;
+  padding: 6px 0;
+}
+.left-sidebar-main-wrap {
+  width: 260px;
+  position: fixed;
+  background-color: #293541;
+  padding: 0;
+  left: -260px;
+  height: 100%;
+  z-index: 1000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #fff;
+  -webkit-transition: all 500ms ease-out;
+  -moz-transition: all 500ms ease-out;
+  -o-transition: all 500ms ease-out;
+  transition: all 500ms ease-out;
+}
+.content-area {
+  width: auto;
+  height: 100%;
+  margin-left: 0px;
+  position: relative;
+  -webkit-transition: all 500ms ease-out;
+  -moz-transition: all 500ms ease-out;
+  -o-transition: all 500ms ease-out;
+  transition: all 500ms ease-out;
+}
+.AdminApp {
+  height: 100%;
+}
+.AdminApp.Toggled .left-sidebar-main-wrap {
+  left: 0px;
+}
+
+.AdminApp.Toggled .content-area {
+  width: auto !important;
+  margin-left: 260px !important;
+}
+.AdminApp .footer .container,
+.AdminApp .header .container {
+  width: auto;
+  color: #555555 !important;
+}
+.AdminApp .header .container {
+  padding-left: 0;
+}
+.AdminApp .navbar-inverse .navbar-toggle .icon-bar {
+  background-color: #f9a11d;
+}
+
+.admin-page-title {
+  font-size: 24px;
+  font-weight: normal;
+  height: 92px;
+  margin-bottom: 0;
+  line-height: 92px;
+  font-family: 'ralewaymedium';
+  color: #a46342;
+}
+.AdminApp .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #fff !important;
+  box-shadow: 0px 1px 2px #f1f1f1;
+  border: 0 !important;
+  color: #555555;
+}
+.AdminApp .header .menu-links li a {
+  color: #555555 !important;
+}
+.AdminApp .header .admin-setting ul {
+  background-color: #fff;
+  margin-top: 22px !important;
+  border: 0;
+}
+.side-toggle-btn {
+  float: left;
+  height: 92px;
+  width: 92px;
+  border-radius: 0;
+  font-size: 14px;
+  margin-right: 25px;
+  border: none;
+  border-right: 2px solid #f1f1f1;
+  background-color: #fff;
+}
+.side-toggle-btn:active:focus {
+  outline: 0;
+}
+.side-toggle-btn:active,
+.side-toggle-btn:hover,
+.side-toggle-btn:focus {
+  box-shadow: none;
+  background-color: #fff !important;
+  outline: 0;
+  border: 0;
+  border-right: 2px solid #f1f1f1 !important;
+}
+
+/*Media queries*/
+
+@media only screen and (max-width: 1200px) {
+}
+
+@media only screen and (max-width: 1130px) {
+  .photo-wrap,
+  .view-count-wrap,
+  .status-wrap,
+  .visible-wrap {
+    width: 50%;
+    padding: 0;
+  }
+  .count-detail {
+    width: auto;
+  }
+  .count-num,
+  .visible-wrap .count-num {
+    margin-top: 0;
+    margin-left: 8px;
+  }
+  .count-wrap:nth-child(2) {
+    border: 0;
+  }
+  .count-wrap:nth-child(2),
+  .count-wrap:nth-child(4) {
+    padding-left: 15px;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  .count-wrap:nth-child(2),
+  .count-wrap:nth-child(4) {
+    width: 60%;
+  }
+  .count-wrap:nth-child(1),
+  .count-wrap:nth-child(3) {
+    width: 40%;
+  }
+  .album-delete-btn {
+    bottom: 10px;
+  }
+}
+@media only screen and (max-width: 991px) {
+  .AdminApp .custom-navbar .navbar-toggle {
+    border-color: #f9a11d;
+    margin-top: 25px;
+    margin-right: 30px;
+  }
+  .AdminApp .footer {
+    font-size: 10px;
+    line-height: 30px;
+  }
+}
+@media only screen and (max-width: 940px) {
+  .album-thumb {
+    height: 120px;
+    width: 120px;
+  }
+  .count-main-wrap {
+    width: 100%;
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .album-separator {
+    display: none;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .AdminApp .header .navbar-toggle {
+    display: block;
+    border-color: #f9a11d;
+    margin-top: 25px;
+    margin-right: 0px;
+    margin-bottom: 0;
+  }
+  .AdminApp .header .navbar-toggle:focus,
+  .AdminApp .header .navbar-toggle:hover {
+    background-color: transparent;
+  }
+  .navbar-default .navbar-toggle .icon-bar {
+    background-color: #f9a11d;
+  }
+  .AdminApp .header .navbar-collapse {
+    border-top: 2px solid #f1f1f1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  .AdminApp .header .navbar-toggle {
+    margin-right: 30px;
+  }
+  .AdminApp .menu-links {
+    margin-top: 0;
+  }
+  .setting-dropdown-wrap {
+    float: left;
+    position: relative;
+    width: 100%;
+    width: 86px;
+  }
+  .setting-dropdown-wrap img {
+    float: left;
+    position: relative;
+  }
+  .setting-label {
+    float: left;
+    position: relative;
+    margin-left: 10px;
+  }
+  .caret {
+    float: left;
+    margin-top: 8px;
+  }
+
+  .AdminApp {
+    overflow-x: hidden;
+  }
+  .AdminApp .header,
+  .AdminApp .page-wrap,
+  .AdminApp .footer {
+    width: 100vw !important;
+  }
+  .search-wrap {
+    width: 100%;
+    position: relative;
+    float: left;
+    padding: 0 30px;
+    margin-top: 0;
+  }
+  .search-Form {
+    position: relative;
+    width: 100%;
+    top: 0px;
+    border-radius: 0;
+  }
+  .admin-setting {
+    position: relative;
+    float: left;
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 540px) {
+  .album-img-wrap {
+    position: relative;
+    float: left;
+    width: 100%;
+  }
+  .album-detail-wrap {
+    position: relative;
+    float: left;
+    width: 100%;
+    padding-left: 0;
+    margin-top: 15px;
+  }
+  .album-share-btn,
+  .album-edit-btn {
+    top: 0;
+  }
+  .album-thumb {
+    width: 60%;
+    /*margin-left: 20%;*/
+    height: auto;
+  }
+  .count-wrap {
+    width: 100% !important;
+    padding-left: 0 !important;
+    border: 0;
+  }
+  .album-delete-btn {
+    bottom: 0px;
+  }
+  .total-album,
+  .sortBy {
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+  .sortBy {
+    float: right;
+    text-align: right;
+  }
+  .create-album-btn {
+    margin-top: 20px;
+  }
+  .lock-icon {
+    top: 12px;
+    left: 12px;
+    right: none;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .album-thumb {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+  }
+  .create-album-btn {
+    width: 60%;
+    margin-left: 20%;
+    float: none !important;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .create-album-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+}
