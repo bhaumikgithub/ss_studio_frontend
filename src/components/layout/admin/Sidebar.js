@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+
+// Import helper
+import { fullName } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/sidebar.css';
@@ -14,7 +18,9 @@ export default class Sidebar extends Component {
             src={require('../../../assets/images/about/about-thumb.png')}
             alt="user"
           />
-          <h5 className="user-name">Sagar gadani</h5>
+          <h5 className="user-name">
+            {fullName()}
+          </h5>
           <Col xs={6} className="text-center">
             <h4 className="album-num">25</h4>
             <label className="album-name">Albums</label>
@@ -26,21 +32,23 @@ export default class Sidebar extends Component {
         </Col>
         <Col xs={12} className="link-wrap">
           <ListGroup className="sidebar-nav-links">
-            <ListGroupItem href="#link1" className="active">
+            <ListGroupItem href="#link1">
               <img
                 src={require('../../../assets/images/admin/album/home-icon.png')}
                 className="link-icons"
                 alt=""
               />Dashboard
             </ListGroupItem>
-            <ListGroupItem href="#link2">
-              <img
-                src={require('../../../assets/images/admin/album/album-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              Albums
-            </ListGroupItem>
+            <NavLink to="/albums">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/album-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Albums
+              </ListGroupItem>
+            </NavLink>
             <ListGroupItem href="#link3">
               <img
                 src={require('../../../assets/images/admin/album/video-films-icon.png')}

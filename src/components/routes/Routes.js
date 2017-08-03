@@ -24,7 +24,7 @@ const NotFound = asyncComponent(() => import('../NotFound'));
 
 // Import after login component
 const AlbumListing = asyncComponent(() =>
-  import('../admin/album/AlbumsListing')
+  import('../admin/album/AlbumsListing.jsx')
 );
 
 const Login = asyncComponent(() => import('../admin/Login'));
