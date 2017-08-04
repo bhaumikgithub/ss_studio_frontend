@@ -57,7 +57,7 @@ export default class Header extends Component {
           <Button className="side-toggle-btn" onClick={this.props.handler}>
             <i className="fa fa-bars" />
           </Button>
-          <label className="admin-page-title">Categories</label>
+          <label className="admin-page-title">Albums</label>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
