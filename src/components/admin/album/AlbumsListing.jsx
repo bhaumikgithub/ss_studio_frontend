@@ -22,8 +22,10 @@ export default class AlbumsListing extends Component {
         objectId: '',
         show: false,
         cancelBtn: true,
+        confirmAction: () => {},
         title: '',
         text: '',
+        btnText: '',
         type: ''
       }
     };
@@ -50,30 +52,65 @@ export default class AlbumsListing extends Component {
         show: true,
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
+        btnText: 'Yes, delete it!',
         type: 'warning',
+        confirmAction: () => this.deleteAlbum(),
         cancelBtn: true
       }
     });
   }
 
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+
   deleteAlbum() {
-    deleteAlbum(this.state.alert.objectId)
+    var self = this;
+
+    deleteAlbum(self.state.alert.objectId)
       .then(function(response) {
-        this.handleDeleteResponse(response);
+        if (response.status === 200) {
+          self.handleDeleteSuccessResponse(response);
+        } else {
+          self.handleDeleteErrorResponse(response);
+        }
       })
       .catch(function(error) {
-        console.log(error.response);
+        self.handleDeleteErrorResponse(error.response);
       });
   }
 
-  handleDeleteResponse(response) {
-    console.log('hello');
-    this.setState({
+  handleDeleteSuccessResponse(response) {
+    var self = this;
+
+    const albums = self.state.albums.filter(
+      album => album.id !== self.state.alert.objectId
+    );
+    const totalCount = self.state.meta.pagination.total_count;
+
+    self.setState({
+      albums: albums,
+      meta: { pagination: { total_count: totalCount - 1 } },
       alert: {
         show: true,
         title: 'Success',
         text: response.data.message,
-        type: 'success'
+        type: 'success',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
+  handleDeleteErrorResponse(response) {
+    var self = this;
+
+    self.setState({
+      alert: {
+        show: true,
+        title: response.data.message,
+        text: response.data.errors[0].detail,
+        type: 'warning',
+        confirmAction: () => self.hideDialogueBox()
       }
     });
   }
@@ -116,9 +153,9 @@ export default class AlbumsListing extends Component {
           text={alert.text || ''}
           type={alert.type || 'success'}
           showCancelButton={alert.cancelBtn}
-          confirmButtonText="Yes, delete it!"
-          onConfirm={() => this.deleteAlbum()}
-          onCancel={() => this.setState({ alert: { show: false } })}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
         />
         {/* <CreateAlbum
           showCreate={this.state.CreateShow}
