@@ -2,14 +2,38 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 
-// Import helper
-import { fullName } from '../../Helper';
+// Import services
+import { getCurrentUser } from '../../../services/admin/User';
 
 // Import css
 import '../../../assets/css/admin/sidebar.css';
 
 export default class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {}
+    };
+  }
+
+  componentWillMount() {
+    var self = this;
+
+    getCurrentUser()
+      .then(function(response) {
+        if (response.status === 200) {
+          self.setState({ user: response.data.data.user });
+        } else {
+          console.log(response.data);
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
   render() {
+    const { user } = this.state;
     return (
       <Col className="sidebar">
         <Col xs={12} className="user-wrap">
@@ -19,14 +43,18 @@ export default class Sidebar extends Component {
             alt="user"
           />
           <h5 className="user-name">
-            {fullName()}
+            {user.full_name}
           </h5>
           <Col xs={6} className="text-center">
-            <h4 className="album-num">25</h4>
+            <h4 className="album-num">
+              {user.album_count}
+            </h4>
             <label className="album-name">Albums</label>
           </Col>
           <Col xs={6} className="text-center">
-            <h4 className="album-num">12500</h4>
+            <h4 className="album-num">
+              {user.photo_count}
+            </h4>
             <label className="album-name">Photos</label>
           </Col>
         </Col>
