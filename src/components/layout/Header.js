@@ -61,13 +61,15 @@ class Header extends Component {
                 <MenuItem eventKey={5.4}>Pricing</MenuItem>
               </NavDropdown>
             </LinkContainer>
-            <NavItem eventKey={4} href="#">
-              <img
-                src={require('../../assets/images/lock-icon.png')}
-                alt=""
-                className="img-responsive"
-              />
-            </NavItem>
+            <LinkContainer to="/admin">
+              <NavItem eventKey={4}>
+                <img
+                  src={require('../../assets/images/lock-icon.png')}
+                  alt=""
+                  className="img-responsive"
+                />
+              </NavItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
