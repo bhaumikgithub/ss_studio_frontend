@@ -27,3 +27,18 @@ export function apiHeader() {
     }
   };
 }
+
+export function toCapitalize(str) {
+  str = str.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    return letter.toUpperCase();
+  });
+  return str;
+}
+
+export function str2bool(value) {
+  if (value && typeof value === 'string') {
+    if (value.toLowerCase() === 'true') return true;
+    if (value.toLowerCase() === 'false') return false;
+  }
+  return value;
+}

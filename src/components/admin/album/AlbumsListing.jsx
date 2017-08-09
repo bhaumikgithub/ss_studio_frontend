@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Button, Media, Pagination } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
-// import CreateAlbum from './create-album';
+
+// Import component
+import CreateAlbum from './CreateAlbum';
 
 // Import services
 import { getAlbums, deleteAlbum } from '../../../services/admin/Album';
@@ -15,7 +17,7 @@ export default class AlbumsListing extends Component {
     this.state = {
       open: false,
       activePage: 3,
-      CreateShow: false,
+      showCreatePopup: false,
       albums: [],
       meta: [],
       alert: {
@@ -36,7 +38,6 @@ export default class AlbumsListing extends Component {
 
     getAlbums()
       .then(function(response) {
-        console.log(response);
         var data = response.data;
         self.setState({ albums: data.data.albums, meta: data.meta });
       })
@@ -135,7 +136,15 @@ export default class AlbumsListing extends Component {
     }
   }
 
-  CreateClose = () => this.setState({ CreateShow: false });
+  hideCreatePopup = () => {
+    this.setState({ showCreatePopup: false });
+  };
+
+  renderCreatedAlbum = album => {
+    const newAlbums = this.state.albums.slice();
+    newAlbums.splice(0, 0, album);
+    this.setState({ albums: newAlbums });
+  };
 
   handleSelect(eventKey, e) {
     this.setState({
@@ -157,10 +166,11 @@ export default class AlbumsListing extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {/* <CreateAlbum
-          showCreate={this.state.CreateShow}
-          closeOn={this.CreateClose}
-        /> */}
+        <CreateAlbum
+          showCreatePopup={this.state.showCreatePopup}
+          hideCreatePopup={this.hideCreatePopup}
+          renderCreatedAlbum={this.renderCreatedAlbum}
+        />
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
             <span className="total-album pull-left">
@@ -173,7 +183,7 @@ export default class AlbumsListing extends Component {
             </h5>
             <Button
               className="btn pull-right btn-orange create-album-btn"
-              onClick={() => this.setState({ CreateShow: true })}
+              onClick={() => this.setState({ showCreatePopup: true })}
             >
               <i className="fa fa-plus add-icon" />Create album
             </Button>

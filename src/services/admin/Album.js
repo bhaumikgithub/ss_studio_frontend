@@ -11,3 +11,11 @@ export function deleteAlbum(id) {
     apiHeader()
   );
 }
+
+export function createAlbum(params) {
+  return axios.post(
+    process.env.REACT_APP_API_BASE_URL + 'albums',
+    params,
+    apiHeader()
+  );
+}
