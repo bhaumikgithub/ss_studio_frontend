@@ -10,18 +10,22 @@ import {
 } from 'react-bootstrap';
 import Select from 'react-select';
 
+// Import icon
+import createAlbumIcon from '../../../assets/images/admin/album/create-album/add-album-icon.png';
+import editAlbumIcon from '../../../assets/images/admin/album/create-album/edit-album-icon.png';
+
 // Import services
 import { getCategories } from '../../../services/admin/Category';
-import { createAlbum } from '../../../services/admin/Album';
+import { createAlbum, updateAlbum } from '../../../services/admin/Album';
 
 // Import helper
-import { toCapitalize, str2bool } from '../../Helper';
+import { toCapitalize, str2bool, isObjectEmpty } from '../../Helper';
 
 // Import css
 import 'react-select/dist/react-select.min.css';
 import '../../../assets/css/admin/album/create-album/create-album.css';
 
-export default class CreateAlbum extends Component {
+export default class AlbumPopup extends Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
@@ -58,11 +62,36 @@ export default class CreateAlbum extends Component {
       .catch(function(error) {
         console.log(error.response);
       });
+
+    if (!isObjectEmpty(self.props.editObject)) {
+      self.editAlbum(self.props.editObject);
+    }
   }
 
-  categoryOptions() {
+  editAlbum(album) {
+    var self = this;
+    const {
+      album_name,
+      is_private,
+      status,
+      portfolio_visibility,
+      categories
+    } = album;
+
+    self.setState({
+      albumForm: {
+        album_name: album_name,
+        is_private: is_private,
+        status: status,
+        category_options: self.categoryOptions(categories),
+        portfolio_visibility: portfolio_visibility
+      }
+    });
+  }
+
+  categoryOptions(categories = this.state.categories) {
     var options = [];
-    this.state.categories.map(category => {
+    categories.map(category => {
       return options.push({
         value: category.id,
         label: toCapitalize(category.category_name)
@@ -92,8 +121,20 @@ export default class CreateAlbum extends Component {
 
   handleSubmit(e) {
     var self = this;
-    var params = { album: self.state.albumForm };
-    createAlbum(params)
+    var callAlbumApi = () => {};
+
+    if (isObjectEmpty(self.props.editObject)) {
+      var createParams = { album: self.state.albumForm };
+      callAlbumApi = createAlbum(createParams);
+    } else {
+      var editParams = {
+        id: self.props.editObject.id,
+        albumForm: { album: self.state.albumForm }
+      };
+      callAlbumApi = updateAlbum(editParams);
+    }
+
+    callAlbumApi
       .then(function(response) {
         self.handelResponse(response);
       })
@@ -106,8 +147,11 @@ export default class CreateAlbum extends Component {
     var responseData = response.data;
     if (response.status === 201) {
       this.resetAlbumForm();
+      this.props.renderAlbum(
+        responseData.data.album,
+        isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
+      );
       this.props.hideCreatePopup();
-      this.props.renderCreatedAlbum(responseData.data.album);
     } else {
       console.log(responseData.errors);
     }
@@ -135,11 +179,19 @@ export default class CreateAlbum extends Component {
           <Col className="create-title-wrap p-none" sm={4}>
             <Col xs={12} className="p-none create-album-title-details">
               <img
-                src={require('../../../assets/images/admin/album/create-album/add-album-icon.png')}
+                src={
+                  isObjectEmpty(this.props.editObject)
+                    ? createAlbumIcon
+                    : editAlbumIcon
+                }
                 alt=""
                 className="create-album-icon img-responsive"
               />
-              <h4 className="create-album-text text-white">Create new album</h4>
+              <h4 className="create-album-text text-white">
+                {isObjectEmpty(this.props.editObject)
+                  ? 'Create new album'
+                  : 'Edit album'}
+              </h4>
             </Col>
           </Col>
           <Col className="create-content-wrap" sm={8}>
@@ -153,6 +205,7 @@ export default class CreateAlbum extends Component {
                   type="text"
                   placeholder="Album name"
                   name="album_name"
+                  value={albumForm.album_name}
                   onChange={this.handleChange.bind(this)}
                 />
               </FormGroup>
