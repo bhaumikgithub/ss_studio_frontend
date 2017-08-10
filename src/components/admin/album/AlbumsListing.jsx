@@ -3,10 +3,13 @@ import { Col, Button, Media, Pagination } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
-import CreateAlbum from './CreateAlbum';
+import AlbumPopup from './AlbumPopup';
 
 // Import services
 import { getAlbums, deleteAlbum } from '../../../services/admin/Album';
+
+// Import helper
+import { isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
@@ -15,6 +18,7 @@ export default class AlbumsListing extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      editObject: {},
       open: false,
       activePage: 3,
       showCreatePopup: false,
@@ -137,14 +141,26 @@ export default class AlbumsListing extends Component {
   }
 
   hideCreatePopup = () => {
-    this.setState({ showCreatePopup: false });
+    this.setState({ showCreatePopup: false, editObject: {} });
   };
 
-  renderCreatedAlbum = album => {
+  renderAlbum = (album, action) => {
     const newAlbums = this.state.albums.slice();
-    newAlbums.splice(0, 0, album);
-    this.setState({ albums: newAlbums });
+    var totalCount = this.state.meta.pagination.total_count;
+    if (action === 'insert') {
+      newAlbums.splice(0, 0, album);
+      totalCount = totalCount + 1;
+    } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
+      newAlbums.splice(newAlbums.indexOf(this.state.editObject), 1, album);
+    }
+
+    this.setState({
+      albums: newAlbums,
+      meta: { pagination: { total_count: totalCount } }
+    });
   };
+
+  renderUpdateAlbum = album => {};
 
   handleSelect(eventKey, e) {
     this.setState({
@@ -166,11 +182,13 @@ export default class AlbumsListing extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        <CreateAlbum
-          showCreatePopup={this.state.showCreatePopup}
-          hideCreatePopup={this.hideCreatePopup}
-          renderCreatedAlbum={this.renderCreatedAlbum}
-        />
+        {this.state.showCreatePopup &&
+          <AlbumPopup
+            showCreatePopup={this.state.showCreatePopup}
+            hideCreatePopup={this.hideCreatePopup}
+            renderAlbum={this.renderAlbum}
+            editObject={this.state.editObject}
+          />}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
             <span className="total-album pull-left">
@@ -212,7 +230,14 @@ export default class AlbumsListing extends Component {
                       {album.album_name}
                     </Media.Heading>
 
-                    <Button className="btn-link p-none album-action-btn album-edit-btn">
+                    <Button
+                      className="btn-link p-none album-action-btn album-edit-btn"
+                      onClick={() =>
+                        this.setState({
+                          showCreatePopup: true,
+                          editObject: album
+                        })}
+                    >
                       <img
                         src={require('../../../assets/images/admin/album/edit-icon.png')}
                         alt=""

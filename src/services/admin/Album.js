@@ -19,3 +19,11 @@ export function createAlbum(params) {
     apiHeader()
   );
 }
+
+export function updateAlbum(params) {
+  return axios.patch(
+    process.env.REACT_APP_API_BASE_URL + 'albums/' + params['id'],
+    params['albumForm'],
+    apiHeader()
+  );
+}
