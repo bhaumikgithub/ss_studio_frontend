@@ -93,7 +93,7 @@ export default class Sidebar extends Component {
               />{' '}
               categories
             </ListGroupItem>
-            <ListGroupItem href="#link5">
+            <ListGroupItem href="/contact">
               <img
                 src={require('../../../assets/images/admin/album/contacts-icon.png')}
                 className="link-icons"

@@ -1,0 +1,204 @@
+.contacts-page-wrap{
+     font-family: 'ralewayregular'; 
+}
+.filter-wrap{
+    padding: 20px 0;
+}
+.add-new-btn{
+    padding: 6px 18px;
+    height: 35px;
+    position: relative;
+    font-size: 16px;
+    text-transform: uppercase;
+    border: 2px solid #f9a11d;
+}
+.add-new-btn:hover, .add-new-btn:focus, .add-new-btn:active, .add-new-btn:active:hover {
+    background:#feae37;
+    color: #fff;
+    border: 2px solid #feae37;
+    outline: none !important;
+    box-shadow: none;
+}
+.contact-list{
+    margin-bottom: 5px;
+}
+.contact-list:first-child{
+    margin-top: -20px;
+}
+.contact-list:last-child{
+    margin-bottom: 50px;
+}
+.contact-wrap{
+    background: #fff;
+    padding: 15px;   
+    border: 1px solid #e7e7e7;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px; /* border radius */   
+    -moz-box-shadow: 3px 4px 5px rgba(1,1,1,.08); /* drop shadow */
+    -webkit-box-shadow: 3px 4px 5px rgba(1,1,1,.08); /* drop shadow */
+    box-shadow: 3px 4px 5px rgba(1,1,1,.08); /* drop shadow */
+}
+.contact-char{
+    text-transform: uppercase;
+    font-size: 16px;
+    color: #555;
+    font-family: 'ralewaysemibold';
+    margin: 5px 0 10px 5px;
+}
+.contact-wrap .single-contact{
+    float: left;
+    margin-top: 0px;
+    position: relative;
+}
+.contact-detail img{
+    margin-right: 15px;
+}
+.contact-thumb{
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    border: none;
+}
+.contact-detail{
+    display: block;
+    color:#777;
+    font-size: 14px;
+}
+.contact-name{
+    color:#555;        
+    font-size: 16px;
+    padding-right: 60px;
+    line-height: 24px;
+    margin-bottom: 3px;
+    font-weight: 600 !important; 
+    letter-spacing: 0.03em;
+}
+.call-detail,.mail-detail{
+    display: inline-block;
+}
+.contact-info a{
+    color: #777;
+}
+.call-detail{
+    min-width: 40%;
+    margin-right: 15px;
+}
+.call-num{
+    font-family: 'proximanovaregular';
+}
+.contact-separator hr{
+    margin: 15px 0;
+    border-color: #e1e1e1;
+}
+.action-wrapper{
+    display: block;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+}
+.contact-delete-btn,
+.contact-edit-btn,
+.vertical-seprator{
+    display: inline-block;
+    vertical-align: middle;
+}
+.contact-delete-btn{
+    right: 20px;
+}
+.vertical-seprator{
+    right: 45px;
+    position: absolute;
+}
+.contact-edit-btn{
+    right: 60px;
+}
+.contact-action-btn:focus{
+    outline: none !important;
+}
+.contact-action-btn:hover:active{
+    outline: 0;
+    background: none;
+    border-color: #fff;
+}
+.vertical-seprator{
+    top: 20px;
+}
+.contact-delete-btn,
+.contact-edit-btn{
+    position: absolute;
+    top: 16px;
+}
+
+/*common css*/
+.custom-pagination{
+    float: right;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+.custom-pagination a{
+    border: 0 !important;
+    color: #555 !important;
+}
+.custom-pagination li.active a, .custom-pagination li.active a:hover, .custom-pagination li.active a:focus, .custom-pagination li.active a:active{
+    background: #fff;
+    color: #f9a11d !important;
+}
+.custom-pagination li:first-child a{
+    border-top-left-radius: 2em;
+    border-bottom-left-radius: 2em;
+    font-size: 14px !important; 
+    padding: 0 5px 0 15px !important;
+}
+.custom-pagination li:last-child a{
+    border-top-right-radius: 2em;
+    border-bottom-right-radius: 2em;
+    padding: 0 15px 0 5px !important;
+}
+.custom-pagination li:first-child a span, .custom-pagination li:last-child a span{
+    font-size: 23px !important;
+    color: #f9a11d !important; 
+}
+/*common css ended*/
+
+@media only screen and (max-width: 991px) {
+    .call-detail{
+        margin-bottom: 5px;
+    }
+    .contact-separator hr {
+        margin: 10px 0;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .contact-wrap{
+        padding: 10px;
+    }
+    .contact-detail-wrap{
+        width: 100%;
+        display: block;
+        margin-top: 5px;
+    }
+    .contact-wrap .single-contact{
+        width: 100%;
+    }
+    .contact-info{
+        width: 100%;
+    }
+    .contact-detail{
+        font-size: 13px;
+        width: 100%;
+    }
+    .contact-detail img {
+        margin-right: 10px;
+        max-width: 18px;
+    }
+    .contact-name{
+        padding-right: 0px;
+    }
+    .call-detail{
+        margin-right: 0;
+    }
+    .contact-list:last-child {
+        margin-bottom: 35px;
+    }
+}
