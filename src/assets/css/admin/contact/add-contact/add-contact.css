@@ -9,7 +9,7 @@
     display: flex;
 }
 .add-contact-title-wrap{
-    /*background: url('../../images/admin/album/admin-add-contact/sidebar.png');*/
+    background: url('../../../../images/admin/contact/admin-add-contact/sidebar.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;

@@ -93,14 +93,16 @@ export default class Sidebar extends Component {
               />{' '}
               categories
             </ListGroupItem>
-            <ListGroupItem href="/contact">
-              <img
-                src={require('../../../assets/images/admin/album/contacts-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              Contacts
-            </ListGroupItem>
+            <NavLink to="/contacts">
+              <ListGroupItem >
+                <img
+                  src={require('../../../assets/images/admin/album/contacts-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Contacts
+              </ListGroupItem>
+            </NavLink>
             <ListGroupItem href="#link6">
               <img
                 src={require('../../../assets/images/admin/album/site-content-icon.png')}

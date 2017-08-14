@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { Col, Button, Media, Pagination } from 'react-bootstrap';
-// import SweetAlert from 'sweetalert-react';
-// import AddContact from './add-contact';
-import AddContact from './add-contact'
+import SweetAlert from 'sweetalert-react';
 
-import { getContacts } from '../../../services/admin/Contacts';
+// Import component
+import AddContact from './AddContact'
 
-// import './contacts.css';
-import '../../../assets/css/admin/album/contacts.css'
+// Import services
+import { getContacts, deleteContact } from '../../../services/admin/Contacts';
+
+// Import helper
+// import { isObjectEmpty } from '../../Helper';
+
+// Import css
+import '../../../assets/css/admin/contact/contacts.css'
 
 
 export default class Contacts extends Component {
@@ -19,7 +24,17 @@ export default class Contacts extends Component {
       activePage: 3,
       CreateShow:false,
       contacts: [],
-      meta: []
+      meta: [],
+      alert: {
+        objectId: '',
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     }
   }
 
@@ -29,7 +44,6 @@ export default class Contacts extends Component {
     getContacts()
       .then(function(response) {
         var data = response.data;
-        console.log(data);
         self.setState({ contacts: data.data.contacts, meta: data.meta });
       })
       .catch(function(error) {
@@ -37,20 +51,104 @@ export default class Contacts extends Component {
       });
   }
 
-  CreateClose = () => this.setState({ CreateShow: false });  
+  showDialogueBox(id) {
+    this.setState({
+      alert: {
+        objectId: id,
+        show: true,
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes, delete it!',
+        type: 'warning',
+        confirmAction: () => this.deleteContact(),
+        cancelBtn: true
+      }
+    });
+  }
+
+  deleteContact() {
+    var self = this;
+    deleteContact(self.state.alert.objectId)
+      .then(function(response) {
+        if (response.status === 200) {
+          self.handleDeleteSuccessResponse(response);
+        } else {
+          self.handleDeleteErrorResponse(response);
+        }
+      })
+      .catch(function(error) {
+        self.handleDeleteErrorResponse(error.response);
+      });
+  }
+
+  handleDeleteSuccessResponse(response) {
+    var self = this;
+    const contacts = self.state.contacts.filter(
+      album => album.id !== self.state.alert.objectId
+    );
+    // const totalCount = self.state.meta.pagination.total_count;
+
+    self.setState({
+      contacts: contacts,
+      // meta: { pagination: { total_count: totalCount - 1 } },
+      alert: {
+        show: true,
+        title: 'Success',
+        text: response.data.message,
+        type: 'success',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
+  handleDeleteErrorResponse(response) {
+    var self = this;
+    self.setState({
+      alert: {
+        show: true,
+        title: response.data.message,
+        text: response.data.errors[0].detail,
+        type: 'warning',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+
+
+  CreateClose = () => this.setState({ CreateShow: false, editObject: {} });  
   handleSelect(eventKey, e) {      
-  this.setState({
-    activePage: eventKey
-  });
+    this.setState({
+      activePage: eventKey
+    });
   }
 
   render() {
-    const { contacts } = this.state;
+    const { contacts, alert } = this.state;
     return (
       <Col xs={12} className="contacts-page-wrap">
-      <AddContact showCreate={this.state.CreateShow} closeOn={this.CreateClose}/>      
+      <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
+        />
+      <AddContact 
+        showCreate={this.state.CreateShow} 
+        closeOn={this.CreateClose} 
+        editObject={this.state.editObject}
+      />      
       <Col xs={12} className="filter-wrap p-none">         
-        <Button className="pull-right btn btn-orange add-new-btn" onClick={()=>this.setState({ CreateShow: true })}> 
+        <Button 
+          className="pull-right btn btn-orange add-new-btn" 
+          onClick={()=>this.setState({ CreateShow: true })}> 
           <i className="add-album-icon">
             <img src={require('../../../assets/images/admin/album/add-icon.png')} alt=""/>            
           </i>Add New
@@ -60,15 +158,17 @@ export default class Contacts extends Component {
         {contacts.map(contact => 
           
           <Col xs={12} className="p-none contact-list">
-            {/*<span className="contact-char">A</span>*/}
+            {/*alphabet wise block*/}
+            <span className="contact-char"> </span> 
+            {/*alphabet wise block*/}
             <Col xs={12} className="contact-list-wrap p-none" key={contact.id}>
               <Col xs={12} className="contact-wrap">                   
                 <Media className="single-contact">
                   <Media.Left align="top" className="contact-img-wrap">
-                    <img className="contact-thumb" 
+                    {/*<img className="contact-thumb" 
                       src={contact.photo.image} 
                       alt={contact.photo.image_file_name}
-                    />   
+                    />   */}
                   </Media.Left>
                   <Media.Body className="contact-detail-wrap">
                     <Media.Heading className="contact-name">
@@ -81,7 +181,7 @@ export default class Contacts extends Component {
                       </div>
                       <div className="contact-info mail-detail">
                         <img src={require('../../../assets/images/admin/album/mail-icon-bg.png')} alt=""/>
-                        <a href={"mailto:" + "aditiverma@gmail.com"}>{contact.email}</a>
+                        <a href={"mailto:" + contact.email}>{contact.email}</a>
                       </div>
                     </div>                                                         
                     <div className="action-wrapper">
@@ -89,7 +189,10 @@ export default class Contacts extends Component {
                         <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
                       </Button>
                       <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         
-                      <Button className="btn-link p-none contact-action-btn contact-delete-btn">
+                      <Button 
+                        className="btn-link p-none contact-action-btn contact-delete-btn"
+                        onClick={event => this.showDialogueBox(contact.id)}
+                      >
                         <img src={require('../../../assets/images/admin/album/delete-icon.png')} alt=""/>
                       </Button> 
                     </div> 

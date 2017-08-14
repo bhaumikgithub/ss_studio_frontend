@@ -19,6 +19,15 @@
     outline: none !important;
     box-shadow: none;
 }
+.add-album-icon{
+    height: 18px;
+    width: 18px;
+    padding: 0;
+    line-height: 16px;
+    margin-right: 5px;
+    margin-top: 1px;
+    float: left;
+}
 .contact-list{
     margin-bottom: 5px;
 }
