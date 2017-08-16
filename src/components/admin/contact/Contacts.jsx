@@ -118,6 +118,7 @@ export default class Contacts extends Component {
     this.setState({ alert: { show: false } });
   }
 
+  renderUpdateContact = album => {};
 
   CreateClose = () => this.setState({ CreateShow: false, editObject: {} });  
   handleSelect(eventKey, e) {      
@@ -147,7 +148,7 @@ export default class Contacts extends Component {
       />      
       <Col xs={12} className="filter-wrap p-none">         
         <Button 
-          className="pull-right btn btn-orange add-new-btn" 
+          className="pull-right btn btn-orange add-new-btn"
           onClick={()=>this.setState({ CreateShow: true })}> 
           <i className="add-album-icon">
             <img src={require('../../../assets/images/admin/album/add-icon.png')} alt=""/>            
@@ -165,10 +166,10 @@ export default class Contacts extends Component {
               <Col xs={12} className="contact-wrap">                   
                 <Media className="single-contact">
                   <Media.Left align="top" className="contact-img-wrap">
-                    {/*<img className="contact-thumb" 
+                    <img className="contact-thumb" 
                       src={contact.photo.image} 
                       alt={contact.photo.image_file_name}
-                    />   */}
+                    />   
                   </Media.Left>
                   <Media.Body className="contact-detail-wrap">
                     <Media.Heading className="contact-name">
@@ -185,7 +186,14 @@ export default class Contacts extends Component {
                       </div>
                     </div>                                                         
                     <div className="action-wrapper">
-                      <Button className="btn-link p-none contact-action-btn contact-edit-btn">
+                      <Button 
+                        className="btn-link p-none contact-action-btn contact-edit-btn"
+                        onClick={() =>
+                        this.setState({
+                          CreateShow: true,
+                          editObject: contact
+                        })}
+                      >
                         <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
                       </Button>
                       <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         

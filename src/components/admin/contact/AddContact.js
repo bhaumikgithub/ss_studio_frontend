@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Col, Button, Modal,Row, HelpBlock, Checkbox, Radio,ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
+import { Col, Button, Modal,ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 
 // Import icon
 import createTitle from '../../../assets/images/admin/contact/admin-add-contact/add-contact-icon.png';
+import editTitle from '../../../assets/images/admin/contact/admin-add-contact/edit-contact-icon.png'
 
 // Import services
 import { createContact, updateContact } from '../../../services/admin/Contacts';
@@ -27,7 +28,9 @@ export default class AddContact extends Component {
         status: 'active',
         email: '',
         phone: '',
-        photo_attibutes: {}
+        photo_attributes: {
+          photo: ''
+        }
       }
 
     };
@@ -35,12 +38,12 @@ export default class AddContact extends Component {
     return initialState;
   }
   
-  updateState(element) {
-    this.setState({value: element});
-  }
+  // updateState(element) {
+  //   this.setState({value: element});
+  // }
 
   handleChange(e) {
-    debugger;
+    // debugger;
     const contactForm = this.state.contactForm;
     var key = e.target.name;
     contactForm[key] = str2bool(e.target.value);
@@ -49,43 +52,55 @@ export default class AddContact extends Component {
     });
   }
 
-  handleImageChange(e) {
-    debugger;
-    var file = this.refs.file.files[0];
-    console.log(file);
-    var reader = new FileReader();
-    var url = reader.readAsDataURL(file);
-
+  // handleImageChange(e) {
+  //   var self = this;
+  //   // debugger;
+  //   var preview = document.querySelector('.upload-thumb img');
+  //   // var file = this.refs.file.files[0];
+  //   var file    = document.querySelector('input[type=file]').files[0];
+  //   // console.log(file);
+  //   var reader = new FileReader();
+  //   // var url = reader.readAsDataURL(file);
+  //   reader.addEventListener("load", function () {
+  //     preview.src = reader.result;
+  //     preview.height = 51;
+  //     preview.width = 51;
+  //     const contactForm = self.state.contactForm;
+  //     contactForm.photo_attributes['photo'] = reader.result;
+  //     self.setState({
+  //       contactForm
+  //     });
+  //   }, false);
+    
+  //   if (file) {
+  //     var url = reader.readAsDataURL(file);
+  //   }
      
-  console.log(url);
-  }
+  // // console.log(url);
+  // }
 
   handleSubmit(e) {
     var self = this;
     var callContactApi = () => {};
-    console.log(self)
-
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = { contact: self.state.contactForm };
-      console.log(createParams)
       callContactApi = createContact(createParams);
-      console.log(callContactApi);
+    } else {
+      var editParams = {
+        id: self.props.editObject.id,
+        contactForm: { contact: self.state.contactForm }
+      };
+      callContactApi = updateContact(editParams);
     }
-    // } else {
-    //   var editParams = {
-    //     id: self.props.editObject.id,
-    //     contactForm: { contact: self.state.contactForm }
-    //   };
-    //   callContactApi = updateContact(editParams);
-    // }
 
     callContactApi
-      .then(function(response) {
-        self.handelResponse(response);
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
+    .then(function(response) {
+      self.handelResponse(response);
+    })
+    .catch(function(error) {
+      console.log(error.response);
+    });
+
   }
 
   handelResponse(response) {
@@ -93,7 +108,7 @@ export default class AddContact extends Component {
     console.log(responseData)
     if (response.status === 201) {
       this.resetcontactForm();
-      responseData.data.contact
+      // isObjectEmpty(this.props.editObject) ? 'insert' : 'replace';
       this.props.closeOn();
     } else {
       console.log(responseData.errors);
@@ -103,6 +118,39 @@ export default class AddContact extends Component {
   resetcontactForm() {
     this.setState({ contactForm: this.getInitialState().contactForm });
   }
+
+  editContact(contact) {
+    var self = this;
+    console.log(self)
+    const {
+      first_name,
+      last_name,
+      status,
+      email,
+      phone
+    } = contact;
+
+    
+
+    self.setState({
+      contactForm: {
+        first_name: first_name,
+        last_name: last_name,
+        status: status,
+        email: email,
+        phone: phone
+      }
+    });
+  }
+
+   componentWillMount() {
+    var self = this;
+
+    if (!isObjectEmpty(self.props.editObject)) {
+      self.editContact(self.props.editObject);
+    }
+  }
+
 
   render() {  
     const { contactForm } = this.state;    
@@ -116,12 +164,26 @@ export default class AddContact extends Component {
           <span className="close-modal-icon" 
                 onClick={this.props.closeOn}>
             <img src={require('../../../assets/images/admin/album/close-icon.png')} alt="" className="hidden-xs"/>
-            <img src={require('../../../assets/images/admin/album/close-icon-white.png')} alt=""        className="visible-xs" />            
+            <img src={require('../../../assets/images/admin/album/close-icon-white.png')} alt="" className="visible-xs" />            
           </span>
           <Col className="add-contact-title-wrap p-none" sm={5}>
                 <Col xs={12} className="p-none add-contact-title-details">
-                    <img src={createTitle} alt="" className="add-contact-icon img-responsive" />
-                    <h4 className="add-contact-text text-white">Create New Contact</h4>
+                    <img 
+                      src={
+                        isObjectEmpty(this.props.editObject)
+                          ? createTitle
+                          : editTitle
+                      }
+                      alt="" 
+                      className="add-contact-icon img-responsive" 
+                    />
+                    <h4 
+                      className="add-contact-text text-white">
+                      {/*Create New Contact*/}
+                      {isObjectEmpty(this.props.editObject)
+                        ? 'Create New Contact'
+                        : 'Edit Contact'}
+                    </h4>
                 </Col>
           </Col>
           <Col className="add-contact-wrap" sm={7}>            
@@ -165,12 +227,12 @@ export default class AddContact extends Component {
                       <span>Upload</span>
                       <FormControl 
                         accept="image/*"
-                        ref={contactForm.photo_attibutes}
+                        ref={contactForm.photo_attributes}
                         type="file" 
                         label="File" 
                         title=""
                         className="upload-img-control"
-                        onChange={this.handleImageChange.bind(this)}
+                        onChange=""
                       />
                     </div>
                   </div>

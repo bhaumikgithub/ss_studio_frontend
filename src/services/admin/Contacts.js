@@ -23,7 +23,7 @@ export function createContact(params) {
 export function updateContact(params) {
   return axios.patch(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + params['id'],
-    params['albumForm'],
+    params['contactForm'],
     apiHeader()
   );
 }
