@@ -85,14 +85,16 @@ export default class Sidebar extends Component {
               />{' '}
               Video films
             </ListGroupItem>
-            <ListGroupItem href="#link4">
-              <img
-                src={require('../../../assets/images/admin/album/categories-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              categories
-            </ListGroupItem>
+            <NavLink to="/category">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/categories-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                categories
+              </ListGroupItem>
+            </NavLink>
             <NavLink to="/contacts">
               <ListGroupItem >
                 <img
