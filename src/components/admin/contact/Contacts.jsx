@@ -194,11 +194,11 @@ export default class Contacts extends Component {
                     </Media.Heading>
                     <div className="contact-detail">
                       <div className="contact-info call-detail">
-                        <img src={require('../../../assets/images/admin/album/call-icon-bg.png')} alt=""/>
+                        <img src={require('../../../assets/images/admin/contact/call-icon-bg.png')} alt=""/>
                         <a href={"callto:" + contact.phone}  className="call-num">{contact.phone}</a>
                       </div>
                       <div className="contact-info mail-detail">
-                        <img src={require('../../../assets/images/admin/album/mail-icon-bg.png')} alt=""/>
+                        <img src={require('../../../assets/images/admin/contact/mail-icon-bg.png')} alt=""/>
                         <a href={"mailto:" + contact.email}>{contact.email}</a>
                       </div>
                     </div>                                                         
@@ -213,7 +213,7 @@ export default class Contacts extends Component {
                       >
                         <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
                       </Button>
-                      <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         
+                      <img src={require('../../../assets/images/admin/contact/seprator.png')} alt="" className="vertical-seprator" />                         
                       <Button 
                         className="btn-link p-none contact-action-btn contact-delete-btn"
                         onClick={event => this.showDialogueBox(contact.id)}
