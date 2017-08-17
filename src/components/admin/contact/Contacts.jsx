@@ -3,13 +3,13 @@ import { Col, Button, Media, Pagination } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
-import AddContact from './AddContact'
+import ContactPopup from './ContactPopup'
 
 // Import services
 import { getContacts, deleteContact } from '../../../services/admin/Contacts';
 
 // Import helper
-// import { isObjectEmpty } from '../../Helper';
+import { isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/contact/contacts.css'
@@ -86,11 +86,10 @@ export default class Contacts extends Component {
     const contacts = self.state.contacts.filter(
       album => album.id !== self.state.alert.objectId
     );
-    // const totalCount = self.state.meta.pagination.total_count;
 
     self.setState({
       contacts: contacts,
-      // meta: { pagination: { total_count: totalCount - 1 } },
+     
       alert: {
         show: true,
         title: 'Success',
@@ -118,9 +117,25 @@ export default class Contacts extends Component {
     this.setState({ alert: { show: false } });
   }
 
-  renderUpdateContact = album => {};
+  renderContact = (contact, action) => {
+    const newcontacts = this.state.contacts.slice();
+   
+    if (action === 'insert') {
+      newcontacts.splice(0, 0, contact);
+     
+    } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
+      newcontacts.splice(newcontacts.indexOf(this.state.editObject), 1, contact);
+    }
 
-  CreateClose = () => this.setState({ CreateShow: false, editObject: {} });  
+    this.setState({
+      contacts: newcontacts
+    });
+  };
+
+  renderUpdateContact = contact => {};
+
+  CreateClose = () => this.setState({ CreateShow: false, editObject: {} });
+
   handleSelect(eventKey, e) {      
     this.setState({
       activePage: eventKey
@@ -141,11 +156,13 @@ export default class Contacts extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-      <AddContact 
+      {this.state.CreateShow &&
+      <ContactPopup 
         showCreate={this.state.CreateShow} 
         closeOn={this.CreateClose} 
         editObject={this.state.editObject}
-      />      
+        renderContact={this.renderContact}
+      />}      
       <Col xs={12} className="filter-wrap p-none">         
         <Button 
           className="pull-right btn btn-orange add-new-btn"
@@ -214,142 +231,7 @@ export default class Contacts extends Component {
             </Col>           
           </Col>
         )}
-        {/*<Col xs={12} className="p-none contact-list">
-          <span className="contact-char">B</span>
-          <Col xs={12} className="contact-list-wrap p-none">
-            <Col xs={12} className="contact-wrap">                   
-              <Media className="single-contact">
-                <Media.Left align="top" className="contact-img-wrap">
-                  <img className="contact-thumb" src={require('../../../assets/images/admin/album/contact-thumb-3.png')} alt="Contact thumb"/>     
-                </Media.Left>
-                <Media.Body className="contact-detail-wrap">
-                  <Media.Heading className="contact-name">
-                    Bhaumik Gadani
-                  </Media.Heading>
-                  <div className="contact-detail">
-                    <div className="contact-info call-detail">
-                      <img src={require('../../../assets/images/admin/album/call-icon-bg.png')} alt=""/>
-                      <a href={"callto:" + "0987654321"}  className="call-num">0987654321</a>
-                    </div>
-                    <div className="contact-info mail-detail">
-                      <img src={require('../../../assets/images/admin/album/mail-icon-bg.png')} alt=""/>
-                      <a href={"mailto:" + "bhaumikgadani@gmail.com"}>bhaumikgadani@gmail.com</a>
-                    </div>
-                  </div>
-                  <div className="action-wrapper">
-                    <Button className="btn-link p-none contact-action-btn contact-edit-btn">
-                      <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
-                    </Button>
-                    <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         
-                    <Button className="btn-link p-none contact-action-btn contact-delete-btn">
-                      <img src={require('../../../assets/images/admin/album/delete-icon.png')} alt=""/>
-                    </Button> 
-                  </div>                          
-                </Media.Body>
-              </Media>      
-              <Col xs={12} className="p-none contact-separator">
-                <hr/>
-              </Col> 
-              <Media className="single-contact">
-                <Media.Left align="top" className="contact-img-wrap">
-                  <img className="contact-thumb" src={require('../../../assets/images/admin/album/contact-thumb-4.png')} alt="Contact thumb"/>     
-                </Media.Left>
-                <Media.Body className="contact-detail-wrap">
-                  <Media.Heading className="contact-name">
-                  Bhavin Gajjar
-                  </Media.Heading>
-                  <div className="contact-detail">
-                    <div className="contact-info call-detail">
-                      <img src={require('../../../assets/images/admin/album/call-icon-bg.png')} alt=""/>
-                      <a href={"callto:" + "0987654321"}  className="call-num">0987654321</a>                                
-                    </div>
-                    <div className="contact-info mail-detail">
-                      <img src={require('../../../assets/images/admin/album/mail-icon-bg.png')} alt=""/>
-                      <a href={"mailto:" + "bhavingajjar@gmail.com"}>bhavingajjar@gmail.com</a>
-                    </div>
-                  </div>
-                  <div className="action-wrapper">
-                    <Button className="btn-link p-none contact-action-btn contact-edit-btn">
-                      <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
-                    </Button>
-                    <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         
-                    <Button className="btn-link p-none contact-action-btn contact-delete-btn">
-                      <img src={require('../../../assets/images/admin/album/delete-icon.png')} alt=""/>
-                    </Button> 
-                  </div>                          
-                </Media.Body>
-              </Media> 
-              <Col xs={12} className="p-none contact-separator">
-                <hr/>
-              </Col> 
-              <Media className="single-contact">
-                <Media.Left align="top" className="contact-img-wrap">
-                  <img className="contact-thumb" src={require('../../../assets/images/admin/album/contact-thumb-5.png')} alt="Contact thumb"/>     
-                </Media.Left>
-                <Media.Body className="contact-detail-wrap">
-                  <Media.Heading className="contact-name">
-                  Binoli Modi
-                  </Media.Heading>
-                  <div className="contact-detail">
-                    <div className="contact-info call-detail">
-                      <img src={require('../../../assets/images/admin/album/call-icon-bg.png')} alt=""/>
-                      <a href={"callto:" + "0987654321"}  className="call-num">0987654321</a>         
-                    </div>
-                    <div className="contact-info mail-detail">
-                      <img src={require('../../../assets/images/admin/album/mail-icon-bg.png')} alt=""/>
-                      <a href={"mailto:" + "binolimodi@gmail.com"}>binolimodi@gmail.com</a>
-                    </div>
-                  </div>
-                  <div className="action-wrapper">
-                    <Button className="btn-link p-none contact-action-btn contact-edit-btn">
-                      <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
-                    </Button>
-                    <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         
-                    <Button className="btn-link p-none contact-action-btn contact-delete-btn">
-                      <img src={require('../../../assets/images/admin/album/delete-icon.png')} alt=""/>
-                    </Button> 
-                  </div>                          
-                </Media.Body>
-              </Media>    
-            </Col>
-          </Col>           
-        </Col>
-        <Col xs={12} className="p-none contact-list">
-          <span className="contact-char">D</span>
-          <Col xs={12} className="contact-list-wrap p-none">
-            <Col xs={12} className="contact-wrap">                   
-              <Media className="single-contact">
-                <Media.Left align="top" className="contact-img-wrap">
-                  <img className="contact-thumb" src={require('../../../assets/images/admin/album/contact-thumb-3.png')} alt="Contact thumb"/>     
-                </Media.Left>
-                <Media.Body className="contact-detail-wrap">
-                  <Media.Heading className="contact-name">
-                    Dhara Chauhan
-                  </Media.Heading>
-                  <div className="contact-detail">
-                    <div className="contact-info call-detail">
-                      <img src={require('../../../assets/images/admin/album/call-icon-bg.png')} alt=""/>
-                      <a href={"callto:" + "0987654321"}  className="call-num">0987654321</a>
-                    </div>
-                    <div className="contact-info mail-detail">
-                      <img src={require('../../../assets/images/admin/album/mail-icon-bg.png')} alt=""/>
-                      <a href={"mailto:" + "dharachauhan@gmail.com"}>dharachauhan@gmail.com</a>
-                    </div>
-                  </div>
-                  <div className="action-wrapper">
-                    <Button className="btn-link p-none contact-action-btn contact-edit-btn">
-                      <img src={require('../../../assets/images/admin/album/edit-icon.png')} alt=""/>
-                    </Button>
-                    <img src={require('../../../assets/images/admin/album/seprator.png')} alt="" className="vertical-seprator" />                         
-                    <Button className="btn-link p-none contact-action-btn contact-delete-btn">
-                      <img src={require('../../../assets/images/admin/album/delete-icon.png')} alt=""/>
-                    </Button> 
-                  </div>                          
-                </Media.Body>
-              </Media>  
-            </Col>
-          </Col>           
-        </Col>*/}
+       
       </div>
       
       <Col xs={12} className="p-none custom-pagination-wrap">

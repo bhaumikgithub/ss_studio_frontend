@@ -38,12 +38,7 @@ export default class AddContact extends Component {
     return initialState;
   }
   
-  // updateState(element) {
-  //   this.setState({value: element});
-  // }
-
   handleChange(e) {
-    // debugger;
     const contactForm = this.state.contactForm;
     var key = e.target.name;
     contactForm[key] = str2bool(e.target.value);
@@ -108,7 +103,10 @@ export default class AddContact extends Component {
     console.log(responseData)
     if (response.status === 201) {
       this.resetcontactForm();
-      // isObjectEmpty(this.props.editObject) ? 'insert' : 'replace';
+      this.props.renderContact(
+        responseData.data.contact,
+        isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
+      );
       this.props.closeOn();
     } else {
       console.log(responseData.errors);
