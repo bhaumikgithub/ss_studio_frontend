@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Col, Button, Media, Pagination } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
@@ -226,9 +227,11 @@ export default class AlbumsListing extends Component {
                       </span>}
                   </Media.Left>
                   <Media.Body className="album-detail-wrap">
-                    <Media.Heading className="album-title">
-                      {album.album_name}
-                    </Media.Heading>
+                    <Link to={'/albums/' + album.id}>
+                      <Media.Heading className="album-title">
+                        {album.album_name}
+                      </Media.Heading>
+                    </Link>
 
                     <Button
                       className="btn-link p-none album-action-btn album-edit-btn"
