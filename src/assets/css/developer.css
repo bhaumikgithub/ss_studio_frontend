@@ -1,6 +1,13 @@
-/* for category delete button */
-.del_butn, .edit-icon{
-    cursor: pointer;  
+/* Category delete page custom css start */
+.del_butn,
+.edit-icon {
+  cursor: pointer;
 }
+/* Category delete page custom css end */
 
-/* end del css */
+/* Album show page custom css start */
+.album-info-label .album-passcode {
+  cursor: pointer;
+  color: green;
+}
+/* Album show page custom css end */
