@@ -5,6 +5,7 @@ import SweetAlert from 'sweetalert-react';
 // Import component
 import ShareAlbum from './ShareAlbum';
 import AlreadyShared from './AlreadyShared';
+import AddPhoto from './AddPhoto';
 
 // Import services
 import { showAlbum } from '../../../services/admin/Album';
@@ -19,6 +20,7 @@ export default class AlbumDetails extends Component {
 
     this.state = {
       openDetailsBar: false,
+      addPhoto: false,
       shareAlbum: false,
       alreadySharedAlbum: false,
       albumSlug: this.props.match.params.slug,
@@ -164,6 +166,7 @@ export default class AlbumDetails extends Component {
     }
   }
 
+  closeAddPhoto = () => this.setState({ addPhoto: false });
   closeShareAlbum = () => this.setState({ shareAlbum: false });
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
 
@@ -181,6 +184,7 @@ export default class AlbumDetails extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
+        <AddPhoto addPhoto={this.state.addPhoto} closeOn={this.closeAddPhoto} />
         {this.state.shareAlbum &&
           <ShareAlbum
             shareAlbum={this.state.shareAlbum}
@@ -217,7 +221,10 @@ export default class AlbumDetails extends Component {
               </Button>
             </div>
 
-            <Button className="add-photoes-btn btn btn-orange">
+            <Button
+              className="add-photoes-btn btn btn-orange"
+              onClick={() => this.setState({ addPhoto: true })}
+            >
               <img
                 src={require('../../../assets/images/admin/album/album-details/add-icon.png')}
                 alt=""
