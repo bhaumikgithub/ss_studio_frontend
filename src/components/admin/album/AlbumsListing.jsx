@@ -227,7 +227,7 @@ export default class AlbumsListing extends Component {
                       </span>}
                   </Media.Left>
                   <Media.Body className="album-detail-wrap">
-                    <Link to={'/albums/' + album.id}>
+                    <Link to={'/albums/' + album.slug}>
                       <Media.Heading className="album-title">
                         {album.album_name}
                       </Media.Heading>
