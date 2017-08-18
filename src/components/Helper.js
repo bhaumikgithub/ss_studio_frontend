@@ -21,10 +21,14 @@ export function fullName() {
 
 export function apiHeader() {
   return {
-    headers: {
-      Authorization: 'bearer ' + authToken(),
-      'Content-Type': 'application/json'
-    }
+    headers: apiCustomHeader()
+  };
+}
+
+export function apiCustomHeader() {
+  return {
+    Authorization: 'bearer ' + authToken(),
+    'Content-Type': 'application/json'
   };
 }
 

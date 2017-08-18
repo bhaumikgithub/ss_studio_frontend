@@ -1,0 +1,162 @@
+.shared-album-modal .modal-content {
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+  position: relative;
+}
+.shared-album-body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.shared-title-wrap {
+  background: url('../../../../images/admin/album/already-shared/sidebar.png');
+  min-width: 250px;
+}
+.shared-content-wrap {
+  padding: 30px 25px 40px;
+}
+.shared-contact-list {
+  /* height: 235px; */
+  overflow: hidden;
+}
+.shared-album-title-details {
+  padding: 0;
+  position: absolute;
+  top: calc(100% - 205px);
+  text-align: center;
+}
+.shared-album-icon {
+  margin: 0 auto;
+}
+.shared-album-text {
+  margin-top: 20px;
+  text-transform: capitalize;
+  font-family: 'ralewaymedium';
+  letter-spacing: 1px;
+}
+.close-modal-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #c1c1c1;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  z-index: 1;
+}
+.shared-contact-block {
+  display: block;
+  border-bottom: 1px solid #ccc;
+  padding: 15px 0;
+}
+.img-wrap {
+  display: inline-block;
+  vertical-align: top;
+}
+.content-wrap {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 50px);
+  margin-left: 10px;
+}
+.content-wrap .title-wrap {
+  display: inline-block;
+}
+.content-wrap .shared-user {
+  display: inline-block;
+  vertical-align: top;
+  font-family: 'ralewaymedium';
+  font-size: 14px;
+  color: #777;
+  margin: 0;
+}
+.content-wrap .shared-mail {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 12px;
+  margin-left: 3px;
+  color: #777;
+}
+.content-wrap .shared-mail::before {
+  content: "(";
+  font-size: 12px;
+  margin-right: 2px;
+}
+.content-wrap .shared-mail::after {
+  content: ")";
+  font-size: 12px;
+  margin-left: 2px;
+}
+.content-wrap .icon-wrap {
+  font-size: 12px;
+}
+.content-wrap .icon-wrap.resend {
+  color: #00991a;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.content-wrap .icon-wrap.delete {
+  color: #e22122;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.content-wrap .icon-wrap img {
+  margin-right: 5px;
+}
+.content-wrap .icon-wrap.resend::after {
+  content: "|";
+  color: #e1e1e1;
+  font-size: 14px;
+  margin: 0 10px;
+  line-height: 16px;
+}
+/***************/
+/*Media Queries*/
+/***************/
+
+@media only screen and (max-width: 767px) {
+  .shared-album-body {
+    display: block;
+  }
+  .shared-title-wrap,
+  .shared-content-wrap {
+    position: relative;
+    float: left;
+    width: 100%;
+  }
+  .shared-title-wrap {
+    background-size: cover;
+  }
+  .shared-content-wrap {
+    background: #fff;
+    padding: 15px 25px 30px;
+  }
+  .shared-album-title-details {
+    padding: 20px;
+    position: relative;
+    top: 0;
+    height: auto;
+    margin-top: 0px;
+    text-align: left;
+  }
+  .shared-album-icon {
+    margin: 0;
+    float: left;
+    width: 40px;
+  }
+  .shared-album-text {
+    width: auto;
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+  .close-modal-icon {
+    color: #fff;
+    top: 27px;
+    right: 10px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+}

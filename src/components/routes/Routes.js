@@ -23,7 +23,12 @@ const Services = asyncComponent(() => import('../contact/Services'));
 const NotFound = asyncComponent(() => import('../NotFound'));
 
 // Import after login component
-const AlbumListing = asyncComponent(() => import('../admin/album/AlbumsListing.jsx'));
+const AlbumListing = asyncComponent(() =>
+  import('../admin/album/AlbumsListing.jsx')
+);
+const AlbumDetails = asyncComponent(() =>
+  import('../admin/album/AlbumDetails')
+);
 const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
 
 const Login = asyncComponent(() => import('../admin/Login'));
@@ -49,6 +54,7 @@ const routes = () =>
     {/* After Login routes start */}
     <AfterLoginLayout>
       <PrivateRoute exact path="/albums" component={AlbumListing} />
+      <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
       <PrivateRoute exact path="/contacts" component={Contact} />
     </AfterLoginLayout>
     {/* After Login routes end */}

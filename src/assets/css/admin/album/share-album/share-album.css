@@ -1,0 +1,162 @@
+.share-album-modal .modal-content {
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+.share-album-body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.share-title-wrap {
+  background: url('../../../../images/admin/album/share-album/sidebar.png');
+  min-width: 250px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.modal-share-content-wrap {
+  padding: 30px 25px;
+}
+.share-album-title-details {
+  padding: 0;
+  position: absolute;
+  top: calc(100% - 230px);
+  text-align: center;
+}
+.share-album-icon {
+  margin: 0 auto;
+}
+.share-album-text {
+  margin-top: 20px;
+  text-transform: capitalize;
+  font-family: 'ralewaymedium';
+  letter-spacing: 1px;
+}
+.header-wrap {
+  display: block;
+  margin-bottom: 25px;
+}
+.header-wrap .thumb-wrap {
+  height: 90px;
+  width: 90px;
+  display: inline-block;
+  vertical-align: top;
+}
+.header-wrap .text-wrap {
+  width: calc(100% - 105px);
+  display: inline-block;
+  margin-left: 15px;
+  vertical-align: top;
+}
+.title {
+  margin-top: 0;
+  font-family: 'ralewaymedium';
+  font-size: 20px;
+  color: #a46342;
+  margin-bottom: 3px;
+}
+.header-wrap .text-wrap p {
+  font-size: 14px;
+  color: #777;
+}
+.share-album-form {
+  padding: 0px;
+}
+.close-modal-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #c1c1c1;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  z-index: 1;
+}
+.share-submit {
+  padding: 10px 30px;
+  font-family: 'ralewaysemibold';
+  text-transform: uppercase;
+}
+.share-submit:hover,
+.share-submit:focus {
+  background: #feae37;
+  color: #fff;
+  outline: none !important;
+  box-shadow: none;
+}
+/*form Common css*/
+.custom-form-group {
+  position: relative;
+  font-family: 'ralewayregular';
+  margin-bottom: 25px;
+}
+.custom-form-control {
+  border: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  position: relative;
+  resize: none;
+  color: #777;
+  font-size: 12px;
+}
+.custom-form-control:focus,
+.custom-form-control:active,
+.custom-form-control:hover {
+  outline: 0;
+  box-shadow: none;
+  border-color: #ccc;
+}
+
+/***************/
+/*Media Queries*/
+/***************/
+
+@media only screen and (max-width: 767px) {
+  .share-album-body {
+    display: block;
+  }
+  .share-title-wrap,
+  .modal-share-content-wrap {
+    position: relative;
+    float: left;
+    width: 100%;
+  }
+  .share-title-wrap {
+    background-size: cover;
+  }
+  .modal-share-content-wrap {
+    background: #fff;
+    padding-bottom: 20px;
+  }
+  .share-album-title-details {
+    padding: 20px;
+    position: relative;
+    top: 0;
+    height: auto;
+    margin-top: 0px;
+    text-align: left;
+  }
+  .share-album-icon {
+    margin: 0;
+    float: left;
+    width: 35px;
+  }
+  .share-album-text {
+    width: auto;
+    margin-left: 50px;
+    margin-top: 9px;
+  }
+  .close-modal-icon {
+    color: #fff;
+    top: 27px;
+    right: 10px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  .share-album-form {
+    padding: 0;
+  }
+}
