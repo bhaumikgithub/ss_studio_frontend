@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 import { Col, Button, Tab,Tabs,Thumbnail } from 'react-bootstrap';
 
 // Import icon
-// import AboutImage from '../../../assets/images/admin/site-content/about-thumb.png';
-// import WeddingIcon from '../../../assets/images/admin/site-content/wedding-icon.png';
-// import ProductIcon from '../../../assets/images/admin/site-content/product-icon.png';
-// import PortraitIcon from '../../../assets/images/admin/site-content/potrait-icon.png';
-// import FashionIcon from '../../../assets/images/admin/site-content/fashion-icon.png';
-// import KidsIcon from '../../../assets/images/admin/site-content/kids-icon.png';
 import homeIcon from '../../../assets/images/admin/site-content/home-icon.png';
 import callIcon from '../../../assets/images/admin/site-content/call-icon.png';
 import messageIcon from '../../../assets/images/admin/site-content/message-icon.png';
