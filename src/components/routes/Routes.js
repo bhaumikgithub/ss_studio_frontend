@@ -51,7 +51,7 @@ const routes = () =>
     <AfterLoginLayout>
       <PrivateRoute exact path="/albums" component={AlbumListing} />
       <PrivateRoute exact path="/contacts" component={Contact} />
-      <PrivateRoute exact path="/site-content" component={SiteContent} />
+      <PrivateRoute exact path="/site-contents" component={SiteContent} />
     </AfterLoginLayout>
     {/* After Login routes end */}
 

@@ -6,6 +6,9 @@ import EditTitle from '../../../assets/images/admin/site-content/about-site-cont
 // Import css
 import '../../../assets/css/admin/site-content/edit-about-content.css';
 
+// Import services
+import { updateAboutUs } from '../../../services/admin/SiteContent';
+
 export default class EditAboutContent extends Component {
 constructor(props){
     super(props);        

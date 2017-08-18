@@ -12,6 +12,9 @@ import '../../../assets/css/admin/site-content/site-content.css';
 // Import services
 import { getAboutUs, getActiveServices, getContactDetails } from '../../../services/Contact';
 
+// Import helper
+import { isObjectEmpty } from '../../Helper';
+
 
 import EditAboutContent from './edit-about-content';
 import AddService from './add-service';
@@ -23,7 +26,7 @@ export default class SiteContent extends Component {
     constructor(props){
         super(props);
         this.state = {
-            key: 1,
+            editObject: {},
             aboutUs: [],
             services: [],
             contactDetails:[],
@@ -36,7 +39,7 @@ export default class SiteContent extends Component {
     
     componentWillMount() {
       var self = this;
-  
+        console.log(self)
       getAboutUs().then(function(response) {
         if (response.status === 200) {
           self.setState({ aboutUs: response.data.data.about_us });
@@ -55,11 +58,30 @@ export default class SiteContent extends Component {
       });
 
       getContactDetails().then(function(response) {
+        console.log(response)
         if (response.status === 200) {
           self.setState({ contactDetails: response.data.data.contact_detail });
         }
       });
     }
+
+
+  renderService = (service, action) => {
+    const newServices = this.state.services.slice();
+    
+    if (action === 'insert') {
+      newServices.splice(0, 0, service);
+      
+    } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
+      newServices.splice(newServices.indexOf(this.state.editObject), 1, service);
+    }
+
+    this.setState({
+      services: newServices,
+      
+    });
+  };
+
 
     handleTabSelect(key) {
         this.setState({key});
@@ -79,9 +101,9 @@ export default class SiteContent extends Component {
         },1000);
     }
 
-    EditAboutClose = () => this.setState({ EditAboutShow: false });  
-    ServiceCloseModal = () => this.setState({ AddServiceShow: false });    
-    EditContactClose = () => this.setState({ EditContactShow: false});
+    EditAboutClose = () => this.setState({ EditAboutShow: false, editObject: {} });  
+    ServiceCloseModal = () => this.setState({ AddServiceShow: false, editObject: {} });    
+    EditContactClose = () => this.setState({ EditContactShow: false, editObject: {} });
 
   render() {
     const aboutUs = this.state.aboutUs;
@@ -89,10 +111,27 @@ export default class SiteContent extends Component {
     return (
       <Col xs={12} className="site-content-wrap">   
 
-        <EditAboutContent EditAboutShow={this.state.EditAboutShow} EditAboutClose={this.EditAboutClose} />
-        <AddService AddServiceShow={this.state.AddServiceShow} ServiceCloseModal={this.ServiceCloseModal}/>
-        <EditContactDetail EditContactShow={this.state.EditContactShow} EditContactClose={this.EditContactClose} />
-        
+    {this.state.EditAboutShow &&
+        <EditAboutContent 
+            EditAboutShow={this.state.EditAboutShow} 
+            EditAboutClose={this.EditAboutClose}
+            editObject={this.state.editObject} 
+        />
+    }     
+    {this.state.AddServiceShow &&   
+        <AddService 
+            AddServiceShow={this.state.AddServiceShow} 
+            ServiceCloseModal={this.ServiceCloseModal}
+            editObject={this.state.editObject} 
+        />
+    }
+    {this.state.EditContactShow &&   
+        <EditContactDetail 
+            EditContactShow={this.state.EditContactShow} 
+            EditContactClose={this.EditContactClose}
+            editObject={this.state.editObject}
+        />
+    }
 
         <Tabs defaultActiveKey={this.state.key} onSelect={this.handleTabSelect} id="uncontrolled-tab-example" className="site-content-tabs">
             <Tab eventKey={1} title="About Us" className="about-site-content">
@@ -145,7 +184,10 @@ export default class SiteContent extends Component {
             </Tab>
             <Tab eventKey={2} title="Services">
               <Col xs={12} className="site-content-filter p-none">
-                  <Button className="btn btn-orange pull-right add-new-service" onClick={this.handleAddserviceModal}> 
+                  <Button className="btn btn-orange pull-right add-new-service" 
+                    onClick={this.handleAddserviceModal}
+                    onClick={() => this.setState({ AddServiceShow: true })}
+                  > 
                       <i className="add-service-icon">
                           <img src={require('../../../assets/images/admin/site-content/add-icon.png')} alt=""/>
                       </i>Add New
@@ -167,7 +209,13 @@ export default class SiteContent extends Component {
                         <p>{service.description}</p>
                     </Col>
                       </Col>
-                      <a href="#" className="edit-service-thumb">
+                      <a className="edit-service-thumb" 
+                        onClick={() =>
+                          this.setState({
+                            AddServiceShow: true,
+                            editObject: service
+                          })}
+                      >
                           <img src={require('../../../assets/images/admin/site-content/edit-icon-grey.png')} alt=""/>
                       </a>
                   </Thumbnail>
