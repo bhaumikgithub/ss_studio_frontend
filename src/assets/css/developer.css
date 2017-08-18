@@ -1,3 +1,10 @@
+/* Category delete page custom css start */
+.del_butn,
+.edit-icon {
+  cursor: pointer;
+}
+/* Category delete page custom css end */
+
 /* Album show page custom css start */
 .album-info-label .album-passcode {
   cursor: pointer;
