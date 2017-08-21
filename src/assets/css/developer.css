@@ -11,3 +11,7 @@
   color: green;
 }
 /* Album show page custom css end */
+
+div.filepicker {
+  padding: 39px !important;
+}

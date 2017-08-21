@@ -50,3 +50,12 @@ export function str2bool(value) {
 export function isObjectEmpty(object) {
   return Object.getOwnPropertyNames(object).length === 0;
 }
+
+export function getIndex(value, arr, prop) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i][prop] === value) {
+      return i;
+    }
+  }
+  return -1;
+}
