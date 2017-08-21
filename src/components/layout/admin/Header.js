@@ -1,17 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  MenuItem,
-  Collapse,
-  Well,
-  Button,
-  InputGroup,
-  Glyphicon,
-  FormControl,
-  Col
-} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 // Import helper
@@ -68,7 +56,7 @@ export default class Header extends Component {
             <i className="fa fa-logout" /> Logout
           </Button>
           <Nav pullRight className="menu-links">
-            <div className="search-wrap">
+            {/* <div className="search-wrap">
               <InputGroup>
                 <FormControl
                   type="text"
@@ -91,7 +79,7 @@ export default class Header extends Component {
                   </Well>
                 </Col>
               </Collapse>
-            </div>
+            </div> */}
             <NavDropdown
               eventKey={5}
               title={
