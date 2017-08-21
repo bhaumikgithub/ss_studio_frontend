@@ -8,15 +8,16 @@ import AddTitle from '../../../assets/images/admin/site-content/add-service-icon
 import EditTitle from '../../../assets/images/admin/site-content/edit-contact-icon.png'
 
 // Import css
+import 'react-select/dist/react-select.min.css';
 import '../../../assets/css/admin/site-content/add-service.css';
 
 // Import services
 import { getServiceIcons, createService, updateService } from '../../../services/admin/SiteContent';
 
 // Import helper
-import { toCapitalize, str2bool, isObjectEmpty } from '../../Helper';
+import { str2bool, isObjectEmpty } from '../../Helper';
 
-export default class AddService extends Component {
+export default class ServicePopup extends Component {
     constructor(props){
         super(props);
         this.state = this.getInitialState();
@@ -34,6 +35,11 @@ export default class AddService extends Component {
     };
 
     return initialState;
+  }
+
+  
+  resetServiceForm() {
+    this.setState({ ServiceForm: this.getInitialState().ServiceForm });
   }
 
 
@@ -82,8 +88,13 @@ export default class AddService extends Component {
         label: service_icon.icon_image
       });
     });
-    return options;
-  }
+    // render () 
+      return options;
+      // <div>
+        // <img src={} />
+      // </div>
+    }
+  
 
   handleChange(e) {
     const ServiceForm = this.state.ServiceForm;
@@ -97,6 +108,7 @@ export default class AddService extends Component {
 
   handleSubmit(e) {
     var self = this;
+    console.log(self);
     var callServiceApi = () => {};
 
     if (isObjectEmpty(self.props.editObject)) {
@@ -129,16 +141,12 @@ export default class AddService extends Component {
         responseData.data.service,
         isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
       );
-      this.props.hideCreatePopup();
+      this.props.ServiceCloseModal();
     } else {
       console.log(responseData.errors);
     }
   }
 
-
-  resetServiceForm() {
-    this.setState({ ServiceForm: this.getInitialState().ServiceForm });
-  }
 
     updateState(element) {
         this.setState({value: element});
@@ -229,6 +237,7 @@ export default class AddService extends Component {
                     <ControlLabel className="custom-form-control-label">
                       Select Icon
                     </ControlLabel>
+                    <serviceIconOption />
                     <Select 
                       className="custom-form-control" 
                       placeholder="Select Icon" 
@@ -237,9 +246,9 @@ export default class AddService extends Component {
                       options={this.serviceIconOptions()} 
                       onChange={this.updateState.bind(this)} 
                     /> 
-                </FormGroup>          
+                </FormGroup>         
                 
-                <Button 
+                <Button type="submit"
                   className="btn btn-orange add-category-submit"
                   onClick={event => this.handleSubmit(event)}
                 >

@@ -17,7 +17,7 @@ import { isObjectEmpty } from '../../Helper';
 
 
 import EditAboutContent from './edit-about-content';
-import AddService from './add-service';
+import ServicePopup from './ServicePopup';
 import EditContactDetail from './edit-contact-detail';
 
 
@@ -39,7 +39,7 @@ export default class SiteContent extends Component {
     
     componentWillMount() {
       var self = this;
-        console.log(self)
+        // console.log(self)
       getAboutUs().then(function(response) {
         if (response.status === 200) {
           self.setState({ aboutUs: response.data.data.about_us });
@@ -58,7 +58,7 @@ export default class SiteContent extends Component {
       });
 
       getContactDetails().then(function(response) {
-        console.log(response)
+        // console.log(response)
         if (response.status === 200) {
           self.setState({ contactDetails: response.data.data.contact_detail });
         }
@@ -119,7 +119,7 @@ export default class SiteContent extends Component {
         />
     }     
     {this.state.AddServiceShow &&   
-        <AddService 
+        <ServicePopup 
             AddServiceShow={this.state.AddServiceShow} 
             ServiceCloseModal={this.ServiceCloseModal}
             editObject={this.state.editObject} 
@@ -184,9 +184,8 @@ export default class SiteContent extends Component {
             </Tab>
             <Tab eventKey={2} title="Services">
               <Col xs={12} className="site-content-filter p-none">
-                  <Button className="btn btn-orange pull-right add-new-service" 
-                    onClick={this.handleAddserviceModal}
-                    onClick={() => this.setState({ AddServiceShow: true })}
+                  <Button className="btn btn-orange pull-right add-new-service"                     
+                  onClick={this.handleAddserviceModal}
                   > 
                       <i className="add-service-icon">
                           <img src={require('../../../assets/images/admin/site-content/add-icon.png')} alt=""/>
