@@ -89,14 +89,14 @@ export default class AlbumDetails extends Component {
     Object.keys(checkboxes).map(key => (checkboxes[key].checked = action));
   }
 
-  deletePhotos() {
+  deletePhotos = (ids = undefined, from = undefined) => {
     var self = this;
-    const ids = self.getSelectedCheckboxIds();
+    ids = ids || self.getSelectedCheckboxIds().map(Number);
 
     deleteSelectedPhotos({ photo: { ids: ids } })
       .then(function(response) {
         if (response.status === 200) {
-          self.handleDeleteSuccessResponse(response);
+          self.handleDeleteSuccessResponse(response, ids, from);
         } else {
           self.handleDeleteErrorResponse(response);
         }
@@ -104,33 +104,36 @@ export default class AlbumDetails extends Component {
       .catch(function(error) {
         self.handleDeleteErrorResponse(error.response);
       });
-  }
+  };
 
-  handleDeleteSuccessResponse(response) {
+  handleDeleteSuccessResponse(response, ids, from) {
     var self = this;
     const { album } = self.state;
-    const ids = self.getSelectedCheckboxIds().map(Number);
+    const newAlbum = Object.assign({}, this.state.album);
+    newAlbum.photo_count = album.photo_count - ids.length;
     const photos = album.photos.filter(album => {
       return album.id !== ids[ids.indexOf(album.id)];
     });
-    const newAlbum = Object.assign({}, this.state.album);
     newAlbum.photos = photos;
-    newAlbum.photo_count = album.photo_count - ids.length;
 
-    self.updateSuccessState(newAlbum, response.data.message);
+    self.updateSuccessState(newAlbum, response.data.message, from);
   }
 
-  updateSuccessState(album, text) {
-    this.setState({
-      album: album,
-      alert: {
-        show: true,
-        title: 'Success',
-        text: text,
-        type: 'success',
-        confirmAction: () => this.hideDialogueBox()
-      }
-    });
+  updateSuccessState(album, text, from) {
+    if (from === 'Add photos') {
+      this.setState({ album: album });
+    } else {
+      this.setState({
+        album: album,
+        alert: {
+          show: true,
+          title: 'Success',
+          text: text,
+          type: 'success',
+          confirmAction: () => this.hideDialogueBox()
+        }
+      });
+    }
   }
 
   handleDeleteErrorResponse(response) {
@@ -166,7 +169,22 @@ export default class AlbumDetails extends Component {
     }
   }
 
-  closeAddPhoto = () => this.setState({ addPhoto: false });
+  renderNewPhotos = createdPhotos => {
+    var self = this;
+    const newAlbum = Object.assign({}, self.state.album);
+    const photos = newAlbum.photos;
+    const newPhotos = photos.slice();
+    newAlbum.photo_count += createdPhotos.length;
+    createdPhotos.map(createdPhoto => {
+      return newPhotos.splice(0, 0, createdPhoto);
+    });
+    newAlbum.photos = newPhotos;
+    self.setState({ album: newAlbum });
+  };
+
+  closeAddPhoto = () => {
+    this.setState({ addPhoto: false });
+  };
   closeShareAlbum = () => this.setState({ shareAlbum: false });
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
 
@@ -184,7 +202,14 @@ export default class AlbumDetails extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        <AddPhoto addPhoto={this.state.addPhoto} closeOn={this.closeAddPhoto} />
+        {this.state.addPhoto &&
+          <AddPhoto
+            addPhoto={this.state.addPhoto}
+            closeOn={this.closeAddPhoto}
+            renderNewPhotos={this.renderNewPhotos}
+            deletePhotos={this.deletePhotos}
+            albumId={album.id}
+          />}
         {this.state.shareAlbum &&
           <ShareAlbum
             shareAlbum={this.state.shareAlbum}
