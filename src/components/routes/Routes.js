@@ -14,7 +14,10 @@ const AfterLoginLayout = asyncComponent(() =>
 
 // Import before login component
 const Home = asyncComponent(() => import('../Home'));
-const Portfolio = asyncComponent(() => import('../Portfolio'));
+const Portfolio = asyncComponent(() => import('../portfolio/Portfolio'));
+const PortfolioAlbumDetails = asyncComponent(() =>
+  import('../portfolio/AlbumDetails')
+);
 const Films = asyncComponent(() => import('../Films'));
 const Feedback = asyncComponent(() => import('../Feedback'));
 const GetInTouch = asyncComponent(() => import('../contact/GetInTouch'));
@@ -39,6 +42,11 @@ const routes = () =>
     {/* Before Login routes start */}
     <BeforeLoginLayout exact path="/" component={Home} />
     <BeforeLoginLayout exact path="/portfolio" component={Portfolio} />
+    <BeforeLoginLayout
+      exact
+      path="/portfolio/:slug"
+      component={PortfolioAlbumDetails}
+    />
     <BeforeLoginLayout exact path="/films" component={Films} />
     <BeforeLoginLayout exact path="/feedback" component={Feedback} />
     <BeforeLoginLayout
