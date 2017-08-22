@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Carousel, Grid, Col, Row } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
 
 // Import services
 import { getHomepagePhotos } from '../services/Home';
@@ -44,12 +45,9 @@ class Home extends Component {
                     <p>
                       We Capture <span>Memories..</span>
                     </p>
-                    <a
-                      href=""
-                      className="btn btn-default outline-btn slider-btn"
-                    >
+                    <NavLink to="/portfolio" className="btn btn-default outline-btn slider-btn" >
                       view our work
-                    </a>
+                    </NavLink>
                   </Carousel.Caption>
                 </Carousel.Item>
               )}
