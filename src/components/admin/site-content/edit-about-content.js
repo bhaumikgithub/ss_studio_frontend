@@ -113,16 +113,26 @@ componentWillMount() {
   render() {
     const { editAboutForm } = this.state; 
     return (
-       <Modal show={this.props.EditAboutShow} bsSize="large" className="edit-about-modal" aria-labelledby="contained-modal-title-lg" >
+       <Modal 
+        show={this.props.EditAboutShow} 
+        bsSize="large" 
+        className="edit-about-modal" 
+        aria-labelledby="contained-modal-title-lg" 
+      >
         <Modal.Body className="edit-about-body p-none" onClick={this.props.hideAboutPopup}>
         
           <span className="close-modal-icon" onClick={this.props.EditAboutClose}>
             <img src={require('../../../assets/images/admin/site-content/close-icon.png')} alt="" className="hidden-xs"/>
             <img src={require('../../../assets/images/admin/site-content/close-icon-white.png')} alt="" className="visible-xs" />            
           </span>
+
           <Col className="edit-about-title-wrap p-none" sm={4}>
                 <Col xs={12} className="p-none edit-about-title-details">
-                    <img src={EditTitle} alt="" className="edit-about-icon img-responsive" />
+                    <img 
+                      src={EditTitle} 
+                      alt="" 
+                      className="edit-about-icon img-responsive" 
+                    />
                     <h4 className="edit-about-text text-white">About Us Details</h4>
                 </Col>
           </Col>
@@ -130,34 +140,61 @@ componentWillMount() {
             <form className="edit-about-form custom-form">
                 <FormGroup className="custom-form-group required">
                     <ControlLabel className="custom-form-control-label">Title</ControlLabel>
-                    <FormControl className="custom-form-control" type="text" placeholder="A young photographer taking lovely shots."  name="title_text" value={editAboutForm.title_text}
-                    onChange={this.handleChange.bind(this)} />
+                    <FormControl 
+                        className="custom-form-control" 
+                        type="text" 
+                        placeholder="A young photographer taking lovely shots."  
+                        name="title_text" 
+                        value={editAboutForm.title_text}
+                        onChange={this.handleChange.bind(this)} />
                 </FormGroup>   
                 <FormGroup className="custom-form-group">
-                    <ControlLabel className="custom-form-control-label">Description</ControlLabel>
-                   
+                  <ControlLabel className="custom-form-control-label">Description</ControlLabel>
                     <Scrollbars style={{height: "40px"}}>                       
-                        <FormControl id="modalAboutDesc" className="custom-form-control editabouttxtarea" componentClass="textarea" placeholder="We are Capture Best Moments which is impossible to recapture.. Wedding Photography, Wedding Videography , Candid Photography, Birthday Party, Candid Video, Short Film, Wedding Highlights , Portrait Songs , Pre Wedding Songs , Model Photography , Indoor/outdoor Photography , Product Photography , Making Brochure Design , etc..."  name="description" value={editAboutForm.description}
-                    onChange={this.handleChange.bind(this)}/>
+                        <FormControl 
+                          id="modalAboutDesc" 
+                          className="custom-form-control editabouttxtarea" 
+                          componentClass="textarea" 
+                          placeholder="We are Capture Best Moments which is impossible to recapture.. Wedding Photography, Wedding Videography , Candid Photography, Birthday Party, Candid Video, Short Film, Wedding Highlights , Portrait Songs , Pre Wedding Songs , Model Photography , Indoor/outdoor Photography , Product Photography , Making Brochure Design , etc..."  
+                          name="description" 
+                          value={editAboutForm.description}
+                          onChange={this.handleChange.bind(this)}/>
                     </Scrollbars>
 
                 </FormGroup>      
                       
                 <FormGroup className="custom-form-group">
                     <ControlLabel className="custom-form-control-label">Facebook Profile</ControlLabel>
-                    <FormControl className="custom-form-control" type="text" placeholder="https://www.facebook.com/sagarphotocam/?pnref=lhc" name="facebook_link" value={editAboutForm.facebook_link}
-                    onChange={this.handleChange.bind(this)} />
+                    <FormControl 
+                      className="custom-form-control" 
+                      type="text" 
+                      placeholder="https://www.facebook.com/sagarphotocam/?pnref=lhc" 
+                      name="facebook_link" 
+                      value={editAboutForm.facebook_link}
+                      onChange={this.handleChange.bind(this)} />
                 </FormGroup>
                 <FormGroup className="custom-form-group">
                     <ControlLabel className="custom-form-control-label">Twitter Profile</ControlLabel>
-                    <FormControl className="custom-form-control" type="text" placeholder="https://www.twitter.com/sagarphotocam/" name="twitter_link" value={editAboutForm.twitter_link}
-                    onChange={this.handleChange.bind(this)} />
+                    <FormControl 
+                      className="custom-form-control" 
+                      type="text" 
+                      placeholder="https://www.twitter.com/sagarphotocam/" 
+                      name="twitter_link" 
+                      value={editAboutForm.twitter_link}
+                      onChange={this.handleChange.bind(this)} />
                 </FormGroup> 
   
-                <Button className="btn btn-orange edit-about-submit" onClick={event => this.handleSubmit(event)}>
+                <Button 
+                  className="btn btn-orange edit-about-submit" 
+                  onClick={event => this.handleSubmit(event)}
+                >
                     Save
                 </Button>
-                <Button type="button" onClick={this.props.EditAboutClose} className="btn btn-grey edit-about-cancel">
+                <Button 
+                  type="button" 
+                  onClick={this.props.EditAboutClose} 
+                  className="btn btn-grey edit-about-cancel"
+                >
                     Cancel
                 </Button>
             </form>

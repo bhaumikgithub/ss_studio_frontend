@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Button, Tab,Tabs,Thumbnail } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 // Import icon
 import homeIcon from '../../../assets/images/admin/site-content/home-icon.png';
@@ -15,9 +15,6 @@ import '../../../assets/css/admin/site-content/site-content.css';
 
 // Import services
 import { getAboutUs, getActiveServices, getContactDetails } from '../../../services/Contact';
-
-// Import helper
-import { isObjectEmpty } from '../../Helper';
 
 
 import EditAboutContent from './edit-about-content';
@@ -55,6 +52,7 @@ export default class SiteContent extends Component {
 					self.setState({ services: response.data.data.active_services });
 				}
 			});
+			
 
 		}
 		
@@ -74,7 +72,6 @@ export default class SiteContent extends Component {
 		};
 
 	renderService = (service, action) => {
-		debugger
 		const newServices = this.state.services.slice();
 		
 		if (action === 'insert') {
@@ -89,6 +86,42 @@ export default class SiteContent extends Component {
 			
 		});
 	};
+
+	EditContactClose = () => {
+		this.setState({ EditContactShow: false, editObject: {} });
+	};
+
+	renderContactDetail = (contactDetail, action) => {
+		
+		const editContactDetails = this.state.contactDetails.slice();
+		console.log(editContactDetails);
+	
+		if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
+		editContactDetails.splice(editContactDetails.indexOf(this.state.editObject), 1, contactDetail);
+		}
+
+		this.setState({
+		contactDetails: editContactDetails
+		});
+	};
+	
+	EditAboutClose = () => {
+		this.setState({ EditAboutShow: false, editObject: {} });  
+	};
+
+	renderAboutUs = (aboutUsDetail, action) => {
+        const editAboutUsDetail = this.state.aboutUs.slice();
+    
+        if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
+        editAboutUsDetail.splice(editAboutUsDetail.indexOf(this.state.editObject), 1, aboutUsDetail);
+        }
+
+        this.setState({
+					aboutUs: editAboutUsDetail
+        });
+    };
+
+
 
 
 		handleTabSelect(key) {
@@ -109,9 +142,9 @@ export default class SiteContent extends Component {
 				},1000);
 		}
 
-		EditAboutClose = () => this.setState({ EditAboutShow: false, editObject: {} });  
+		
 				
-		EditContactClose = () => this.setState({ EditContactShow: false, editObject: {} });
+		
 
 	render() {
 		const aboutUs = this.state.aboutUs;
@@ -124,6 +157,7 @@ export default class SiteContent extends Component {
 				<EditAboutContent 
 						EditAboutShow={this.state.EditAboutShow} 
 						EditAboutClose={this.EditAboutClose}
+						renderAboutUs={this.renderAboutUs}
 						editObject={this.state.editObject} 
 				/>
 		}     
@@ -139,6 +173,7 @@ export default class SiteContent extends Component {
 				<EditContactDetail 
 						EditContactShow={this.state.EditContactShow} 
 						EditContactClose={this.EditContactClose}
+						renderContactDetail={this.renderContactDetail}
 						editObject={this.state.editObject}
 				/>
 		}
@@ -233,7 +268,10 @@ export default class SiteContent extends Component {
 						</Tab>
 						<Tab eventKey={3} title="Contact Us">
 								 <Col xs={12} className="site-content-filter p-none">
-												<Button className="btn btn-orange pull-right edit-contact-detail" onClick={()=>this.setState({ EditContactShow: true })}> 
+												<Button className="btn btn-orange pull-right edit-contact-detail" 
+													onClick={()=>this.setState({
+														EditContactShow: true,
+														editObject: contactDetails })}> 
 														<i className="edit-contact-detail-icon">
 																<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>
 														</i>Edit Details

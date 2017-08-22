@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Button, Table, Pagination } from 'react-bootstrap';
+import { Col, Table, Pagination } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component

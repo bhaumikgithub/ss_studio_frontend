@@ -143,8 +143,7 @@ export default class Contacts extends Component {
 
   render() {
     const { contacts, alert } = this.state;
-    console.log("hii")
-    console.log(contacts)
+
     return (
       <Col xs={12} className="contacts-page-wrap">
       <SweetAlert

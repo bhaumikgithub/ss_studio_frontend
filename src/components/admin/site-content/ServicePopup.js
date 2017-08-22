@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Button, Modal,ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
-import Select from 'react-select';
+// import Select from 'react-select';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 // Import icon

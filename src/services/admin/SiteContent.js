@@ -10,10 +10,10 @@ export function updateAboutUs(params) {
   );
 }
 
-export function updateContactDetails(params) {
+export function updateContactDetail(params) {
   return axios.patch(
     process.env.REACT_APP_API_BASE_URL + 'contact_details',
-    params['editContactForm'],
+    params['EditContactForm'],
     apiHeader()
   );
 }
