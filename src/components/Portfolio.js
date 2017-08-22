@@ -1,10 +1,70 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { PageHeader, Grid, Col, Row, Tab, Nav, NavItem } from 'react-bootstrap';
 import SearchIcon from '../assets/images/search-icon.png';
+
+// Import services
+import { getPortfolio } from '../services/Portfolio';
+import { getActiveCategories } from '../services/admin/Category';
+
+// Import css
 import '../assets/css/portfolio.css';
 
 export default class Portfolio extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      albums: [],
+      categories: [],
+      tab: ''
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    if (params.get('tab') !== this.state.tab) {
+      this.setState({ tab: params.get('tab') });
+      this.fetchPortfolio(params.get('tab'));
+    }
+  }
+
+  componentWillMount() {
+    this.fetchPortfolio();
+    this.fetchCategories();
+  }
+
+  fetchPortfolio(category) {
+    var self = this;
+    getPortfolio({ category: category })
+      .then(function(response) {
+        var data = response.data;
+        if (response.status === 200) {
+          self.setState({ albums: data.data.albums });
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  fetchCategories() {
+    var self = this;
+    getActiveCategories()
+      .then(function(response) {
+        var data = response.data;
+        if (response.status === 200) {
+          self.setState({ categories: data.data.categories });
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
   render() {
+    const { albums, categories, tab } = this.state;
     return (
       <div className="page-wrap portfolio-wrap">
         <Grid>
@@ -23,393 +83,60 @@ export default class Portfolio extends Component {
               <Row className="clearfix">
                 <Col sm={12}>
                   <Nav bsStyle="tabs" className="portfolio-custom-tabs">
-                    <NavItem className="portfolio-links" eventKey="all">
-                      All
-                    </NavItem>
-                    <NavItem className="portfolio-links" eventKey="product">
-                      Product
-                    </NavItem>
-                    <NavItem className="portfolio-links" eventKey="kids">
-                      Kids
-                    </NavItem>
-                    <NavItem className="portfolio-links" eventKey="wedding">
-                      wedding films
-                    </NavItem>
+                    <IndexLinkContainer
+                      to="/portfolio?tab=all"
+                      className="portfolio-links"
+                      eventKey="all"
+                    >
+                      <NavItem>All</NavItem>
+                    </IndexLinkContainer>
+                    {categories.map(category =>
+                      <LinkContainer
+                        className="portfolio-links"
+                        to={'/portfolio?tab=' + category.category_name}
+                        eventKey={category.category_name}
+                        key={category.id}
+                      >
+                        <NavItem>
+                          {category.category_name}
+                        </NavItem>
+                      </LinkContainer>
+                    )}
                   </Nav>
                 </Col>
                 <Col sm={12} className="portfolio-content">
                   <Tab.Content animation className="portfolio-tab-content">
-                    <Tab.Pane eventKey="all">
+                    <Tab.Pane eventKey={tab || 'all'}>
                       <Col xs={12} className="p-none">
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-1.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
+                        {albums.length === 0 &&
+                          <h4 className="portfolio-title text-center">
+                            No albums available
+                          </h4>}
+                        {albums.map(album =>
+                          <Col
+                            xs={12}
+                            sm={6}
+                            md={3}
+                            className="no-m-l-r portfolio-thumbs-wrap"
+                            key={album.id}
+                          >
+                            <Col xs={12} className="portfolio-thumbs p-none">
+                              <img alt="icon" src={album.cover_photo.image} />
+                              <Link to="/" className="overlay">
+                                <img
+                                  alt="icon"
+                                  className="overlay-search"
+                                  src={SearchIcon}
+                                />
+                              </Link>
+                            </Col>
+                            <Link to="/">
+                              <h4 className="portfolio-title">
+                                {album.album_name}
+                              </h4>
+                            </Link>
                           </Col>
-                          <h4 className="portfolio-title">pre wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-2.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-3.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">kids</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-4.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">Costumes</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-5.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">Kids</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-6.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">Costumes</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-7.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">pre wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-8.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-9.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">pre wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-10.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">wedding</h4>
-                        </Col>
-                      </Col>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="product">
-                      <Col xs={12} className="p-none">
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-4.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">Costumes</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-6.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">Costumes</h4>
-                        </Col>
-                      </Col>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="kids">
-                      <Col xs={12} className="p-none">
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-3.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">kids</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-5.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">Kids</h4>
-                        </Col>
-                      </Col>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey="wedding">
-                      <Col xs={12} className="p-none">
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-2.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-8.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">wedding</h4>
-                        </Col>
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={3}
-                          className="no-m-l-r portfolio-thumbs-wrap"
-                        >
-                          <Col xs={12} className="portfolio-thumbs p-none">
-                            <img
-                              alt="icon"
-                              src={require('../assets/images/portfolio/portfolio-thumb-10.png')}
-                            />
-                            <a href="" className="overlay">
-                              <img
-                                alt="icon"
-                                className="overlay-search"
-                                src={SearchIcon}
-                              />
-                            </a>
-                          </Col>
-                          <h4 className="portfolio-title">wedding</h4>
-                        </Col>
+                        )}
                       </Col>
                     </Tab.Pane>
                   </Tab.Content>
