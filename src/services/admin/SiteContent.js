@@ -28,9 +28,11 @@ export function getServiceIcons() {
 
 
 export function createService(params) {
-  return axios.post(process.env.REACT_APP_API_BASE_URL + 'services', {
-    params
-  });
+  return axios.post(
+    process.env.REACT_APP_API_BASE_URL + 'services',
+    params,
+    apiHeader()
+  );
 }
 
 

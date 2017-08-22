@@ -88,12 +88,8 @@ export default class ServicePopup extends Component {
         label: service_icon.icon_image
       });
     });
-    // render () 
-      return options;
-      // <div>
-        // <img src={} />
-      // </div>
-    }
+    return options;
+  }
   
 
   handleChange(e) {
@@ -108,7 +104,6 @@ export default class ServicePopup extends Component {
 
   handleSubmit(e) {
     var self = this;
-    console.log(self);
     var callServiceApi = () => {};
 
     if (isObjectEmpty(self.props.editObject)) {
@@ -134,7 +129,6 @@ export default class ServicePopup extends Component {
 
   handelResponse(response) {
     var responseData = response.data;
-    console.log(responseData)
     if (response.status === 201) {
       this.resetServiceForm();
       this.props.renderService(
@@ -189,7 +183,7 @@ export default class ServicePopup extends Component {
                   alt="" className="add-category-icon img-responsive" 
                 />
                 <h4 className="add-category-text text-white">
-                  {/* Add New Service */}
+                 
                   {isObjectEmpty(this.props.editObject)
                     ? 'Add New Service'
                     : 'Edit Service'
@@ -233,7 +227,7 @@ export default class ServicePopup extends Component {
 
                 </FormGroup>
 
-                 <FormGroup className="custom-form-group" controlId="formControlsSelect">
+                 {/* <FormGroup className="custom-form-group" controlId="formControlsSelect">
                     <ControlLabel className="custom-form-control-label">
                       Select Icon
                     </ControlLabel>
@@ -246,9 +240,9 @@ export default class ServicePopup extends Component {
                       options={this.serviceIconOptions()} 
                       onChange={this.updateState.bind(this)} 
                     /> 
-                </FormGroup>         
+                </FormGroup>          */}
                 
-                <Button type="submit"
+                <Button
                   className="btn btn-orange add-category-submit"
                   onClick={event => this.handleSubmit(event)}
                 >
