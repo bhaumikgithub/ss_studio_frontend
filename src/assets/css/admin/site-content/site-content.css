@@ -236,6 +236,9 @@
     border: none;
     outline: none;
 }
+.edit-service-thumb {
+    cursor: pointer;
+}
 
 .contact-tab-content{
     -moz-border-radius: 3px;

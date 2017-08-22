@@ -65,13 +65,13 @@ export default class AboutUs extends Component {
                   >
                     <span className="fa fa-facebook" />
                   </a>
-                  <a
+                  {/* <a
                     target="_blank"
                     href={aboutUs.social_links.twitter_link}
                     className="btn btn-grey btn-round media-link"
                   >
                     <span className="fa fa-tumblr" />
-                  </a>
+                  </a> */}
                 </Col>}
               <Col xs={12} className="hire-wrap">
                 <Button className="btn btn-orange hire-btn">hire me</Button>
