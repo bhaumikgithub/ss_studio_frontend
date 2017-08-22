@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { PageHeader, Grid, Col, Row, Tab, Nav, NavItem } from 'react-bootstrap';
-import SearchIcon from '../assets/images/search-icon.png';
+import SearchIcon from '../../assets/images/search-icon.png';
 
 // Import services
-import { getPortfolio } from '../services/Portfolio';
-import { getActiveCategories } from '../services/admin/Category';
+import { getPortfolio } from '../../services/Portfolio';
+import { getActiveCategories } from '../../services/admin/Category';
 
 // Import css
-import '../assets/css/portfolio.css';
+import '../../assets/css/portfolio.css';
 
 export default class Portfolio extends Component {
   constructor(props) {
@@ -122,7 +122,10 @@ export default class Portfolio extends Component {
                           >
                             <Col xs={12} className="portfolio-thumbs p-none">
                               <img alt="icon" src={album.cover_photo.image} />
-                              <Link to="/" className="overlay">
+                              <Link
+                                to={'/portfolio/' + album.slug}
+                                className="overlay"
+                              >
                                 <img
                                   alt="icon"
                                   className="overlay-search"
@@ -130,7 +133,7 @@ export default class Portfolio extends Component {
                                 />
                               </Link>
                             </Col>
-                            <Link to="/">
+                            <Link to={'/portfolio/' + album.slug}>
                               <h4 className="portfolio-title">
                                 {album.album_name}
                               </h4>
