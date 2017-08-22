@@ -3,17 +3,116 @@ import { Col, Button, Modal, ControlLabel, FormGroup, FormControl } from 'react-
 import { Scrollbars } from 'react-custom-scrollbars';
 import EditTitle from '../../../assets/images/admin/site-content/about-site-content-icon.png';
 
+// Import services
+import { updateContactDetails } from '../../../services/admin/SiteContent';
+
+// Import helper
+import { str2bool, isObjectEmpty } from '../../Helper';
+
 // Import css
 import '../../../assets/css/admin/site-content/edit-about-content.css';
 
 
 export default class EditContactDetail extends Component {
-constructor(props){
-    super(props);        
-  }   
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
+  }
 
-  render() {   
-    // const { EditContactForm } = this.state; 
+  getInitialState() {
+    const initialState = {
+      editContactForm: {
+        email: '',
+        phone: '',
+        address: ''
+      }
+
+    };
+
+    return initialState;
+  }
+
+  handleChange(e) {
+    const editContactForm = this.state.editContactForm;
+    var key = e.target.name;
+    editContactForm[key] = str2bool(e.target.value);
+    this.setState({
+      editContactForm
+    });
+  }
+
+  handleSubmit(e) {
+    var self = this;
+    var callContactDetailApi = () => {};
+    var editParams = {
+      id: self.props.editObject.id,
+      editContactForm: {
+        contact_detail: self.state.editContactForm
+      }
+    };
+    callContactDetailApi = updateContactDetails(editParams);
+
+    callContactDetailApi
+      .then(function (response) {
+        self.handelResponse(response);
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+
+  }
+
+  handelResponse(response) {
+    var responseData = response.data;
+    console.log(responseData)
+    if (response.status === 201) {
+      this.resetContactDetailForm();
+      this.props.renderContactDetail(
+        responseData.data.contact_detail,
+       'replace'
+      );
+      this.props.closeOn();
+    } else {
+      console.log(responseData.errors);
+    }
+  }
+
+  resetContactDetailForm() {
+    this.setState({
+      editContactForm: this.getInitialState().editContactForm
+    });
+  }
+
+  editContactDetail(contactDetail) {
+    var self = this;
+    console.log(self)
+    const {
+      email,
+      phone,
+      address
+    } = contactDetail;
+
+    self.setState({
+      editContactForm: {
+        email: email,
+        phone: phone,
+        address: address
+      }
+    });
+  }
+
+  componentWillMount() {
+    var self = this;
+    if (!isObjectEmpty(self.props.editObject)) {
+      self.editContactDetail(self.props.editObject);
+    }
+  }
+
+  render() {
+    const {
+      editContactForm
+    } = this.state;
+    console.log(editContactForm)
     return (
        <Modal show={this.props.EditContactShow} bsSize="large" className="edit-about-modal" aria-labelledby="contained-modal-title-lg" >
         
@@ -33,21 +132,24 @@ constructor(props){
                 <FormGroup className="custom-form-group required">
                     <FormGroup className="custom-form-group required">
                     <ControlLabel className="custom-form-control-label">Email</ControlLabel>
-                    <FormControl className="custom-form-control" type="text" placeholder="johndoe@gmail.com" />
+                    <FormControl className="custom-form-control" type="text" placeholder="johndoe@gmail.com" name="email" value={editContactForm.email}
+                    onChange={this.handleChange.bind(this)} />
                 </FormGroup>
                     <ControlLabel className="custom-form-control-label">Phone</ControlLabel>
-                    <FormControl className="custom-form-control num-input" type="text" placeholder="+91-9876543210" />
+                    <FormControl className="custom-form-control num-input" type="text" placeholder="+91-9876543210" name="phone" value={editContactForm.phone}
+                    onChange={this.handleChange.bind(this)} />
                 </FormGroup>   
                 <FormGroup className="custom-form-group required">
                     <ControlLabel className="custom-form-control-label">Address</ControlLabel>
                    
                     <Scrollbars style={{height: "45px"}}>                       
-                        <FormControl id="modalAboutDesc" className="custom-form-control editabouttxtarea" componentClass="textarea" placeholder="2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad - 380 015, Gujarat, India. " />
+                        <FormControl id="modalAboutDesc" className="custom-form-control editabouttxtarea" componentClass="textarea" placeholder="2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad - 380 015, Gujarat, India. " name="address" value={editContactForm.address}
+                    onChange={this.handleChange.bind(this)} />
                     </Scrollbars>
 
                 </FormGroup>   
   
-                <Button type="submit" className="btn btn-orange edit-about-submit">
+                <Button type="submit" className="btn btn-orange edit-about-submit" onClick={event => this.handleSubmit(event)}>
                     Save
                 </Button>
                 <Button type="button" onClick={this.props.EditContactClose} className="btn btn-grey edit-about-cancel">
