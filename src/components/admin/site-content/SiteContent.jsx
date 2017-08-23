@@ -104,15 +104,13 @@ export default class SiteContent extends Component {
 	};
 
 	renderAboutUs = (aboutUs) => {
+		debugger;
 		const editAboutUsDetail = aboutUs;
-		debugger
-
+		console.log(editAboutUsDetail)
 		this.setState({
 				aboutUs: editAboutUsDetail
 			});
 	};
-
-
 
 
 		handleTabSelect(key) {

@@ -25,9 +25,9 @@ export default class EditAboutContent extends Component {
         title_text: '',
         description: '',
         social_links: {
-          facebook_link: {},
-          twitter_link: {},
-          instagram_link: {}
+          // facebook_link: {},
+          // twitter_link: {},
+          // instagram_link: {}
         },
         // facebook_link: '',
         // twitter_link: '',
@@ -75,11 +75,16 @@ componentWillMount() {
   handleChange(e) {
     const editAboutForm = this.state.editAboutForm;
     var key = e.target.name;
-    editAboutForm[key] = str2bool(e.target.value);
+    console.log(key);
+    if(key === 'social_links'){
+      editAboutForm[key].facebook_link = str2bool(e.target.value);
+    }else{
+      editAboutForm[key] = str2bool(e.target.value);
+    }
     this.setState({
       editAboutForm
-      });
-    }
+    });
+  }
 
   handleSubmit(e) {
     
@@ -87,9 +92,13 @@ componentWillMount() {
     var editParams = {
       about: self.state.editAboutForm
     };
+    
+    console.log(editParams);
+
     // debugger
     updateAboutUs(editParams)
-      .then(function (response) {
+    .then(function (response) {
+      console.log(response);
         self.handelResponse(response);
       })
       .catch(function (error) {
@@ -106,7 +115,7 @@ componentWillMount() {
       this.props.renderAboutUs(
         responseData.data.about_us,
       );
-      this.props.hideAboutPopup();
+      this.props.EditAboutClose();
     } else {
       console.log(responseData.errors);
     }
@@ -142,7 +151,7 @@ componentWillMount() {
           <Col className="edit-about-content-wrap" sm={8}>            
             <form className="edit-about-form custom-form">
                 <FormGroup className="custom-form-group required">
-                    <ControlLabel className="custom-form-control-label">Title</ControlLabel>
+                    <ControlLabel className="custom-fonamerm-control-label">Title</ControlLabel>
                     <FormControl 
                         className="custom-form-control" 
                         type="text" 
@@ -172,7 +181,7 @@ componentWillMount() {
                       className="custom-form-control" 
                       type="text" 
                       placeholder="https://www.facebook.com/sagarphotocam/?pnref=lhc" 
-                      name="facebook_link" 
+                      name="social_links"
                       value={editAboutForm.social_links.facebook_link}
                       onChange={this.handleChange.bind(this)} />
                 </FormGroup>
