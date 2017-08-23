@@ -113,14 +113,16 @@ export default class Sidebar extends Component {
               />{' '}
               site content
             </ListGroupItem>
-            <ListGroupItem href="#link7">
-              <img
-                src={require('../../../assets/images/admin/album/home-gallery-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              Home Page Gallery
-            </ListGroupItem>
+            <NavLink to="/homepage_photos">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/home-gallery-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Home Page Gallery
+              </ListGroupItem>
+            </NavLink>
             <ListGroupItem href="#link8">
               <img
                 src={require('../../../assets/images/admin/album/testimonial-icon.png')}
