@@ -25,10 +25,10 @@
   margin-right: 5px;
 }
 .portfolio-album-thub-wrap {
-  margin-top: 30px;
+  margin-top: 30px !important;
 }
 .portfolio-album-thub-wrap .overlay {
-  cursor: zoom-in;
+  cursor: zoom-in !important;
 }
 .portfolio-album-thub-wrap .fa-search-plus {
   color: #f9a11d;
