@@ -58,7 +58,7 @@ class Header extends Component {
                 <LinkContainer to="/contact/services">
                   <MenuItem eventKey={5.3}>Services</MenuItem>
                 </LinkContainer>
-                <MenuItem eventKey={5.4}>Pricing</MenuItem>
+                {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
               </NavDropdown>
             </LinkContainer>
             <LinkContainer to="/admin">
