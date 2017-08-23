@@ -174,16 +174,15 @@ export default class AlbumDetails extends Component {
     var self = this
     setCoverPhoto(id)
     .then(function(response) {
-      self.handleSuccessResponse(response, index);
+      self.handleCoverPicSuccessResponse(response, index);
     })
     .catch(function(error) {
       console.log(error.response);
     });
   }
 
-  handleSuccessResponse(response, index) {
+  handleCoverPicSuccessResponse(response, index) {
     var data = response.data
-    console.log(this.state.album)
     if(response.status === 201){
       const { cover_photo, photos } = this.state.album
       photos.splice(index,1,cover_photo)
