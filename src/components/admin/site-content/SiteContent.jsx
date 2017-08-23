@@ -30,8 +30,8 @@ export default class SiteContent extends Component {
 						editObject: {},
 						aboutUs: [],
 						services: [],
-						contactDetails:[],
-						EditContactShow: false
+						contactDetail: {}
+						// EditContactShow: false
 				}
 				this.handleTabSelect = this.handleTabSelect.bind(this);
 				this.handleAboutModal = this.handleAboutModal.bind(this);
@@ -62,7 +62,7 @@ export default class SiteContent extends Component {
 			getContactDetails().then(function(response) {
 				// console.log(response)
 				if (response.status === 200) {
-					self.setState({ contactDetails: response.data.data.contact_detail });
+					self.setState({ contactDetail: response.data.data.contact_detail });
 				}
 			});
 		}
@@ -73,7 +73,7 @@ export default class SiteContent extends Component {
 
 	renderService = (service, action) => {
 		const newServices = this.state.services.slice();
-		
+		debugger
 		if (action === 'insert') {
 			newServices.splice(0, 0, service);
 			
@@ -91,17 +91,11 @@ export default class SiteContent extends Component {
 		this.setState({ EditContactShow: false, editObject: {} });
 	};
 
-	renderContactDetail = (contactDetail, action) => {
+	renderContactDetail = (contactDetail) => {
+		const editContactDetail = contactDetail;
 		
-		const editContactDetails = this.state.contactDetails.slice();
-		console.log(editContactDetails);
-	
-		if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
-		editContactDetails.splice(editContactDetails.indexOf(this.state.editObject), 1, contactDetail);
-		}
-
 		this.setState({
-		contactDetails: editContactDetails
+			contactDetail: editContactDetail
 		});
 	};
 	
@@ -109,17 +103,14 @@ export default class SiteContent extends Component {
 		this.setState({ EditAboutShow: false, editObject: {} });  
 	};
 
-	renderAboutUs = (aboutUsDetail, action) => {
-        const editAboutUsDetail = this.state.aboutUs.slice();
-    
-        if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
-        editAboutUsDetail.splice(editAboutUsDetail.indexOf(this.state.editObject), 1, aboutUsDetail);
-        }
+	renderAboutUs = (aboutUs) => {
+		const editAboutUsDetail = aboutUs;
+		debugger
 
-        this.setState({
-					aboutUs: editAboutUsDetail
-        });
-    };
+		this.setState({
+				aboutUs: editAboutUsDetail
+			});
+	};
 
 
 
@@ -148,7 +139,7 @@ export default class SiteContent extends Component {
 
 	render() {
 		const aboutUs = this.state.aboutUs;
-		const contactDetails = this.state.contactDetails;
+		const contactDetail = this.state.contactDetail;
 		// const services = this.state.services;
 		return (
 			<Col xs={12} className="site-content-wrap">   
@@ -181,10 +172,16 @@ export default class SiteContent extends Component {
 				<Tabs defaultActiveKey={this.state.key} onSelect={this.handleTabSelect} id="uncontrolled-tab-example" className="site-content-tabs">
 						<Tab eventKey={1} title="About Us" className="about-site-content">
 								<Col xs={12} className="site-content-filter p-none">
-										 <Button className="btn btn-orange pull-right edit-album-content" onClick={this.handleAboutModal}>  
-												<i className="add-album-icon">
-														<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>
-												</i>Edit Details
+										<Button 
+										 	className="btn btn-orange pull-right edit-album-content" 
+												onClick={()=>this.setState({
+												EditAboutShow: true,
+												editObject: aboutUs })}
+										>  
+											<i className="add-album-icon">
+												<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>
+											</i>
+											Edit Details
 										</Button>           
 								</Col> 
 								<Col xs={12} className="p-none">
@@ -215,13 +212,13 @@ export default class SiteContent extends Component {
 														>
 														<span className="fa fa-facebook"></span>
 														</a>
-														<a
+														{/* <a
 															target="_blank"
 															href={aboutUs.social_links.twitter_link}
 															className="btn btn-grey btn-round  social-link"
 														>
 														<span className="fa fa-tumblr"></span>
-														</a>
+														</a> */}
 													</Col>
 												}
 										</Col>
@@ -271,7 +268,7 @@ export default class SiteContent extends Component {
 												<Button className="btn btn-orange pull-right edit-contact-detail" 
 													onClick={()=>this.setState({
 														EditContactShow: true,
-														editObject: contactDetails })}> 
+														editObject: contactDetail })}> 
 														<i className="edit-contact-detail-icon">
 																<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>
 														</i>Edit Details
@@ -283,7 +280,7 @@ export default class SiteContent extends Component {
 														<img src={homeIcon} alt="Home" className="icon-img"/>
 												</Col>
 												<Col md={11} xs={10} className="contact-content-wrap">
-													{contactDetails.address}
+													{contactDetail.address}
 												</Col>
 										</Col>
 
@@ -292,7 +289,7 @@ export default class SiteContent extends Component {
 														<img src={messageIcon} alt="Mail" className="icon-img"/>
 												</Col>
 												<Col xs={10} md={11} className="contact-content-wrap">
-													{contactDetails.email}
+													{contactDetail.email}
 												</Col>
 										</Col>
 
@@ -301,7 +298,7 @@ export default class SiteContent extends Component {
 														<img src={callIcon} alt="Call" className="icon-img"/>
 												</Col>
 												<Col xs={10} md={11} className="col-xs-10 col-md-11 contact-content-wrap">
-												{contactDetails.phone}
+												{contactDetail.phone}
 												</Col>
 										</Col>
 								</Col>

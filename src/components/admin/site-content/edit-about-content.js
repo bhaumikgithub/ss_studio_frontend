@@ -12,11 +12,9 @@ import { str2bool, isObjectEmpty } from '../../Helper';
 // Import css
 import '../../../assets/css/admin/site-content/edit-about-content.css';
 
-// Import services
-// import { updateAboutUs } from '../../../services/admin/SiteContent';
 
 export default class EditAboutContent extends Component {
-constructor(props){
+  constructor(props){
     super(props);
     this.state = this.getInitialState();      
   }  
@@ -26,13 +24,54 @@ constructor(props){
       editAboutForm: {
         title_text: '',
         description: '',
-        facebook_link: '',
-        twitter_link: '',
-        instagram_link: '',
+        social_links: {
+          facebook_link: {},
+          twitter_link: {},
+          instagram_link: {}
+        },
+        // facebook_link: '',
+        // twitter_link: '',
+        // instagram_link: '',
         }
       };
       return initialState;
     }
+    
+    
+  resetAboutUsForm() {
+    this.setState({ editAboutForm: this.getInitialState().editAboutForm  });
+  }
+
+  editAboutUs(aboutUs) {
+    var self = this;
+    const {
+      title_text,
+      description,
+      social_links,
+      // facebook_link,
+      // twitter_link,
+      // instagram_link,
+    } = aboutUs;
+    self.setState({
+      editAboutForm: {
+        title_text: title_text,
+        description: description,
+        // facebook_link: facebook_link,
+        social_links:  social_links,
+        //   twitter_link: twitter_link
+        
+      }
+    });
+  }
+
+componentWillMount() {
+    var self = this;
+    if (!isObjectEmpty(self.props.editObject)) {
+      self.editAboutUs(self.props.editObject);
+    }
+  }
+
+
   handleChange(e) {
     const editAboutForm = this.state.editAboutForm;
     var key = e.target.name;
@@ -48,7 +87,7 @@ constructor(props){
     var editParams = {
       about: self.state.editAboutForm
     };
-
+    // debugger
     updateAboutUs(editParams)
       .then(function (response) {
         self.handelResponse(response);
@@ -62,10 +101,10 @@ constructor(props){
     var responseData = response.data;
     console.log(responseData)
     if (response.status === 201) {
+      debugger
       this.resetAboutUsForm();
       this.props.renderAboutUs(
         responseData.data.about_us,
-       'replace'
       );
       this.props.hideAboutPopup();
     } else {
@@ -73,42 +112,6 @@ constructor(props){
     }
   }
 
-  resetAboutUsForm() {
-    this.setState({
-      editAboutForm: this.getInitialState().editAboutForm
-    });
-  }
-
-  editAboutUs(aboutUs) {
-    var self = this;
-    console.log(self)
-    const {
-      title_text,
-      description,
-      social_links,
-      facebook_link,
-      twitter_link,
-      instagram_link,
-    } = aboutUs;
-    self.setState({
-      editAboutForm: {
-        title_text: title_text,
-        description: description,
-        facebook_link: facebook_link
-        // social_links: {
-        //   facebook_link: facebook_link,
-        //   twitter_link: twitter_link
-        // }
-      }
-    });
-  }
-
-componentWillMount() {
-    var self = this;
-    if (!isObjectEmpty(self.props.editObject)) {
-      self.editAboutUs(self.props.editObject);
-    }
-  }
 
   render() {
     const { editAboutForm } = this.state; 
@@ -119,7 +122,7 @@ componentWillMount() {
         className="edit-about-modal" 
         aria-labelledby="contained-modal-title-lg" 
       >
-        <Modal.Body className="edit-about-body p-none" onClick={this.props.hideAboutPopup}>
+        <Modal.Body className="edit-about-body p-none" >
         
           <span className="close-modal-icon" onClick={this.props.EditAboutClose}>
             <img src={require('../../../assets/images/admin/site-content/close-icon.png')} alt="" className="hidden-xs"/>
@@ -170,10 +173,10 @@ componentWillMount() {
                       type="text" 
                       placeholder="https://www.facebook.com/sagarphotocam/?pnref=lhc" 
                       name="facebook_link" 
-                      value={editAboutForm.facebook_link}
+                      value={editAboutForm.social_links.facebook_link}
                       onChange={this.handleChange.bind(this)} />
                 </FormGroup>
-                <FormGroup className="custom-form-group">
+                {/* <FormGroup className="custom-form-group">
                     <ControlLabel className="custom-form-control-label">Twitter Profile</ControlLabel>
                     <FormControl 
                       className="custom-form-control" 
@@ -182,7 +185,7 @@ componentWillMount() {
                       name="twitter_link" 
                       value={editAboutForm.twitter_link}
                       onChange={this.handleChange.bind(this)} />
-                </FormGroup> 
+                </FormGroup>  */}
   
                 <Button 
                   className="btn btn-orange edit-about-submit" 

@@ -85,20 +85,17 @@ export default class EditContactDetail extends Component {
 				self.handelResponse(response);
 			})
 			.catch(function (error) {
-				console.log(error.response);
+				console.log(error);
 			});
 
 	}
 
 	handelResponse(response) {
 		var responseData = response.data;
-		console.log(responseData)
 		if (response.status === 201) {
 			this.resetContactDetailForm();
 			this.props.renderContactDetail(
-				
 				responseData.data.contact_detail,
-			 'replace'
 			);
 			this.props.EditContactClose();
 		} else {
@@ -109,9 +106,9 @@ export default class EditContactDetail extends Component {
 
 	
 
-	updateState(element) {
-		this.setState({value: element});
-	}  
+	// updateState(element) {
+	// 	this.setState({value: element});
+	// }  
 
 	render() {
 		const { EditContactForm } = this.state;
