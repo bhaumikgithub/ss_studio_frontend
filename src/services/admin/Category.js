@@ -8,6 +8,10 @@ export function getCategories() {
   );
 }
 
+export function getActiveCategories() {
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'categories/active');
+}
+
 export function deleteCategory(id) {
   return axios.delete(
     process.env.REACT_APP_API_BASE_URL + 'categories/' + id,

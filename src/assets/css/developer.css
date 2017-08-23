@@ -12,6 +12,23 @@
 }
 /* Album show page custom css end */
 
+/* Portfolio album page custom css start */
+.back-link {
+  position: absolute;
+  left: 15px;
+  top: 70px;
+  z-index: 1;
+  color: #555;
+  text-decoration: underline;
+}
+.back-link .fa {
+  margin-right: 5px;
+}
+.portfolio-album-thub-wrap {
+  margin-top: 30px;
+}
+/* Portfolio album page custom css start */
+
 div.filepicker {
   padding: 39px !important;
 }
