@@ -187,10 +187,9 @@ export default class AlbumDetails extends Component {
     if(response.status === 201){
       const { cover_photo, photos } = this.state.album
       photos.splice(index,1,cover_photo)
-      const setCoverPic = this.state.album
-      setCoverPic.cover_photo = data.data.photos;
-      const addCoverPhoto = Object.assign({}, this.state.album);
-      this.setState({album: addCoverPhoto});
+      const newAlbum = Object.assign({}, this.state.album);
+      newAlbum.cover_photo = data.data.photo
+      this.setState({album:  newAlbum});
     } else {
       console.log(data)
     }
