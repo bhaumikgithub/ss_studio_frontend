@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
         </Col>
         <Col xs={12} className="link-wrap">
           <ListGroup className="sidebar-nav-links">
-            <ListGroupItem href="#link1">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/home-icon.png')}
                 className="link-icons"
@@ -77,7 +77,7 @@ export default class Sidebar extends Component {
                 Albums
               </ListGroupItem>
             </NavLink>
-            <ListGroupItem href="#link3">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/video-films-icon.png')}
                 className="link-icons"
@@ -96,7 +96,7 @@ export default class Sidebar extends Component {
               </ListGroupItem>
             </NavLink>
             <NavLink to="/contacts">
-              <ListGroupItem >
+              <ListGroupItem>
                 <img
                   src={require('../../../assets/images/admin/album/contacts-icon.png')}
                   className="link-icons"
@@ -105,7 +105,7 @@ export default class Sidebar extends Component {
                 Contacts
               </ListGroupItem>
             </NavLink>
-            <ListGroupItem href="#link6">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/site-content-icon.png')}
                 className="link-icons"
@@ -113,7 +113,7 @@ export default class Sidebar extends Component {
               />{' '}
               site content
             </ListGroupItem>
-            <ListGroupItem href="#link7">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/home-gallery-icon.png')}
                 className="link-icons"
@@ -121,7 +121,7 @@ export default class Sidebar extends Component {
               />{' '}
               Home Page Gallery
             </ListGroupItem>
-            <ListGroupItem href="#link8">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/testimonial-icon.png')}
                 className="link-icons"
