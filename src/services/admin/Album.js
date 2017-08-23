@@ -14,10 +14,7 @@ export function createAlbum(params) {
 }
 
 export function showAlbum(id) {
-  return axios.get(
-    process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
-    apiHeader()
-  );
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'albums/' + id);
 }
 
 export function updateAlbum(params) {
