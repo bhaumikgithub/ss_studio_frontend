@@ -77,14 +77,16 @@ export default class Sidebar extends Component {
                 Albums
               </ListGroupItem>
             </NavLink>
-            <ListGroupItem href="">
-              <img
-                src={require('../../../assets/images/admin/album/video-films-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              Video films
-            </ListGroupItem>
+            <NavLink to="/video_films">
+              <ListGroupItem href="">
+                <img
+                  src={require('../../../assets/images/admin/album/video-films-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Video films
+              </ListGroupItem>
+            </NavLink>
             <NavLink to="/category">
               <ListGroupItem>
                 <img
