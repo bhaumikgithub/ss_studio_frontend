@@ -15,3 +15,11 @@ export function uploadPhoto(params) {
     apiHeader()
   );
 }
+
+export function setCoverPhoto(id) {
+  return axios.patch(
+    process.env.REACT_APP_API_BASE_URL + 'photos/' + id + '/set_cover_photo',
+    {},
+    apiHeader()
+  );
+}
