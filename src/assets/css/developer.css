@@ -41,6 +41,7 @@ div.filepicker {
 
 /* Album set cover page hover */
 .set-cover-pic {
+  cursor: pointer;
   position: absolute;
   background: rgba(249, 161, 29, 0.9);
   color: #fff;
