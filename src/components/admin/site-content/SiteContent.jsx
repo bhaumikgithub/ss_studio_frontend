@@ -15,12 +15,12 @@ import '../../../assets/css/admin/site-content/site-content.css';
 
 // Import services
 import { getAboutUs, getActiveServices, getContactDetails } from '../../../services/Contact';
+import { updateAboutUs } from '../../../services/admin/SiteContent';
 
 
 import EditAboutContent from './edit-about-content';
 import ServicePopup from './ServicePopup';
 import EditContactDetail from './edit-contact-detail';
-
 
 
 export default class SiteContent extends Component {
@@ -31,7 +31,6 @@ export default class SiteContent extends Component {
 						aboutUs: [],
 						services: [],
 						contactDetail: {}
-						// EditContactShow: false
 				}
 				this.handleTabSelect = this.handleTabSelect.bind(this);
 				this.handleAboutModal = this.handleAboutModal.bind(this);
@@ -40,7 +39,6 @@ export default class SiteContent extends Component {
 		
 		componentWillMount() {
 			var self = this;
-				// console.log(self)
 			getAboutUs().then(function(response) {
 				if (response.status === 200) {
 					self.setState({ aboutUs: response.data.data.about_us });
@@ -53,14 +51,12 @@ export default class SiteContent extends Component {
 				}
 			});
 			
-
 		}
 		
 		componentDidMount() {
 			var self = this;
 
 			getContactDetails().then(function(response) {
-				// console.log(response)
 				if (response.status === 200) {
 					self.setState({ contactDetail: response.data.data.contact_detail });
 				}
@@ -73,14 +69,11 @@ export default class SiteContent extends Component {
 
 	renderService = (service, action) => {
 		const newServices = this.state.services.slice();
-		debugger
 		if (action === 'insert') {
-			newServices.splice(0, 0, service);
-			
+			newServices.splice(0, 0, service);	
 		} else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
 			newServices.splice(newServices.indexOf(this.state.editObject), 1, service);
 		}
-
 		this.setState({
 			services: newServices,
 			
@@ -104,36 +97,60 @@ export default class SiteContent extends Component {
 	};
 
 	renderAboutUs = (aboutUs) => {
-		debugger;
 		const editAboutUsDetail = aboutUs;
-		console.log(editAboutUsDetail)
 		this.setState({
-				aboutUs: editAboutUsDetail
+			aboutUs: editAboutUsDetail
 			});
 	};
 
+	handleTabSelect(key) {
+		this.setState({key});
+	}
 
-		handleTabSelect(key) {
-				this.setState({key});
-		}
+	handleAboutModal(){
+		this.setState({ EditAboutShow : true });
+		setTimeout(function(){
+			document.getElementById("modalAboutDesc").style.height = document.getElementById("modalAboutDesc").scrollHeight + "px";           
+		},1000);
+	}
 
-		handleAboutModal(){
-				this.setState({ EditAboutShow : true });
-				setTimeout(function(){
-						document.getElementById("modalAboutDesc").style.height = document.getElementById("modalAboutDesc").scrollHeight + "px";           
-				},1000);
-		}
+	handleAddserviceModal(){
+		this.setState({ AddServiceShow : true });
+		setTimeout(function(){
+			document.getElementById("modalServicedesc").style.height = document.getElementById("modalServicedesc").scrollHeight + "px";
+		},1000);
+	}
 
-		handleAddserviceModal(){
-				this.setState({ AddServiceShow : true });
-				setTimeout(function(){
-						document.getElementById("modalServicedesc").style.height = document.getElementById("modalServicedesc").scrollHeight + "px";
-				},1000);
-		}
+	 handleUploadFile = (e) => {
+    e.preventDefault();
+    
+    var self = this;
+    let file = e.target.files[0];
+    let data = new FormData();
+    data.append('about[photo_attributes][image]', file);
 
-		
-				
-		
+    updateAboutUs(data)
+      .then(function(response) {
+        self.handleSuccessResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+
+  handleSuccessResponse(response) {
+    if (response.status === 201) {
+      this.handlePhotoRendering(response);
+    }
+  }
+
+  handlePhotoRendering(response) {
+
+    var UpdatePhoto = response .data.data.about_us;
+		const aboutUs = this.state.aboutUs
+    this.setState({ aboutUs: UpdatePhoto });
+  }
 
 	render() {
 		const aboutUs = this.state.aboutUs;
@@ -142,36 +159,36 @@ export default class SiteContent extends Component {
 		return (
 			<Col xs={12} className="site-content-wrap">   
 
-		{this.state.EditAboutShow &&
-				<EditAboutContent 
-						EditAboutShow={this.state.EditAboutShow} 
-						EditAboutClose={this.EditAboutClose}
-						renderAboutUs={this.renderAboutUs}
-						editObject={this.state.editObject} 
-				/>
-		}     
-		{this.state.AddServiceShow &&   
-				<ServicePopup 
-						AddServiceShow={this.state.AddServiceShow} 
-						ServiceCloseModal={this.ServiceCloseModal}
-						renderService={this.renderService}
-						editObject={this.state.editObject} 
-				/>
-		}
-		{this.state.EditContactShow &&   
-				<EditContactDetail 
-						EditContactShow={this.state.EditContactShow} 
-						EditContactClose={this.EditContactClose}
-						renderContactDetail={this.renderContactDetail}
-						editObject={this.state.editObject}
-				/>
-		}
+				{this.state.EditAboutShow &&
+						<EditAboutContent 
+								EditAboutShow={this.state.EditAboutShow} 
+								EditAboutClose={this.EditAboutClose}
+								renderAboutUs={this.renderAboutUs}
+								editObject={this.state.editObject} 
+						/>
+				}     
+				{this.state.AddServiceShow &&   
+						<ServicePopup 
+								AddServiceShow={this.state.AddServiceShow} 
+								ServiceCloseModal={this.ServiceCloseModal}
+								renderService={this.renderService}
+								editObject={this.state.editObject} 
+						/>
+				}
+				{this.state.EditContactShow &&   
+						<EditContactDetail 
+								EditContactShow={this.state.EditContactShow} 
+								EditContactClose={this.EditContactClose}
+								renderContactDetail={this.renderContactDetail}
+								editObject={this.state.editObject}
+						/>
+				}
 
 				<Tabs defaultActiveKey={this.state.key} onSelect={this.handleTabSelect} id="uncontrolled-tab-example" className="site-content-tabs">
 						<Tab eventKey={1} title="About Us" className="about-site-content">
 								<Col xs={12} className="site-content-filter p-none">
 										<Button 
-										 	className="btn btn-orange pull-right edit-album-content" 
+											className="btn btn-orange pull-right edit-album-content" 
 												onClick={()=>this.setState({
 												EditAboutShow: true,
 												editObject: aboutUs })}
@@ -180,7 +197,7 @@ export default class SiteContent extends Component {
 												<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>
 											</i>
 											Edit Details
-										</Button>           
+										</Button>    
 								</Col> 
 								<Col xs={12} className="p-none">
 										<Col className="content-about-img-wrap">
@@ -192,20 +209,22 @@ export default class SiteContent extends Component {
 														alt="user"
 													/>
 												}
-												<a  className="img-edit-btn">
-														<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>     
+												
+												<a  className="img-edit-btn" ref="chooseBtn">
+													<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>     
 												</a>
+												<input type="file" onChange={(e)=>this.handleUploadFile(e)}/>
 										</Col>
 										<Col className="right-content-wrap text-grey">
 												<Col xs={12} className="about-content-wrap">
 														<h3 className="about-content-title">{aboutUs.title_text}</h3>
 														<p>{aboutUs.description}</p>
 												</Col>
-												{aboutUs.social_links &&
+												{aboutUs.facebook_link &&
 													<Col className="about-solcial-icons" xs={12}>
 														<a
 															target="_blank"
-															href={aboutUs.social_links.facebook_link}
+															href={aboutUs.facebook_link}
 															className="btn btn-grey btn-round  social-link"
 														>
 														<span className="fa fa-facebook"></span>
@@ -262,7 +281,7 @@ export default class SiteContent extends Component {
 							</Col>
 						</Tab>
 						<Tab eventKey={3} title="Contact Us">
-								 <Col xs={12} className="site-content-filter p-none">
+									<Col xs={12} className="site-content-filter p-none">
 												<Button className="btn btn-orange pull-right edit-contact-detail" 
 													onClick={()=>this.setState({
 														EditContactShow: true,

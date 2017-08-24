@@ -24,12 +24,7 @@ export default class EditAboutContent extends Component {
       editAboutForm: {
         title_text: '',
         description: '',
-        social_links: {
-          // facebook_link: {},
-          // twitter_link: {},
-          // instagram_link: {}
-        },
-        // facebook_link: '',
+        facebook_link: ''
         // twitter_link: '',
         // instagram_link: '',
         }
@@ -47,8 +42,7 @@ export default class EditAboutContent extends Component {
     const {
       title_text,
       description,
-      social_links,
-      // facebook_link,
+      facebook_link,
       // twitter_link,
       // instagram_link,
     } = aboutUs;
@@ -56,10 +50,8 @@ export default class EditAboutContent extends Component {
       editAboutForm: {
         title_text: title_text,
         description: description,
-        // facebook_link: facebook_link,
-        social_links:  social_links,
-        //   twitter_link: twitter_link
-        
+        facebook_link: facebook_link,
+        // twitter_link: twitter_link
       }
     });
   }
@@ -75,12 +67,7 @@ componentWillMount() {
   handleChange(e) {
     const editAboutForm = this.state.editAboutForm;
     var key = e.target.name;
-    console.log(key);
-    if(key === 'social_links'){
-      editAboutForm[key].facebook_link = str2bool(e.target.value);
-    }else{
-      editAboutForm[key] = str2bool(e.target.value);
-    }
+    editAboutForm[key] = str2bool(e.target.value);
     this.setState({
       editAboutForm
     });
@@ -92,17 +79,11 @@ componentWillMount() {
     var editParams = {
       about: self.state.editAboutForm
     };
-    
-    console.log(editParams);
-
-    // debugger
     updateAboutUs(editParams)
     .then(function (response) {
-      console.log(response);
         self.handelResponse(response);
       })
       .catch(function (error) {
-        console.log(error.response);
       });
   }
 
@@ -110,7 +91,6 @@ componentWillMount() {
     var responseData = response.data;
     console.log(responseData)
     if (response.status === 201) {
-      debugger
       this.resetAboutUsForm();
       this.props.renderAboutUs(
         responseData.data.about_us,
@@ -181,8 +161,8 @@ componentWillMount() {
                       className="custom-form-control" 
                       type="text" 
                       placeholder="https://www.facebook.com/sagarphotocam/?pnref=lhc" 
-                      name="social_links"
-                      value={editAboutForm.social_links.facebook_link}
+                      name="facebook_link"
+                      value={editAboutForm.facebook_link}
                       onChange={this.handleChange.bind(this)} />
                 </FormGroup>
                 {/* <FormGroup className="custom-form-group">
