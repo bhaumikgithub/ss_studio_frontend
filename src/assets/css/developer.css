@@ -34,7 +34,33 @@
   color: #f9a11d;
 }
 
-/* Portfolio album page custom css start */
+/* Portfolio album page custom css end */
+
+/* Album set cover page hover start */
+.set-cover-pic {
+  cursor: pointer;
+  position: absolute;
+  background: rgba(249, 161, 29, 0.9);
+  color: #fff;
+  padding: 10px 20px;
+  margin-left: 15px;
+  font-size: 14px;
+  height: 30px;
+  width: calc(100% - 30px);
+  opacity: 0;
+  bottom: 0;
+  left: -30%;
+  line-height: 30px;
+  text-align: center;
+  font-family: 'ralewaysemibold';
+  letter-spacing: 1px;
+  padding: 0px;
+}
+.album-image-wrap:hover .set-cover-pic {
+  opacity: 1;
+  left: 0;
+}
+/* Album set cover page hover end */
 
 div.filepicker {
   padding: 39px !important;
