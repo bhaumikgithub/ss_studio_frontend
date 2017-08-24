@@ -1,0 +1,224 @@
+.add-testimonial-modal .modal-content{
+    border-radius: 0;
+    border: 0;
+    margin-bottom: 30px;
+}
+
+.add-testimonial-body {  
+    display: -webkit-box;  
+    display: -webkit-flex;  
+    display: -ms-flexbox;  
+    display: flex;
+}
+.add-testimonial-title-wrap{
+    background: url('../../../assets/images/admin/testimonial/sidebar.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.add-testimonial-wrap{
+    padding: 20px 15px;
+}
+.add-testimonial-form{
+    padding: 15px;
+}
+.add-testimonial-title-details{
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    height: 130px;
+    margin-top: -65px;
+    text-align: center;
+}
+.add-testimonial-icon{
+    margin: 0 auto;
+}
+.add-testimonial-text{
+    margin-top: 20px;
+    text-transform: capitalize;
+    font-family: 'ralewaymedium';
+}
+.close-modal-icon{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #c1c1c1;
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    z-index: 1;
+}
+
+.add-testimonial-submit,.add-testimonial-cancel{
+    padding: 10px 30px;
+    font-family: 'ralewaysemibold';
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-top: 15px;
+}
+.add-testimonial-submit:hover,
+.add-testimonial-submit:focus{
+    background:#feae37;
+    color: #fff;
+    outline: none !important;
+    box-shadow: none;
+}
+.add-testimonial-cancel{
+    background: #d7d7d7;
+    margin-left: 20px;
+    color: #555;
+}
+.add-testimonial-cancel:hover,
+.add-testimonial-cancel:focus{
+    outline: none !important;
+}
+.upload-img-wrap.testimonial-upload{
+    display: block;
+    margin-top: 0px;
+}
+.upload-thumb{
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+    border: 1px solid #d8d8d8;
+    border-radius: 50%;
+    height: 51px;
+    width: 51px;
+}
+.upload-img-btn{
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+    font-size: 12px;
+    padding: 4px 6px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 25px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    border-radius: 12px; /* border radius */
+    background-color: #efefef; /* layer fill content */
+    color: #555;    
+    text-align: center;   
+    border: none; 
+}
+.upload-img-btn:hover,
+.upload-img-btn:focus{
+    border: none;
+    background-color: #e5e5e5;
+}
+input.upload-img-control{
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer !important;
+    min-height: 25px;
+}
+/*form Common css*/
+.custom-form-group{
+    position: relative;
+    font-family: 'ralewayregular';
+    margin-bottom: 25px;
+}
+.custom-form-group.required::after{
+    content:"*";
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
+    display: block;
+    height: 0;
+    width: 0;
+    font-size: 30px;
+    color: #fd6257;
+    font-family: 'ralewaysemibold';
+}
+.custom-form-control{
+    border: 0;
+    box-shadow: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    position: relative;
+    padding: 6px 20px 6px 12px;
+    resize: none;
+    font-size: 12px;
+    color: #777;
+    line-height: 18px;
+}
+
+.custom-form-control:focus, .custom-form-control:active, .custom-form-control:hover{
+    outline: 0;
+    box-shadow: none;
+    border-color: #ccc;
+}
+.custom-form-control-label{
+    text-transform: capitalize;
+    font-weight: normal;
+    color: #555;
+    font-family: 'ralewaysemibold';
+    font-size: 15px;
+    letter-spacing: 0px;
+    width: 100%;
+}
+.custom-textarea{
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+}
+
+
+/***************/
+/*Media Queries*/
+/***************/
+
+@media only screen and (max-width: 767px) {
+    .add-testimonial-body{
+       display: block;
+   }
+   .add-testimonial-title-wrap, .add-testimonial-wrap{
+       position: relative;
+       float: left;
+       width: 100%;
+   }
+   .add-testimonial-title-wrap{
+       background-size: cover;
+   }
+   .add-testimonial-wrap{
+       background: #fff;
+       padding-bottom: 0px;
+       padding: 15px;
+   }
+   .add-testimonial-title-details{
+       padding: 20px;
+       position: relative;
+       top: 0;
+       height: auto;
+       margin-top: 0px;
+       text-align: left;
+   }
+   .add-testimonial-icon {
+       margin: 0;
+       float: left;
+       width: 35px;
+   }
+   .add-testimonial-text{
+        width: auto;
+        margin-left: 45px;
+        margin-top: 9px;
+        font-size: 16px;
+   }
+   .close-modal-icon{
+       color: #fff;
+       top: 15px;
+       right: 10px;
+   }   
+    .custom-form-group{
+        margin-bottom: 15px !important;
+    }   
+}
+
+@media only screen and (max-width: 420px) {
+  .add-contact-form{
+       padding: 0;
+   }
+}

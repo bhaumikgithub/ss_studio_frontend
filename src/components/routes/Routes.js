@@ -34,6 +34,7 @@ const AlbumDetails = asyncComponent(() =>
 );
 const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
 const Category = asyncComponent(() => import('../admin/category/categories'));
+const Testimonial = asyncComponent(() => import('../admin/testimonial/testimonial'));
 
 const Login = asyncComponent(() => import('../admin/Login'));
 
@@ -66,6 +67,7 @@ const routes = () =>
       <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
       <PrivateRoute exact path="/contacts" component={Contact} />
       <PrivateRoute exact path="/category" component={Category} />
+      <PrivateRoute exact path="/testimonials" component={Testimonial} />
     </AfterLoginLayout>
     {/* After Login routes end */}
 

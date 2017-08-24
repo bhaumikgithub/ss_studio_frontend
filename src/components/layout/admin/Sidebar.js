@@ -121,7 +121,8 @@ export default class Sidebar extends Component {
               />{' '}
               Home Page Gallery
             </ListGroupItem>
-            <ListGroupItem href="#link8">
+            <NavLink to="/testimonials">
+            <ListGroupItem>
               <img
                 src={require('../../../assets/images/admin/album/testimonial-icon.png')}
                 className="link-icons"
@@ -129,6 +130,7 @@ export default class Sidebar extends Component {
               />{' '}
               Testimonials
             </ListGroupItem>
+            </NavLink>
           </ListGroup>
         </Col>
       </Col>
