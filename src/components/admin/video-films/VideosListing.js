@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Col, Button, Media, Pagination } from 'react-bootstrap';
+import { Col, Button, Media } from 'react-bootstrap';
+
+// Import component
 import SweetAlert from 'sweetalert-react';
-// import AddVideo from './add-video';
+import VideoPopup from './VideoPopup';
+import PlayVideo from './PlayVideo';
 
 // Import services
 import {
@@ -9,15 +12,23 @@ import {
   deleteVideoFilm
 } from '../../../services/admin/VideoFilms';
 
+// Import helper
+import { isObjectEmpty } from '../../Helper';
+
 // Import css
 import '../../../assets/css/admin/video-films/video-films.css';
+
+// Import plugin
+var youtubeThumbnail = require('youtube-thumbnail');
 
 export default class VideoFilms extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      editObject: {},
       videos: [],
-      CreateShow: false,
+      showPopup: false,
+      showPlayVideo: false,
       alert: {
         objectId: '',
         show: false,
@@ -114,6 +125,20 @@ export default class VideoFilms extends Component {
     });
   }
 
+  renderVideo = (video, action) => {
+    const { videos, editObject } = this.state;
+    const newVideos = videos.slice();
+
+    if (action === 'insert') {
+      newVideos.splice(0, 0, video);
+    } else if (action === 'replace' && !isObjectEmpty(editObject)) {
+      newVideos.splice(newVideos.indexOf(editObject), 1, video);
+    }
+    this.setState({
+      videos: newVideos
+    });
+  };
+
   getStatusClass(status) {
     if (status === 'published') {
       return 'text-green';
@@ -132,13 +157,12 @@ export default class VideoFilms extends Component {
     }
   }
 
-  CreateClose = () => this.setState({ CreateShow: false });
-
-  handleSelect(eventKey, e) {
-    this.setState({
-      activePage: eventKey
-    });
-  }
+  closePopup = () => {
+    this.setState({ showPopup: false, editObject: {} });
+  };
+  closePlayVideo = () => {
+    this.setState({ showPlayVideo: false, editObject: {} });
+  };
 
   render() {
     const { videos, alert } = this.state;
@@ -154,15 +178,24 @@ export default class VideoFilms extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {/* <AddVideo
-          showCreate={this.state.CreateShow}
-          closeOn={this.CreateClose}
-        /> */}
+        {this.state.showPopup &&
+          <VideoPopup
+            showPopup={this.state.showPopup}
+            closePopup={this.closePopup}
+            renderVideo={this.renderVideo}
+            editObject={this.state.editObject}
+          />}
+        {this.state.showPlayVideo &&
+          <PlayVideo
+            video={this.state.editObject}
+            showPlayVideo={this.state.showPlayVideo}
+            closePlayVideo={this.closePlayVideo}
+          />}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
             <Button
               className="btn btn-orange pull-right add-video-btn"
-              onClick={() => this.setState({ CreateShow: true })}
+              onClick={() => this.setState({ showPopup: true })}
             >
               <i className="add-video-icon">
                 <img
@@ -181,10 +214,16 @@ export default class VideoFilms extends Component {
               <Col xs={12} className="video-film-wrap">
                 <Media>
                   <Media.Left align="top" className="video-thumb-wrap">
-                    <a href="">
+                    <a
+                      onClick={() =>
+                        this.setState({
+                          showPlayVideo: true,
+                          editObject: video
+                        })}
+                    >
                       <img
                         className="video-thumb"
-                        src={require('../../../assets/images/admin/video-films/video-thumb-1.png')}
+                        src={youtubeThumbnail(video.video_url).default.url}
                         alt="Video thumb"
                       />
                       <img
@@ -199,7 +238,14 @@ export default class VideoFilms extends Component {
                       {video.title}
                     </Media.Heading>
 
-                    <Button className="btn-link p-none video-action-btn video-edit-btn">
+                    <Button
+                      className="btn-link p-none video-action-btn video-edit-btn"
+                      onClick={() =>
+                        this.setState({
+                          showPopup: true,
+                          editObject: video
+                        })}
+                    >
                       <img
                         src={require('../../../assets/images/admin/album/edit-icon.png')}
                         alt=""
@@ -286,20 +332,6 @@ export default class VideoFilms extends Component {
             </Col>
           )}
         </Col>
-
-        {/* <Col xs={12} className="p-none custom-pagination-wrap">
-          <Pagination
-            prev
-            next
-            ellipsis
-            boundaryLinks
-            items={10}
-            maxButtons={3}
-            activePage={this.state.activePage}
-            onSelect={this.handleSelect}
-            className="custom-pagination"
-          />
-        </Col> */}
       </Col>
     );
   }
