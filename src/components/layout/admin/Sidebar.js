@@ -60,7 +60,7 @@ export default class Sidebar extends Component {
         </Col>
         <Col xs={12} className="link-wrap">
           <ListGroup className="sidebar-nav-links">
-            <ListGroupItem href="#link1">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/home-icon.png')}
                 className="link-icons"
@@ -77,14 +77,16 @@ export default class Sidebar extends Component {
                 Albums
               </ListGroupItem>
             </NavLink>
-            <ListGroupItem href="#link3">
-              <img
-                src={require('../../../assets/images/admin/album/video-films-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              Video films
-            </ListGroupItem>
+            <NavLink to="/video_films">
+              <ListGroupItem href="">
+                <img
+                  src={require('../../../assets/images/admin/album/video-films-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Video films
+              </ListGroupItem>
+            </NavLink>
             <NavLink to="/category">
               <ListGroupItem>
                 <img
@@ -96,7 +98,7 @@ export default class Sidebar extends Component {
               </ListGroupItem>
             </NavLink>
             <NavLink to="/contacts">
-              <ListGroupItem >
+              <ListGroupItem>
                 <img
                   src={require('../../../assets/images/admin/album/contacts-icon.png')}
                   className="link-icons"
@@ -105,7 +107,7 @@ export default class Sidebar extends Component {
                 Contacts
               </ListGroupItem>
             </NavLink>
-            <ListGroupItem href="#link6">
+            <ListGroupItem href="">
               <img
                 src={require('../../../assets/images/admin/album/site-content-icon.png')}
                 className="link-icons"
