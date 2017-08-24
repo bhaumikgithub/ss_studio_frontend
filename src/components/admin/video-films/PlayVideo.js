@@ -37,17 +37,13 @@ export default class VideoPopup extends Component {
         </Modal.Header>
         <Modal.Body className="add-videofilms-body p-none">
           <Col
-            className="add-videofilms-content-wrap play-admin-video-film"
+            className="play-admin-video-film embed-responsive embed-responsive-16by9"
             sm={12}
           >
             <Iframe
-              url={video.video_url}
-              className="embed-responsive embed-responsive-16by9"
-              display="initial"
-              position="relative"
+              url={video.video_url + '?rel=0&amp;showinfo=0'}
+              className="embed-responsive-item"
               allowFullScreen
-              width="570px"
-              height="450px"
             />
           </Col>
         </Modal.Body>
