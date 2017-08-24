@@ -35,6 +35,7 @@ export default class SiteContent extends Component {
 				this.handleTabSelect = this.handleTabSelect.bind(this);
 				this.handleAboutModal = this.handleAboutModal.bind(this);
 				this.handleAddserviceModal = this.handleAddserviceModal.bind(this);
+				this.handleEditClick = this.handleEditClick.bind(this);
 		}
 		
 		componentWillMount() {
@@ -138,6 +139,10 @@ export default class SiteContent extends Component {
       });
   }
 
+	handleEditClick(e) {
+			var inputField = this.refs.fileField;
+			inputField.click()
+	}
 
   handleSuccessResponse(response) {
     if (response.status === 201) {
@@ -210,10 +215,11 @@ export default class SiteContent extends Component {
 													/>
 												}
 												
-												<a  className="img-edit-btn" ref="chooseBtn">
+												<a  className="img-edit-btn" onClick={this.handleEditClick}>
 													<img src={require('../../../assets/images/admin/site-content/edit-icon.png')} alt=""/>     
+													<input id="about_photo_edit" ref="fileField" type="file" onChange={(e)=>this.handleUploadFile(e)}/>
 												</a>
-												<input type="file" onChange={(e)=>this.handleUploadFile(e)}/>
+												
 										</Col>
 										<Col className="right-content-wrap text-grey">
 												<Col xs={12} className="about-content-wrap">

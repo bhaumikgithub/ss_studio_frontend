@@ -32,3 +32,10 @@
 div.filepicker {
   padding: 39px !important;
 }
+
+.content-about-img-wrap{
+  max-width: 260px;
+}
+#about_photo_edit{
+  visibility: hidden;
+}
