@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Button, Modal, Row,ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
-import './add-testimonial.css';
 
 // Import icon
 import createTestimonialIcon from '../../../assets/images/admin/testimonial/add-testimonial-icon.png';
@@ -13,7 +12,10 @@ import { isObjectEmpty } from '../../Helper';
 // Import services
 import { createTestimonial, updateTestimonial } from '../../../services/admin/Testimonial';
 
-export default class AddTestimonial extends Component {
+// Import css
+import '../../../assets/css/admin/testimonial/add-testimonial.css';
+
+export default class TestimonialPopup extends Component {
 constructor(props){
     super(props);
     this.state = this.getInitialState();
@@ -26,7 +28,7 @@ constructor(props){
         status: 'active',
         rating: 0,
         photo_attributes: {
-          photo: ''
+          image: ''
         }
       }
     };
@@ -41,34 +43,15 @@ constructor(props){
   componentWillMount() {
     var self = this;
     if (!isObjectEmpty(self.props.editObject)) {
-      self.editTestimonial(self.props.editObject);
+      self.setState({ testimonialForm: self.props.editObject })
     }
-  }
-
-  editTestimonial(testimonial) {
-    var self = this;
-    const {
-      client_name,
-      message,
-      status,
-      rating
-    } = testimonial;
-
-    self.setState({
-      testimonialForm: {
-        client_name: client_name,
-        message: message,
-        status: status,
-        rating: rating
-      }
-    });
   }
 
   updateState(element) {
     this.setState({value: element});
   }
 
-  handleChange(e, rate=undefined) {
+  handleChange(e, rate = undefined) {
     const testimonialForm = this.state.testimonialForm;
     var key = e.target.name;
     testimonialForm[key] = key === "rating" ? rate : e.target.value;
@@ -189,12 +172,14 @@ constructor(props){
                             <span>Upload</span>
                             <FormControl 
                               accept="image/*"
-                              ref={testimonialForm.photo_attributes}
+                            /*  ref={testimonialForm.photo_attributes}*/
+                              name="image"
                               type="file" 
                               label="File" 
                               title="" 
                               className="upload-img-control"
-
+                              /* onChange={(e) => console.log(e.target.files)} */
+                              
                               />
                         </div>
                     </div>

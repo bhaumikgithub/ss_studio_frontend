@@ -17,6 +17,7 @@ export default class AboutUs extends Component {
 
   componentWillMount() {
     var self = this;
+    console.log(self);
 
     getAboutUs().then(function(response) {
       if (response.status === 200) {

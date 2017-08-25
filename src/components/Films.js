@@ -1,12 +1,36 @@
 import React, { Component } from 'react';
 import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
-import { Player, BigPlayButton } from 'video-react';
+import Iframe from 'react-iframe';
 
-import 'video-react/dist/video-react.css';
+// Import services
+import { getPublishVideos } from '../services/Film';
+
+// Import css
 import '../assets/css/films.css';
 
 export default class Films extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      videos: []
+    };
+  }
+
+  componentWillMount() {
+    var self = this;
+    getPublishVideos()
+      .then(function(response) {
+        var data = response.data;
+        self.setState({ videos: data.data.videos });
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
   render() {
+    const { videos } = this.state;
     return (
       <div className="page-wrap video-gallery-wrap">
         <Grid>
@@ -18,68 +42,33 @@ export default class Films extends Component {
             </PageHeader>
           </Col>
           <Col xs={12} className="p-none">
-            <Col xs={12} className="video-wrap">
-              <Col className="video-title">Himani & akshay</Col>
-              <Col className="video-icons">
-                <Button className="icon-like action-icon">
-                  <span className="fa fa-heart" />
-                </Button>
-                <br />
-                <Button className="icon-timer action-icon">
-                  <span className="fa fa-clock-o" />
-                </Button>
-              </Col>
-              <Player
-                playsInline
-                poster="http://104.251.216.241/demo/ss-studio/video-images/video-img-1.png"
-                src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
+            {videos.map((video, index) =>
+              <Col
+                xs={index === 0 ? 12 : 6}
+                className="video-wrap"
+                key={video.id}
               >
-                <BigPlayButton position="center" />
-              </Player>
-            </Col>
-          </Col>
-          <Col xs={12} className="p-none">
-            <Col sm={6} className="video-wrap">
-              <Col className="video-title">Sonali & Pulkit</Col>
-              <Col className="video-icons">
-                <Button className="icon-like action-icon">
-                  <span className="fa fa-heart" />
-                </Button>
-                <br />
-                <Button className="icon-timer action-icon">
-                  <span className="fa fa-clock-o" />
-                </Button>
+                <Col className="video-title">
+                  {video.title}
+                </Col>
+                <Col className="video-icons">
+                  <Button className="icon-like action-icon">
+                    <span className="fa fa-heart" />
+                  </Button>
+                  <br />
+                  <Button className="icon-timer action-icon">
+                    <span className="fa fa-clock-o" />
+                  </Button>
+                </Col>
+                <Col className="embed-responsive embed-responsive-16by9">
+                  <Iframe
+                    url={video.video_url + '?rel=0&amp;showinfo=0'}
+                    className="embed-responsive-item"
+                    allowFullScreen
+                  />
+                </Col>
               </Col>
-
-              <Player
-                playsInline
-                poster="http://104.251.216.241/demo/ss-studio/video-images/video-img-2.png"
-                src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-              >
-                <BigPlayButton position="center" />
-              </Player>
-            </Col>
-
-            <Col sm={6} className="video-wrap">
-              <Col className="video-title">kanishk & susmita</Col>
-              <Col className="video-icons">
-                <Button className="icon-like action-icon">
-                  <span className="fa fa-heart" />
-                </Button>
-                <br />
-                <Button className="icon-timer action-icon">
-                  <span className="fa fa-clock-o" />
-                </Button>
-              </Col>
-
-              <Player
-                playsInline
-                poster="http://104.251.216.241/demo/ss-studio/video-images/video-img-3.png"
-                src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-              >
-                <BigPlayButton position="center" />
-              </Player>
-            </Col>
+            )}
           </Col>
         </Grid>
       </div>

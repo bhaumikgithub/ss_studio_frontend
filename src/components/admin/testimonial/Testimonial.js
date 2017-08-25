@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { Col, Button, Media, Pagination } from 'react-bootstrap';
-import AddTestimonial from './add-testimonial';
-import './testimonial.css';
+
+// Import component
+import TestimonialPopup from './TestimonialPopup';
 
 // Import services
 import { getTestimonials } from '../../../services/admin/Testimonial';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
+
+// Import css
+import '../../../assets/css/admin/testimonial/testimonial.css';
 
 export default class Testmonials extends Component {
 constructor(props){
@@ -78,14 +82,12 @@ constructor(props){
     return (
       <Col xs={12} className="testimonial-page-wrap">
         {this.state.CreateShow &&
-          <AddTestimonial
+          <TestimonialPopup
             CreateShow={this.state.CreateShow}
             hideCreatePopup={this.hideCreatePopup}
             editObject={this.state.editObject}
             renderTestimonial={this.renderTestimonial}
           />}
-        {/* <AddTestimonial showCreate={this.state.CreateShow} closeOn={this.CreateClose}/>    */}
-
         <Col xs={12} className="filter-wrap p-none">                        
             <Button className="btn btn-orange pull-right add-testimonial-btn" onClick={() => this.setState({ CreateShow: true })}> 
                 <i className="add-testmonial-icon">
