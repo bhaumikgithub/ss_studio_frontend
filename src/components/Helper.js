@@ -59,3 +59,8 @@ export function getIndex(value, arr, prop) {
   }
   return -1;
 }
+
+export function setLoader(options) {
+  return (document.getElementById(options['elementId']).style.display =
+    options['styleProperty']);
+}

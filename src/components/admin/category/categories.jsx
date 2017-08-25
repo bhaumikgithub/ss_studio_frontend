@@ -201,7 +201,7 @@ export default class Categories extends Component {
               </thead>
               <tbody>
                 {categories.map(category =>
-                  <tr>
+                  <tr key={category.id}>
                     <td>
                       {category.category_name}
                     </td>
