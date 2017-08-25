@@ -4,7 +4,6 @@ import SweetAlert from 'sweetalert-react';
 
 // Import component
 import ContactPopup from './ContactPopup'
-
 // Import services
 import { getContacts, deleteContact } from '../../../services/admin/Contacts';
 
@@ -144,6 +143,7 @@ export default class Contacts extends Component {
 
   render() {
     const { contacts, alert } = this.state;
+
     return (
       <Col xs={12} className="contacts-page-wrap">
       <SweetAlert

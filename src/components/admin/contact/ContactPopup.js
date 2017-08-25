@@ -151,7 +151,8 @@ export default class AddContact extends Component {
 
 
   render() {  
-    const { contactForm } = this.state;    
+    const { contactForm } = this.state; 
+   console.log(contactForm)   
     return (
       <Modal 
         show={this.props.showCreate} 

@@ -33,7 +33,6 @@
 .portfolio-album-thub-wrap .fa-search-plus {
   color: #f9a11d;
 }
-
 /* Portfolio album page custom css end */
 
 /* Album set cover page hover start */
@@ -62,11 +61,16 @@
 }
 /* Album set cover page hover end */
 
-div.filepicker {
-  padding: 39px !important;
+/* Site content about page css start */
+.content-about-img-wrap {
+  max-width: 260px;
 }
+#about_photo_edit {
+  visibility: hidden;
+}
+/* Site content about page css end */
 
-/* changes by binoli */
+/* changes by binoli start */
 .create-video-submit,
 .create-video-cancel {
   padding: 10px 30px;
@@ -89,4 +93,9 @@ div.filepicker {
 .create-video-cancel:hover,
 .create-video-cancel:focus {
   outline: none !important;
+}
+/* changes by binoli end */
+
+div.filepicker {
+  padding: 39px !important;
 }

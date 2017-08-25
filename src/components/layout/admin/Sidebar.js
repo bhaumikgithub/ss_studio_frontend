@@ -107,15 +107,17 @@ export default class Sidebar extends Component {
                 Contacts
               </ListGroupItem>
             </NavLink>
-            <ListGroupItem href="">
-              <img
-                src={require('../../../assets/images/admin/album/site-content-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              site content
-            </ListGroupItem>
-            <ListGroupItem href="">
+            <NavLink to="/site_contents">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                site content
+              </ListGroupItem>
+            </NavLink>
+            <ListGroupItem href="#link7">
               <img
                 src={require('../../../assets/images/admin/album/home-gallery-icon.png')}
                 className="link-icons"

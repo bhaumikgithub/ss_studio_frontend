@@ -32,10 +32,13 @@ const AlbumListing = asyncComponent(() =>
 const AlbumDetails = asyncComponent(() =>
   import('../admin/album/AlbumDetails')
 );
-const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
-const Category = asyncComponent(() => import('../admin/category/categories'));
 const VideoGallery = asyncComponent(() =>
   import('../admin/video-films/VideosListing')
+);
+const Category = asyncComponent(() => import('../admin/category/categories'));
+const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
+const SiteContent = asyncComponent(() =>
+  import('../admin/site-content/SiteContent.jsx')
 );
 
 const Login = asyncComponent(() => import('../admin/Login'));
@@ -67,9 +70,10 @@ const routes = () =>
     <AfterLoginLayout>
       <PrivateRoute exact path="/albums" component={AlbumListing} />
       <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
-      <PrivateRoute exact path="/contacts" component={Contact} />
-      <PrivateRoute exact path="/category" component={Category} />
       <PrivateRoute exact path="/video_films" component={VideoGallery} />
+      <PrivateRoute exact path="/category" component={Category} />
+      <PrivateRoute exact path="/contacts" component={Contact} />
+      <PrivateRoute exact path="/site_contents" component={SiteContent} />
     </AfterLoginLayout>
     {/* After Login routes end */}
 
