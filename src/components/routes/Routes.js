@@ -35,12 +35,13 @@ const AlbumDetails = asyncComponent(() =>
 const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
 const Category = asyncComponent(() => import('../admin/category/categories'));
 
-const HomePageGalley = asyncComponent(() => import('../admin/homepage_gallery/HomePageGallery'))
+const HomePageGalley = asyncComponent(() =>
+  import('../admin/homepage-gallery/HomePageGallery')
+);
 
 const VideoGallery = asyncComponent(() =>
   import('../admin/video-films/VideosListing')
 );
-
 
 const Login = asyncComponent(() => import('../admin/Login'));
 
