@@ -1,3 +1,21 @@
+.loader {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 50%;
+  left: 50%;
+  margin: -15px 0 0 -15px;
+}
+.loader-overlay {
+  position: absolute;
+  width: calc(100% - 30px);
+  height: 100%;
+  left: 15px;
+  top: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+}
+
 /* Category delete page custom css start */
 .del_butn,
 .edit-icon {
@@ -33,7 +51,6 @@
 .portfolio-album-thub-wrap .fa-search-plus {
   color: #f9a11d;
 }
-
 /* Portfolio album page custom css end */
 
 /* Album set cover page hover start */
@@ -62,11 +79,24 @@
 }
 /* Album set cover page hover end */
 
-div.filepicker {
-  padding: 39px !important;
+/* Site content about page css start */
+.content-about-img-wrap {
+  max-width: 260px;
 }
+#about_photo_edit,
+.custom-photo-edit {
+  visibility: hidden;
+}
+/* Site content about page css end */
 
-/* changes by binoli */
+/* Home page galery css start */
+.slider-num .edit-slide {
+  height: 14px;
+  width: 14px;
+}
+/* Home page galery css end */
+
+/* changes by binoli start */
 .create-video-submit,
 .create-video-cancel {
   padding: 10px 30px;
@@ -89,4 +119,9 @@ div.filepicker {
 .create-video-cancel:hover,
 .create-video-cancel:focus {
   outline: none !important;
+}
+/* changes by binoli end */
+
+div.filepicker {
+  padding: 39px !important;
 }
