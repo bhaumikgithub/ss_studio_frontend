@@ -107,7 +107,7 @@ export default class Sidebar extends Component {
                 Contacts
               </ListGroupItem>
             </NavLink>
-            <NavLink to="/site-contents">
+            <NavLink to="/site_contents">
               <ListGroupItem>
                 <img
                   src={require('../../../assets/images/admin/album/site-content-icon.png')}
