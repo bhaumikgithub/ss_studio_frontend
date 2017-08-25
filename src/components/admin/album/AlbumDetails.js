@@ -10,6 +10,7 @@ import AddPhoto from './AddPhoto';
 // Import services
 import { showAlbum } from '../../../services/admin/Album';
 import { deleteSelectedPhotos } from '../../../services/admin/Photo';
+import { setCoverPhoto } from '../../../services/admin/Photo';
 
 // Import css
 import '../../../assets/css/admin/album/album-details/album-details.css';
@@ -169,6 +170,30 @@ export default class AlbumDetails extends Component {
     }
   }
 
+  handleSetCoverPicClick(id, index){
+    var self = this
+    setCoverPhoto(id)
+    .then(function(response) {
+      self.handleCoverPicSuccessResponse(response, index);
+    })
+    .catch(function(error) {
+      console.log(error.response);
+    });
+  }
+
+  handleCoverPicSuccessResponse(response, index) {
+    var data = response.data
+    if(response.status === 201){
+      const { cover_photo, photos } = this.state.album
+      photos.splice(index,1,cover_photo)
+      const newAlbum = Object.assign({}, this.state.album);
+      newAlbum.cover_photo = data.data.photo
+      this.setState({album:  newAlbum});
+    } else {
+      console.log(data)
+    }
+  }
+
   renderNewPhotos = createdPhotos => {
     var self = this;
     const newAlbum = Object.assign({}, self.state.album);
@@ -301,7 +326,7 @@ export default class AlbumDetails extends Component {
                   </Checkbox> */}
                 </Col>}
               {album.photos &&
-                album.photos.map(photo =>
+                album.photos.map((photo, index) =>
                   <Col
                     xs={6}
                     sm={4}
@@ -315,6 +340,7 @@ export default class AlbumDetails extends Component {
                       src={photo.image}
                       alt={photo.image_file_name}
                     />
+                    <span className="set-cover-pic"  onClick={event => {this.handleSetCoverPicClick(photo.id, index);}}> Set as Cover Pic </span>
                     <Checkbox
                       name="photo-checkbox"
                       id={photo.id}

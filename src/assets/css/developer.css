@@ -25,17 +25,77 @@
   margin-right: 5px;
 }
 .portfolio-album-thub-wrap {
-  margin-top: 30px;
+  margin-top: 30px !important;
 }
-/* Portfolio album page custom css start */
+.portfolio-album-thub-wrap .overlay {
+  cursor: zoom-in !important;
+}
+.portfolio-album-thub-wrap .fa-search-plus {
+  color: #f9a11d;
+}
+/* Portfolio album page custom css end */
+
+/* Album set cover page hover start */
+.set-cover-pic {
+  cursor: pointer;
+  position: absolute;
+  background: rgba(249, 161, 29, 0.9);
+  color: #fff;
+  padding: 10px 20px;
+  margin-left: 15px;
+  font-size: 14px;
+  height: 30px;
+  width: calc(100% - 30px);
+  opacity: 0;
+  bottom: 0;
+  left: -30%;
+  line-height: 30px;
+  text-align: center;
+  font-family: 'ralewaysemibold';
+  letter-spacing: 1px;
+  padding: 0px;
+}
+.album-image-wrap:hover .set-cover-pic {
+  opacity: 1;
+  left: 0;
+}
+/* Album set cover page hover end */
+
+/* Site content about page css start */
+.content-about-img-wrap {
+  max-width: 260px;
+}
+#about_photo_edit {
+  visibility: hidden;
+}
+/* Site content about page css end */
+
+/* changes by binoli start */
+.create-video-submit,
+.create-video-cancel {
+  padding: 10px 30px;
+  font-family: 'ralewaysemibold';
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.create-video-submit:hover,
+.create-video-submit:focus {
+  background: #feae37;
+  color: #fff;
+  outline: none !important;
+  box-shadow: none;
+}
+.create-video-cancel {
+  background: #d7d7d7;
+  margin-left: 20px;
+  color: #555;
+}
+.create-video-cancel:hover,
+.create-video-cancel:focus {
+  outline: none !important;
+}
+/* changes by binoli end */
 
 div.filepicker {
   padding: 39px !important;
-}
-
-.content-about-img-wrap{
-  max-width: 260px;
-}
-#about_photo_edit{
-  visibility: hidden;
 }
