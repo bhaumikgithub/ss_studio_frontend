@@ -6,10 +6,15 @@ import './testimonial.css';
 // Import services
 import { getTestimonials } from '../../../services/admin/Testimonial';
 
+// Import helper
+import { isObjectEmpty } from '../../Helper';
+
 export default class Testmonials extends Component {
 constructor(props){
     super(props);
     this.state = {
+      editObject: {},
+      CreateShow: false,
       testimonials: [],
       meta: [],
       alert: {
@@ -26,13 +31,29 @@ constructor(props){
     this.handleModal = this.handleModal.bind(this);
   } 
   
+  hideCreatePopup = () => {
+    this.setState({ CreateShow: false, editObject: {} });
+  };
+  
+  renderTestimonial = (testimonial, action) => {
+    const newTestimonials = this.state.testimonials.slice();
+    if (action === 'insert') {
+      newTestimonials.splice(0, 0, testimonial);
+    } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
+      newTestimonials.splice(newTestimonials.indexOf(this.state.editObject), 1, testimonial);
+    }
+
+    this.setState({
+      testimonials: newTestimonials
+    });
+  };
+
   componentWillMount() {
     var self = this;
 
     getTestimonials()
       .then(function(response) {
         var data = response.data;
-        debugger;
         self.setState({ testimonials: data.data.testimonials, meta: data.meta });
       })
       .catch(function(error) {
@@ -56,11 +77,17 @@ constructor(props){
     var Rating = require('react-rating');
     return (
       <Col xs={12} className="testimonial-page-wrap">
-      
-        <AddTestimonial showCreate={this.state.CreateShow} closeOn={this.CreateClose}/>   
+        {this.state.CreateShow &&
+          <AddTestimonial
+            CreateShow={this.state.CreateShow}
+            hideCreatePopup={this.hideCreatePopup}
+            editObject={this.state.editObject}
+            renderTestimonial={this.renderTestimonial}
+          />}
+        {/* <AddTestimonial showCreate={this.state.CreateShow} closeOn={this.CreateClose}/>    */}
 
         <Col xs={12} className="filter-wrap p-none">                        
-            <Button className="btn btn-orange pull-right add-testimonial-btn" onClick={this.handleModal}> 
+            <Button className="btn btn-orange pull-right add-testimonial-btn" onClick={() => this.setState({ CreateShow: true })}> 
                 <i className="add-testmonial-icon">
                     <img src={require('../../../assets/images/admin/album/add-icon.png')} alt=""/> 
                 </i>Add New
@@ -76,9 +103,14 @@ constructor(props){
                         </Media.Left>
                         <Media.Body className="testimonial-detail-wrap">
                             <Media.Heading className="testimonial-title">
-                                {testimonial.contact.full_name}
+                                {testimonial.client_name}
                             </Media.Heading>
-                            <Button className="btn-link p-none edit-testimonial-btn">
+                            <Button className="btn-link p-none edit-testimonial-btn"
+                            onClick={() =>
+                              this.setState({
+                                CreateShow: true,
+                                editObject: testimonial
+                              })}>
                                 <img src={require('../../../assets/images/admin/testimonial/edit-icon.png')} alt=""/>
                             </Button>  
                             <div className="testimonial-detail">
@@ -87,8 +119,8 @@ constructor(props){
                              <Rating className="testimonial-rating"
                                 empty="fa fa-star-o"
                                 full="fa fa-star"
-                                fractions={2}
-                                initialRate={2}
+                                fractions={testimonial.rating}
+                                initialRate={testimonial.rating}
                                 readonly={true}
                             />
                         </Media.Body>

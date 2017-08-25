@@ -63,3 +63,14 @@ div.filepicker {
   opacity: 1;
   left: 0;
 }
+
+/* testimonial css starts */
+.rating-button{
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.rating-button:focus{
+  outline:none;
+}
+/* testimonial css ends */

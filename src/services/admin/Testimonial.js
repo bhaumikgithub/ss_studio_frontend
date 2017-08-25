@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiCustomHeader, apiHeader } from '../../components/Helper';
+import { apiHeader } from '../../components/Helper';
 
 export function getTestimonials() {
   return axios.get(process.env.REACT_APP_API_BASE_URL + 'testimonials', apiHeader());
