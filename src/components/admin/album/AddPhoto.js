@@ -39,6 +39,7 @@ export default class AlreadyShared extends Component {
     data.append('photo[][image]', file);
     data.append('photo[][imageable_id]', self.state.albumId);
     data.append('photo[][imageable_type]', 'Album');
+    console.log(data);
     uploadPhoto(data)
       .then(function(response) {
         self.handleSuccessResponse(response, file);

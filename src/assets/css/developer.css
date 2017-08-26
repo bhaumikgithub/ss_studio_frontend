@@ -97,15 +97,21 @@
 /* Home page galery css end */
 
 /* testimonial css starts */
-.rating-button{
+.rating-button {
   background: none;
   border: 0;
   padding: 0;
 }
-.rating-button:focus{
-  outline:none;
+.rating-button:focus {
+  outline: none;
 }
 /* testimonial css ends */
+
+/* front side feedback page css start  */
+.feedback-img {
+  width: 100%;
+}
+/* front side feedback page css end  */
 
 /* changes by binoli start */
 .create-video-submit,
