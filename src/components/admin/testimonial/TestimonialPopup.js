@@ -120,7 +120,6 @@ export default class TestimonialPopup extends Component {
     var self = this;
     let data = this.generateFormData(this.state.testimonialForm);
     var callTestimonialApi = () => {};
-    var newTestimonialForm = Object.assign({}, this.state.testimonialForm);
 
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = data;
