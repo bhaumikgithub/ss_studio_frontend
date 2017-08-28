@@ -20,6 +20,7 @@ export default class AlbumDetails extends Component {
     super(props);
 
     this.state = {
+      shareAlbumObject: {},
       openDetailsBar: false,
       addPhoto: false,
       shareAlbum: false,
@@ -210,7 +211,7 @@ export default class AlbumDetails extends Component {
   closeAddPhoto = () => {
     this.setState({ addPhoto: false });
   };
-  closeShareAlbum = () => this.setState({ shareAlbum: false });
+  closeShareAlbum = () => this.setState({ shareAlbum: false, shareAlbumObject: {} });
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
 
   render() {
@@ -238,7 +239,8 @@ export default class AlbumDetails extends Component {
         {this.state.shareAlbum &&
           <ShareAlbum
             shareAlbum={this.state.shareAlbum}
-            closeOn={this.closeShareAlbum}
+            closeShareAlbum={this.closeShareAlbum}
+            shareAlbumObject={this.state.shareAlbumObject}
           />}
         {this.state.alreadySharedAlbum &&
           <AlreadyShared
@@ -434,7 +436,7 @@ export default class AlbumDetails extends Component {
                 </h4>
                 <Button
                   className="btn btn-orange share-album-btn"
-                  onClick={() => this.setState({ shareAlbum: true })}
+                  onClick={() => this.setState({ shareAlbum: true, shareAlbumObject: album })}
                 >
                   <img
                     src={require('../../../assets/images/admin/album/album-details/share-icon.png')}
