@@ -5,7 +5,7 @@ import SweetAlert from 'sweetalert-react';
 // Import component
 import ContactPopup from './ContactPopup';
 // Import services
-import { getContacts, deleteContact } from '../../../services/admin/Contacts';
+import { getContacts, deleteContact } from '../../../services/admin/Contact';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';

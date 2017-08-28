@@ -170,27 +170,27 @@ export default class AlbumDetails extends Component {
     }
   }
 
-  handleSetCoverPicClick(id, index){
-    var self = this
+  handleSetCoverPicClick(id, index) {
+    var self = this;
     setCoverPhoto(id)
-    .then(function(response) {
-      self.handleCoverPicSuccessResponse(response, index);
-    })
-    .catch(function(error) {
-      console.log(error.response);
-    });
+      .then(function(response) {
+        self.handleCoverPicSuccessResponse(response, index);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
   }
 
   handleCoverPicSuccessResponse(response, index) {
-    var data = response.data
-    if(response.status === 201){
-      const { cover_photo, photos } = this.state.album
-      photos.splice(index,1,cover_photo)
+    var data = response.data;
+    if (response.status === 201) {
+      const { cover_photo, photos } = this.state.album;
+      photos.splice(index, 1, cover_photo);
       const newAlbum = Object.assign({}, this.state.album);
-      newAlbum.cover_photo = data.data.photo
-      this.setState({album:  newAlbum});
+      newAlbum.cover_photo = data.data.photo;
+      this.setState({ album: newAlbum });
     } else {
-      console.log(data)
+      console.log(data);
     }
   }
 
@@ -205,6 +205,16 @@ export default class AlbumDetails extends Component {
     });
     newAlbum.photos = newPhotos;
     self.setState({ album: newAlbum });
+  };
+
+  renderRecipientsCount = (action, count = 1) => {
+    const newAlbum = Object.assign({}, this.state.album);
+    if (action === 'delete') {
+      newAlbum.recipients_count -= 1;
+    } else if (action === 'add') {
+      newAlbum.recipients_count += count;
+    }
+    this.setState({ album: newAlbum });
   };
 
   closeAddPhoto = () => {
@@ -242,7 +252,9 @@ export default class AlbumDetails extends Component {
           />}
         {this.state.alreadySharedAlbum &&
           <AlreadyShared
+            albumId={album.id}
             alreadySharedAlbum={this.state.alreadySharedAlbum}
+            renderRecipientsCount={this.renderRecipientsCount}
             closeOn={this.closeAlreadySharedAlbum}
           />}
 
@@ -340,7 +352,14 @@ export default class AlbumDetails extends Component {
                       src={photo.image}
                       alt={photo.image_file_name}
                     />
-                    <span className="set-cover-pic"  onClick={event => {this.handleSetCoverPicClick(photo.id, index);}}> Set as Cover Pic </span>
+                    <span
+                      className="set-cover-pic"
+                      onClick={event => {
+                        this.handleSetCoverPicClick(photo.id, index);
+                      }}
+                    >
+                      {' '}Set as Cover Pic{' '}
+                    </span>
                     <Checkbox
                       name="photo-checkbox"
                       id={photo.id}
@@ -443,12 +462,12 @@ export default class AlbumDetails extends Component {
                 </Button>
                 <br />
                 <div className="already-shared-with">
-                  Aleady shared with
+                  Already shared with
                   <button
                     className="share-count"
                     onClick={() => this.setState({ alreadySharedAlbum: true })}
                   >
-                    {' '}0{' '}
+                    {' '}{album.recipients_count}{' '}
                   </button>
                 </div>
               </Col>
