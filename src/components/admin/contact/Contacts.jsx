@@ -188,11 +188,13 @@ export default class Contacts extends Component {
                 <Col xs={12} className="contact-wrap">
                   <Media className="single-contact">
                     <Media.Left align="top" className="contact-img-wrap">
-                      <img
-                        className="contact-thumb"
-                        src={contact.photo.image}
-                        alt={contact.photo.image_file_name}
-                      />
+                      { contact.photo &&
+                        <img
+                          className="contact-thumb"
+                          src={contact.photo.image}
+                          alt={contact.photo.image_file_name}
+                        />
+                      }
                     </Media.Left>
                     <Media.Body className="contact-detail-wrap">
                       <Media.Heading className="contact-name">

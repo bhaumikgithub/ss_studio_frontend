@@ -10,7 +10,7 @@ import AlbumPopup from './AlbumPopup';
 import { getAlbums, deleteAlbum } from '../../../services/admin/Album';
 
 // Import helper
-import { isObjectEmpty } from '../../Helper';
+import { isObjectEmpty, getStatusClass } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
@@ -119,18 +119,6 @@ export default class AlbumsListing extends Component {
         confirmAction: () => self.hideDialogueBox()
       }
     });
-  }
-
-  getStatusClass(status) {
-    if (status === 'New') {
-      return 'text-red';
-    } else if (status === 'Shared') {
-      return 'text-yellow';
-    } else if (status === 'Delivered') {
-      return 'text-green';
-    } else {
-      return 'text-green';
-    }
   }
 
   getPortfolioClass(visibile) {
@@ -305,7 +293,7 @@ export default class AlbumsListing extends Component {
                       <span
                         className={
                           'count-detail count-num ' +
-                          this.getStatusClass(album.delivery_status)
+                          getStatusClass(album.delivery_status)
                         }
                       >
                         {album.delivery_status}

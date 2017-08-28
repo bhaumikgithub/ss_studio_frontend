@@ -12,6 +12,9 @@ import { showAlbum } from '../../../services/admin/Album';
 import { deleteSelectedPhotos } from '../../../services/admin/Photo';
 import { setCoverPhoto } from '../../../services/admin/Photo';
 
+// Import helper
+import { getStatusClass } from '../../Helper';
+
 // Import css
 import '../../../assets/css/admin/album/album-details/album-details.css';
 
@@ -20,6 +23,7 @@ export default class AlbumDetails extends Component {
     super(props);
 
     this.state = {
+      shareAlbumObject: {},
       openDetailsBar: false,
       addPhoto: false,
       shareAlbum: false,
@@ -217,6 +221,13 @@ export default class AlbumDetails extends Component {
     this.setState({ album: newAlbum });
   };
 
+  renderShareAlbum = count => {
+    const newAlbum = Object.assign({}, this.state.album);
+    newAlbum.delivery_status = 'Shared';
+    this.setState({ album: newAlbum });
+    this.renderRecipientsCount('add', count);
+  };
+
   closeAddPhoto = () => {
     this.setState({ addPhoto: false });
   };
@@ -248,7 +259,9 @@ export default class AlbumDetails extends Component {
         {this.state.shareAlbum &&
           <ShareAlbum
             shareAlbum={this.state.shareAlbum}
-            closeOn={this.closeShareAlbum}
+            closeShareAlbum={this.closeShareAlbum}
+            renderShareAlbum={this.renderShareAlbum}
+            shareAlbumObject={this.state.shareAlbumObject}
           />}
         {this.state.alreadySharedAlbum &&
           <AlreadyShared
@@ -431,7 +444,7 @@ export default class AlbumDetails extends Component {
                   alt=""
                 />
                 <span
-                  className="information album-passcode"
+                  className="information album-passcode text-green"
                   onClick={event => {
                     this.handlePasscodeClick(event, album.passcode);
                   }}
@@ -448,12 +461,21 @@ export default class AlbumDetails extends Component {
                 <h4 className="album-delivery-details">
                   album delivery details
                 </h4>
-                <h4 className="album-delivery-status">
+                <h4
+                  className={
+                    'album-delivery-status ' +
+                    getStatusClass(album.delivery_status)
+                  }
+                >
                   {album.delivery_status} album
                 </h4>
                 <Button
                   className="btn btn-orange share-album-btn"
-                  onClick={() => this.setState({ shareAlbum: true })}
+                  onClick={() =>
+                    this.setState({
+                      shareAlbum: true,
+                      shareAlbumObject: album
+                    })}
                 >
                   <img
                     src={require('../../../assets/images/admin/album/album-details/share-icon.png')}

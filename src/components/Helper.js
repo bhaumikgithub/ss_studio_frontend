@@ -64,3 +64,17 @@ export function setLoader(options) {
   return (document.getElementById(options['elementId']).style.display =
     options['styleProperty']);
 }
+
+export function getStatusClass(status) {
+  if (status === 'New') {
+    return 'text-red';
+  } else if (status === 'Shared') {
+    return 'text-yellow';
+  } else if (status === 'Delivered') {
+    return 'text-green';
+  } else if (status === 'Submitted') {
+    return 'text-brown';
+  } else {
+    return 'text-green';
+  }
+}
