@@ -26,7 +26,6 @@
 /* Album show page custom css start */
 .album-info-label .album-passcode {
   cursor: pointer;
-  color: green;
 }
 /* Album show page custom css end */
 
@@ -113,6 +112,11 @@
 }
 /* front side feedback page css end  */
 
+/* Share album page css start */
+.share-album-form .custom-form-control .Select-control {
+  border: 0;
+}
+/* Share album page css end */
 /* changes by binoli start */
 .create-video-submit,
 .create-video-cancel {
@@ -136,12 +140,6 @@
 .create-video-cancel:hover,
 .create-video-cancel:focus {
   outline: none !important;
-}
-.text-green {
-  color: #00991a;
-}
-.text-red {
-  color: #e22122;
 }
 .content-wrap .resend a:hover,
 .content-wrap .resend a:focus {

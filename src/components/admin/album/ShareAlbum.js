@@ -3,7 +3,7 @@ import { Col, Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { Creatable } from 'react-select';
 
 // Import services
-import { getContacts } from '../../../services/admin/Contacts';
+import { getContacts } from '../../../services/admin/Contact';
 import { createAlbumRecipient } from '../../../services/admin/AlbumRecipient';
 
 // Import css
@@ -21,7 +21,7 @@ export default class ShareAlbum extends Component {
       shareAlbumForm: {
         custom_message: '',
         emails: [],
-        contact_options: [],
+        contact_options: []
       },
       contacts: []
     };
@@ -43,12 +43,11 @@ export default class ShareAlbum extends Component {
       .catch(function(error) {
         console.log(error.response);
       });
-
   }
 
-  contactOptions(contacts = this.state.contacts) {
+  contactOptions() {
     var options = [];
-    contacts.map(contact => {
+    this.state.contacts.map(contact => {
       return options.push({
         value: contact.email,
         label: contact.email
@@ -78,11 +77,12 @@ export default class ShareAlbum extends Component {
 
   handleSubmit(e) {
     var self = this;
-    var callShareAlbumApi = () => {};
-    var createParams = { album_id: self.props.shareAlbumObject.id, album_recipient: self.state.shareAlbumForm };
-    callShareAlbumApi = createAlbumRecipient(createParams);
+    var createParams = {
+      album_id: self.props.shareAlbumObject.id,
+      album_recipient: self.state.shareAlbumForm
+    };
 
-    callShareAlbumApi
+    createAlbumRecipient(createParams)
       .then(function(response) {
         self.handelResponse(response);
       })
@@ -95,6 +95,7 @@ export default class ShareAlbum extends Component {
     var responseData = response.data;
     if (response.status === 201) {
       this.resetShareAlbumForm();
+      this.props.renderShareAlbum(responseData.data.album_recipients.length);
       this.props.closeShareAlbum();
     } else {
       console.log(responseData.errors);
@@ -103,6 +104,7 @@ export default class ShareAlbum extends Component {
 
   render() {
     const { shareAlbumForm } = this.state;
+    const album = this.props.shareAlbumObject;
     return (
       <Modal
         show={this.props.shareAlbum}
@@ -110,7 +112,10 @@ export default class ShareAlbum extends Component {
         aria-labelledby="contained-modal-title-lg"
       >
         <Modal.Body className="share-album-body p-none">
-          <span className="close-modal-icon" onClick={this.props.closeShareAlbum}>
+          <span
+            className="close-modal-icon"
+            onClick={this.props.closeShareAlbum}
+          >
             <img
               src={require('../../../assets/images/admin/album/share-album/close-icon.png')}
               alt=""
@@ -136,28 +141,32 @@ export default class ShareAlbum extends Component {
             <div className="header-wrap">
               <div className="thumb-wrap">
                 <img
-                  src={this.props.shareAlbumObject.cover_photo.image}
+                  src={album.cover_photo.image}
                   className="link-icons img-responsive"
-                  alt={this.props.shareAlbumObject.cover_photo.image_file_name}
+                  alt={album.cover_photo.image_file_name}
                 />
               </div>
               <div className="text-wrap">
-                <h3 className="title">{this.props.shareAlbumObject.album_name}</h3>
-                <p>{this.props.shareAlbumObject.photo_count} photos</p>
+                <h3 className="title">
+                  {album.album_name}
+                </h3>
+                <p>
+                  {album.photo_count} photos
+                </p>
               </div>
             </div>
 
             <form className="share-album-form custom-form">
               <FormGroup className="custom-form-group">
                 <Creatable
-                className="custom-form-control"
-                placeholder="Enter a name or email address"
-                name="contact_options"
-                value={shareAlbumForm.contact_options}
-                options={this.contactOptions()}
-                multi={true}
-                onChange={this.handleMultiSelectChange.bind(this)}
-              />
+                  className="custom-form-control"
+                  placeholder="Enter a name or email address"
+                  name="contact_options"
+                  value={shareAlbumForm.contact_options}
+                  options={this.contactOptions()}
+                  multi={true}
+                  onChange={this.handleMultiSelectChange.bind(this)}
+                />
               </FormGroup>
               <FormGroup className="custom-form-group">
                 <FormControl
@@ -170,8 +179,10 @@ export default class ShareAlbum extends Component {
                   onChange={this.handleChange.bind(this)}
                 />
               </FormGroup>
-              <Button className="btn btn-orange share-submit"
-                      onClick={event => this.handleSubmit(event)}>
+              <Button
+                className="btn btn-orange share-submit"
+                onClick={event => this.handleSubmit(event)}
+              >
                 Save
               </Button>
             </form>
