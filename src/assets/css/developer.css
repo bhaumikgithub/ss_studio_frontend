@@ -96,6 +96,23 @@
 }
 /* Home page galery css end */
 
+/* testimonial css starts */
+.rating-button {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+.rating-button:focus {
+  outline: none;
+}
+/* testimonial css ends */
+
+/* front side feedback page css start  */
+.feedback-img {
+  width: 100%;
+}
+/* front side feedback page css end  */
+
 /* changes by binoli start */
 .create-video-submit,
 .create-video-cancel {
@@ -119,6 +136,22 @@
 .create-video-cancel:hover,
 .create-video-cancel:focus {
   outline: none !important;
+}
+.text-green {
+  color: #00991a;
+}
+.text-red {
+  color: #e22122;
+}
+.content-wrap .resend a:hover,
+.content-wrap .resend a:focus {
+  color: #00991a;
+  text-decoration: underline;
+}
+.content-wrap .delete a:hover,
+.content-wrap .delete a:focus {
+  color: #e22122;
+  text-decoration: underline;
 }
 /* changes by binoli end */
 

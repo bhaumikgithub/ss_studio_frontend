@@ -36,6 +36,7 @@ const VideoGallery = asyncComponent(() =>
   import('../admin/video-films/VideosListing')
 );
 const Category = asyncComponent(() => import('../admin/category/categories'));
+
 const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
 const SiteContent = asyncComponent(() =>
   import('../admin/site-content/SiteContent.jsx')
@@ -43,6 +44,7 @@ const SiteContent = asyncComponent(() =>
 const HomePageGalley = asyncComponent(() =>
   import('../admin/homepage-gallery/HomePageGallery')
 );
+const Testimonial = asyncComponent(() => import('../admin/testimonial/Testimonial'));
 
 const Login = asyncComponent(() => import('../admin/Login'));
 
@@ -78,6 +80,7 @@ const routes = () =>
       <PrivateRoute exact path="/contacts" component={Contact} />
       <PrivateRoute exact path="/site_contents" component={SiteContent} />
       <PrivateRoute exact path="/homepage_gallery" component={HomePageGalley} />
+      <PrivateRoute exact path="/testimonials" component={Testimonial} />
     </AfterLoginLayout>
     {/* After Login routes end */}
 
