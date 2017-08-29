@@ -95,7 +95,9 @@ export default class ShareAlbum extends Component {
     var responseData = response.data;
     if (response.status === 201) {
       this.resetShareAlbumForm();
-      this.props.renderShareAlbum(responseData.data.album_recipients.length);
+      this.props.renderShareAlbum(this.props.shareAlbumAction === "albumsListing" ?
+        this.props.shareAlbumObject : responseData.data.album_recipients.length
+      )
       this.props.closeShareAlbum();
     } else {
       console.log(responseData.errors);
