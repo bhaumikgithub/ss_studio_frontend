@@ -253,9 +253,9 @@ export default class TestimonialPopup extends Component {
                   Upload Image
                 </ControlLabel>
                 <div className="upload-img-wrap testimonial-upload">
-                  <div className="upload-thumb">
+                  <div className="upload-thumb upload-image-thumb-wrap">
                     <img
-                      className="img-responsive img-circle"
+                      className="img-responsive"
                       src={
                         testimonialForm.photo_attributes &&
                         testimonialForm.photo_attributes.image
