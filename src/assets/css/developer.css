@@ -158,3 +158,8 @@
 div.filepicker {
   padding: 39px !important;
 }
+
+/* contact and testimonial file upload circle */
+.upload-image-thumb-wrap{
+  overflow: hidden;
+}
