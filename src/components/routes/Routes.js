@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import asyncComponent from '../AsyncComponent';
+import Loadable from 'react-loadable';
 import { isLoggedIn } from '../Helper';
+import LoadingComponent from '../loader/Loading';
 
 // import layout files
 const BeforeLoginLayout = asyncComponent(() =>
@@ -13,7 +15,12 @@ const AfterLoginLayout = asyncComponent(() =>
 );
 
 // Import before login component
-const Home = asyncComponent(() => import('../Home'));
+// const Home = asyncComponent(() => import('../Home'));
+const Home = Loadable({
+  loader: () => import('../Home'),
+  loading: LoadingComponent
+});
+
 const Portfolio = asyncComponent(() => import('../portfolio/Portfolio'));
 const PortfolioAlbumDetails = asyncComponent(() =>
   import('../portfolio/AlbumDetails')
@@ -44,11 +51,13 @@ const SiteContent = asyncComponent(() =>
 const HomePageGalley = asyncComponent(() =>
   import('../admin/homepage-gallery/HomePageGallery')
 );
-const Testimonial = asyncComponent(() => import('../admin/testimonial/Testimonial'));
+const Testimonial = asyncComponent(() =>
+  import('../admin/testimonial/Testimonial')
+);
 
 const Login = asyncComponent(() => import('../admin/Login'));
 
-const routes = () =>
+const routes = () => (
   <Switch>
     {/* Before Login routes start */}
     <BeforeLoginLayout exact path="/" component={Home} />
@@ -85,20 +94,24 @@ const routes = () =>
     {/* After Login routes end */}
 
     <Route component={NotFound} />
-  </Switch>;
+  </Switch>
+);
 
 export default routes;
 
-const PrivateRoute = ({ component: Component, ...rest }) =>
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isLoggedIn()
-        ? <Component {...props} />
-        : <Redirect
-            to={{
-              pathname: '/admin',
-              state: { from: props.location }
-            }}
-          />}
-  />;
+      isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/admin',
+            state: { from: props.location }
+          }}
+        />
+      )}
+  />
+);
