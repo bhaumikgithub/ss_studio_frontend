@@ -34,7 +34,7 @@ class Home extends Component {
               data-ride="carousel"
               controls={false}
             >
-              {photos.map(photo =>
+              {photos.map(photo => (
                 <Carousel.Item className="full-screen" key={photo.id}>
                   <Col className="overlay" />
                   <img
@@ -45,12 +45,15 @@ class Home extends Component {
                     <p>
                       We Capture <span>Memories..</span>
                     </p>
-                    <NavLink to="/portfolio" className="btn btn-default outline-btn slider-btn" >
+                    <NavLink
+                      to="/portfolio"
+                      className="btn btn-default outline-btn slider-btn"
+                    >
                       view our work
                     </NavLink>
                   </Carousel.Caption>
                 </Carousel.Item>
-              )}
+              ))}
             </Carousel>
           </Col>
         </Row>

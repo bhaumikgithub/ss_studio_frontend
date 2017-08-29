@@ -13,7 +13,13 @@ const Loading = ({ isLoading, error }) => {
       </div>
     );
   } else if (error) {
-    return <div>Sorry, there was a problem loading the page.</div>;
+    return (
+      <div className="custom-loader page-error-wrap page-wrap">
+        <span className="loading-error">
+          Sorry, there was a problem loading the page.
+        </span>
+      </div>
+    );
   } else {
     return null;
   }
