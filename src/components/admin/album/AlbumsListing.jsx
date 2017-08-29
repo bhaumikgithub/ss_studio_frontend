@@ -5,6 +5,7 @@ import SweetAlert from 'sweetalert-react';
 
 // Import component
 import AlbumPopup from './AlbumPopup';
+import ShareAlbum from './ShareAlbum';
 
 // Import services
 import { getAlbums, deleteAlbum } from '../../../services/admin/Album';
@@ -20,9 +21,12 @@ export default class AlbumsListing extends Component {
     super(props);
     this.state = {
       editObject: {},
+      shareAlbumObject: {},
+      shareAlbumAction: {},
       open: false,
       activePage: 3,
       showCreatePopup: false,
+      shareAlbum: false,
       albums: [],
       meta: [],
       alert: {
@@ -133,6 +137,8 @@ export default class AlbumsListing extends Component {
     this.setState({ showCreatePopup: false, editObject: {} });
   };
 
+  closeShareAlbum = () => this.setState({ shareAlbum: false });
+
   renderAlbum = (album, action) => {
     const newAlbums = this.state.albums.slice();
     var totalCount = this.state.meta.pagination.total_count;
@@ -157,6 +163,12 @@ export default class AlbumsListing extends Component {
     });
   }
 
+  renderShareAlbum = (album) => {
+    const newAlbums = this.state.albums.slice();
+    album.delivery_status = 'Shared'
+    newAlbums.splice(newAlbums.indexOf(this.state.shareAlbumObject), 1, album);
+  };
+
   render() {
     const { albums, meta, alert } = this.state;
     return (
@@ -177,6 +189,15 @@ export default class AlbumsListing extends Component {
             hideCreatePopup={this.hideCreatePopup}
             renderAlbum={this.renderAlbum}
             editObject={this.state.editObject}
+          />}
+
+          {this.state.shareAlbum &&
+          <ShareAlbum
+            shareAlbum={this.state.shareAlbum}
+            closeShareAlbum={this.closeShareAlbum}
+            shareAlbumObject={this.state.shareAlbumObject}
+            renderShareAlbum={this.renderShareAlbum}
+            shareAlbumAction={this.state.shareAlbumAction}
           />}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
@@ -234,7 +255,8 @@ export default class AlbumsListing extends Component {
                         alt=""
                       />
                     </Button>
-                    <Button className="btn-link p-none album-action-btn album-share-btn">
+                    <Button className="btn-link p-none album-action-btn album-share-btn"
+                            onClick={() => this.setState({ shareAlbum: true, shareAlbumObject: album, shareAlbumAction: 'albumsListing' })}>
                       <img
                         src={require('../../../assets/images/admin/album/share-icon.png')}
                         alt=""
