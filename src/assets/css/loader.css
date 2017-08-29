@@ -11,3 +11,14 @@
   left: 50%;
   margin: -20px 0 0 -20px;
 }
+.page-error-wrap {
+  background: #fff;
+}
+.loading-error {
+  width: 100%;
+  text-align: center;
+  color: #d80000;
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
