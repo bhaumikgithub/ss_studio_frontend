@@ -18,6 +18,9 @@ const Portfolio = asyncComponent(() => import('../portfolio/Portfolio'));
 const PortfolioAlbumDetails = asyncComponent(() =>
   import('../portfolio/AlbumDetails')
 );
+const ShareAlbumDetails = asyncComponent(() =>
+  import('../share-album/AlbumDetails')
+);
 const Films = asyncComponent(() => import('../Films'));
 const Feedback = asyncComponent(() => import('../Feedback'));
 const GetInTouch = asyncComponent(() => import('../contact/GetInTouch'));
@@ -47,7 +50,7 @@ const HomePageGalley = asyncComponent(() =>
 const Testimonial = asyncComponent(() => import('../admin/testimonial/Testimonial'));
 
 const Login = asyncComponent(() => import('../admin/Login'));
-
+const PasscodeLogin = asyncComponent(() => import('../share-album/PasscodeLogin'));
 const routes = () =>
   <Switch>
     {/* Before Login routes start */}
@@ -57,6 +60,11 @@ const routes = () =>
       exact
       path="/portfolio/:slug"
       component={PortfolioAlbumDetails}
+    />
+    <BeforeLoginLayout
+      exact
+      path="/albums/:slug"
+      component={ShareAlbumDetails}
     />
     <BeforeLoginLayout exact path="/films" component={Films} />
     <BeforeLoginLayout exact path="/feedback" component={Feedback} />
@@ -70,6 +78,7 @@ const routes = () =>
     {/* Before Login routes end */}
 
     <LoginLayout exact path="/admin" component={Login} />
+    <LoginLayout exact path="/passcode" component={PasscodeLogin} />
 
     {/* After Login routes start */}
     <AfterLoginLayout>
