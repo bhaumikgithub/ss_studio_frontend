@@ -13,7 +13,11 @@ class Header extends Component {
         className="header custom-navbar"
       >
         <div className="fb_btn">
-          <a href="https://www.facebook.com/sagarphotocam" target="_blank">
+          <a
+            href="https://www.facebook.com/sagarphotocam"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <img
               src={require('../../assets/images/fb_btn.png')}
               alt=""
@@ -71,13 +75,13 @@ class Header extends Component {
               </NavDropdown>
             </LinkContainer>
             <li>
-              <a href="/admin" target="_blank">
+              <Link to="/admin" target="_blank">
                 <img
                   src={require('../../assets/images/lock-icon.png')}
                   alt=""
                   className="img-responsive"
                 />
-              </a>
+              </Link>
             </li>
           </Nav>
         </Navbar.Collapse>

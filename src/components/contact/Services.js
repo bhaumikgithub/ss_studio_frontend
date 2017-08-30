@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PageHeader, Button, Thumbnail, Grid, Col } from 'react-bootstrap';
+import { PageHeader, Thumbnail, Grid, Col } from 'react-bootstrap';
 
 // Import css
 import '../../assets/css/contact/services.css';
