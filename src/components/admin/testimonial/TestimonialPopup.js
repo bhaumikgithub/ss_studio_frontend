@@ -157,6 +157,10 @@ export default class TestimonialPopup extends Component {
   render() {
     const { testimonialForm } = this.state;
     var Rating = require('react-rating');
+    const previewUrl =
+      testimonialForm.photo_attributes && testimonialForm.photo_attributes.image
+        ? testimonialForm.photo_attributes.image
+        : require('../../../assets/images/admin/contact/admin-add-contact/contact-thumb.png');
 
     return (
       <Modal
@@ -184,17 +188,21 @@ export default class TestimonialPopup extends Component {
             <Col xs={12} className="p-none add-testimonial-title-details">
               <img
                 src={
-                  isObjectEmpty(this.props.editObject)
-                    ? createTestimonialIcon
-                    : editTestimonialIcon
+                  isObjectEmpty(this.props.editObject) ? (
+                    createTestimonialIcon
+                  ) : (
+                    editTestimonialIcon
+                  )
                 }
                 alt=""
                 className="add-testimonial-icon img-responsive"
               />
               <h4 className="add-testimonial-text text-white">
-                {isObjectEmpty(this.props.editObject)
-                  ? 'Add New Testimonial'
-                  : 'Edit Testimonial'}
+                {isObjectEmpty(this.props.editObject) ? (
+                  'Add New Testimonial'
+                ) : (
+                  'Edit Testimonial'
+                )}
               </h4>
             </Col>
           </Col>
@@ -207,8 +215,9 @@ export default class TestimonialPopup extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  placeholder="Bhaumik Gadani"
+                  placeholder="Name"
                   name="client_name"
+                  required
                   value={testimonialForm.client_name}
                   onChange={this.handleChange.bind(this)}
                 />
@@ -254,14 +263,7 @@ export default class TestimonialPopup extends Component {
                 </ControlLabel>
                 <div className="upload-img-wrap testimonial-upload">
                   <div className="upload-thumb upload-image-thumb-wrap">
-                    <img
-                      className="img-responsive"
-                      src={
-                        testimonialForm.photo_attributes &&
-                        testimonialForm.photo_attributes.image
-                      }
-                      alt=""
-                    />
+                    <img className="img-responsive" src={previewUrl} alt="" />
                   </div>
                   <div className="upload-img-btn">
                     <span>Upload</span>
