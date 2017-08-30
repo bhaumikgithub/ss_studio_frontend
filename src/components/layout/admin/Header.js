@@ -3,7 +3,7 @@ import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 // Import helper
-import { currentUser } from '../../Helper';
+import { authToken } from '../../Helper';
 
 // Import services
 import { LogoutService } from '../../../services/admin/Auth';
@@ -22,7 +22,7 @@ export default class Header extends Component {
 
   handleLogout(event) {
     var self = this;
-    LogoutService({ user_id: currentUser().id }).then(function(response) {
+    LogoutService({ token: authToken() }).then(function(response) {
       self.handleResponse(response);
     });
   }

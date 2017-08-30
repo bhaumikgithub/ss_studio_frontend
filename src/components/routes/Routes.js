@@ -116,16 +116,14 @@ const routes = () => (
     <LoginLayout exact path="/admin" component={Login} />
 
     {/* After Login routes start */}
-    <AfterLoginLayout>
-      <PrivateRoute exact path="/albums" component={AlbumListing} />
-      <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
-      <PrivateRoute exact path="/video_films" component={VideoGallery} />
-      <PrivateRoute exact path="/category" component={Category} />
-      <PrivateRoute exact path="/contacts" component={Contact} />
-      <PrivateRoute exact path="/site_contents" component={SiteContent} />
-      <PrivateRoute exact path="/homepage_gallery" component={HomePageGalley} />
-      <PrivateRoute exact path="/testimonials" component={Testimonial} />
-    </AfterLoginLayout>
+    <PrivateRoute exact path="/albums" component={AlbumListing} />
+    <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
+    <PrivateRoute exact path="/video_films" component={VideoGallery} />
+    <PrivateRoute exact path="/category" component={Category} />
+    <PrivateRoute exact path="/contacts" component={Contact} />
+    <PrivateRoute exact path="/site_contents" component={SiteContent} />
+    <PrivateRoute exact path="/homepage_gallery" component={HomePageGalley} />
+    <PrivateRoute exact path="/testimonials" component={Testimonial} />
     {/* After Login routes end */}
 
     <Route component={NotFound} />
@@ -139,7 +137,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={props =>
       isLoggedIn() ? (
-        <Component {...props} />
+        <AfterLoginLayout>
+          <Component {...props} />
+        </AfterLoginLayout>
       ) : (
         <Redirect
           to={{

@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { apiHeader } from '../../components/Helper';
+import { apiHeader, checkStatus } from '../../components/Helper';
 
 export function getAlbums() {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'albums', apiHeader());
+  const responsePromise = axios.get(
+    process.env.REACT_APP_API_BASE_URL + 'albums',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
 }
 
 export function createAlbum(params) {

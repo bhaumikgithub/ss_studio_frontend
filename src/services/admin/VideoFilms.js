@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { apiHeader } from '../../components/Helper';
+import { apiHeader, checkStatus } from '../../components/Helper';
 
 export function getVideoFilms() {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'videos', apiHeader());
+  const responsePromise = axios.get(
+    process.env.REACT_APP_API_BASE_URL + 'videos',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
 }
 
 export function createVideoFilm(params) {
