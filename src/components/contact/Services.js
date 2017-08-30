@@ -36,7 +36,7 @@ export default class Services extends Component {
               </label>
             </PageHeader>
             {this.state.services.map(service =>
-              <Col xs={12} sm={6} md={4} className="no-m-l-r" key={service.id}>
+              <Col className="service-thumb-wrap" key={service.id}>
                 <Thumbnail
                   className="service-thumbs"
                   alt="icon-images"

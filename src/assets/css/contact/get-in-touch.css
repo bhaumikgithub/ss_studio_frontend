@@ -1,36 +1,65 @@
-.get-in-touch-wrap {
-  background: url('../../images/contact-bg.png');
-  background-size: cover;
+.get-in-touch-wrap{
+    background: url('../../images/contact-bg.png');
+    background-size: cover;
 }
 
-.contact-logo {
-  height: 55px;
-  margin-bottom: 30px;
+.contact-logo{
+    height: 55px;
+    margin-bottom: 30px;
 }
-.contact-control {
-  margin: 15px 0;
-  border-radius: 0;
-  border: 1px dotted #f9a11d;
-  color: #fff;
-  background: transparent;
+.contact-control{
+    margin:15px 0;
+    border-radius: 0;
+    border:1px dotted #f9a11d;
+    color:#fff;
+    background:transparent;
 }
-.contact-control[type=number]::-webkit-inner-spin-button,
-.contact-control[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0;
+.contact-control::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color:#ababab;
+  }
+  .contact-control::-moz-placeholder { /* Firefox 19+ */
+    color:#ababab;
+  }
+  .contact-control:-ms-input-placeholder { /* IE 10+ */
+    color:#ababab;
+  }
+  .contact-control:-moz-placeholder { /* Firefox 18- */
+    color:#ababab;
+  }
+.contact-control[type=number]::-webkit-inner-spin-button, 
+.contact-control[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
-textarea.contact-control {
-  height: 100px;
+.contact-control:hover,
+.contact-control:focus,
+textarea.contact-control:hover,
+textarea.contact-control:focus{
+    outline: none !important;
+    border-color:#f9a11d !important;
+    box-shadow: none !important;
 }
-.contact-submit-btn {
-  margin-top: 10px;
-  padding: 8px 30px !important;
+textarea.contact-control{
+    height: 100px;
+    resize: none;
 }
-.icon-img {
-  display: block;
+
+.contact-submit-btn{
+    margin-top: 15px;
+    min-width: 170px;
+    min-height: 40px;    
+    letter-spacing: 0.05em;
 }
-.contact-details-block {
-  padding: 15px 0;
+.icon-img{
+    display: block;
+}
+.contact-details-block{
+    padding:15px 0;
+    line-height: 24px;
+}
+
+.address-detail{
+    max-width: 310px;
 }
