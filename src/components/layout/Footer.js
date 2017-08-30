@@ -13,7 +13,7 @@ class Footer extends Component {
           <Col sm={6} className="content">
             <Col className="text-right">
               Designed By{' '}
-              <a href="http://techplussoftware.com/">
+              <a target="_blank" href="http://techplussoftware.com/">
                 Techplus Software Pvt. Ltd.
               </a>
             </Col>
