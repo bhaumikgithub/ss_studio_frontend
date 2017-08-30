@@ -137,6 +137,13 @@
   text-transform: capitalize;
   font-weight: bold;
 }
+.admin-side .input-error {
+  top: 4px !important;
+  position: relative;
+  text-transform: capitalize;
+  font-weight: normal !important;
+  font-size: 13px;
+}
 .contact-control {
   margin-top: 5px !important;
 }

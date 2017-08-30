@@ -6,7 +6,8 @@ const validationHandler = errors => {
     if (validations.hasOwnProperty(field)) {
       return (validations[field] += ', ' + error['detail']);
     } else {
-      return (validations[field] = field + ' ' + error['detail']);
+      return (validations[field] =
+        errors[key]['field_label'] + ' ' + error['detail']);
     }
   });
   return validations;
