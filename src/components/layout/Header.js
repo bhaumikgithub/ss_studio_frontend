@@ -36,7 +36,7 @@ class Header extends Component {
               <NavItem eventKey={3}>Films</NavItem>
             </LinkContainer>
             <LinkContainer to="/feedback">
-              <NavItem eventKey={4}>Feedback</NavItem>
+              <NavItem eventKey={4}>Testimonials</NavItem>
             </LinkContainer>
             <LinkContainer
               to="/contact"
