@@ -12,6 +12,15 @@ class Header extends Component {
         collapseOnSelect
         className="header custom-navbar"
       >
+        <div className="fb_btn">
+          <a href="https://www.facebook.com/sagarphotocam" target="_blank">
+            <img
+              src={require('../../assets/images/fb_btn.png')}
+              alt=""
+              className="facebook-img"
+            />
+          </a>
+        </div>
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
             <Link to="/">
