@@ -193,3 +193,15 @@ div.filepicker {
 .upload-image-thumb-wrap {
   overflow: hidden;
 }
+
+/* facebook icon on public pages */
+.fb_btn {
+  position: fixed;
+  right: 0px;
+  top: 300px;
+  z-index: 9999999;
+}
+.facebook-img {
+  height: 100px;
+  width: 30px;
+}
