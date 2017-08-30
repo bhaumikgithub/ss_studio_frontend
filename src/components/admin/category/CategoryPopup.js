@@ -87,7 +87,6 @@ export default class CategoryPopup extends Component {
 
   editCategory(contact) {
     var self = this;
-    console.log(self)
     const {
       category_name,
       status

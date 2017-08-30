@@ -1,0 +1,303 @@
+.homepage-gallery-page-wrap{
+    font-family: 'ralewayregular';
+}
+.homepage-gallery{
+    margin: 30px 0 50px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px; /* border radius */
+    background-color: #fff; /* layer fill content */
+    -moz-box-shadow: 3px 4px 5px rgba(1,1,1,.08); /* drop shadow */
+    -webkit-box-shadow: 3px 4px 5px rgba(1,1,1,.08); /* drop shadow */
+    box-shadow: 3px 4px 5px rgba(1,1,1,.08); /* drop shadow */
+    padding-bottom: 30px;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.add-slide-btn{
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: 'ralewaysemibold';
+    min-width: 180px;
+    min-height: 35px;
+    padding: 6px 12px;
+}
+.add-slide-btn:hover,
+.add-slide-btn:focus{    
+    background:#feae37;
+    color: #fff;
+    outline: none !important;
+    box-shadow: none; 
+}
+.add-slide-btn img{
+    margin-right: 8px;
+    margin-top: -2px;
+}
+.slider-action-wrap{
+    padding: 15px 30px 10px;    
+    min-height: 50px;
+    border-bottom: 1px solid #e7e7e7;
+    -moz-box-shadow: 0 3px 3px rgba(1,1,1,.03); /* drop shadow */
+    -webkit-box-shadow: 0 3px 3px rgba(1,1,1,.03); /* drop shadow */
+    box-shadow: 0 3px 3px rgba(1,1,1,.03); /* drop shadow */
+}
+.slider-images-wrap{
+    padding-bottom: 30px;
+}
+.album-image{
+    width: 100%;
+    
+}
+.gallery-slider-img-wrap .check, .all-selection-check .check{
+  display: block;
+  position: absolute;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  height: 12px;
+  width: 12px;
+  top: 8px;
+  left: 8px;
+  transition: border .25s linear;
+  -webkit-transition: border .25s linear;
+}
+
+.gallery-slider-img-wrap .check::before{
+  display: block;
+  position: absolute;
+  content: '';
+  height: 10px;
+  width: 14px;
+  left: 1px;
+  background: url('../../../images/admin/homepage_gallery/checked-icon.png') no-repeat;
+  margin: auto;
+  transition: background 0.25s linear;
+  -webkit-transition: background 0.25s linear;
+  display: none;
+  z-index: 99;
+}
+
+.all-selection-check{
+    width: 90px;
+    float: left;
+    color: #555;
+    font-family: 'ralewaymedium';
+}
+
+.all-selection-check label{
+    padding-left: 23px;
+    color: #777;
+    font-size: 12px;
+}
+.all-selection-check .check{
+  display: block;
+  position: absolute;
+  border: 1px solid #777;
+  border-radius: 2px;
+  height: 14px;
+  width: 14px;
+  top: 1px;
+  left: 0px;
+  transition: border .25s linear;
+  -webkit-transition: border .25s linear;
+}
+.all-selection-check .check::before{
+  display: block;
+  position: absolute;
+  content: '';
+  height: 11px;
+  width: 14px;
+  left: 2px;
+  top: 0px;
+  background: url('../../../images/admin/homepage_gallery/checked-icon-grey.png') no-repeat;
+  margin: auto;
+  transition: background 0.25s linear;
+  -webkit-transition: background 0.25s linear;
+  display: none;
+  z-index: 999;
+}
+.gallery-slider-img-wrap input[type=checkbox]:checked ~ .check::before, .all-selection-check input[type=checkbox]:checked ~ .check::before{
+  display: block;
+}
+
+.gallery-slider-img-wrap input[type=checkbox], .all-selection-check input[type=checkbox]{
+  position: absolute;
+  visibility: hidden;
+}
+
+.delete-selected{
+    font-family: 'ralewaymedium';
+    color: #777;
+    font-size: 12px;
+    line-height: 22px;
+    float: left;
+}
+.delete-selected img{
+    margin-top: -4px; 
+}
+.delete-selected:hover,
+.delete-selected:focus{
+    color: #555;
+    text-decoration: none;
+    outline: none !important;
+    background: transparent !important;
+}
+.gallery-slider-img-wrap{
+    margin-top: 30px;
+    position: relative;
+}
+.slider-image{
+    width: 100%;
+}
+.slider-num{
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    background: rgba(249, 161, 29, 0.9);
+    color: #fff;
+    height: 30px;
+    width: calc(100% - 30px);
+    font-size:15px;
+    line-height: 30px;
+    text-align: left;
+    font-family: 'ralewaysemibold';
+    letter-spacing: 1px;
+    padding: 0 8px;
+}
+.slider-num .edit-slide{
+    position: absolute;
+    right: 10px; 
+    top: 8px;
+}
+.pic-selection-check{
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    margin: 0;
+}
+.pic-selection-check label{
+    background: #f9a11d;
+    text-align: center;
+    border-radius: 50%;
+    padding: 14px;
+}
+.btn-wrap{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.update-slide-btn,.cancel-slide-btn{
+    padding: 10px 30px;
+    font-family: 'ralewaysemibold';
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+.update-slide-btn:hover,
+.update-slide-btn:focus{
+    background:#feae37;
+    color: #fff;
+    outline: none !important;
+    box-shadow: none;
+}
+.cancel-slide-btn{
+    background: #d7d7d7;
+    margin-left: 20px;
+    color: #555;
+}
+.cancel-slide-btn:hover,
+.cancel-slide-btn:focus{
+    outline: none !important;
+}
+
+@media only screen and (max-width: 1024px) {
+  .album-details-page-wrap{
+    display: block;
+    overflow-x: hidden;
+  }
+  .detail-toggle-btn{
+      display: block;
+  }
+  .photo-selection-wrap{
+      width: 100%;
+  }
+  .album-details-page-wrap .album-info-wrap{
+    position: absolute;
+    width: 250px;
+    background: #f9f9f9;
+    right: -270px;
+    top: -5px;
+    padding: 0 20px;
+    -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+    border: 1px solid #ccc;
+  }
+  .album-details-page-wrap.open-detail .album-info-wrap{
+      right: 0px;
+  }
+  
+}
+
+@media only screen and (max-width: 991px) {
+    .pic-selection-check label{
+        padding: 12px;
+    }
+    .gallery-slider-img-wrap .check{
+        top: 6px;
+        left: 6px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .add-slide-btn{
+        font-size: 12px;
+        line-height: 18px;
+    }   
+    .add-slide-btn img{
+        margin-top: -3px;
+        margin-right: 3px;
+    }
+}
+@media only screen and (max-width: 640px) {
+    .AdminApp .footer {
+        padding: 10px 0;
+    }
+    .copyright, .design-by{
+        line-height: 22px;
+        
+    }
+}
+@media only screen and (max-width: 568px) {
+    .slider-action-wrap{
+        padding: 15px 20px 10px;
+    }
+    .all-selection-check{
+        width: 80px;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .add-slide-btn{
+        width: 100%;
+        margin-bottom: 15px; 
+        float: left !important;
+        position: relative;
+        max-width: 180px;
+    }
+    .gallery-slider-img-wrap{
+        width: 100%;
+    }
+    .select-delete{
+        float: left;
+        position: relative;
+        width: 100%;
+    }
+
+}
+@media only screen and (max-width: 360px) {
+    .delete-selected{
+        padding: 6px 3px;
+    }
+    .update-slide-btn, .cancel-slide-btn{
+        padding: 10px 20px;
+    }
+}

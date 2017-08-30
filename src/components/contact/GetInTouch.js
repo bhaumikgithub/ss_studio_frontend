@@ -18,6 +18,9 @@ import {
   getContactDetails
 } from '../../services/Contact';
 
+// Import components
+import validationHandler from '../common/ValidationHandler';
+
 export default class GetInTouch extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +41,7 @@ export default class GetInTouch extends Component {
         text: '',
         type: ''
       },
-      errors: '',
+      errors: {},
       contactDetails: {}
     };
 
@@ -78,8 +81,12 @@ export default class GetInTouch extends Component {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        console.log(error.response.data.errors);
-        self.setState({ errors: error.response.data.errors });
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
@@ -98,9 +105,7 @@ export default class GetInTouch extends Component {
   }
 
   render() {
-    const contactForm = this.state.contactForm;
-    const contactDetails = this.state.contactDetails;
-    const alert = this.state.alert;
+    const { contactForm, contactDetails, alert, errors } = this.state;
     return (
       <div className="get-in-touch-wrap page-wrap">
         <SweetAlert
@@ -181,6 +186,11 @@ export default class GetInTouch extends Component {
                     value={contactForm.name}
                     onChange={this.handleChange.bind(this)}
                   />
+                  {errors['name'] && (
+                    <span className="input-error text-yellow">
+                      {errors['name']}
+                    </span>
+                  )}
                   <FormControl
                     className="contact-control"
                     type="email"
@@ -190,6 +200,11 @@ export default class GetInTouch extends Component {
                     value={contactForm.email}
                     onChange={this.handleChange.bind(this)}
                   />
+                  {errors['email'] && (
+                    <span className="input-error text-yellow">
+                      {errors['email']}
+                    </span>
+                  )}
                   <FormControl
                     className="contact-control"
                     type="number"
@@ -199,6 +214,11 @@ export default class GetInTouch extends Component {
                     value={contactForm.phone}
                     onChange={this.handleChange.bind(this)}
                   />
+                  {errors['phone'] && (
+                    <span className="input-error text-yellow">
+                      {errors['phone']}
+                    </span>
+                  )}
                   <FormControl
                     className="contact-control"
                     componentClass="textarea"
@@ -207,6 +227,11 @@ export default class GetInTouch extends Component {
                     value={contactForm.message}
                     onChange={this.handleChange.bind(this)}
                   />
+                  {errors['message'] && (
+                    <span className="input-error text-yellow">
+                      {errors['message']}
+                    </span>
+                  )}
                   <Col xs={12} className="text-center">
                     <Button
                       className="btn-orange contact-submit-btn text-center"

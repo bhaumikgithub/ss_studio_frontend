@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import asyncComponent from '../AsyncComponent';
+import Loadable from 'react-loadable';
 import { isLoggedIn } from '../Helper';
+import Loading from '../loader/Loading';
 
 // import layout files
 const BeforeLoginLayout = asyncComponent(() =>
@@ -13,31 +15,84 @@ const AfterLoginLayout = asyncComponent(() =>
 );
 
 // Import before login component
-const Home = asyncComponent(() => import('../Home'));
-const Portfolio = asyncComponent(() => import('../portfolio/Portfolio'));
-const PortfolioAlbumDetails = asyncComponent(() =>
-  import('../portfolio/AlbumDetails')
-);
-const Films = asyncComponent(() => import('../Films'));
-const Feedback = asyncComponent(() => import('../Feedback'));
-const GetInTouch = asyncComponent(() => import('../contact/GetInTouch'));
-const AboutUs = asyncComponent(() => import('../contact/AboutUs'));
-const Services = asyncComponent(() => import('../contact/Services'));
-const NotFound = asyncComponent(() => import('../NotFound'));
+const Home = Loadable({
+  loader: () => import('../Home'),
+  loading: Loading
+});
+const Portfolio = Loadable({
+  loader: () => import('../portfolio/Portfolio'),
+  loading: Loading
+});
+const PortfolioAlbumDetails = Loadable({
+  loader: () => import('../portfolio/AlbumDetails'),
+  loading: Loading
+});
+const Films = Loadable({
+  loader: () => import('../Films'),
+  loading: Loading
+});
+const Feedback = Loadable({
+  loader: () => import('../Feedback'),
+  loading: Loading
+});
+const GetInTouch = Loadable({
+  loader: () => import('../contact/GetInTouch'),
+  loading: Loading
+});
+const AboutUs = Loadable({
+  loader: () => import('../contact/AboutUs'),
+  loading: Loading
+});
+const Services = Loadable({
+  loader: () => import('../contact/Services'),
+  loading: Loading
+});
+const NotFound = Loadable({
+  loader: () => import('../NotFound'),
+  loading: Loading
+});
 
 // Import after login component
-const AlbumListing = asyncComponent(() =>
-  import('../admin/album/AlbumsListing.jsx')
-);
-const AlbumDetails = asyncComponent(() =>
-  import('../admin/album/AlbumDetails')
-);
-const Contact = asyncComponent(() => import('../admin/contact/Contacts'));
-const Category = asyncComponent(() => import('../admin/category/categories'));
+const AlbumListing = Loadable({
+  loader: () => import('../admin/album/AlbumsListing.jsx'),
+  loading: Loading
+});
+const AlbumDetails = Loadable({
+  loader: () => import('../admin/album/AlbumDetails'),
+  loading: Loading
+});
+const VideoGallery = Loadable({
+  loader: () => import('../admin/video-films/VideosListing'),
+  loading: Loading
+});
+const Category = Loadable({
+  loader: () => import('../admin/category/categories'),
+  loading: Loading
+});
+const Contact = Loadable({
+  loader: () => import('../admin/contact/Contacts'),
+  loading: Loading
+});
+const SiteContent = Loadable({
+  loader: () => import('../admin/site-content/SiteContent.jsx'),
+  loading: Loading
+});
+const HomePageGalley = Loadable({
+  loader: () => import('../admin/homepage-gallery/HomePageGallery'),
+  loading: Loading
+});
+const Testimonial = Loadable({
+  loader: () => import('../admin/testimonial/Testimonial'),
+  loading: Loading
+});
 
-const Login = asyncComponent(() => import('../admin/Login'));
+// Import login component
+const Login = Loadable({
+  loader: () => import('../admin/Login'),
+  loading: Loading
+});
 
-const routes = () =>
+const routes = () => (
   <Switch>
     {/* Before Login routes start */}
     <BeforeLoginLayout exact path="/" component={Home} />
@@ -64,26 +119,34 @@ const routes = () =>
     <AfterLoginLayout>
       <PrivateRoute exact path="/albums" component={AlbumListing} />
       <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
-      <PrivateRoute exact path="/contacts" component={Contact} />
+      <PrivateRoute exact path="/video_films" component={VideoGallery} />
       <PrivateRoute exact path="/category" component={Category} />
+      <PrivateRoute exact path="/contacts" component={Contact} />
+      <PrivateRoute exact path="/site_contents" component={SiteContent} />
+      <PrivateRoute exact path="/homepage_gallery" component={HomePageGalley} />
+      <PrivateRoute exact path="/testimonials" component={Testimonial} />
     </AfterLoginLayout>
     {/* After Login routes end */}
 
     <Route component={NotFound} />
-  </Switch>;
+  </Switch>
+);
 
 export default routes;
 
-const PrivateRoute = ({ component: Component, ...rest }) =>
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isLoggedIn()
-        ? <Component {...props} />
-        : <Redirect
-            to={{
-              pathname: '/admin',
-              state: { from: props.location }
-            }}
-          />}
-  />;
+      isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/admin',
+            state: { from: props.location }
+          }}
+        />
+      )}
+  />
+);
