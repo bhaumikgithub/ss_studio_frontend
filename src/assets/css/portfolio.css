@@ -1,5 +1,6 @@
 .portfolio-wrap{
     padding-top: 92px;
+    padding-bottom: 60px;
 }
 
 .portfolio-custom-tabs{
@@ -16,8 +17,10 @@
      padding: 0 15px 0 15px;
 }
 .portfolio-links a{
-    color:#666;
+    color:#545454;
     border: none !important;
+    font-family: 'ralewaymedium';    
+    letter-spacing: 0.08em;    
 }
 .portfolio-links a:hover, .portfolio-links a:focus{
     background:none !important;
@@ -27,9 +30,9 @@
 }
 .portfolio-links.active a{
     color:#333;
-    font-weight:bold;
     border:0 !important;
     border-bottom:2px solid #f9a11d !important;
+    font-family: 'ralewaybold';    
 }
 
 .portfolio-custom-tabs.nav-tabs, .nav-pills {
@@ -95,17 +98,20 @@
     position: absolute;
     top:43%;
     left:43%;
-    border: 1px solid #f9a11d;
+    border: 2px solid #f9a11d;
     padding: 7px;
 }
 .portfolio-thumbs-wrap{
 
 }
 .portfolio-title{
-    padding:8px 0 0 15px;
+    padding: 15px 0 0 15px;
     position: relative;
-    float:left;
+    float: left;
     width: 100%;
-    color:#666;
+    color: #545454;
     text-transform: capitalize;
+    background-color: #f8f8f8;
+    margin: 0;
+    min-height: 45px;
 }
