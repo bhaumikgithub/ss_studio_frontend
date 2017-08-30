@@ -15,6 +15,18 @@
   background: rgba(0, 0, 0, 0.8);
   display: none;
 }
+.text-yellow {
+  color: #f9a11d;
+}
+.text-red {
+  color: #e22122;
+}
+.text-green {
+  color: #00991a;
+}
+.text-brown {
+  color: #a64301;
+}
 
 /* Category delete page custom css start */
 .del_butn,
@@ -117,6 +129,19 @@
   border: 0;
 }
 /* Share album page css end */
+
+/* Error page css start */
+.input-error {
+  top: -10px;
+  position: relative;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.contact-control {
+  margin-top: 5px !important;
+}
+/* Error page css end */
+
 /* changes by binoli start */
 .create-video-submit,
 .create-video-cancel {
@@ -158,6 +183,6 @@ div.filepicker {
 }
 
 /* contact and testimonial file upload circle */
-.upload-image-thumb-wrap{
+.upload-image-thumb-wrap {
   overflow: hidden;
 }
