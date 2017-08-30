@@ -47,11 +47,15 @@ const SiteContent = asyncComponent(() =>
 const HomePageGalley = asyncComponent(() =>
   import('../admin/homepage-gallery/HomePageGallery')
 );
-const Testimonial = asyncComponent(() => import('../admin/testimonial/Testimonial'));
+const Testimonial = asyncComponent(() =>
+  import('../admin/testimonial/Testimonial')
+);
 
 const Login = asyncComponent(() => import('../admin/Login'));
-const PasscodeLogin = asyncComponent(() => import('../share-album/PasscodeLogin'));
-const routes = () =>
+const PasscodeLogin = asyncComponent(() =>
+  import('../share-album/PasscodeLogin')
+);
+const routes = () => (
   <Switch>
     {/* Before Login routes start */}
     <BeforeLoginLayout exact path="/" component={Home} />
@@ -94,20 +98,24 @@ const routes = () =>
     {/* After Login routes end */}
 
     <Route component={NotFound} />
-  </Switch>;
+  </Switch>
+);
 
 export default routes;
 
-const PrivateRoute = ({ component: Component, ...rest }) =>
+const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isLoggedIn()
-        ? <Component {...props} />
-        : <Redirect
-            to={{
-              pathname: '/admin',
-              state: { from: props.location }
-            }}
-          />}
-  />;
+      isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/admin',
+            state: { from: props.location }
+          }}
+        />
+      )}
+  />
+);
