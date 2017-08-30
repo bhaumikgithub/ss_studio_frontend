@@ -13,14 +13,17 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import createTestimonialIcon from '../../../assets/images/admin/testimonial/add-testimonial-icon.png';
 import editTestimonialIcon from '../../../assets/images/admin/testimonial/edit-testimonial-icon.png';
 
-// Import helper
-import { isObjectEmpty } from '../../Helper';
+// Import components
+import validationHandler from '../../common/ValidationHandler';
 
 // Import services
 import {
   createTestimonial,
   updateTestimonial
 } from '../../../services/admin/Testimonial';
+
+// Import helper
+import { isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/testimonial/add-testimonial.css';
@@ -40,7 +43,8 @@ export default class TestimonialPopup extends Component {
         photo_attributes: {
           image: ''
         }
-      }
+      },
+      errors: {}
     };
 
     return initialState;
@@ -136,7 +140,12 @@ export default class TestimonialPopup extends Component {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        console.log(error.response);
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
@@ -155,8 +164,12 @@ export default class TestimonialPopup extends Component {
   }
 
   render() {
-    const { testimonialForm } = this.state;
+    const { testimonialForm, errors } = this.state;
     var Rating = require('react-rating');
+    const previewUrl =
+      testimonialForm.photo_attributes && testimonialForm.photo_attributes.image
+        ? testimonialForm.photo_attributes.image
+        : require('../../../assets/images/admin/contact/admin-add-contact/contact-thumb.png');
 
     return (
       <Modal
@@ -184,22 +197,26 @@ export default class TestimonialPopup extends Component {
             <Col xs={12} className="p-none add-testimonial-title-details">
               <img
                 src={
-                  isObjectEmpty(this.props.editObject)
-                    ? createTestimonialIcon
-                    : editTestimonialIcon
+                  isObjectEmpty(this.props.editObject) ? (
+                    createTestimonialIcon
+                  ) : (
+                    editTestimonialIcon
+                  )
                 }
                 alt=""
                 className="add-testimonial-icon img-responsive"
               />
               <h4 className="add-testimonial-text text-white">
-                {isObjectEmpty(this.props.editObject)
-                  ? 'Add New Testimonial'
-                  : 'Edit Testimonial'}
+                {isObjectEmpty(this.props.editObject) ? (
+                  'Add New Testimonial'
+                ) : (
+                  'Edit Testimonial'
+                )}
               </h4>
             </Col>
           </Col>
           <Col className="add-testimonial-wrap" sm={7}>
-            <form className="add-contact-form custom-form">
+            <form className="admin-side add-contact-form custom-form">
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Client Name
@@ -207,11 +224,17 @@ export default class TestimonialPopup extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  placeholder="Bhaumik Gadani"
+                  placeholder="Name"
                   name="client_name"
+                  required
                   value={testimonialForm.client_name}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['client_name'] && (
+                  <span className="input-error text-red">
+                    {errors['client_name']}
+                  </span>
+                )}
               </FormGroup>
               <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
@@ -228,6 +251,11 @@ export default class TestimonialPopup extends Component {
                     onChange={this.handleChange.bind(this)}
                   />
                 </Scrollbars>
+                {errors['message'] && (
+                  <span className="input-error text-red">
+                    {errors['message']}
+                  </span>
+                )}
               </FormGroup>
               <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
@@ -247,6 +275,12 @@ export default class TestimonialPopup extends Component {
                   initialRate={testimonialForm.rating}
                   onClick={(rate, event) => this.handleChange(event, rate)}
                 />
+                <br />
+                {errors['rating'] && (
+                  <span className="input-error text-red">
+                    {errors['rating']}
+                  </span>
+                )}
               </FormGroup>
               <FormGroup className="<custom-form-group></custom-form-group>">
                 <ControlLabel className="custom-form-control-label">
@@ -254,14 +288,7 @@ export default class TestimonialPopup extends Component {
                 </ControlLabel>
                 <div className="upload-img-wrap testimonial-upload">
                   <div className="upload-thumb upload-image-thumb-wrap">
-                    <img
-                      className="img-responsive"
-                      src={
-                        testimonialForm.photo_attributes &&
-                        testimonialForm.photo_attributes.image
-                      }
-                      alt=""
-                    />
+                    <img className="img-responsive" src={previewUrl} alt="" />
                   </div>
                   <div className="upload-img-btn">
                     <span>Upload</span>
@@ -275,6 +302,12 @@ export default class TestimonialPopup extends Component {
                       onChange={this.handleFileChange.bind(this)}
                     />
                   </div>
+                  <br />
+                  {errors['photo'] && (
+                    <span className="input-error text-red">
+                      {errors['photo']}
+                    </span>
+                  )}
                 </div>
               </FormGroup>
               <Button
