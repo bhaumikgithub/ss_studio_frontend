@@ -9,10 +9,11 @@ import {
 } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
-import '../../assets/css/admin/login.css';
-
 // Import services
-import { postSharedAlbum } from '../../services/SharedAlbum';
+import { albumPasscodeVerification } from '../../services/admin/Album';
+
+// Import css
+import '../../assets/css/admin/login.css';
 
 export default class PasscodeLogin extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class PasscodeLogin extends Component {
     const initialState = {
       passcodeLoginForm: {
         passcode: '',
-        album: ''
+        albumSlug: ''
       },
       token: '',
       errors: '',
@@ -35,7 +36,9 @@ export default class PasscodeLogin extends Component {
   componentWillMount() {
     const passcodeLoginForm = this.state.passcodeLoginForm;
     const path = this.props.location.pathname;
-    passcodeLoginForm['album'] = path.substring('/shared_album_login/'.length);
+    passcodeLoginForm['albumSlug'] = path.substring(
+      '/shared_album_login/'.length
+    );
     const search = this.props.location.search;
     const params = new URLSearchParams(search);
     if (params.get('token') !== this.state.token) {
@@ -54,7 +57,7 @@ export default class PasscodeLogin extends Component {
 
   handleLogin(event) {
     var self = this;
-    postSharedAlbum(self.state.passcodeLoginForm)
+    albumPasscodeVerification(self.state.passcodeLoginForm)
       .then(function(response) {
         self.handelResponse(response);
       })
@@ -75,13 +78,13 @@ export default class PasscodeLogin extends Component {
 
   render() {
     const { token } = this.state;
-    const { album } = this.state.passcodeLoginForm;
+    const { albumSlug } = this.state.passcodeLoginForm;
     if (this.state.redirectToReferrer) {
       return (
         <Redirect
           push
           to={{
-            pathname: `/shared_album/${album}`,
+            pathname: `/shared_album/${albumSlug}`,
             search: `?token=${token}`,
             state: true
           }}
