@@ -1,26 +1,31 @@
 import axios from 'axios';
-import { apiHeader } from '../../components/Helper';
+import { apiHeader, checkStatus } from '../../components/Helper';
 
 export function createAlbumRecipient(params) {
-  return axios.post(
-    process.env.REACT_APP_API_BASE_URL + 'albums/' + params.album_id + '/album_recipients',
+  const responsePromise = axios.post(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      params.album_id +
+      '/album_recipients',
     params,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function getAlbumRecipients(albumId) {
-  return axios.get(
+  const responsePromise = axios.get(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +
       '/album_recipients',
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function deleteAlbumRecipient(albumId, id) {
-  return axios.delete(
+  const responsePromise = axios.delete(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +
@@ -28,10 +33,11 @@ export function deleteAlbumRecipient(albumId, id) {
       id,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function resendAlbumToRecipient(albumId, id) {
-  return axios.post(
+  const responsePromise = axios.post(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +
@@ -41,4 +47,5 @@ export function resendAlbumToRecipient(albumId, id) {
     {},
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }

@@ -10,24 +10,27 @@ export function getVideoFilms() {
 }
 
 export function createVideoFilm(params) {
-  return axios.post(
+  const responsePromise = axios.post(
     process.env.REACT_APP_API_BASE_URL + 'videos',
     params,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function updateVideoFilm(params) {
-  return axios.patch(
+  const responsePromise = axios.patch(
     process.env.REACT_APP_API_BASE_URL + 'videos/' + params['id'],
     params['videoForm'],
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function deleteVideoFilm(id) {
-  return axios.delete(
+  const responsePromise = axios.delete(
     process.env.REACT_APP_API_BASE_URL + 'videos/' + id,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
