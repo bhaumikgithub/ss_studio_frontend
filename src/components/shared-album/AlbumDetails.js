@@ -59,7 +59,7 @@ export default class AlbumDetails extends Component {
       passcodeLoginState
     } = this.state;
     const photos = album.photos;
-    if (album.is_private === true && passcodeLoginState === undefined) {
+    if (album.is_private && passcodeLoginState === undefined) {
       return (
         <Redirect to={`/shared_album_login/${albumSlug}?token=${token}`} />
       );

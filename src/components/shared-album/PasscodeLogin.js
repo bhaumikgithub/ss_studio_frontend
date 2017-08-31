@@ -34,15 +34,16 @@ export default class PasscodeLogin extends Component {
     return initialState;
   }
   componentWillMount() {
-    const passcodeLoginForm = this.state.passcodeLoginForm;
-    const path = this.props.location.pathname;
-    passcodeLoginForm['albumSlug'] = path.substring(
-      '/shared_album_login/'.length
-    );
-    const search = this.props.location.search;
-    const params = new URLSearchParams(search);
+    const urlProps = this.props;
+    const passcodeLoginForm = Object.assign({}, this.state.passcodeLoginForm);
+    const params = new URLSearchParams(urlProps.location.search);
+
+    passcodeLoginForm.albumSlug = urlProps.match.params.slug;
     if (params.get('token') !== this.state.token) {
-      this.setState({ token: params.get('token') });
+      this.setState({
+        token: params.get('token'),
+        passcodeLoginForm: passcodeLoginForm
+      });
     }
   }
 
@@ -72,19 +73,17 @@ export default class PasscodeLogin extends Component {
       this.setState({ redirectToReferrer: true });
     } else {
       console.log('Invalid passcode');
-      alert('Invalid passcode');
     }
   }
 
   render() {
-    const { token } = this.state;
-    const { albumSlug } = this.state.passcodeLoginForm;
+    const { token, passcodeLoginForm } = this.state;
     if (this.state.redirectToReferrer) {
       return (
         <Redirect
           push
           to={{
-            pathname: `/shared_album/${albumSlug}`,
+            pathname: `/shared_album/${passcodeLoginForm.albumSlug}`,
             search: `?token=${token}`,
             state: true
           }}

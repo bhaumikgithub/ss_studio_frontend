@@ -52,7 +52,7 @@ const NotFound = Loadable({
   loading: Loading
 });
 const ShareAlbumDetails = Loadable({
-  loader: () => import('../share-album/AlbumDetails'),
+  loader: () => import('../shared-album/AlbumDetails'),
   loading: Loading
 });
 
@@ -95,7 +95,7 @@ const Login = Loadable({
 });
 
 const PasscodeLogin = Loadable({
-  loader: () => import('../share-album/PasscodeLogin'),
+  loader: () => import('../shared-album/PasscodeLogin'),
   loading: Loading
 });
 
