@@ -23,3 +23,10 @@ export function updateTestimonial(params) {
     apiHeader()
   );
 }
+
+export function deleteTestimonial(id) {
+  return axios.delete(
+    process.env.REACT_APP_API_BASE_URL + 'testimonials/' + id,
+    apiHeader()
+  );
+}
