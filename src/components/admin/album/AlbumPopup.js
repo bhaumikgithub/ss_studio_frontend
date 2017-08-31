@@ -14,6 +14,9 @@ import Select from 'react-select';
 import createAlbumIcon from '../../../assets/images/admin/album/create-album/add-album-icon.png';
 import editAlbumIcon from '../../../assets/images/admin/album/create-album/edit-album-icon.png';
 
+// Import components
+import validationHandler from '../../common/ValidationHandler';
+
 // Import services
 import { getCategories } from '../../../services/admin/Category';
 import { createAlbum, updateAlbum } from '../../../services/admin/Album';
@@ -41,7 +44,8 @@ export default class AlbumPopup extends Component {
         category_options: [],
         portfolio_visibility: false
       },
-      categories: []
+      categories: [],
+      errors: {}
     };
 
     return initialState;
@@ -139,7 +143,12 @@ export default class AlbumPopup extends Component {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        console.log(error.response);
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
@@ -158,7 +167,7 @@ export default class AlbumPopup extends Component {
   }
 
   render() {
-    const { albumForm } = this.state;
+    const { albumForm, errors } = this.state;
     return (
       <Modal
         show={this.props.showCreatePopup}
@@ -180,22 +189,26 @@ export default class AlbumPopup extends Component {
             <Col xs={12} className="p-none create-album-title-details">
               <img
                 src={
-                  isObjectEmpty(this.props.editObject)
-                    ? createAlbumIcon
-                    : editAlbumIcon
+                  isObjectEmpty(this.props.editObject) ? (
+                    createAlbumIcon
+                  ) : (
+                    editAlbumIcon
+                  )
                 }
                 alt=""
                 className="create-album-icon img-responsive"
               />
               <h4 className="create-album-text text-white">
-                {isObjectEmpty(this.props.editObject)
-                  ? 'Create new album'
-                  : 'Edit album'}
+                {isObjectEmpty(this.props.editObject) ? (
+                  'Create new album'
+                ) : (
+                  'Edit album'
+                )}
               </h4>
             </Col>
           </Col>
           <Col className="create-content-wrap" sm={8}>
-            <form className="create-album-form custom-form">
+            <form className="admin-side create-album-form custom-form">
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   album name
@@ -203,11 +216,15 @@ export default class AlbumPopup extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  placeholder="Album name"
                   name="album_name"
                   value={albumForm.album_name}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['album_name'] && (
+                  <span className="input-error text-red">
+                    {errors['album_name']}
+                  </span>
+                )}
               </FormGroup>
 
               <FormGroup className="custom-form-group">
@@ -286,13 +303,18 @@ export default class AlbumPopup extends Component {
                 </ControlLabel>
                 <Select
                   className="custom-form-control"
-                  placeholder="Select categories"
                   name="category_options"
                   value={albumForm.category_options}
                   options={this.categoryOptions()}
                   multi={true}
+                  placeholder={false}
                   onChange={this.handleMultiSelectChange.bind(this)}
                 />
+                {errors['category_ids'] && (
+                  <span className="input-error text-red">
+                    {errors['category_ids']}
+                  </span>
+                )}
               </FormGroup>
 
               <FormGroup className="custom-form-group">

@@ -12,6 +12,19 @@ class Header extends Component {
         collapseOnSelect
         className="header custom-navbar"
       >
+        <div className="fb_btn">
+          <a
+            href="https://www.facebook.com/sagarphotocam"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={require('../../assets/images/fb_btn.png')}
+              alt=""
+              className="facebook-img"
+            />
+          </a>
+        </div>
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
             <Link to="/">
@@ -36,7 +49,7 @@ class Header extends Component {
               <NavItem eventKey={3}>Films</NavItem>
             </LinkContainer>
             <LinkContainer to="/feedback">
-              <NavItem eventKey={4}>Feedback</NavItem>
+              <NavItem eventKey={4}>Testimonials</NavItem>
             </LinkContainer>
             <LinkContainer
               to="/contact"
@@ -61,15 +74,15 @@ class Header extends Component {
                 {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
               </NavDropdown>
             </LinkContainer>
-            <LinkContainer to="/admin">
-              <NavItem eventKey={4}>
+            <li>
+              <Link to="/admin" target="_blank">
                 <img
                   src={require('../../assets/images/lock-icon.png')}
                   alt=""
                   className="img-responsive"
                 />
-              </NavItem>
-            </LinkContainer>
+              </Link>
+            </li>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
