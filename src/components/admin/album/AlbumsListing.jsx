@@ -44,7 +44,6 @@ export default class AlbumsListing extends Component {
 
   componentWillMount() {
     var self = this;
-
     getAlbums()
       .then(function(response) {
         var data = response.data;
@@ -163,9 +162,9 @@ export default class AlbumsListing extends Component {
     });
   }
 
-  renderShareAlbum = (album) => {
+  renderShareAlbum = album => {
     const newAlbums = this.state.albums.slice();
-    album.delivery_status = 'Shared'
+    album.delivery_status = 'Shared';
     newAlbums.splice(newAlbums.indexOf(this.state.shareAlbumObject), 1, album);
   };
 
@@ -183,22 +182,24 @@ export default class AlbumsListing extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {this.state.showCreatePopup &&
+        {this.state.showCreatePopup && (
           <AlbumPopup
             showCreatePopup={this.state.showCreatePopup}
             hideCreatePopup={this.hideCreatePopup}
             renderAlbum={this.renderAlbum}
             editObject={this.state.editObject}
-          />}
+          />
+        )}
 
-          {this.state.shareAlbum &&
+        {this.state.shareAlbum && (
           <ShareAlbum
             shareAlbum={this.state.shareAlbum}
             closeShareAlbum={this.closeShareAlbum}
             shareAlbumObject={this.state.shareAlbumObject}
             renderShareAlbum={this.renderShareAlbum}
             shareAlbumAction={this.state.shareAlbumAction}
-          />}
+          />
+        )}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
             <span className="total-album pull-left">
@@ -218,7 +219,7 @@ export default class AlbumsListing extends Component {
           </Col>
         </Col>
         <Col xs={12} className="p-none album-list">
-          {albums.map(album =>
+          {albums.map(album => (
             <Col xs={12} className="albums-list-wrap p-none" key={album.id}>
               <Col xs={12} className="album-wrap">
                 <Media>
@@ -230,10 +231,11 @@ export default class AlbumsListing extends Component {
                       src={album.cover_photo.image}
                       alt={album.cover_photo.image_file_name}
                     />
-                    {album.is_private &&
+                    {album.is_private && (
                       <span className="lock-icon">
                         <i className="fa fa-lock" />
-                      </span>}
+                      </span>
+                    )}
                   </Media.Left>
                   <Media.Body className="album-detail-wrap">
                     <Link to={'/albums/' + album.slug}>
@@ -255,8 +257,15 @@ export default class AlbumsListing extends Component {
                         alt=""
                       />
                     </Button>
-                    <Button className="btn-link p-none album-action-btn album-share-btn"
-                            onClick={() => this.setState({ shareAlbum: true, shareAlbumObject: album, shareAlbumAction: 'albumsListing' })}>
+                    <Button
+                      className="btn-link p-none album-action-btn album-share-btn"
+                      onClick={() =>
+                        this.setState({
+                          shareAlbum: true,
+                          shareAlbumObject: album,
+                          shareAlbumAction: 'albumsListing'
+                        })}
+                    >
                       <img
                         src={require('../../../assets/images/admin/album/share-icon.png')}
                         alt=""
@@ -264,14 +273,14 @@ export default class AlbumsListing extends Component {
                     </Button>
 
                     <Col xs={12} className="p-none album-badges-wrap">
-                      {album.categories.map(category =>
+                      {album.categories.map(category => (
                         <span
                           className="album-badge"
                           key={category.category_name}
                         >
                           {category.category_name}
                         </span>
-                      )}
+                      ))}
                     </Col>
 
                     <Col xs={12} className="p-none updated-info">
@@ -353,7 +362,7 @@ export default class AlbumsListing extends Component {
                 </Col>
               </Col>
             </Col>
-          )}
+          ))}
         </Col>
 
         <Col xs={12} className="p-none custom-pagination-wrap">

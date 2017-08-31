@@ -10,6 +10,15 @@ export function isLoggedIn() {
   }
 }
 
+export function checkStatus(responsePromise) {
+  responsePromise.catch(function(error) {
+    if (error.response.status === 401) {
+      localStorage.clear();
+    }
+  });
+  return responsePromise;
+}
+
 export function currentUser() {
   return JSON.parse(localStorage.getItem('CURRENT_USER'));
 }
