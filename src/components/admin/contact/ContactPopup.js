@@ -36,7 +36,7 @@ export default class AddContact extends Component {
         email: '',
         phone: '',
         photo_attributes: {
-          photo: ''
+          image: ''
         }
       }
     };
@@ -53,43 +53,48 @@ export default class AddContact extends Component {
     });
   }
 
-  // handleImageChange(e) {
-  //   var self = this;
-  //   // debugger;
-  //   var preview = document.querySelector('.upload-thumb img');
-  //   // var file = this.refs.file.files[0];
-  //   var file    = document.querySelector('input[type=file]').files[0];
-  //   // console.log(file);
-  //   var reader = new FileReader();
-  //   // var url = reader.readAsDataURL(file);
-  //   reader.addEventListener("load", function () {
-  //     preview.src = reader.result;
-  //     preview.height = 51;
-  //     preview.width = 51;
-  //     const contactForm = self.state.contactForm;
-  //     contactForm.photo_attributes['photo'] = reader.result;
-  //     self.setState({
-  //       contactForm
-  //     });
-  //   }, false);
+handleFileChange(e) {
+    var reader = new FileReader();
+    var file = e.target.files[0];
+    const newContactForm = Object.assign({}, this.state.contactForm);
 
-  //   if (file) {
-  //     var url = reader.readAsDataURL(file);
-  //   }
+    reader.onloadend = () => {
+      newContactForm.photo_attributes.image = file;
+      this.setState({ contactForm: newContactForm });
+      document.querySelector('.upload-thumb img').src = reader.result;
+    };
 
-  // // console.log(url);
-  // }
+    reader.readAsDataURL(file);
+  }
+
+  generateFormData(object) {
+    let data = new FormData();
+    var newObject = Object.assign({}, object);
+    data.append(
+      'contact[photo_attributes][image]',
+      newObject.photo_attributes.image
+    );
+    Object.keys(newObject).forEach(
+      key =>
+        key !== 'photo_attributes'
+          ? data.append('contact[' + key + ']', newObject[key])
+          : ''
+    );
+
+    return data;
+  }
 
   handleSubmit(e) {
     var self = this;
+    let data = this.generateFormData(this.state.contactForm);
     var callContactApi = () => {};
     if (isObjectEmpty(self.props.editObject)) {
-      var createParams = { contact: self.state.contactForm };
+      var createParams = data;
       callContactApi = createContact(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
-        contactForm: { contact: self.state.contactForm }
+        contactForm: data
       };
       callContactApi = updateContact(editParams);
     }
@@ -105,7 +110,6 @@ export default class AddContact extends Component {
 
   handelResponse(response) {
     var responseData = response.data;
-    console.log(responseData);
     if (response.status === 201) {
       this.resetcontactForm();
       this.props.renderContact(
@@ -124,16 +128,15 @@ export default class AddContact extends Component {
 
   editContact(contact) {
     var self = this;
-    console.log(self);
-    const { first_name, last_name, status, email, phone } = contact;
-
+    const { first_name, last_name, status, email, phone, photo } = contact;
     self.setState({
       contactForm: {
         first_name: first_name,
         last_name: last_name,
         status: status,
         email: email,
-        phone: phone
+        phone: phone,
+        photo_attributes: photo
       }
     });
   }
@@ -148,7 +151,6 @@ export default class AddContact extends Component {
 
   render() {
     const { contactForm } = this.state;
-    console.log(contactForm);
     return (
       <Modal
         show={this.props.showCreate}
@@ -219,9 +221,12 @@ export default class AddContact extends Component {
                 </ControlLabel>
 
                 <div className="upload-img-wrap">
-                  <div className="upload-thumb">
-                    <img
-                      src={require('../../../assets/images/admin/contact/admin-add-contact/contact-thumb.png')}
+                  <div className="upload-thumb upload-image-thumb-wrap">
+                    <img className="img-responsive"
+                      src={
+                        contactForm.photo_attributes &&
+                        contactForm.photo_attributes.image
+                      }
                       alt=""
                     />
                   </div>
@@ -229,12 +234,12 @@ export default class AddContact extends Component {
                     <span>Upload</span>
                     <FormControl
                       accept="image/*"
-                      ref={contactForm.photo_attributes}
+                      name="image"
                       type="file"
                       label="File"
                       title=""
                       className="upload-img-control"
-                      onChange=""
+                      onChange={this.handleFileChange.bind(this)}
                     />
                   </div>
                 </div>

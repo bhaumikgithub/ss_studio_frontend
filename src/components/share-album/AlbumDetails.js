@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { PageHeader, Grid, Col, Row, Checkbox } from 'react-bootstrap';
 import Lightbox from 'react-image-lightbox';
 
@@ -16,13 +16,24 @@ export default class AlbumDetails extends Component {
       isOpenLightbox: false,
       photoIndex: 0,
       album: {},
-      albumSlug: this.props.match.params.slug
+      albumSlug: this.props.match.params.slug,
+      token: '',
+      passcodeLoginState: {}
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {}
+
   componentWillMount() {
     var self = this;
-    
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    const passcodeLoginState = this.props.location.state;
+    self.setState({ passcodeLoginState: passcodeLoginState });
+    if (params.get('token') !== this.state.token) {
+      self.setState({ token: params.get('token') });
+    }
+
     showAlbum(self.state.albumSlug)
       .then(function(response) {
         var data = response.data;
@@ -33,8 +44,6 @@ export default class AlbumDetails extends Component {
       .catch(function(error) {
         console.log(error.response);
       });
-
-      
   }
 
   openLightbox(photo) {
@@ -44,23 +53,28 @@ export default class AlbumDetails extends Component {
   }
 
   render() {
-    const { album, isOpenLightbox, photoIndex } = this.state;
+    const {
+      album,
+      isOpenLightbox,
+      photoIndex,
+      token,
+      albumSlug,
+      passcodeLoginState
+    } = this.state;
     const photos = album.photos;
-    if (album.is_private === true ){
-      return <Redirect to='/passcode'/>;
+    if (album.is_private === true && passcodeLoginState === undefined) {
+      return (
+        <Redirect
+          to={`/shared_album_login?album=${albumSlug}&token=${token}`}
+        />
+      );
     }
     return (
-    
       <div className="page-wrap portfolio-wrap">
         <Grid>
           <Col xs={12} className="p-none">
-            <Link to="/portfolio" className="back-link">
-              <i className="fa fa-arrow-left" />Back to Albums
-            </Link>
             <PageHeader className="page-title page-main-title text-center">
-              <label>
-                {album.album_name}
-              </label>
+              <label>{album.album_name}</label>
             </PageHeader>
           </Col>
           <Col xs={12} className="p-none">
@@ -68,7 +82,7 @@ export default class AlbumDetails extends Component {
               <Col sm={12} className="portfolio-content">
                 <Col xs={12} className="p-none">
                   {photos &&
-                    photos.map(photo =>
+                    photos.map(photo => (
                       <Col
                         xs={4}
                         sm={3}
@@ -80,7 +94,7 @@ export default class AlbumDetails extends Component {
                           <img alt={photo.image_file_name} src={photo.image} />
                           <Checkbox className="pic-selection-check">
                             <div className="check">
-                              <div className="inside"></div>
+                              <div className="inside" />
                             </div>
                           </Checkbox>
                           <a
@@ -94,10 +108,10 @@ export default class AlbumDetails extends Component {
                           </a>
                         </Col>
                       </Col>
-                    )}
+                    ))}
 
                   {isOpenLightbox &&
-                    photos &&
+                  photos && (
                     <Lightbox
                       mainSrc={photos[photoIndex].original_image}
                       nextSrc={
@@ -120,14 +134,14 @@ export default class AlbumDetails extends Component {
                         })}
                       imageTitle={photos[photoIndex].image_file_name}
                       imageCaption={'From Album ' + album.album_name}
-                    />}
+                    />
+                  )}
                 </Col>
               </Col>
             </Row>
           </Col>
         </Grid>
       </div>
-    
     );
   }
 }

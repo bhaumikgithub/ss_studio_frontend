@@ -7,10 +7,89 @@ import {
   Row,
   FormGroup
 } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+
 import '../../assets/css/admin/login.css';
 
-export default class PrivatePasscodeLogin extends Component {
+// Import services
+import { postSharedAlbum } from '../../services/SharedAlbum';
+
+export default class PasscodeLogin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
+  }
+
+  getInitialState() {
+    const initialState = {
+      passcodeLoginForm: {
+        passcode: '',
+        album: ''
+      },
+      token: '',
+      errors: '',
+      redirectToReferrer: false
+    };
+    return initialState;
+  }
+  componentWillMount() {
+    const passcodeLoginForm = this.state.passcodeLoginForm;
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    if (params.get('album') !== this.state.album) {
+      passcodeLoginForm['album'] = params.get('album');
+    }
+    if (params.get('token') !== this.state.token) {
+      this.setState({ token: params.get('token') });
+    }
+  }
+
+  handleChange(e) {
+    const passcodeLoginForm = this.state.passcodeLoginForm;
+    var key = e.target.name;
+    passcodeLoginForm[key] = e.target.value;
+    this.setState({
+      passcodeLoginForm
+    });
+  }
+
+  handleLogin(event) {
+    var self = this;
+    postSharedAlbum(self.state.passcodeLoginForm)
+      .then(function(response) {
+        console.log(response);
+        self.handelResponse(response);
+      })
+      .catch(function(error) {
+        alert(error.response.data.error);
+        self.setState({ errors: error.response.data.errors });
+      });
+  }
+
+  handelResponse(response) {
+    if (response.status === 200) {
+      this.setState({ redirectToReferrer: true });
+    } else {
+      console.log('Invalid email and password');
+      alert('Invalid email and password');
+    }
+  }
+
   render() {
+    const { token } = this.state;
+    const { album } = this.state.passcodeLoginForm;
+    if (this.state.redirectToReferrer) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: `/shared_album/${album}`,
+            search: `?token=${token}`,
+            state: true
+          }}
+        />
+      );
+    }
     return (
       <div className="login-wrap">
         <Grid className="page-inner-wrap">
@@ -28,6 +107,8 @@ export default class PrivatePasscodeLogin extends Component {
                     type="passcode"
                     placeholder="Passcode"
                     label="passcode"
+                    name="passcode"
+                    onChange={this.handleChange.bind(this)}
                   />
                   <span className="custom-addon">*</span>
                 </FormGroup>
@@ -35,6 +116,7 @@ export default class PrivatePasscodeLogin extends Component {
               <Button
                 type="submit"
                 className="btn-orange login-btn text-center"
+                onClick={event => this.handleLogin(event)}
               >
                 LOGIN
                 <img
