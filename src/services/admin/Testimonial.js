@@ -26,3 +26,11 @@ export function updateTestimonial(params) {
   );
   return checkStatus(responsePromise);
 }
+
+export function deleteTestimonial(id) {
+  const responsePromise = axios.delete(
+    process.env.REACT_APP_API_BASE_URL + 'testimonials/' + id,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}

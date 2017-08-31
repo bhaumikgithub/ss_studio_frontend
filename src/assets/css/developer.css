@@ -206,6 +206,14 @@ div.filepicker {
   width: 30px;
 }
 
+/* testimonial edit delete icon */
+.edit-testimonial-btn {
+  right: 99px !important;
+}
+.testimonial-delete-icon {
+  right: 48px !important;
+}
+
 /* video edit icon */
 .video-edit-btn {
   right: 20px !important;
