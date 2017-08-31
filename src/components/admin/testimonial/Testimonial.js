@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { Col, Button, Media, Pagination } from 'react-bootstrap';
+import SweetAlert from 'sweetalert-react';
 
 // Import component
 import TestimonialPopup from './TestimonialPopup';
 
 // Import services
-import { getTestimonials } from '../../../services/admin/Testimonial';
+import {
+  getTestimonials,
+  deleteTestimonial
+} from '../../../services/admin/Testimonial';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -19,7 +23,17 @@ export default class Testmonials extends Component {
     this.state = {
       editObject: {},
       CreateShow: false,
-      testimonials: []
+      testimonials: [],
+      alert: {
+        objectId: '',
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
     this.handleModal = this.handleModal.bind(this);
   }
@@ -62,6 +76,74 @@ export default class Testmonials extends Component {
   }
   CreateClose = () => this.setState({ CreateShow: false });
 
+  showDialogueBox(id) {
+    this.setState({
+      alert: {
+        objectId: id,
+        show: true,
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes, delete it!',
+        type: 'warning',
+        confirmAction: () => this.deleteTestimonial(),
+        cancelBtn: true
+      }
+    });
+  }
+
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+
+  deleteTestimonial() {
+    var self = this;
+
+    deleteTestimonial(self.state.alert.objectId)
+      .then(function(response) {
+        if (response.status === 200) {
+          self.handleDeleteSuccessResponse(response);
+        } else {
+          self.handleDeleteErrorResponse(response);
+        }
+      })
+      .catch(function(error) {
+        self.handleDeleteErrorResponse(error.response);
+      });
+  }
+
+  handleDeleteSuccessResponse(response) {
+    var self = this;
+
+    const testimonials = self.state.testimonials.filter(
+      testimonial => testimonial.id !== self.state.alert.objectId
+    );
+
+    self.setState({
+      testimonials: testimonials,
+      alert: {
+        show: true,
+        title: 'Success',
+        text: response.data.message,
+        type: 'success',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
+  handleDeleteErrorResponse(response) {
+    var self = this;
+
+    self.setState({
+      alert: {
+        show: true,
+        title: response.data.message,
+        text: response.data.errors[0].detail,
+        type: 'warning',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
   handleModal() {
     this.setState({ CreateShow: true });
     setTimeout(function() {
@@ -72,17 +154,28 @@ export default class Testmonials extends Component {
   }
 
   render() {
-    const { testimonials } = this.state;
+    const { testimonials, alert } = this.state;
     var Rating = require('react-rating');
     return (
       <Col xs={12} className="testimonial-page-wrap">
-        {this.state.CreateShow &&
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
+        />
+        {this.state.CreateShow && (
           <TestimonialPopup
             CreateShow={this.state.CreateShow}
             hideCreatePopup={this.hideCreatePopup}
             editObject={this.state.editObject}
             renderTestimonial={this.renderTestimonial}
-          />}
+          />
+        )}
         <Col xs={12} className="filter-wrap p-none">
           <Button
             className="btn btn-orange pull-right add-testimonial-btn"
@@ -98,7 +191,7 @@ export default class Testmonials extends Component {
         </Col>
         <Col xs={12} className="p-none testimonial-list">
           <Col xs={12} className="testimonial-list-wrap p-none">
-            {testimonials.map(testimonial =>
+            {testimonials.map(testimonial => (
               <Col xs={12} className="testimonial-wrap" key={testimonial.id}>
                 <Media>
                   <Media.Left align="top" className="testimonial-img-wrap">
@@ -127,6 +220,15 @@ export default class Testmonials extends Component {
                         alt=""
                       />
                     </Button>
+                    <Button
+                      className="btn-link p-none edit-testimonial-btn testimonial-delete-icon"
+                      onClick={event => this.showDialogueBox(testimonial.id)}
+                    >
+                      <img
+                        src={require('../../../assets/images/admin/album/delete-icon.png')}
+                        alt=""
+                      />
+                    </Button>
                     <div className="testimonial-detail">
                       {testimonial.message}
                     </div>
@@ -141,7 +243,7 @@ export default class Testmonials extends Component {
                   </Media.Body>
                 </Media>
               </Col>
-            )}
+            ))}
           </Col>
         </Col>
 

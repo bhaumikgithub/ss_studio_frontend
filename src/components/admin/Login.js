@@ -52,7 +52,6 @@ export default class Login extends Component {
 
     LoginService(self.state.loginForm)
       .then(function(response) {
-        console.log(response);
         self.handelResponse(response);
       })
       .catch(function(error) {

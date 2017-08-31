@@ -1,29 +1,36 @@
 import axios from 'axios';
-import { apiHeader } from '../../components/Helper';
+import { apiHeader, checkStatus } from '../../components/Helper';
 
 export function getContacts() {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'contacts', apiHeader());
+  const responsePromise = axios.get(
+    process.env.REACT_APP_API_BASE_URL + 'contacts',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
 }
 
 export function deleteContact(id) {
-  return axios.delete(
+  const responsePromise = axios.delete(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + id,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function createContact(params) {
-  return axios.post(
+  const responsePromise = axios.post(
     process.env.REACT_APP_API_BASE_URL + 'contacts',
     params,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
 export function updateContact(params) {
-  return axios.patch(
+  const responsePromise = axios.patch(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + params['id'],
     params['contactForm'],
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
