@@ -28,8 +28,9 @@ export function updateTestimonial(params) {
 }
 
 export function deleteTestimonial(id) {
-  return axios.delete(
+  const responsePromise = axios.delete(
     process.env.REACT_APP_API_BASE_URL + 'testimonials/' + id,
     apiHeader()
   );
+  return checkStatus(responsePromise);
 }
