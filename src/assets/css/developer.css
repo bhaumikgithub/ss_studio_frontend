@@ -213,3 +213,8 @@ div.filepicker {
 .testimonial-delete-icon {
   right: 48px !important;
 }
+
+/* video edit icon */
+.video-edit-btn {
+  right: 20px !important;
+}
