@@ -51,11 +51,11 @@ export default class Portfolio extends Component {
             <Link to="/portfolio" className="back-link">
               <i className="fa fa-arrow-left" />Back to Albums
             </Link>
-            <PageHeader className="page-title page-main-title text-center">
+            <Col className="photo-count-detail">
+              Total Photos: {album.photo_count}
+            </Col>
+            <PageHeader className="page-title page-main-title text-center portfolio-main-title">
               <label>{album.album_name}</label>
-              <div className="photo-count-detail">
-                {album.photo_count} Photos
-              </div>
             </PageHeader>
           </Col>
           <Col xs={12} className="p-none">
