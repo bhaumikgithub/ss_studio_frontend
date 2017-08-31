@@ -34,11 +34,10 @@ export default class PasscodeLogin extends Component {
   }
   componentWillMount() {
     const passcodeLoginForm = this.state.passcodeLoginForm;
+    const path = this.props.location.pathname;
+    passcodeLoginForm['album'] = path.substring('/shared_album_login/'.length);
     const search = this.props.location.search;
     const params = new URLSearchParams(search);
-    if (params.get('album') !== this.state.album) {
-      passcodeLoginForm['album'] = params.get('album');
-    }
     if (params.get('token') !== this.state.token) {
       this.setState({ token: params.get('token') });
     }
@@ -57,11 +56,10 @@ export default class PasscodeLogin extends Component {
     var self = this;
     postSharedAlbum(self.state.passcodeLoginForm)
       .then(function(response) {
-        console.log(response);
         self.handelResponse(response);
       })
       .catch(function(error) {
-        alert(error.response.data.error);
+        alert(error.response.data.errors);
         self.setState({ errors: error.response.data.errors });
       });
   }
@@ -70,8 +68,8 @@ export default class PasscodeLogin extends Component {
     if (response.status === 200) {
       this.setState({ redirectToReferrer: true });
     } else {
-      console.log('Invalid email and password');
-      alert('Invalid email and password');
+      console.log('Invalid passcode');
+      alert('Invalid passcode');
     }
   }
 
@@ -104,7 +102,7 @@ export default class PasscodeLogin extends Component {
                 <FormGroup className="custom-fromgrp">
                   <FormControl
                     className="login-control"
-                    type="passcode"
+                    type="password"
                     placeholder="Passcode"
                     label="passcode"
                     name="passcode"
@@ -114,7 +112,6 @@ export default class PasscodeLogin extends Component {
                 </FormGroup>
               </Col>
               <Button
-                type="submit"
                 className="btn-orange login-btn text-center"
                 onClick={event => this.handleLogin(event)}
               >

@@ -22,14 +22,11 @@ export default class AlbumDetails extends Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {}
-
   componentWillMount() {
     var self = this;
-    const search = this.props.location.search;
+    const { search, state } = this.props.location;
     const params = new URLSearchParams(search);
-    const passcodeLoginState = this.props.location.state;
-    self.setState({ passcodeLoginState: passcodeLoginState });
+    self.setState({ passcodeLoginState: state });
     if (params.get('token') !== this.state.token) {
       self.setState({ token: params.get('token') });
     }
@@ -64,9 +61,7 @@ export default class AlbumDetails extends Component {
     const photos = album.photos;
     if (album.is_private === true && passcodeLoginState === undefined) {
       return (
-        <Redirect
-          to={`/shared_album_login?album=${albumSlug}&token=${token}`}
-        />
+        <Redirect to={`/shared_album_login/${albumSlug}?token=${token}`} />
       );
     }
     return (

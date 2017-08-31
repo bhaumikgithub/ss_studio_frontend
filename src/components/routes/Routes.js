@@ -126,7 +126,11 @@ const routes = () => (
     {/* Before Login routes end */}
 
     <LoginLayout exact path="/admin" component={Login} />
-    <LoginLayout exact path="/shared_album_login" component={PasscodeLogin} />
+    <LoginLayout
+      exact
+      path="/shared_album_login/:slug"
+      component={PasscodeLogin}
+    />
 
     {/* After Login routes start */}
     <AfterLoginLayout>
