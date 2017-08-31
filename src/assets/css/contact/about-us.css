@@ -5,6 +5,9 @@
   position: relative;
   padding: 30px;
 }
+.about-img-wrap img{
+  width: 100%;
+}
 .about-img-wrap:after,
 .about-img-wrap:before {
   position: absolute;

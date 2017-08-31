@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 // Import css
 import '../../assets/css/contact/about-us.css';
@@ -40,23 +41,20 @@ export default class AboutUs extends Component {
           </Col>
           <Col xs={12} className="p-none">
             <Col xs={12} sm={4} className="about-img-wrap">
-              {aboutUs.photo &&
+              {aboutUs.photo && (
                 <img
                   className="img-responsive"
                   src={aboutUs.photo.image}
                   alt="user"
-                />}
+                />
+              )}
             </Col>
             <Col xs={12} sm={8} className="text-grey">
               <Col xs={12} className="about-details-wrap">
-                <h3 className="about-title">
-                  {aboutUs.title_text}
-                </h3>
-                <p className="p-wrap">
-                  {aboutUs.description}
-                </p>
+                <h3 className="about-title">{aboutUs.title_text}</h3>
+                <p className="p-wrap">{aboutUs.description}</p>
               </Col>
-              {aboutUs.social_links &&
+              {aboutUs.social_links && (
                 <Col className="media-icons" xs={12}>
                   <a
                     target="_blank"
@@ -72,9 +70,15 @@ export default class AboutUs extends Component {
                   >
                     <span className="fa fa-tumblr" />
                   </a> */}
-                </Col>}
+                </Col>
+              )}
               <Col xs={12} className="hire-wrap">
-                <Button className="btn btn-orange hire-btn">hire me</Button>
+                <LinkContainer
+                  to="/contact/get_in_touch"
+                  className="btn btn-orange hire-btn"
+                >
+                  <Button>hire me</Button>
+                </LinkContainer>
               </Col>
             </Col>
           </Col>
