@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
 // Import services
 import { getCurrentUser } from '../../../services/admin/User';
@@ -12,7 +13,8 @@ export default class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
+      redirectToReferrer: false
     };
   }
 
@@ -28,12 +30,18 @@ export default class Sidebar extends Component {
         }
       })
       .catch(function(error) {
-        console.log(error.response);
+        if (error.response.status === 401) {
+          localStorage.clear();
+          self.setState({ redirectToReferrer: true });
+        }
       });
   }
 
   render() {
-    const { user } = this.state;
+    const { user, redirectToReferrer } = this.state;
+    if (redirectToReferrer) {
+      return <Redirect push to="/admin" />;
+    }
     return (
       <Col className="sidebar">
         <Col xs={12} className="user-wrap">
@@ -42,19 +50,13 @@ export default class Sidebar extends Component {
             src={require('../../../assets/images/about/about-thumb.png')}
             alt="user"
           />
-          <h5 className="user-name">
-            {user.full_name}
-          </h5>
+          <h5 className="user-name">{user.full_name}</h5>
           <Col xs={6} className="text-center">
-            <h4 className="album-num">
-              {user.album_count}
-            </h4>
+            <h4 className="album-num">{user.album_count}</h4>
             <label className="album-name">Albums</label>
           </Col>
           <Col xs={6} className="text-center">
-            <h4 className="album-num">
-              {user.photo_count}
-            </h4>
+            <h4 className="album-num">{user.photo_count}</h4>
             <label className="album-name">Photos</label>
           </Col>
         </Col>
@@ -128,14 +130,14 @@ export default class Sidebar extends Component {
               </ListGroupItem>
             </NavLink>
             <NavLink to="/testimonials">
-            <ListGroupItem href="">
-              <img
-                src={require('../../../assets/images/admin/album/testimonial-icon.png')}
-                className="link-icons"
-                alt=""
-              />{' '}
-              Testimonials
-            </ListGroupItem>
+              <ListGroupItem href="">
+                <img
+                  src={require('../../../assets/images/admin/album/testimonial-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Testimonials
+              </ListGroupItem>
             </NavLink>
           </ListGroup>
         </Col>
