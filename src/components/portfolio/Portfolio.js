@@ -90,29 +90,28 @@ export default class Portfolio extends Component {
                     >
                       <NavItem>All</NavItem>
                     </IndexLinkContainer>
-                    {categories.map(category =>
+                    {categories.map(category => (
                       <LinkContainer
                         className="portfolio-links"
                         to={'/portfolio?tab=' + category.category_name}
                         eventKey={category.category_name}
                         key={category.id}
                       >
-                        <NavItem>
-                          {category.category_name}
-                        </NavItem>
+                        <NavItem>{category.category_name}</NavItem>
                       </LinkContainer>
-                    )}
+                    ))}
                   </Nav>
                 </Col>
                 <Col sm={12} className="portfolio-content">
                   <Tab.Content animation className="portfolio-tab-content">
                     <Tab.Pane eventKey={tab || 'all'}>
                       <Col xs={12} className="p-none">
-                        {albums.length === 0 &&
+                        {albums.length === 0 && (
                           <h4 className="portfolio-title text-center">
                             No albums available
-                          </h4>}
-                        {albums.map(album =>
+                          </h4>
+                        )}
+                        {albums.map(album => (
                           <Col
                             xs={12}
                             sm={6}
@@ -139,7 +138,7 @@ export default class Portfolio extends Component {
                               </h4>
                             </Link>
                           </Col>
-                        )}
+                        ))}
                       </Col>
                     </Tab.Pane>
                   </Tab.Content>

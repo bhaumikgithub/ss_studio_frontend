@@ -41,3 +41,13 @@ export function deleteAlbum(id) {
   );
   return checkStatus(responsePromise);
 }
+
+export function albumPasscodeVerification(params) {
+  return axios.get(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      params['albumSlug'] +
+      '/passcode_verification?passcode=' +
+      params['passcode']
+  );
+}

@@ -51,6 +51,10 @@ const NotFound = Loadable({
   loader: () => import('../NotFound'),
   loading: Loading
 });
+const ShareAlbumDetails = Loadable({
+  loader: () => import('../shared-album/AlbumDetails'),
+  loading: Loading
+});
 
 // Import after login component
 const AlbumListing = Loadable({
@@ -85,10 +89,13 @@ const Testimonial = Loadable({
   loader: () => import('../admin/testimonial/Testimonial'),
   loading: Loading
 });
-
-// Import login component
 const Login = Loadable({
   loader: () => import('../admin/Login'),
+  loading: Loading
+});
+
+const PasscodeLogin = Loadable({
+  loader: () => import('../shared-album/PasscodeLogin'),
   loading: Loading
 });
 
@@ -102,6 +109,11 @@ const routes = () => (
       path="/portfolio/:slug"
       component={PortfolioAlbumDetails}
     />
+    <BeforeLoginLayout
+      exact
+      path="/shared_album/:slug"
+      component={ShareAlbumDetails}
+    />
     <BeforeLoginLayout exact path="/films" component={Films} />
     <BeforeLoginLayout exact path="/feedback" component={Feedback} />
     <BeforeLoginLayout
@@ -114,6 +126,11 @@ const routes = () => (
     {/* Before Login routes end */}
 
     <LoginLayout exact path="/admin" component={Login} />
+    <LoginLayout
+      exact
+      path="/shared_album_login/:slug"
+      component={PasscodeLogin}
+    />
 
     {/* After Login routes start */}
     <PrivateRoute exact path="/albums" component={AlbumListing} />
