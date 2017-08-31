@@ -316,41 +316,42 @@ export default class AlbumPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-
-              <FormGroup className="custom-form-group">
-                <ControlLabel className="custom-form-control-label">
-                  Should be visible on portfolio ?
-                </ControlLabel>
-                <br />
-                <span className="custom-radio-wrap">
-                  <Radio
-                    name="portfolio_visibility"
-                    inline
-                    value={true}
-                    checked={albumForm.portfolio_visibility}
-                    onChange={this.handleChange.bind(this)}
-                  >
-                    YES
-                    <div className="check">
-                      <div className="inside" />
-                    </div>
-                  </Radio>
-                </span>{' '}
-                <span className="custom-radio-wrap">
-                  <Radio
-                    name="portfolio_visibility"
-                    inline
-                    value={false}
-                    checked={!albumForm.portfolio_visibility}
-                    onChange={this.handleChange.bind(this)}
-                  >
-                    NO
-                    <div className="check">
-                      <div className="inside" />
-                    </div>
-                  </Radio>
-                </span>
-              </FormGroup>
+              {!albumForm.is_private && (
+                <FormGroup className="custom-form-group">
+                  <ControlLabel className="custom-form-control-label">
+                    Should be visible on portfolio ?
+                  </ControlLabel>
+                  <br />
+                  <span className="custom-radio-wrap">
+                    <Radio
+                      name="portfolio_visibility"
+                      inline
+                      value={true}
+                      checked={albumForm.portfolio_visibility}
+                      onChange={this.handleChange.bind(this)}
+                    >
+                      YES
+                      <div className="check">
+                        <div className="inside" />
+                      </div>
+                    </Radio>
+                  </span>{' '}
+                  <span className="custom-radio-wrap">
+                    <Radio
+                      name="portfolio_visibility"
+                      inline
+                      value={false}
+                      checked={!albumForm.portfolio_visibility}
+                      onChange={this.handleChange.bind(this)}
+                    >
+                      NO
+                      <div className="check">
+                        <div className="inside" />
+                      </div>
+                    </Radio>
+                  </span>
+                </FormGroup>
+              )}
 
               <Button
                 className="btn btn-orange create-album-submit"
