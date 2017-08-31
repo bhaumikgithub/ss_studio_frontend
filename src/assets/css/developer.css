@@ -205,3 +205,8 @@ div.filepicker {
   height: 100px;
   width: 30px;
 }
+
+/* video edit icon */
+.video-edit-btn {
+  right: 20px !important;
+}
