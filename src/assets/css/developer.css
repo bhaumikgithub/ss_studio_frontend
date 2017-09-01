@@ -39,6 +39,10 @@
 .album-info-label .album-passcode {
   cursor: pointer;
 }
+
+.passcode-text {
+  text-transform: none !important;
+}
 /* Album show page custom css end */
 
 /* Portfolio album page custom css start */
@@ -223,3 +227,23 @@ div.filepicker {
   overflow-x: hidden;
 }
 /* end disable horizontal scroll in homepage gallery */
+
+/* start view album in admin album detail page */
+a:visited,
+.view-album-detail {
+  font-size: 15px;
+  font-family: 'ralewaymedium';
+  color: #666;
+  line-height: 41px;
+  float: left;
+  margin-left: 10px;
+}
+
+.show-album-icon {
+  color: #666;
+  line-height: 38px;
+  float: left;
+  margin-right: 4px;
+  margin-left: 2px;
+}
+/* end view album in admin album detail page */
