@@ -32,9 +32,7 @@ export default class AfterLoginLayout extends Component {
         <div className="content-area">
           <Header handler={this.handler} />
           <div className="page-wrap">
-            <Grid fluid={true}>
-              {this.props.children}
-            </Grid>
+            <Grid fluid={true}>{this.props.children}</Grid>
           </div>
           <Footer />
         </div>

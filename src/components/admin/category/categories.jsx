@@ -172,13 +172,14 @@ export default class Categories extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {this.state.CreateShow &&
+        {this.state.CreateShow && (
           <CategoryPopup
             showCreate={this.state.CreateShow}
             closeOn={this.CreateClose}
             editObject={this.state.editObject}
             renderCategory={this.renderCategory}
-          />}
+          />
+        )}
 
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
@@ -200,11 +201,9 @@ export default class Categories extends Component {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(category =>
+                {categories.map(category => (
                   <tr key={category.id}>
-                    <td>
-                      {category.category_name}
-                    </td>
+                    <td>{category.category_name}</td>
                     <td className={this.getStatusClass(category.status)}>
                       {category.status}
                     </td>
@@ -222,7 +221,7 @@ export default class Categories extends Component {
                           alt=""
                         />
                       </a>
-                      <img
+                      {/* <img
                         className="seprator"
                         src={require('../../../assets/images/admin/category/seprator.png')}
                         alt=""
@@ -235,10 +234,10 @@ export default class Categories extends Component {
                           src={require('../../../assets/images/admin/category/delete-icon.png')}
                           alt=""
                         />
-                      </a>
+                      </a> */}
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </Table>
           </div>
