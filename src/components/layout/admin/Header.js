@@ -98,9 +98,6 @@ export default class Header extends Component {
               className="admin-setting contact-header-links"
             >
               <MenuItem eventKey={5.1}>Change Password</MenuItem>
-              {/* <MenuItem eventKey={5.1}>Get in Touch</MenuItem> */}
-              {/* <MenuItem eventKey={5.2}>About us</MenuItem> */}
-              {/* <MenuItem eventKey={5.3}>Services</MenuItem> */}
               {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
             </NavDropdown>
           </Nav>
