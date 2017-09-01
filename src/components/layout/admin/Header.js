@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
-// import Helmet from 'react-helmet';
+import { Redirect, Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 // Import helper
 import { authToken } from '../../Helper';
@@ -42,11 +42,14 @@ export default class Header extends Component {
 
     return (
       <Navbar inverse fixedTop className="header">
+        <Helmet title={'Sagar Gadani :: ' + this.props.title} />
         <Navbar.Header>
           <Button className="side-toggle-btn" onClick={this.props.handler}>
             <i className="fa fa-bars" />
           </Button>
-          <label className="admin-page-title">{this.props.title}</label>
+          <label className="admin-page-title text-capitalize">
+            {this.props.title}
+          </label>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
@@ -57,14 +60,16 @@ export default class Header extends Component {
             <i className="fa fa-logout" /> Logout
           </Button>
           <Nav pullRight className="menu-links">
-            <li className="back-to-album">
-              <a href="">
-                <img
-                  src={require('../../../assets/images/back-icon.png')}
-                  alt=""
-                />Back To Album
-              </a>
-            </li>
+            {this.props.isAlbumDetail && (
+              <li className="back-to-album">
+                <Link to="/albums">
+                  <img
+                    src={require('../../../assets/images/back-icon.png')}
+                    alt=""
+                  />Back To Album
+                </Link>
+              </li>
+            )}
             <NavDropdown
               eventKey={5}
               title={

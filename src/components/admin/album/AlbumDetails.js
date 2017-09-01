@@ -136,7 +136,6 @@ export default class AlbumDetails extends Component {
   }
 
   handleDeleteErrorResponse(response) {
-    console.log(response);
     var self = this;
 
     self.setState({

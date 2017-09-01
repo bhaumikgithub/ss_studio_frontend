@@ -19,7 +19,8 @@ export default class AfterLoginLayout extends Component {
       condition: true,
       album: {},
       albumSlug: props.children.props.match.params.slug,
-      title: ''
+      title: '',
+      albumDetailTitle: ''
     };
     this.handler = this.handler.bind(this);
   }
@@ -29,28 +30,13 @@ export default class AfterLoginLayout extends Component {
     this.setState({ title: this.props.title });
   }
 
-  // componentDidMount() {
-  //   console.log('Component DID MOUNT!');
-  // }
-
-  // componentWillReceiveProps(newProps) {
-  //   console.log('Component WILL RECIEVE PROPS!');
-  // }
-
-  // componentWillUpdate(nextProps, nextState) {
-  //   console.log('Component WILL UPDATE!');
-  // }
-
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.title !== this.props.title) {
+    const title = this.props.title;
+    if (this.state.title !== title) {
       this.albumForAlbumDetailRoute();
-      this.setState({ title: this.props.title });
+      this.setState({ title: title });
     }
   }
-
-  // componentWillUnmount() {
-  //   console.log('Component WILL UNMOUNT!');
-  // }
 
   albumForAlbumDetailRoute() {
     var self = this;
@@ -64,14 +50,18 @@ export default class AfterLoginLayout extends Component {
           console.log(error.response);
         });
     } else {
-      self.setState({ album: {}, albumSlug: '' });
+      self.setState({ album: {}, albumSlug: '', albumDetailTitle: '' });
     }
   }
 
   handleAlbumSuccessResponse(response, albumSlug) {
     var data = response.data;
     if (response.status === 200) {
-      this.setState({ album: data.data.album, albumSlug: albumSlug });
+      this.setState({
+        album: data.data.album,
+        albumSlug: albumSlug,
+        albumDetailTitle: data.data.album.album_name
+      });
     } else {
       console.log(data);
     }
@@ -83,7 +73,7 @@ export default class AfterLoginLayout extends Component {
   }
 
   render() {
-    const { album, title, condition } = this.state;
+    const { album, title, condition, albumDetailTitle } = this.state;
     const childrenWithProps = React.Children.map(this.props.children, child =>
       React.cloneElement(child, {
         album: album
@@ -96,7 +86,11 @@ export default class AfterLoginLayout extends Component {
           <Sidebar />
         </div>
         <div className="content-area">
-          <Header handler={this.handler} title={title} />
+          <Header
+            handler={this.handler}
+            title={title === 'Album detail' ? albumDetailTitle : title}
+            isAlbumDetail={title === 'Album detail' ? true : false}
+          />
           <div className="page-wrap">
             <Grid fluid={true}>{childrenWithProps}</Grid>
           </div>
