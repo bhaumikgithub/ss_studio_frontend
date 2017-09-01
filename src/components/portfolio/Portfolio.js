@@ -131,10 +131,14 @@ export default class Portfolio extends Component {
                                   src={SearchIcon}
                                 />
                               </Link>
+                              <span className="col-xs-12 photo-count">
+                                {album.photo_count} Photos
+                              </span>
                             </Col>
                             <Link to={'/portfolio/' + album.slug}>
                               <h4 className="portfolio-title">
-                                {album.album_name}
+                                {album.album_name}{' '}
+                                {/* <small>({album.photo_count} Photos)</small> */}
                               </h4>
                             </Link>
                           </Col>
