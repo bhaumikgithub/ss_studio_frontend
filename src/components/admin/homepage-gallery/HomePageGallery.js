@@ -78,8 +78,8 @@ export default class HomePageGallery extends Component {
       <Col xs={12} className="homepage-gallery-page-wrap">
         <Row>
           <Col xs={12} className="homepage-gallery">
-            <Col xs={12} className="slider-images-wrap">
-              {active_photos.map((photo, index) =>
+            <Col xs={12} className="slider-images-wrap disable-horizontal">
+              {active_photos.map((photo, index) => (
                 <Col
                   xs={6}
                   sm={4}
@@ -121,7 +121,7 @@ export default class HomePageGallery extends Component {
                     </a>
                   </div>
                 </Col>
-              )}
+              ))}
             </Col>
           </Col>
         </Row>
