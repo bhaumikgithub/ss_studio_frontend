@@ -218,3 +218,8 @@ div.filepicker {
 .video-edit-btn {
   right: 20px !important;
 }
+/* start disable horizontal scroll in homepage gallery */
+.disable-horizontal {
+  overflow-x: hidden;
+}
+/* end disable horizontal scroll in homepage gallery */
