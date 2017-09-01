@@ -3,7 +3,7 @@ import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 // Import helper
-import { currentUser } from '../../Helper';
+import { authToken } from '../../Helper';
 
 // Import services
 import { LogoutService } from '../../../services/admin/Auth';
@@ -22,7 +22,7 @@ export default class Header extends Component {
 
   handleLogout(event) {
     var self = this;
-    LogoutService({ user_id: currentUser().id }).then(function(response) {
+    LogoutService({ token: authToken() }).then(function(response) {
       self.handleResponse(response);
     });
   }
@@ -97,9 +97,7 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
-              <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
-              <MenuItem eventKey={5.2}>About us</MenuItem>
-              <MenuItem eventKey={5.3}>Services</MenuItem>
+              <MenuItem eventKey={5.1}>Change Password</MenuItem>
               {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
             </NavDropdown>
           </Nav>

@@ -9,16 +9,13 @@ import {
 } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
-// Import helper
-import { isLoggedIn } from '../Helper';
+// Import services
+import { albumPasscodeVerification } from '../../services/admin/Album';
 
 // Import css
 import '../../assets/css/admin/login.css';
 
-// Import services
-import { LoginService } from '../../services/admin/Auth';
-
-export default class Login extends Component {
+export default class PasscodeLogin extends Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
@@ -26,59 +23,73 @@ export default class Login extends Component {
 
   getInitialState() {
     const initialState = {
-      loginForm: {
-        email: '',
-        password: '',
-        grant_type: 'password'
+      passcodeLoginForm: {
+        passcode: '',
+        albumSlug: ''
       },
+      token: '',
       errors: '',
       redirectToReferrer: false
     };
-
     return initialState;
+  }
+  componentWillMount() {
+    const urlProps = this.props;
+    const passcodeLoginForm = Object.assign({}, this.state.passcodeLoginForm);
+    const params = new URLSearchParams(urlProps.location.search);
+
+    passcodeLoginForm.albumSlug = urlProps.match.params.slug;
+    if (params.get('token') !== this.state.token) {
+      this.setState({
+        token: params.get('token'),
+        passcodeLoginForm: passcodeLoginForm
+      });
+    }
   }
 
   handleChange(e) {
-    const loginForm = this.state.loginForm;
+    const passcodeLoginForm = this.state.passcodeLoginForm;
     var key = e.target.name;
-    loginForm[key] = e.target.value;
+    passcodeLoginForm[key] = e.target.value;
     this.setState({
-      loginForm
+      passcodeLoginForm
     });
   }
 
   handleLogin(event) {
     var self = this;
-
-    LoginService(self.state.loginForm)
+    albumPasscodeVerification(self.state.passcodeLoginForm)
       .then(function(response) {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        alert(error.response.data.error);
+        alert(error.response.data.errors);
         self.setState({ errors: error.response.data.errors });
       });
   }
 
   handelResponse(response) {
     if (response.status === 200) {
-      localStorage.setItem('AUTH_TOKEN', response.data.data.token.access_token);
-      localStorage.setItem(
-        'CURRENT_USER',
-        JSON.stringify(response.data.data.user)
-      );
       this.setState({ redirectToReferrer: true });
     } else {
-      console.log('Invalid email and password');
-      alert('Invalid email and password');
+      console.log('Invalid passcode');
     }
   }
 
   render() {
-    if (isLoggedIn() || this.state.redirectToReferrer) {
-      return <Redirect push to="/albums" />;
+    const { token, passcodeLoginForm } = this.state;
+    if (this.state.redirectToReferrer) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: `/shared_album/${passcodeLoginForm.albumSlug}`,
+            search: `?token=${token}`,
+            state: true
+          }}
+        />
+      );
     }
-
     return (
       <div className="login-wrap">
         <Grid className="page-inner-wrap">
@@ -93,21 +104,10 @@ export default class Login extends Component {
                 <FormGroup className="custom-fromgrp">
                   <FormControl
                     className="login-control"
-                    type="email"
-                    placeholder="Email"
-                    label="email"
-                    name="email"
-                    onChange={this.handleChange.bind(this)}
-                  />
-                  <span className="custom-addon">*</span>
-                </FormGroup>
-                <FormGroup className="custom-fromgrp">
-                  <FormControl
-                    className="login-control"
                     type="password"
-                    placeholder="Password"
-                    label="password"
-                    name="password"
+                    placeholder="Passcode"
+                    label="passcode"
+                    name="passcode"
                     onChange={this.handleChange.bind(this)}
                   />
                   <span className="custom-addon">*</span>
@@ -117,7 +117,8 @@ export default class Login extends Component {
                 className="btn-orange login-btn text-center"
                 onClick={event => this.handleLogin(event)}
               >
-                LOGIN<img
+                LOGIN
+                <img
                   src={require('../../assets/images/admin/login/next-icon.png')}
                   alt="Logo"
                   className="img-responsive arrow-icon"

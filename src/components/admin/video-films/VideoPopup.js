@@ -15,6 +15,9 @@ import {
   updateVideoFilm
 } from '../../../services/admin/VideoFilms';
 
+// Import components
+import validationHandler from '../../common/ValidationHandler';
+
 // Import helper
 import { isObjectEmpty } from '../../Helper';
 
@@ -35,7 +38,8 @@ export default class VideoPopup extends Component {
         video_url: '',
         status: 'published'
       },
-      showVideoUrl: true
+      showVideoUrl: true,
+      errors: {}
     };
 
     return initialState;
@@ -92,7 +96,12 @@ export default class VideoPopup extends Component {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        console.log(error.response);
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
@@ -117,7 +126,7 @@ export default class VideoPopup extends Component {
   }
 
   render() {
-    const { videoForm, showVideoUrl } = this.state;
+    const { videoForm, showVideoUrl, errors } = this.state;
     return (
       <Modal
         show={this.props.showPopup}
@@ -148,7 +157,7 @@ export default class VideoPopup extends Component {
             </Col>
           </Col>
           <Col className="add-videofilms-content-wrap" sm={7}>
-            <form className="add-videofilms-form custom-form">
+            <form className="admin-side add-videofilms-form custom-form">
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Video Title
@@ -156,11 +165,15 @@ export default class VideoPopup extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  placeholder="Baby Shoot"
                   name="title"
                   value={videoForm.title}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['title'] && (
+                  <span className="input-error text-red">
+                    {errors['title']}
+                  </span>
+                )}
               </FormGroup>
 
               <FormGroup className="custom-form-group radio-wrapper">
@@ -197,17 +210,22 @@ export default class VideoPopup extends Component {
                   </Radio>
                 </span> */}
               </FormGroup>
-              {showVideoUrl &&
+              {showVideoUrl && (
                 <FormGroup className="custom-form-group required hide-show-group">
                   <FormControl
                     name="video_url"
                     className="custom-form-control"
                     type="text"
-                    placeholder={'Enter YouTube url'}
                     value={videoForm.video_url}
                     onChange={this.handleChange.bind(this)}
                   />
-                </FormGroup>}
+                  {errors['video_url'] && (
+                    <span className="input-error text-red">
+                      {errors['video_url']}
+                    </span>
+                  )}
+                </FormGroup>
+              )}
 
               <FormGroup className="custom-form-group radio-wrapper">
                 <ControlLabel className="custom-form-control-label">

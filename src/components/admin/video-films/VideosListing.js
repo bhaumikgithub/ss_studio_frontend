@@ -178,19 +178,21 @@ export default class VideoFilms extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {this.state.showPopup &&
+        {this.state.showPopup && (
           <VideoPopup
             showPopup={this.state.showPopup}
             closePopup={this.closePopup}
             renderVideo={this.renderVideo}
             editObject={this.state.editObject}
-          />}
-        {this.state.showPlayVideo &&
+          />
+        )}
+        {this.state.showPlayVideo && (
           <PlayVideo
             video={this.state.editObject}
             showPlayVideo={this.state.showPlayVideo}
             closePlayVideo={this.closePlayVideo}
-          />}
+          />
+        )}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
             <Button
@@ -207,9 +209,10 @@ export default class VideoFilms extends Component {
           </Col>
         </Col>
         <Col xs={12} className="p-none video-list">
-          {videos.length === 0 &&
-            <h4 className="text-center">No videos available</h4>}
-          {videos.map((video, index) =>
+          {videos.length === 0 && (
+            <h4 className="text-center">No videos available</h4>
+          )}
+          {videos.map((video, index) => (
             <Col xs={12} className="videos-list-wrap p-none" key={video.id}>
               <Col xs={12} className="video-film-wrap">
                 <Media>
@@ -251,12 +254,12 @@ export default class VideoFilms extends Component {
                         alt=""
                       />
                     </Button>
-                    <Button className="btn-link p-none video-action-btn video-share-btn">
+                    {/*<Button className="btn-link p-none video-action-btn video-share-btn">
                       <img
                         src={require('../../../assets/images/admin/album/share-icon.png')}
                         alt=""
                       />
-                    </Button>
+                    </Button>*/}
 
                     <Col xs={12} className="p-none updated-info">
                       <span className="fa fa-clock-o updated-icon" /> Last
@@ -330,7 +333,7 @@ export default class VideoFilms extends Component {
                 </Col>
               </Col>
             </Col>
-          )}
+          ))}
         </Col>
       </Col>
     );

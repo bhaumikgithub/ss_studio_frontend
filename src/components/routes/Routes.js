@@ -51,6 +51,10 @@ const NotFound = Loadable({
   loader: () => import('../NotFound'),
   loading: Loading
 });
+const ShareAlbumDetails = Loadable({
+  loader: () => import('../shared-album/AlbumDetails'),
+  loading: Loading
+});
 
 // Import after login component
 const AlbumListing = Loadable({
@@ -85,10 +89,13 @@ const Testimonial = Loadable({
   loader: () => import('../admin/testimonial/Testimonial'),
   loading: Loading
 });
-
-// Import login component
 const Login = Loadable({
   loader: () => import('../admin/Login'),
+  loading: Loading
+});
+
+const PasscodeLogin = Loadable({
+  loader: () => import('../shared-album/PasscodeLogin'),
   loading: Loading
 });
 
@@ -102,6 +109,11 @@ const routes = () => (
       path="/portfolio/:slug"
       component={PortfolioAlbumDetails}
     />
+    <BeforeLoginLayout
+      exact
+      path="/shared_album/:slug"
+      component={ShareAlbumDetails}
+    />
     <BeforeLoginLayout exact path="/films" component={Films} />
     <BeforeLoginLayout exact path="/feedback" component={Feedback} />
     <BeforeLoginLayout
@@ -114,18 +126,21 @@ const routes = () => (
     {/* Before Login routes end */}
 
     <LoginLayout exact path="/admin" component={Login} />
+    <LoginLayout
+      exact
+      path="/shared_album_login/:slug"
+      component={PasscodeLogin}
+    />
 
     {/* After Login routes start */}
-    <AfterLoginLayout>
-      <PrivateRoute exact path="/albums" component={AlbumListing} />
-      <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
-      <PrivateRoute exact path="/video_films" component={VideoGallery} />
-      <PrivateRoute exact path="/category" component={Category} />
-      <PrivateRoute exact path="/contacts" component={Contact} />
-      <PrivateRoute exact path="/site_contents" component={SiteContent} />
-      <PrivateRoute exact path="/homepage_gallery" component={HomePageGalley} />
-      <PrivateRoute exact path="/testimonials" component={Testimonial} />
-    </AfterLoginLayout>
+    <PrivateRoute exact path="/albums" component={AlbumListing} />
+    <PrivateRoute exact path="/albums/:slug" component={AlbumDetails} />
+    <PrivateRoute exact path="/video_films" component={VideoGallery} />
+    <PrivateRoute exact path="/category" component={Category} />
+    <PrivateRoute exact path="/contacts" component={Contact} />
+    <PrivateRoute exact path="/site_contents" component={SiteContent} />
+    <PrivateRoute exact path="/homepage_gallery" component={HomePageGalley} />
+    <PrivateRoute exact path="/testimonials" component={Testimonial} />
     {/* After Login routes end */}
 
     <Route component={NotFound} />
@@ -139,7 +154,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={props =>
       isLoggedIn() ? (
-        <Component {...props} />
+        <AfterLoginLayout>
+          <Component {...props} />
+        </AfterLoginLayout>
       ) : (
         <Redirect
           to={{
