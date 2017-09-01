@@ -8,7 +8,6 @@ import AlreadyShared from './AlreadyShared';
 import AddPhoto from './AddPhoto';
 
 // Import services
-import { showAlbum } from '../../../services/admin/Album';
 import { deleteSelectedPhotos } from '../../../services/admin/Photo';
 import { setCoverPhoto } from '../../../services/admin/Photo';
 
@@ -23,13 +22,14 @@ export default class AlbumDetails extends Component {
     super(props);
 
     this.state = {
+      condition: true,
       shareAlbumObject: {},
       openDetailsBar: false,
       addPhoto: false,
       shareAlbum: false,
       alreadySharedAlbum: false,
       albumSlug: this.props.match.params.slug,
-      album: {},
+      album: props.album,
       alert: {
         show: false,
         cancelBtn: true,
@@ -40,18 +40,6 @@ export default class AlbumDetails extends Component {
         type: ''
       }
     };
-  }
-
-  componentWillMount() {
-    var self = this;
-
-    showAlbum(self.state.albumSlug)
-      .then(function(response) {
-        self.handleAlbumSuccessResponse(response);
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
   }
 
   showDialogueBox() {
@@ -70,6 +58,12 @@ export default class AlbumDetails extends Component {
 
   hideDialogueBox() {
     this.setState({ alert: { show: false } });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.album.id !== this.props.album.id) {
+      this.setState({ album: this.props.album });
+    }
   }
 
   getSelectedCheckboxIds() {
@@ -156,15 +150,6 @@ export default class AlbumDetails extends Component {
     });
   }
 
-  handleAlbumSuccessResponse(response) {
-    var data = response.data;
-    if (response.status === 200) {
-      this.setState({ album: data.data.album });
-    } else {
-      console.log(data);
-    }
-  }
-
   handlePasscodeClick(event, passcode) {
     const innerHtml = event.target.innerHTML;
     if (innerHtml === passcode) {
@@ -237,279 +222,303 @@ export default class AlbumDetails extends Component {
   render() {
     const { album, alert } = this.state;
     return (
-      <Col xs={12} className="album-details-main-wrap">
-        <SweetAlert
-          show={alert.show || false}
-          title={alert.title || ''}
-          text={alert.text || ''}
-          type={alert.type || 'success'}
-          showCancelButton={alert.cancelBtn}
-          confirmButtonText={alert.btnText}
-          onConfirm={alert.confirmAction}
-          onCancel={() => this.hideDialogueBox()}
-        />
-        {this.state.addPhoto &&
-          <AddPhoto
-            addPhoto={this.state.addPhoto}
-            closeOn={this.closeAddPhoto}
-            renderNewPhotos={this.renderNewPhotos}
-            deletePhotos={this.deletePhotos}
-            albumId={album.id}
-          />}
-        {this.state.shareAlbum &&
-          <ShareAlbum
-            shareAlbum={this.state.shareAlbum}
-            closeShareAlbum={this.closeShareAlbum}
-            renderShareAlbum={this.renderShareAlbum}
-            shareAlbumObject={this.state.shareAlbumObject}
-          />}
-        {this.state.alreadySharedAlbum &&
-          <AlreadyShared
-            albumId={album.id}
-            alreadySharedAlbum={this.state.alreadySharedAlbum}
-            renderRecipientsCount={this.renderRecipientsCount}
-            closeOn={this.closeAlreadySharedAlbum}
-          />}
+      <div>
+        <Col xs={12} className="album-details-main-wrap">
+          <SweetAlert
+            show={alert.show || false}
+            title={alert.title || ''}
+            text={alert.text || ''}
+            type={alert.type || 'success'}
+            showCancelButton={alert.cancelBtn}
+            confirmButtonText={alert.btnText}
+            onConfirm={alert.confirmAction}
+            onCancel={() => this.hideDialogueBox()}
+          />
+          {this.state.addPhoto && (
+            <AddPhoto
+              addPhoto={this.state.addPhoto}
+              closeOn={this.closeAddPhoto}
+              renderNewPhotos={this.renderNewPhotos}
+              deletePhotos={this.deletePhotos}
+              albumId={album.id}
+            />
+          )}
+          {this.state.shareAlbum && (
+            <ShareAlbum
+              shareAlbum={this.state.shareAlbum}
+              closeShareAlbum={this.closeShareAlbum}
+              renderShareAlbum={this.renderShareAlbum}
+              shareAlbumObject={this.state.shareAlbumObject}
+            />
+          )}
+          {this.state.alreadySharedAlbum && (
+            <AlreadyShared
+              albumId={album.id}
+              alreadySharedAlbum={this.state.alreadySharedAlbum}
+              renderRecipientsCount={this.renderRecipientsCount}
+              closeOn={this.closeAlreadySharedAlbum}
+            />
+          )}
 
-        <Col xs={12} className="album-details-outer-wrap p-none">
-          <Col xs={12} className="action-wrap">
-            <div className="select-delete">
-              <Checkbox
-                className="all-selection-check"
-                onClick={event => this.selectAll(event)}
-              >
-                {' '}Select All
-                <div className="check">
-                  <div className="inside" />
-                </div>
-              </Checkbox>
+          <Col xs={12} className="album-details-outer-wrap p-none">
+            <Col xs={12} className="action-wrap">
+              <div className="select-delete">
+                <Checkbox
+                  className="all-selection-check"
+                  onClick={event => this.selectAll(event)}
+                >
+                  {' '}
+                  Select All
+                  <div className="check">
+                    <div className="inside" />
+                  </div>
+                </Checkbox>
 
-              <Button
-                className="delete-selected btn-link"
-                onClick={() => this.showDialogueBox()}
-              >
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/delete-icon.png')}
-                  alt="delete"
-                />{' '}
-                Delete Selected
-              </Button>
-            </div>
-
-            <Button
-              className="add-photoes-btn btn btn-orange"
-              onClick={() => this.setState({ addPhoto: true })}
-            >
-              <img
-                src={require('../../../assets/images/admin/album/album-details/add-icon.png')}
-                alt=""
-              />{' '}
-              Add photos
-            </Button>
-          </Col>
-          <Col
-            xs={12}
-            className={
-              this.state.openDetailsBar
-                ? 'album-details-page-wrap p-none open-detail'
-                : 'album-details-page-wrap p-none'
-            }
-          >
-            <span
-              className="detail-toggle-btn"
-              onClick={() =>
-                this.setState({ openDetailsBar: !this.state.openDetailsBar })}
-            >
-              <i
-                className={
-                  this.state.openDetailsBar
-                    ? 'fa fa-close'
-                    : 'fa fa-snowflake-o wobble-fix fa-spin'
-                }
-                aria-hidden="true"
-              />
-            </span>
-
-            <Col xs={12} sm={12} md={8} lg={9} className="photo-selection-wrap">
-              {album.cover_photo &&
-                <Col
-                  xs={6}
-                  sm={4}
-                  md={4}
-                  lg={3}
-                  className="album-image-wrap cover-pic"
+                <Button
+                  className="delete-selected btn-link"
+                  onClick={() => this.showDialogueBox()}
                 >
                   <img
-                    className="img-responsive album-image"
-                    src={album.cover_photo.image}
-                    alt={album.cover_photo.image_file_name}
-                  />
-                  {/* <Checkbox className="pic-selection-check">
-                    <div className="check">
-                      <div className="inside" />
-                    </div>
-                  </Checkbox> */}
-                </Col>}
-              {album.photos &&
-                album.photos.map((photo, index) =>
+                    src={require('../../../assets/images/admin/album/album-details/delete-icon.png')}
+                    alt="delete"
+                  />{' '}
+                  Delete Selected
+                </Button>
+              </div>
+
+              <Button
+                className="add-photoes-btn btn btn-orange"
+                onClick={() => this.setState({ addPhoto: true })}
+              >
+                <img
+                  src={require('../../../assets/images/admin/album/album-details/add-icon.png')}
+                  alt=""
+                />{' '}
+                Add photos
+              </Button>
+            </Col>
+            <Col
+              xs={12}
+              className={
+                this.state.openDetailsBar ? (
+                  'album-details-page-wrap p-none open-detail'
+                ) : (
+                  'album-details-page-wrap p-none'
+                )
+              }
+            >
+              <span
+                className="detail-toggle-btn"
+                onClick={() =>
+                  this.setState({ openDetailsBar: !this.state.openDetailsBar })}
+              >
+                <i
+                  className={
+                    this.state.openDetailsBar ? (
+                      'fa fa-close'
+                    ) : (
+                      'fa fa-snowflake-o wobble-fix fa-spin'
+                    )
+                  }
+                  aria-hidden="true"
+                />
+              </span>
+
+              <Col
+                xs={12}
+                sm={12}
+                md={8}
+                lg={9}
+                className="photo-selection-wrap"
+              >
+                {album.cover_photo && (
                   <Col
                     xs={6}
                     sm={4}
                     md={4}
                     lg={3}
-                    className="album-image-wrap"
-                    key={photo.id}
+                    className="album-image-wrap cover-pic"
                   >
                     <img
                       className="img-responsive album-image"
-                      src={photo.image}
-                      alt={photo.image_file_name}
+                      src={album.cover_photo.image}
+                      alt={album.cover_photo.image_file_name}
                     />
-                    <span
-                      className="set-cover-pic"
-                      onClick={event => {
-                        this.handleSetCoverPicClick(photo.id, index);
-                      }}
-                    >
-                      {' '}Set as Cover Pic{' '}
-                    </span>
-                    <Checkbox
-                      name="photo-checkbox"
-                      id={photo.id}
-                      className="pic-selection-check"
-                    >
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
+                    {/* <Checkbox className="pic-selection-check">
+                    <div className="check">
+                      <div className="inside" />
+                    </div>
+                  </Checkbox> */}
                   </Col>
                 )}
-            </Col>
-
-            <Col sm={12} md={4} lg={3} className="album-info-wrap">
-              <label className="album-info-label">
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/photos-icon.png')}
-                  className="info-icon"
-                  alt=""
-                />
-                <span className="information">
-                  {album.photo_count} photos
-                </span>
-              </label>
-              <label className="album-info-label">
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
-                  className="info-icon"
-                  alt=""
-                />
-                <span className="information">0 Views</span>
-              </label>
-              <label className="album-info-label">
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/portfolio-icon.png')}
-                  className="info-icon"
-                  alt=""
-                />
-                <span className="information">
-                  {album.portfolio_visibility
-                    ? 'Visible in portfolio'
-                    : 'Hidden in portfolio'}
-                </span>
-              </label>
-              <label className="album-info-label">
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/public-icon.png')}
-                  className="info-icon"
-                  alt=""
-                />
-                <span className="information">
-                  {album.is_private ? 'Marked as private' : 'Marked as public'}
-                </span>
-              </label>
-              <label className="album-info-label">
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
-                  className="info-icon"
-                  alt=""
-                />
-                <span className="information">
-                  {album.updated_at}
-                </span>
-              </label>
-              <label className="album-info-label">
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/passcode-icon.png')}
-                  className="info-icon"
-                  alt=""
-                />
-                <span
-                  className="information album-passcode text-green"
-                  onClick={event => {
-                    this.handlePasscodeClick(event, album.passcode);
-                  }}
-                >
-                  view passcode
-                </span>
-              </label>
-
-              <Col xs={12} className="p-none detail-separator">
-                <hr />
+                {album.photos &&
+                  album.photos.map((photo, index) => (
+                    <Col
+                      xs={6}
+                      sm={4}
+                      md={4}
+                      lg={3}
+                      className="album-image-wrap"
+                      key={photo.id}
+                    >
+                      <img
+                        className="img-responsive album-image"
+                        src={photo.image}
+                        alt={photo.image_file_name}
+                      />
+                      <span
+                        className="set-cover-pic"
+                        onClick={event => {
+                          this.handleSetCoverPicClick(photo.id, index);
+                        }}
+                      >
+                        {' '}
+                        Set as Cover Pic{' '}
+                      </span>
+                      <Checkbox
+                        name="photo-checkbox"
+                        id={photo.id}
+                        className="pic-selection-check"
+                      >
+                        <div className="check">
+                          <div className="inside" />
+                        </div>
+                      </Checkbox>
+                    </Col>
+                  ))}
               </Col>
 
-              <Col xs={12} className="p-none">
-                <h4 className="album-delivery-details">
-                  album delivery details
-                </h4>
-                <h4
-                  className={
-                    'album-delivery-status ' +
-                    getStatusClass(album.delivery_status)
-                  }
-                >
-                  {album.delivery_status} album
-                </h4>
-                <Button
-                  className="btn btn-orange share-album-btn"
-                  onClick={() =>
-                    this.setState({
-                      shareAlbum: true,
-                      shareAlbumObject: album
-                    })}
-                >
+              <Col sm={12} md={4} lg={3} className="album-info-wrap">
+                <label className="album-info-label">
                   <img
-                    src={require('../../../assets/images/admin/album/album-details/share-icon.png')}
+                    src={require('../../../assets/images/admin/album/album-details/photos-icon.png')}
+                    className="info-icon"
                     alt=""
-                  />Share album
-                </Button>
-                <br />
-                <div className="already-shared-with">
-                  Already shared with
-                  <button
-                    className="share-count"
-                    onClick={() => this.setState({ alreadySharedAlbum: true })}
+                  />
+                  <span className="information">
+                    {album.photo_count} photos
+                  </span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">0 Views</span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/portfolio-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">
+                    {album.portfolio_visibility ? (
+                      'Visible in portfolio'
+                    ) : (
+                      'Hidden in portfolio'
+                    )}
+                  </span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/public-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">
+                    {album.is_private ? (
+                      'Marked as private'
+                    ) : (
+                      'Marked as public'
+                    )}
+                  </span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">{album.updated_at}</span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/passcode-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span
+                    className="information album-passcode text-green"
+                    onClick={event => {
+                      this.handlePasscodeClick(event, album.passcode);
+                    }}
                   >
-                    {' '}{album.recipients_count}{' '}
-                  </button>
-                </div>
-              </Col>
+                    view passcode
+                  </span>
+                </label>
 
-              <Col xs={12} className="p-none detail-separator">
-                <hr />
-              </Col>
+                <Col xs={12} className="p-none detail-separator">
+                  <hr />
+                </Col>
 
-              <Col xs={12} className="p-none album-badges-wrap">
-                {album.categories &&
-                  album.categories.map(category =>
-                    <span className="album-badge" key={category.id}>
-                      {category.category_name}
-                    </span>
-                  )}
+                <Col xs={12} className="p-none">
+                  <h4 className="album-delivery-details">
+                    album delivery details
+                  </h4>
+                  <h4
+                    className={
+                      'album-delivery-status ' +
+                      getStatusClass(album.delivery_status)
+                    }
+                  >
+                    {album.delivery_status} album
+                  </h4>
+                  <Button
+                    className="btn btn-orange share-album-btn"
+                    onClick={() =>
+                      this.setState({
+                        shareAlbum: true,
+                        shareAlbumObject: album
+                      })}
+                  >
+                    <img
+                      src={require('../../../assets/images/admin/album/album-details/share-icon.png')}
+                      alt=""
+                    />Share album
+                  </Button>
+                  <br />
+                  <div className="already-shared-with">
+                    Already shared with
+                    <button
+                      className="share-count"
+                      onClick={() =>
+                        this.setState({ alreadySharedAlbum: true })}
+                    >
+                      {' '}
+                      {album.recipients_count}{' '}
+                    </button>
+                  </div>
+                </Col>
+
+                <Col xs={12} className="p-none detail-separator">
+                  <hr />
+                </Col>
+
+                <Col xs={12} className="p-none album-badges-wrap">
+                  {album.categories &&
+                    album.categories.map(category => (
+                      <span className="album-badge" key={category.id}>
+                        {category.category_name}
+                      </span>
+                    ))}
+                </Col>
               </Col>
             </Col>
           </Col>
         </Col>
-      </Col>
+      </div>
     );
   }
 }

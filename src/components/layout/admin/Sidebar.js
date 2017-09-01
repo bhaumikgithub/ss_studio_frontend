@@ -89,7 +89,7 @@ export default class Sidebar extends Component {
                 Video films
               </ListGroupItem>
             </NavLink>
-            <NavLink to="/category">
+            <NavLink to="/categories">
               <ListGroupItem>
                 <img
                   src={require('../../../assets/images/admin/album/categories-icon.png')}
