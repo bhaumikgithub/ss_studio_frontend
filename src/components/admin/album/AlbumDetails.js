@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Col, Button, Checkbox } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
@@ -219,7 +220,8 @@ export default class AlbumDetails extends Component {
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
 
   render() {
-    const { album, alert } = this.state;
+    const { album, alert, albumSlug } = this.state;
+    console.log(album);
     return (
       <div>
         <Col xs={12} className="album-details-main-wrap">
@@ -283,6 +285,20 @@ export default class AlbumDetails extends Component {
                   />{' '}
                   Delete Selected
                 </Button>
+                <Link
+                  to={
+                    album.is_private ? (
+                      '/shared_album_login/' + albumSlug
+                    ) : (
+                      '/shared_album/' + albumSlug
+                    )
+                  }
+                  target="_blank"
+                  className="view-album-detail"
+                >
+                  <span className="glyphicon glyphicon-eye-open show-album-icon" />
+                  View Album
+                </Link>
               </div>
 
               <Button
@@ -322,7 +338,6 @@ export default class AlbumDetails extends Component {
                   aria-hidden="true"
                 />
               </span>
-
               <Col
                 xs={12}
                 sm={12}
@@ -350,6 +365,7 @@ export default class AlbumDetails extends Component {
                   </Checkbox> */}
                   </Col>
                 )}
+
                 {album.photos &&
                   album.photos.map((photo, index) => (
                     <Col
@@ -449,12 +465,12 @@ export default class AlbumDetails extends Component {
                     alt=""
                   />
                   <span
-                    className="information album-passcode text-green"
+                    className="information album-passcode text-green passcode-text"
                     onClick={event => {
                       this.handlePasscodeClick(event, album.passcode);
                     }}
                   >
-                    view passcode
+                    View Passcode
                   </span>
                 </label>
 

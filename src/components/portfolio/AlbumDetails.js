@@ -51,10 +51,11 @@ export default class Portfolio extends Component {
             <Link to="/portfolio" className="back-link">
               <i className="fa fa-arrow-left" />Back to Albums
             </Link>
-            <PageHeader className="page-title page-main-title text-center">
-              <label>
-                {album.album_name}
-              </label>
+            <Col className="photo-count-detail">
+              Total Photos: {album.photo_count}
+            </Col>
+            <PageHeader className="page-title page-main-title text-center portfolio-main-title">
+              <label>{album.album_name}</label>
             </PageHeader>
           </Col>
           <Col xs={12} className="p-none">
@@ -62,7 +63,7 @@ export default class Portfolio extends Component {
               <Col sm={12} className="portfolio-content">
                 <Col xs={12} className="p-none">
                   {photos &&
-                    photos.map(photo =>
+                    photos.map(photo => (
                       <Col
                         xs={4}
                         sm={3}
@@ -83,10 +84,10 @@ export default class Portfolio extends Component {
                           </a>
                         </Col>
                       </Col>
-                    )}
+                    ))}
 
                   {isOpenLightbox &&
-                    photos &&
+                  photos && (
                     <Lightbox
                       mainSrc={photos[photoIndex].original_image}
                       nextSrc={
@@ -109,7 +110,8 @@ export default class Portfolio extends Component {
                         })}
                       imageTitle={photos[photoIndex].image_file_name}
                       imageCaption={'From Album ' + album.album_name}
-                    />}
+                    />
+                  )}
                 </Col>
               </Col>
             </Row>
