@@ -54,6 +54,14 @@
   right: 0;
   padding: 0;
 }
+.AdminApp .header .menu-links li.back-to-album a {
+  color: #777 !important;
+  text-decoration: underline;
+  padding: 15px 5px;
+}
+.AdminApp .header .menu-links li.back-to-album img {
+  margin-right: 10px;
+}
 
 /********************
     Header css
@@ -81,7 +89,7 @@
 }
 
 .header .menu-links li.active a:before {
-  content: "";
+  content: '';
   background-image: url(../../images/header-active.png);
   height: 20px;
   width: 20px;
@@ -95,7 +103,7 @@
   transform: rotate(180deg);
 }
 .header .menu-links li.active a:after {
-  content: "";
+  content: '';
   background-image: url(../../images/header-active.png);
   height: 20px;
   width: 20px;

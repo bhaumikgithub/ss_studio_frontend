@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 // Import helper
 import { authToken } from '../../Helper';
@@ -41,11 +42,14 @@ export default class Header extends Component {
 
     return (
       <Navbar inverse fixedTop className="header">
+        <Helmet title={'Sagar Gadani :: ' + this.props.title} />
         <Navbar.Header>
           <Button className="side-toggle-btn" onClick={this.props.handler}>
             <i className="fa fa-bars" />
           </Button>
-          <label className="admin-page-title">Albums</label>
+          <label className="admin-page-title text-capitalize">
+            {this.props.title}
+          </label>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
@@ -56,30 +60,16 @@ export default class Header extends Component {
             <i className="fa fa-logout" /> Logout
           </Button>
           <Nav pullRight className="menu-links">
-            {/* <div className="search-wrap">
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  onFocus={() => this.setState({ open: true })}
-                  placeholder="Type Album Name"
-                  className="form-control search-box"
-                />
-                <InputGroup.Addon className="search-btn-wrap">
-                  <Button className="search-btn">
-                    <Glyphicon glyph="search" />
-                  </Button>
-                </InputGroup.Addon>
-              </InputGroup>
-              <Collapse in={this.state.open} className="search-options">
-                <Col xs={12} className="search-Form">
-                  <Well>
-                    <Button onClick={() => this.setState({ open: false })}>
-                      Close
-                    </Button>
-                  </Well>
-                </Col>
-              </Collapse>
-            </div> */}
+            {this.props.isAlbumDetail && (
+              <li className="back-to-album">
+                <Link to="/albums">
+                  <img
+                    src={require('../../../assets/images/back-icon.png')}
+                    alt=""
+                  />Back To Albums
+                </Link>
+              </li>
+            )}
             <NavDropdown
               eventKey={5}
               title={
