@@ -98,7 +98,7 @@ export default class AlbumDetails extends Component {
       '.all-selection-check input'
     );
     Object.keys(checkboxes).map(key => (checkboxes[key].checked = action));
-    action ? '' : (select_all_checkbox.checked = false);
+    select_all_checkbox.checked = action;
   }
 
   deletePhotos = (ids = undefined, from = undefined) => {
@@ -370,15 +370,17 @@ export default class AlbumDetails extends Component {
                       src={album.cover_photo.image}
                       alt={album.cover_photo.image_file_name}
                     />
-                    <a
-                      onClick={() => this.openLightbox(album.cover_photo)}
-                      className="overlay"
-                    >
-                      <i
-                        className="fa fa-search-plus overlay-search"
-                        aria-hidden="true"
-                      />
-                    </a>
+                    {album.cover_photo.is_cover_photo && (
+                      <a
+                        onClick={() => this.openLightbox(album.cover_photo)}
+                        className="overlay"
+                      >
+                        <i
+                          className="fa fa-search-plus overlay-search"
+                          aria-hidden="true"
+                        />
+                      </a>
+                    )}
                   </Col>
                   {/* <Checkbox className="pic-selection-check">
                     <div className="check">
@@ -413,49 +415,6 @@ export default class AlbumDetails extends Component {
                         />
                       </a>
                     </Col>
-                    {isOpenLightbox &&
-                    photos &&
-                    album.cover_photo && (
-                      <Lightbox
-                        mainSrc={
-                          album.cover_photo.image ===
-                          photos[photoIndex].image ? (
-                            album.cover_photo.image
-                          ) : (
-                            photos[photoIndex].original_image
-                          )
-                        }
-                        nextSrc={
-                          photos[(photoIndex + 1) % photos.length]
-                            .original_image
-                        }
-                        prevSrc={
-                          photos[
-                            (photoIndex + photos.length - 1) % photos.length
-                          ].original_image
-                        }
-                        onCloseRequest={() =>
-                          this.setState({ isOpenLightbox: false })}
-                        onMovePrevRequest={() =>
-                          this.setState({
-                            photoIndex:
-                              (photoIndex + photos.length - 1) % photos.length
-                          })}
-                        onMoveNextRequest={() =>
-                          this.setState({
-                            photoIndex: (photoIndex + 1) % photos.length
-                          })}
-                        imageTitle={
-                          album.cover_photo.image ===
-                          photos[photoIndex].image ? (
-                            album.cover_photo.image_file_name
-                          ) : (
-                            photos[photoIndex].image_file_name
-                          )
-                        }
-                        imageCaption={'From Album ' + album.album_name}
-                      />
-                    )}
                     <span
                       className="set-cover-pic custom-cover-pic"
                       onClick={event => {
@@ -599,6 +558,45 @@ export default class AlbumDetails extends Component {
                     </span>
                   ))}
               </Col>
+              {isOpenLightbox &&
+              photos &&
+              album.cover_photo && (
+                <Lightbox
+                  mainSrc={
+                    album.cover_photo.image && !photos[photoIndex] ? (
+                      album.cover_photo.original_image
+                    ) : (
+                      photos[photoIndex].original_image
+                    )
+                  }
+                  nextSrc={
+                    photos[(photoIndex + 1) % photos.length].original_image
+                  }
+                  prevSrc={
+                    photos[(photoIndex + photos.length - 1) % photos.length]
+                      .original_image
+                  }
+                  onCloseRequest={() =>
+                    this.setState({ isOpenLightbox: false })}
+                  onMovePrevRequest={() =>
+                    this.setState({
+                      photoIndex:
+                        (photoIndex + photos.length - 1) % photos.length
+                    })}
+                  onMoveNextRequest={() =>
+                    this.setState({
+                      photoIndex: (photoIndex + 1) % photos.length
+                    })}
+                  imageTitle={
+                    album.cover_photo.image && !photos[photoIndex] ? (
+                      album.cover_photo.image_file_name
+                    ) : (
+                      photos[photoIndex].image_file_name
+                    )
+                  }
+                  imageCaption={'From Album ' + album.album_name}
+                />
+              )}
             </Col>
           </Col>
         </Col>

@@ -284,3 +284,8 @@ div.filepicker {
 .custom-cover-pic {
   z-index: 1;
 }
+
+/* admin header */
+.navbar-fixed-top {
+  z-index: 1;
+}
