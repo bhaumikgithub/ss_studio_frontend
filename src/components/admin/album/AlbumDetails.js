@@ -259,6 +259,7 @@ export default class AlbumDetails extends Component {
           )}
           {this.state.shareAlbum && (
             <ShareAlbum
+              albumId={album.id}
               shareAlbum={this.state.shareAlbum}
               closeShareAlbum={this.closeShareAlbum}
               renderShareAlbum={this.renderShareAlbum}

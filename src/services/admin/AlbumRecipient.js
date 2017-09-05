@@ -49,3 +49,14 @@ export function resendAlbumToRecipient(albumId, id) {
   );
   return checkStatus(responsePromise);
 }
+
+export function getNotInvitedContact(albumId) {
+  const responsePromise = axios.get(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumId +
+      '/album_recipients/not_invited_contacts',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
