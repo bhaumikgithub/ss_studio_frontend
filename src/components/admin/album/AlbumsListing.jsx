@@ -27,6 +27,7 @@ export default class AlbumsListing extends Component {
       activePage: 3,
       showCreatePopup: false,
       shareAlbum: false,
+      sortingOrder: 'desc',
       albums: [],
       meta: [],
       alert: {
@@ -43,15 +44,29 @@ export default class AlbumsListing extends Component {
   }
 
   componentWillMount() {
+    this.getAllAlbums();
+  }
+
+  getAllAlbums(sortingOrder = this.state.sortingOrder) {
     var self = this;
-    getAlbums()
+    getAlbums({ sorting_order: sortingOrder })
       .then(function(response) {
         var data = response.data;
-        self.setState({ albums: data.data.albums, meta: data.meta });
+        self.setState({
+          albums: data.data.albums,
+          meta: data.meta,
+          sortingOrder: sortingOrder
+        });
       })
       .catch(function(error) {
         console.log(error.response);
       });
+  }
+
+  handleSorting(e) {
+    e.preventDefault();
+    const sortingOrder = this.state.sortingOrder === 'desc' ? 'asc' : 'desc';
+    this.getAllAlbums(sortingOrder);
   }
 
   showDialogueBox(id) {
@@ -169,7 +184,7 @@ export default class AlbumsListing extends Component {
   };
 
   render() {
-    const { albums, meta, alert } = this.state;
+    const { albums, meta, alert, sortingOrder } = this.state;
     return (
       <Col xs={12} className="albums-page-wrap">
         <SweetAlert
@@ -208,7 +223,28 @@ export default class AlbumsListing extends Component {
               albums
             </span>
             <h5 className="pull-left sortBy">
-              Sort By : <span className="fa fa-sort" />
+              <a
+                href=""
+                title={
+                  sortingOrder === 'desc' ? (
+                    'Sort By Ascending'
+                  ) : (
+                    'Sort By Descending'
+                  )
+                }
+                onClick={event => this.handleSorting(event)}
+              >
+                Sort By :{' '}
+                <span
+                  className={
+                    sortingOrder === 'desc' ? (
+                      'fa fa-sort-asc'
+                    ) : (
+                      'fa fa-sort-desc'
+                    )
+                  }
+                />
+              </a>
             </h5>
             <Button
               className="btn pull-right btn-orange create-album-btn"
