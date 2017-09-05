@@ -8,6 +8,7 @@ import Lightbox from 'react-image-lightbox';
 import ShareAlbum from './ShareAlbum';
 import AlreadyShared from './AlreadyShared';
 import AddPhoto from './AddPhoto';
+import AlbumPopup from './AlbumPopup';
 
 // Import services
 import { deleteSelectedPhotos } from '../../../services/admin/Photo';
@@ -24,9 +25,11 @@ export default class AlbumDetails extends Component {
     super(props);
 
     this.state = {
+      editObject: {},
       condition: true,
       shareAlbumObject: {},
       openDetailsBar: false,
+      showCreatePopup: false,
       addPhoto: false,
       shareAlbum: false,
       alreadySharedAlbum: false,
@@ -63,6 +66,10 @@ export default class AlbumDetails extends Component {
   hideDialogueBox() {
     this.setState({ alert: { show: false } });
   }
+
+  hideCreatePopup = () => {
+    this.setState({ showCreatePopup: false, editObject: {} });
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.album.id !== this.props.album.id) {
@@ -226,6 +233,14 @@ export default class AlbumDetails extends Component {
     this.renderRecipientsCount('add', count);
   };
 
+  renderAlbum = album => {
+    const newAlbum = Object.assign({}, this.state.album);
+    newAlbum.is_private = album.is_private;
+    newAlbum.portfolio_visibility = album.portfolio_visibility;
+    newAlbum.categories = album.categories;
+    this.setState({ album: newAlbum });
+  };
+
   closeAddPhoto = () => {
     this.setState({ addPhoto: false });
   };
@@ -248,6 +263,14 @@ export default class AlbumDetails extends Component {
             onConfirm={alert.confirmAction}
             onCancel={() => this.hideDialogueBox()}
           />
+          {this.state.showCreatePopup && (
+            <AlbumPopup
+              showCreatePopup={this.state.showCreatePopup}
+              hideCreatePopup={this.hideCreatePopup}
+              renderAlbum={this.renderAlbum}
+              editObject={this.state.editObject}
+            />
+          )}
           {this.state.addPhoto && (
             <AddPhoto
               addPhoto={this.state.addPhoto}
@@ -310,7 +333,10 @@ export default class AlbumDetails extends Component {
                   target="_blank"
                   className="view-album-detail"
                 >
-                  <span className="glyphicon glyphicon-eye-open show-album-icon" />
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                    alt=""
+                  />{' '}
                   View Album
                 </Link>
               </div>
@@ -327,6 +353,20 @@ export default class AlbumDetails extends Component {
                   alt=""
                 />{' '}
                 Add photos
+              </Button>
+              <Button
+                className="edit-album-detail"
+                onClick={() =>
+                  this.setState({
+                    showCreatePopup: true,
+                    editObject: album
+                  })}
+              >
+                <img
+                  src={require('../../../assets/images/admin/category/edit-icon.png')}
+                  alt=""
+                />{' '}
+                Edit Album
               </Button>
             </Col>
             <Col
