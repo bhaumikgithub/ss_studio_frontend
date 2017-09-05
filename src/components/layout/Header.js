@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
 
 class Header extends Component {
   render() {
@@ -48,33 +48,19 @@ class Header extends Component {
             <LinkContainer to="/films">
               <NavItem eventKey={3}>Films</NavItem>
             </LinkContainer>
+            <LinkContainer to="/services">
+              <MenuItem eventKey={4}>Services</MenuItem>
+            </LinkContainer>
             <LinkContainer to="/feedback">
-              <NavItem eventKey={4}>Testimonials</NavItem>
+              <NavItem eventKey={5}>Testimonials</NavItem>
             </LinkContainer>
-            <LinkContainer
-              to="/contact"
-              className="navbar-dropdown"
-              onClick={event => event.preventDefault()}
-            >
-              <NavDropdown
-                eventKey={3}
-                href="/contact"
-                title="Contact"
-                id="basic-nav-dropdown"
-              >
-                <LinkContainer to="/contact/get_in_touch">
-                  <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
-                </LinkContainer>
-                <LinkContainer to="/contact/about_us">
-                  <MenuItem eventKey={5.2}>About us</MenuItem>
-                </LinkContainer>
-                <LinkContainer to="/contact/services">
-                  <MenuItem eventKey={5.3}>Services</MenuItem>
-                </LinkContainer>
-                {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
-              </NavDropdown>
+            <LinkContainer to="/about_us">
+              <MenuItem eventKey={6}>About us</MenuItem>
             </LinkContainer>
-            <li>
+            <LinkContainer to="/contact">
+              <MenuItem eventKey={7}>Contact</MenuItem>
+            </LinkContainer>
+            {/*<li>
               <Link to="/admin" target="_blank">
                 <img
                   src={require('../../assets/images/lock-icon.png')}
@@ -82,7 +68,7 @@ class Header extends Component {
                   className="img-responsive"
                 />
               </Link>
-            </li>
+            </li>*/}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

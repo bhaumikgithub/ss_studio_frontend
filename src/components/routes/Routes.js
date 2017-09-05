@@ -44,13 +44,9 @@ const routes = () => (
     />
     <BeforeLoginLayout exact path="/films" component={Films} />
     <BeforeLoginLayout exact path="/feedback" component={Feedback} />
-    <BeforeLoginLayout
-      exact
-      path="/contact/get_in_touch"
-      component={GetInTouch}
-    />
-    <BeforeLoginLayout exact path="/contact/about_us" component={AboutUs} />
-    <BeforeLoginLayout exact path="/contact/services" component={Services} />
+    <BeforeLoginLayout exact path="/contact" component={GetInTouch} />
+    <BeforeLoginLayout exact path="/about_us" component={AboutUs} />
+    <BeforeLoginLayout exact path="/services" component={Services} />
     {/* Before Login routes end */}
 
     {/* Auth routes start */}

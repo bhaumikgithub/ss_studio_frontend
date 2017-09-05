@@ -119,7 +119,7 @@ export default class GetInTouch extends Component {
           <Row>
             <PageHeader className="page-title page-main-title text-center">
               <label>
-                <span className="text-white">Get in</span> Touch
+                <span className="text-white">Contact</span>
               </label>
             </PageHeader>
             <Col sm={7}>
