@@ -4,10 +4,7 @@ import { Creatable } from 'react-select';
 
 // Import services
 import { getContacts } from '../../../services/admin/Contact';
-import {
-  createAlbumRecipient,
-  getNotInvitedContact
-} from '../../../services/admin/AlbumRecipient';
+import { createAlbumRecipient } from '../../../services/admin/AlbumRecipient';
 
 // Import css
 import '../../../assets/css/admin/album/share-album/share-album.css';
@@ -26,8 +23,7 @@ export default class ShareAlbum extends Component {
         emails: [],
         contact_options: []
       },
-      contacts: [],
-      albumId: this.props.albumId
+      contacts: []
     };
 
     return initialState;
@@ -39,7 +35,7 @@ export default class ShareAlbum extends Component {
 
   componentWillMount() {
     var self = this;
-    getNotInvitedContact(self.state.albumId)
+    getContacts()
       .then(function(response) {
         var data = response.data;
         self.setState({ contacts: data.data.contacts });
@@ -99,11 +95,9 @@ export default class ShareAlbum extends Component {
     var responseData = response.data;
     if (response.status === 201) {
       this.resetShareAlbumForm();
-      this.props.renderShareAlbum(
-        this.props.shareAlbumAction === 'albumsListing'
-          ? this.props.shareAlbumObject
-          : responseData.data.album_recipients.length
-      );
+      this.props.renderShareAlbum(this.props.shareAlbumAction === "albumsListing" ?
+        this.props.shareAlbumObject : responseData.data.album_recipients.length
+      )
       this.props.closeShareAlbum();
     } else {
       console.log(responseData.errors);
@@ -155,8 +149,12 @@ export default class ShareAlbum extends Component {
                 />
               </div>
               <div className="text-wrap">
-                <h3 className="title">{album.album_name}</h3>
-                <p>{album.photo_count} photos</p>
+                <h3 className="title">
+                  {album.album_name}
+                </h3>
+                <p>
+                  {album.photo_count} photos
+                </p>
               </div>
             </div>
 
