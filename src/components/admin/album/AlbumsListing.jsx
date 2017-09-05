@@ -193,6 +193,7 @@ export default class AlbumsListing extends Component {
 
         {this.state.shareAlbum && (
           <ShareAlbum
+            albumId={this.state.shareAlbumObject.id}
             shareAlbum={this.state.shareAlbum}
             closeShareAlbum={this.closeShareAlbum}
             shareAlbumObject={this.state.shareAlbumObject}
