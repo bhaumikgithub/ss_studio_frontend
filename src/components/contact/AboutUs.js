@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
+import { PageHeader, Grid, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 // Import css
@@ -74,10 +74,10 @@ export default class AboutUs extends Component {
               )}
               <Col xs={12} className="hire-wrap">
                 <LinkContainer
-                  to="/contact/get_in_touch"
+                  to="/contact"
                   className="btn btn-orange hire-btn"
                 >
-                  <Button>hire me</Button>
+                  <span>hire me</span>
                 </LinkContainer>
               </Col>
             </Col>
