@@ -329,12 +329,21 @@ a:visited,
   float: left;
   margin-left: 10px;
 }
-
-.show-album-icon {
+.edit-album-detail {
   color: #666;
-  line-height: 38px;
-  float: left;
-  margin-right: 4px;
-  margin-left: 2px;
+  float: right;
+  padding: 10px 20px;
+  font-family: 'ralewaymedium';
+  border-color: transparent;
+}
+.edit-album-detail img {
+  margin-right: 3px;
+}
+.edit-album-detail:hover,
+.edit-album-detail:focus {
+  color: #666;
+  border-color: transparent;
+  background-color: transparent;
+  outline: none !important;
 }
 /* end view album in admin album detail page */
