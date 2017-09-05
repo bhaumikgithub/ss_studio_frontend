@@ -227,18 +227,92 @@ div.filepicker {
 }
 /* end photo count in portfolio album detail */
 
-/* testimonial edit delete icon */
+/* admin testimonial page css start */
 .edit-testimonial-btn {
   right: 99px !important;
 }
 .testimonial-delete-icon {
   right: 48px !important;
 }
+/* admin testimonial page css end */
 
-/* video edit icon */
+/* admin video page css start */
 .video-edit-btn {
   right: 20px !important;
 }
+/* admin video page css end */
+
+/* album detail page css start */
+.album-photo-thumbs > img {
+  width: 100%;
+}
+.album-photo-thumbs {
+  position: relative;
+}
+.album-photo-thumbs .overlay:after {
+  content: '';
+  background-image: url('../images/portfolio/hover-design.png');
+  position: absolute;
+  height: 70px;
+  width: 70px;
+  display: none;
+  right: 15px;
+  top: 15px;
+  z-index: 10;
+}
+.album-photo-thumbs .overlay:before {
+  content: '';
+  background-image: url('../images/portfolio/hover-design.png');
+  position: absolute;
+  height: 70px;
+  width: 70px;
+  display: none;
+  left: 15px;
+  bottom: 15px;
+  z-index: 10;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.album-photo-thumbs:hover .overlay:after,
+.album-photo-thumbs:hover .overlay:before {
+  display: block;
+}
+.album-photo-thumbs .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: none;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+.album-photo-thumbs:hover .overlay {
+  display: block;
+}
+.portfolio-thumbs-wrap {
+  margin-top: 15px;
+}
+.album-photo-thumbs-wrap .overlay-search {
+  position: absolute;
+  top: 43%;
+  left: 43%;
+  border: 1px solid #f9a11d;
+  padding: 7px;
+}
+.photo-selection-checkbox,
+.custom-cover-pic {
+  z-index: 1;
+}
+/* album detail page css end */
+
+/* admin header page css start */
+.navbar-fixed-top {
+  z-index: 1;
+}
+/* admin header page css end */
+
 /* start disable horizontal scroll in homepage gallery */
 .disable-horizontal {
   overflow-x: hidden;
@@ -264,4 +338,3 @@ a:visited,
   margin-left: 2px;
 }
 /* end view album in admin album detail page */
-
