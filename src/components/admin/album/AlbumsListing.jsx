@@ -300,9 +300,8 @@ export default class AlbumsListing extends Component {
                     <Link
                       to={{
                         pathname: '/albums/' + album.slug,
-                        hash: '#true'
+                        search: '?add_photo=true'
                       }}
-                      target="_blank"
                       className="add-photos-album-listing"
                     >
                       <img

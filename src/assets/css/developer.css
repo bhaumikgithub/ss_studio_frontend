@@ -369,6 +369,11 @@ a:visited,
   top: 8px;
 }
 .add-photos-album-listing img {
-  background: #f9a11d;
+  background: #999;
+  border-radius: 7px;
+}
+
+.add-photo {
+  background: #f9a11d !important;
 }
 /* end pulic view album in Album Listing Page */
