@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Col, Modal, Button } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import DropzoneComponent from 'react-dropzone-component';
@@ -33,7 +32,6 @@ export default class AlreadyShared extends Component {
       }
     };
   }
-
   handleUploadFile(file) {
     var self = this;
     let data = new FormData();

@@ -37,7 +37,6 @@ export default class AlbumDetails extends Component {
       photoIndex: 0,
       albumSlug: this.props.match.params.slug,
       album: props.album,
-      add_photo: '',
       alert: {
         show: false,
         cancelBtn: true,
@@ -72,12 +71,9 @@ export default class AlbumDetails extends Component {
     this.setState({ showCreatePopup: false, editObject: {} });
   };
   componentWillMount() {
-    // const params = new URLSearchParams(this.props.location.search);
-    // if (params.get('add_photo') !== this.state.add_photo) {
-    //   self.setState({ add_photo: params.get('add_photo') });
-    // }
-    console.log(this.props.location);
-    if (this.props.location.search) {
+    const params = new URLSearchParams(this.props.location.search);
+    if (params.get('add_photo') === 'true') {
+      this.props.history.push(this.props.location.pathname);
       this.setState({ addPhoto: true });
     }
   }
