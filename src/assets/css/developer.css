@@ -368,3 +368,33 @@ a:visited,
   outline: none !important;
 }
 /* end view album in admin album detail page */
+
+/* start pulic view album in Album Listing Page */
+.view-album-listing {
+  font-size: 15px;
+  font-family: 'ralewaymedium';
+  color: #666;
+  line-height: 41px;
+  right: 75px;
+  position: absolute;
+  top: 8px;
+}
+
+.add-photos-album-listing {
+  font-size: 15px;
+  font-family: 'ralewaymedium';
+  color: #666;
+  line-height: 41px;
+  right: 195px;
+  position: absolute;
+  top: 8px;
+}
+.add-photos-album-listing img {
+  background: #999;
+  border-radius: 7px;
+}
+
+.add-photo {
+  background: #f9a11d !important;
+}
+/* end pulic view album in Album Listing Page */

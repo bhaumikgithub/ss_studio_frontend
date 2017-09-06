@@ -304,6 +304,37 @@ export default class AlbumsListing extends Component {
                         </Media.Heading>
                       </Link>
 
+                      <Link
+                        to={
+                          album.is_private ? (
+                            '/shared_album_login/' + album.slug
+                          ) : (
+                            '/shared_album/' + album.slug
+                          )
+                        }
+                        target="_blank"
+                        className="view-album-listing"
+                      >
+                        <img
+                          src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                          alt=""
+                        />{' '}
+                        View Album
+                      </Link>
+                      <Link
+                        to={{
+                          pathname: '/albums/' + album.slug,
+                          search: '?add_photo=true'
+                        }}
+                        className="add-photos-album-listing"
+                      >
+                        <img
+                          src={require('../../../assets/images/admin/album/add-icon.png')}
+                          alt=""
+                        />{' '}
+                        Add Photos
+                      </Link>
+
                       <Button
                         className="btn-link p-none album-action-btn album-edit-btn"
                         onClick={() =>

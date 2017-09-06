@@ -70,7 +70,13 @@ export default class AlbumDetails extends Component {
   hideCreatePopup = () => {
     this.setState({ showCreatePopup: false, editObject: {} });
   };
-
+  componentWillMount() {
+    const params = new URLSearchParams(this.props.location.search);
+    if (params.get('add_photo') === 'true') {
+      this.props.history.push(this.props.location.pathname);
+      this.setState({ addPhoto: true });
+    }
+  }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.album.id !== this.props.album.id) {
       this.setState({ album: this.props.album });
