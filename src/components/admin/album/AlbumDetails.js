@@ -73,8 +73,8 @@ export default class AlbumDetails extends Component {
   componentWillMount() {
     const params = new URLSearchParams(this.props.location.search);
     if (params.get('add_photo') === 'true') {
-      this.props.history.push(this.props.location.pathname);
       this.setState({ addPhoto: true });
+      this.props.history.push(this.props.location.pathname);
     }
   }
   componentDidUpdate(prevProps, prevState) {
