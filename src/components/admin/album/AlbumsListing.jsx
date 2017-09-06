@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Button, Media, Pagination } from 'react-bootstrap';
+import { Col, Button, Media } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
 import AlbumPopup from './AlbumPopup';
 import ShareAlbum from './ShareAlbum';
+import PaginationModule from '../../common/PaginationModule';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
 import { getAlbums, deleteAlbum } from '../../../services/admin/Album';
@@ -23,8 +25,6 @@ export default class AlbumsListing extends Component {
       editObject: {},
       shareAlbumObject: {},
       shareAlbumAction: {},
-      open: false,
-      activePage: 3,
       showCreatePopup: false,
       shareAlbum: false,
       sortingOrder: 'desc',
@@ -47,9 +47,13 @@ export default class AlbumsListing extends Component {
     this.getAllAlbums();
   }
 
-  getAllAlbums(sortingOrder = this.state.sortingOrder) {
+  getAllAlbums(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
-    getAlbums({ sorting_order: sortingOrder })
+    getAlbums({
+      sorting_order: sortingOrder,
+      page: page,
+      per_page: window.paginationPerPage
+    })
       .then(function(response) {
         var data = response.data;
         self.setState({
@@ -68,6 +72,11 @@ export default class AlbumsListing extends Component {
     const sortingOrder = this.state.sortingOrder === 'desc' ? 'asc' : 'desc';
     this.getAllAlbums(sortingOrder);
   }
+
+  handlePaginationClick = eventKey => {
+    if (eventKey !== this.state.meta.pagination.current_page)
+      this.getAllAlbums(undefined, eventKey);
+  };
 
   showDialogueBox(id) {
     this.setState({
@@ -110,11 +119,16 @@ export default class AlbumsListing extends Component {
     const albums = self.state.albums.filter(
       album => album.id !== self.state.alert.objectId
     );
-    const totalCount = self.state.meta.pagination.total_count;
+    var pagination = Object.assign({}, self.state.meta.pagination);
+    pagination.total_count -= 1;
+
+    if (albums.length === 0 && pagination.total_count > 0) {
+      this.getAllAlbums();
+    }
 
     self.setState({
       albums: albums,
-      meta: { pagination: { total_count: totalCount - 1 } },
+      meta: { pagination: pagination },
       alert: {
         show: true,
         title: 'Success',
@@ -171,12 +185,6 @@ export default class AlbumsListing extends Component {
 
   renderUpdateAlbum = album => {};
 
-  handleSelect(eventKey, e) {
-    this.setState({
-      activePage: eventKey
-    });
-  }
-
   renderShareAlbum = album => {
     const newAlbums = this.state.albums.slice();
     album.delivery_status = 'Shared';
@@ -220,7 +228,10 @@ export default class AlbumsListing extends Component {
           <Col xs={12} className="p-none">
             <span className="total-album pull-left">
               Total :{' '}
-              <span>{meta.pagination && meta.pagination.total_count}</span>{' '}
+              <span>
+                {albums.length + '/'}
+                {meta.pagination && meta.pagination.total_count}
+              </span>{' '}
               albums
             </span>
             <h5 className="pull-left sortBy">
@@ -256,165 +267,168 @@ export default class AlbumsListing extends Component {
           </Col>
         </Col>
         <Col xs={12} className="p-none album-list">
-          {albums.map(album => (
-            <Col xs={12} className="albums-list-wrap p-none" key={album.id}>
-              <Col xs={12} className="album-wrap">
-                <Media>
-                  <Media.Left align="top" className="album-img-wrap">
-                    <img
-                      className="album-thumb"
-                      width={190}
-                      height={190}
-                      src={album.cover_photo.image}
-                      alt={album.cover_photo.image_file_name}
-                    />
-                    {album.is_private && (
-                      <span className="lock-icon">
-                        <i className="fa fa-lock" />
-                      </span>
-                    )}
-                  </Media.Left>
-                  <Media.Body className="album-detail-wrap">
-                    <Link to={'/albums/' + album.slug}>
-                      <Media.Heading className="album-title">
-                        {album.album_name}
-                      </Media.Heading>
-                    </Link>
+          {albums.length === 0 && (
+            <h4 className="text-center">No albums available</h4>
+          )}
+          <ReactCSSTransitionGroup
+            transitionName="page-animation"
+            transitionAppear={true}
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeave={false}
+          >
+            {albums.map(album => (
+              <Col xs={12} className="albums-list-wrap p-none" key={album.id}>
+                <Col xs={12} className="album-wrap">
+                  <Media>
+                    <Media.Left align="top" className="album-img-wrap">
+                      <Link to={'/albums/' + album.slug}>
+                        <img
+                          className="album-thumb"
+                          width={190}
+                          height={190}
+                          src={album.cover_photo.image}
+                          alt={album.cover_photo.image_file_name}
+                        />
+                        {album.is_private && (
+                          <span className="lock-icon">
+                            <i className="fa fa-lock" />
+                          </span>
+                        )}
+                      </Link>
+                    </Media.Left>
+                    <Media.Body className="album-detail-wrap">
+                      <Link to={'/albums/' + album.slug}>
+                        <Media.Heading className="album-title">
+                          {album.album_name}
+                        </Media.Heading>
+                      </Link>
 
-                    <Button
-                      className="btn-link p-none album-action-btn album-edit-btn"
-                      onClick={() =>
-                        this.setState({
-                          showCreatePopup: true,
-                          editObject: album
-                        })}
-                    >
-                      <img
-                        src={require('../../../assets/images/admin/album/edit-icon.png')}
-                        alt=""
-                      />
-                    </Button>
-                    <Button
-                      className="btn-link p-none album-action-btn album-share-btn"
-                      onClick={() =>
-                        this.setState({
-                          shareAlbum: true,
-                          shareAlbumObject: album,
-                          shareAlbumAction: 'albumsListing'
-                        })}
-                    >
-                      <img
-                        src={require('../../../assets/images/admin/album/share-icon.png')}
-                        alt=""
-                      />
-                    </Button>
-
-                    <Col xs={12} className="p-none album-badges-wrap">
-                      {album.categories.map(category => (
-                        <span
-                          className="album-badge"
-                          key={category.category_name}
-                        >
-                          {category.category_name}
-                        </span>
-                      ))}
-                    </Col>
-
-                    <Col xs={12} className="p-none updated-info">
-                      <span className="fa fa-clock-o updated-icon" /> Last
-                      updated on {album.updated_at}.
-                    </Col>
-                    <Col xs={12} className="p-none album-separator">
-                      <hr />
-                    </Col>
-                  </Media.Body>
-                </Media>
-                <Col xs={12} className="p-none count-main-wrap">
-                  <Col xs={12} className="p-none">
-                    <Col
-                      lg={3}
-                      sm={6}
-                      xs={12}
-                      className="count-wrap photo-wrap"
-                    >
-                      <span className="count-detail">Total photos</span>
-                      <span className="count-detail count-num">
-                        {album.photo_count}
-                      </span>
-                    </Col>
-                    <Col
-                      lg={3}
-                      sm={6}
-                      xs={12}
-                      className="count-wrap view-count-wrap"
-                    >
-                      <span className="count-detail">View count</span>
-                      <span className="count-detail count-num">0</span>
-                    </Col>
-                    <Col
-                      lg={2}
-                      sm={6}
-                      xs={12}
-                      className="count-wrap status-wrap"
-                    >
-                      <span className="count-detail">status</span>
-                      <span
-                        className={
-                          'count-detail count-num ' +
-                          getStatusClass(album.delivery_status)
-                        }
+                      <Button
+                        className="btn-link p-none album-action-btn album-edit-btn"
+                        onClick={() =>
+                          this.setState({
+                            showCreatePopup: true,
+                            editObject: album
+                          })}
                       >
-                        {album.delivery_status}
-                      </span>
-                    </Col>
-                    <Col
-                      lg={4}
-                      sm={6}
-                      xs={12}
-                      className="count-wrap visible-wrap"
-                    >
-                      <span className="count-detail">
-                        visible in portfolio ?
-                      </span>
-                      <span className="count-detail count-num">
+                        <img
+                          src={require('../../../assets/images/admin/album/edit-icon.png')}
+                          alt=""
+                        />
+                      </Button>
+                      <Button
+                        className="btn-link p-none album-action-btn album-share-btn"
+                        onClick={() =>
+                          this.setState({
+                            shareAlbum: true,
+                            shareAlbumObject: album,
+                            shareAlbumAction: 'albumsListing'
+                          })}
+                      >
+                        <img
+                          src={require('../../../assets/images/admin/album/share-icon.png')}
+                          alt=""
+                        />
+                      </Button>
+
+                      <Col xs={12} className="p-none album-badges-wrap">
+                        {album.categories.map(category => (
+                          <span
+                            className="album-badge"
+                            key={category.category_name}
+                          >
+                            {category.category_name}
+                          </span>
+                        ))}
+                      </Col>
+
+                      <Col xs={12} className="p-none updated-info">
+                        <span className="fa fa-clock-o updated-icon" /> Last
+                        updated on {album.updated_at}.
+                      </Col>
+                      <Col xs={12} className="p-none album-separator">
+                        <hr />
+                      </Col>
+                    </Media.Body>
+                  </Media>
+                  <Col xs={12} className="p-none count-main-wrap">
+                    <Col xs={12} className="p-none">
+                      <Col
+                        lg={3}
+                        sm={6}
+                        xs={12}
+                        className="count-wrap photo-wrap"
+                      >
+                        <span className="count-detail">Total photos</span>
+                        <span className="count-detail count-num">
+                          {album.photo_count}
+                        </span>
+                      </Col>
+                      <Col
+                        lg={3}
+                        sm={6}
+                        xs={12}
+                        className="count-wrap view-count-wrap"
+                      >
+                        <span className="count-detail">View count</span>
+                        <span className="count-detail count-num">0</span>
+                      </Col>
+                      <Col
+                        lg={2}
+                        sm={6}
+                        xs={12}
+                        className="count-wrap status-wrap"
+                      >
+                        <span className="count-detail">status</span>
                         <span
                           className={
-                            'fa visible-icon text-red ' +
-                            this.getPortfolioClass(album.portfolio_visibility)
+                            'count-detail count-num ' +
+                            getStatusClass(album.delivery_status)
                           }
-                        />{' '}
-                        {album.portfolio_visibility ? 'Yes' : 'No'}
-                      </span>
+                        >
+                          {album.delivery_status}
+                        </span>
+                      </Col>
+                      <Col
+                        lg={4}
+                        sm={6}
+                        xs={12}
+                        className="count-wrap visible-wrap"
+                      >
+                        <span className="count-detail">
+                          visible in portfolio ?
+                        </span>
+                        <span className="count-detail count-num">
+                          <span
+                            className={
+                              'fa visible-icon text-red ' +
+                              this.getPortfolioClass(album.portfolio_visibility)
+                            }
+                          />{' '}
+                          {album.portfolio_visibility ? 'Yes' : 'No'}
+                        </span>
+                      </Col>
                     </Col>
+                    <Button
+                      className="btn-link p-none album-action-btn album-delete-btn"
+                      onClick={event => this.showDialogueBox(album.id)}
+                    >
+                      <img
+                        src={require('../../../assets/images/admin/album/delete-icon.png')}
+                        alt=""
+                      />
+                    </Button>
                   </Col>
-                  <Button
-                    className="btn-link p-none album-action-btn album-delete-btn"
-                    onClick={event => this.showDialogueBox(album.id)}
-                  >
-                    <img
-                      src={require('../../../assets/images/admin/album/delete-icon.png')}
-                      alt=""
-                    />
-                  </Button>
                 </Col>
               </Col>
-            </Col>
-          ))}
+            ))}
+          </ReactCSSTransitionGroup>
         </Col>
-
-        <Col xs={12} className="p-none custom-pagination-wrap">
-          <Pagination
-            prev
-            next
-            ellipsis
-            boundaryLinks
-            items={10}
-            maxButtons={5}
-            activePage={this.state.activePage}
-            onSelect={this.handleSelect}
-            className="custom-pagination"
-          />
-        </Col>
+        <PaginationModule
+          pagination={meta.pagination}
+          paginationClick={this.handlePaginationClick}
+        />
       </Col>
     );
   }
