@@ -128,6 +128,7 @@ export default class AlbumDetails extends Component {
       return album.id !== ids[ids.indexOf(album.id)];
     });
     newAlbum.photos = photos;
+    document.querySelector('.all-selection-check input').checked = false;
 
     self.updateSuccessState(newAlbum, response.data.message, from);
   }
@@ -183,12 +184,26 @@ export default class AlbumDetails extends Component {
       });
   }
 
+  getCoverPhotoIndex(arr, prop) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].is_cover_photo === true) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   handleCoverPicSuccessResponse(response, index) {
+    var self = this;
     var data = response.data;
     if (response.status === 201) {
-      const { cover_photo, photos } = this.state.album;
-      photos.splice(index, 1, cover_photo);
+      const { photos } = this.state.album;
       const newAlbum = Object.assign({}, this.state.album);
+      var cover_photo_index = self.getCoverPhotoIndex(photos, 'id');
+      if (cover_photo_index !== -1) {
+        photos[cover_photo_index].is_cover_photo = false;
+      }
+      photos[index].is_cover_photo = true;
       newAlbum.cover_photo = data.data.photo;
       this.setState({ album: newAlbum });
     } else {
@@ -255,6 +270,7 @@ export default class AlbumDetails extends Component {
               renderNewPhotos={this.renderNewPhotos}
               deletePhotos={this.deletePhotos}
               albumId={album.id}
+              photoCount={photos.length}
             />
           )}
           {this.state.shareAlbum && (
@@ -361,38 +377,13 @@ export default class AlbumDetails extends Component {
                 lg={9}
                 className="photo-selection-wrap"
               >
-                {album.cover_photo && (
-                  <Col
-                    xs={6}
-                    sm={4}
-                    md={4}
-                    lg={3}
-                    className="album-image-wrap cover-pic no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap"
-                  >
-                    <Col xs={12} className="album-photo-thumbs p-none">
-                      <img
-                        className="img-responsive album-image"
-                        src={album.cover_photo.image}
-                        alt={album.cover_photo.image_file_name}
-                      />
-                      {album.cover_photo.is_cover_photo && (
-                        <a
-                          onClick={() => this.openLightbox(album.cover_photo)}
-                          className="overlay"
-                        >
-                          <i
-                            className="fa fa-search-plus overlay-search"
-                            aria-hidden="true"
-                          />
-                        </a>
-                      )}
-                    </Col>
-                    {/* <Checkbox className="pic-selection-check">
-                    <div className="check">
-                      <div className="inside" />
-                    </div>
-                  </Checkbox> */}
-                  </Col>
+                {photos &&
+                photos.length === 0 && (
+                  <h4 className="text-center m-t-15">
+                    {' '}
+                    No images available.Please click on Add Photo button to
+                    upload images.
+                  </h4>
                 )}
 
                 {album.photos &&
@@ -402,7 +393,13 @@ export default class AlbumDetails extends Component {
                       sm={4}
                       md={4}
                       lg={3}
-                      className="album-image-wrap no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap"
+                      className={
+                        photo.is_cover_photo ? (
+                          'album-image-wrap cover-pic no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
+                        ) : (
+                          'album-image-wrap no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
+                        )
+                      }
                       key={photo.id}
                     >
                       <Col xs={12} className="album-photo-thumbs p-none">
@@ -421,15 +418,17 @@ export default class AlbumDetails extends Component {
                           />
                         </a>
                       </Col>
-                      <span
-                        className="set-cover-pic custom-cover-pic"
-                        onClick={event => {
-                          this.handleSetCoverPicClick(photo.id, index);
-                        }}
-                      >
-                        {' '}
-                        Set as Cover Pic{' '}
-                      </span>
+                      {!photo.is_cover_photo && (
+                        <span
+                          className="set-cover-pic custom-cover-pic"
+                          onClick={event => {
+                            this.handleSetCoverPicClick(photo.id, index);
+                          }}
+                        >
+                          {' '}
+                          Set as Cover Pic {' '}
+                        </span>
+                      )}
                       <Checkbox
                         name="photo-checkbox"
                         id={photo.id}
@@ -515,11 +514,9 @@ export default class AlbumDetails extends Component {
                     </span>
                   </label>
                 )}
-
                 <Col xs={12} className="p-none detail-separator">
                   <hr />
                 </Col>
-
                 <Col xs={12} className="p-none">
                   <h4 className="album-delivery-details">
                     album delivery details
@@ -558,11 +555,9 @@ export default class AlbumDetails extends Component {
                     </button>
                   </div>
                 </Col>
-
                 <Col xs={12} className="p-none detail-separator">
                   <hr />
                 </Col>
-
                 <Col xs={12} className="p-none album-badges-wrap">
                   {album.categories &&
                     album.categories.map(category => (
@@ -575,13 +570,7 @@ export default class AlbumDetails extends Component {
                 photos &&
                 album.cover_photo && (
                   <Lightbox
-                    mainSrc={
-                      album.cover_photo.image && !photos[photoIndex] ? (
-                        album.cover_photo.original_image
-                      ) : (
-                        photos[photoIndex].original_image
-                      )
-                    }
+                    mainSrc={photos[photoIndex].original_image}
                     nextSrc={
                       photos[(photoIndex + 1) % photos.length].original_image
                     }

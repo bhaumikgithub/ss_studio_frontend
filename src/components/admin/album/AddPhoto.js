@@ -17,7 +17,13 @@ import '../../../../node_modules/dropzone/dist/min/dropzone.min.css';
 export default class AlreadyShared extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: '', albumId: props.albumId, photos: [], id: '' };
+    this.state = {
+      value: '',
+      albumId: props.albumId,
+      photos: [],
+      id: '',
+      photoCount: props.photoCount
+    };
     this.componentConfig = {
       iconFiletypes: ['.jpg', '.png', '.jpeg'],
       showFiletypeIcon: true,
@@ -36,10 +42,15 @@ export default class AlreadyShared extends Component {
   handleUploadFile(file) {
     var self = this;
     let data = new FormData();
+    const { photoCount, albumId } = self.state;
     data.append('photo[][image]', file);
-    data.append('photo[][imageable_id]', self.state.albumId);
+    data.append('photo[][imageable_id]', albumId);
     data.append('photo[][imageable_type]', 'Album');
-    console.log(data);
+    self.setState({ photoCount: photoCount + 1 });
+    if (photoCount === 0) {
+      data.append('photo[][is_cover_photo]', true);
+    }
+
     uploadPhoto(data)
       .then(function(response) {
         self.handleSuccessResponse(response, file);
@@ -55,7 +66,7 @@ export default class AlreadyShared extends Component {
   }
 
   handlePhotoRendering(file, action, response = undefined) {
-    var photos = this.state.photos;
+    var { photos } = this.state;
 
     if (action === 'insert') {
       var newPhoto = response.data.data.photos[0];
