@@ -200,13 +200,14 @@ export default class AlbumDetails extends Component {
       });
   }
 
-  getCoverPhotoIndex(arr, prop) {
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i].is_cover_photo === true) {
-        return i;
+  removeOldCoverPhoto(photos) {
+    photos.map(photo => {
+      if (photo.is_cover_photo) {
+        return (photo.is_cover_photo = false);
       }
-    }
-    return -1;
+      return false;
+    });
+    return false;
   }
 
   handleCoverPicSuccessResponse(response, index) {
@@ -215,10 +216,7 @@ export default class AlbumDetails extends Component {
     if (response.status === 201) {
       const { photos } = this.state.album;
       const newAlbum = Object.assign({}, this.state.album);
-      var cover_photo_index = self.getCoverPhotoIndex(photos, 'id');
-      if (cover_photo_index !== -1) {
-        photos[cover_photo_index].is_cover_photo = false;
-      }
+      self.removeOldCoverPhoto(photos);
       photos[index].is_cover_photo = true;
       newAlbum.cover_photo = data.data.photo;
       this.setState({ album: newAlbum });
