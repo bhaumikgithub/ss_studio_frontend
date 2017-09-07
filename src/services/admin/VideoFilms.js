@@ -1,10 +1,14 @@
 import axios from 'axios';
-import { apiHeader, checkStatus } from '../../components/Helper';
+import {
+  apiHeader,
+  checkStatus,
+  apiCustomHeader
+} from '../../components/Helper';
 
-export function getVideoFilms() {
+export function getVideoFilms(params) {
   const responsePromise = axios.get(
     process.env.REACT_APP_API_BASE_URL + 'videos',
-    apiHeader()
+    { params: params, headers: apiCustomHeader() }
   );
   return checkStatus(responsePromise);
 }
