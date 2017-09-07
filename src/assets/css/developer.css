@@ -48,6 +48,9 @@
 .page-animation-appear.page-animation-appear-active {
   opacity: 0.01;
 }
+.p-t-40 {
+  padding-top: 40px;
+}
 
 /* Category delete page custom css start */
 .del_butn,
@@ -153,6 +156,9 @@
 .share-album-form .custom-form-control .Select-control {
   border: 0;
 }
+.left-15 {
+  left: 15px;
+}
 /* Share album page css end */
 
 /* Error page css start */
@@ -240,7 +246,6 @@ div.filepicker {
   z-index: 1;
   color: #666;
   font-weight: bold;
-  text-decoration: underline;
 }
 
 .portfolio-main-title {
@@ -324,7 +329,7 @@ div.filepicker {
 }
 .photo-selection-checkbox,
 .custom-cover-pic {
-  z-index: 1;
+  z-index: 5;
 }
 /* album detail page css end */
 

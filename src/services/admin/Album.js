@@ -55,3 +55,12 @@ export function albumPasscodeVerification(params) {
       params['passcode']
   );
 }
+
+export function submitAlbum(albumSlug) {
+  return axios.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_submitted'
+  );
+}

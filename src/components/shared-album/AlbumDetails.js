@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { PageHeader, Grid, Col, Row, Checkbox } from 'react-bootstrap';
+import { PageHeader, Grid, Col, Row, Checkbox, Button } from 'react-bootstrap';
 import Lightbox from 'react-image-lightbox';
+import SweetAlert from 'sweetalert-react';
 
 // Import services
-import { showAlbum } from '../../services/admin/Album';
+import { showAlbum, submitAlbum } from '../../services/admin/Album';
+import { selectPhoto } from '../../services/admin/Photo';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -18,7 +20,16 @@ export default class AlbumDetails extends Component {
       album: {},
       albumSlug: this.props.match.params.slug,
       token: '',
-      passcodeLoginState: {}
+      passcodeLoginState: {},
+      alert: {
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
   }
 
@@ -43,6 +54,96 @@ export default class AlbumDetails extends Component {
       });
   }
 
+  showDialogueBox() {
+    var alert = {};
+    if (this.state.album.selected_photo_count < 1) {
+      alert = {
+        show: true,
+        title: 'Ooops',
+        text: 'Please select photos',
+        type: 'warning',
+        confirmAction: () => this.setState({ alert: { show: false } })
+      };
+    } else {
+      alert = {
+        show: true,
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes, submit it!',
+        type: 'warning',
+        confirmAction: () => this.handleSubmitPhotos(),
+        cancelBtn: true
+      };
+    }
+    this.setState({
+      alert: alert
+    });
+  }
+
+  handleSubmitPhotos() {
+    var self = this;
+    submitAlbum(this.state.albumSlug)
+      .then(function(response) {
+        self.handleSubmitSuccessResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  selectPhoto(index, photoId) {
+    var self = this;
+    selectPhoto(photoId)
+      .then(function(response) {
+        if (response.status === 201) {
+          self.handlePhotoSuccessResponse(index, response);
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  handleSubmitSuccessResponse(response) {
+    var alert = {};
+    const newALbum = Object.assign({}, this.state.album);
+    newALbum.delivery_status = 'Submitted';
+    if (response.status === 201) {
+      alert = {
+        show: true,
+        title: 'Success',
+        text: response.data.message,
+        type: 'success',
+        confirmAction: () => this.setState({ alert: { show: false } })
+      };
+    } else if (response.status === 208) {
+      alert = {
+        show: true,
+        title: 'Ooops',
+        text: response.data.message,
+        type: 'warning',
+        confirmAction: () => this.setState({ alert: { show: false } })
+      };
+    }
+    this.setState({
+      album: newALbum,
+      alert: alert
+    });
+  }
+
+  handlePhotoSuccessResponse(index, response) {
+    var photo = response.data.data.photo;
+    var newAlbum = Object.assign({}, this.state.album);
+    var newPhotos = newAlbum.photos;
+
+    newPhotos.splice(index, 1, photo);
+    photo.is_selected
+      ? (newAlbum.selected_photo_count += 1)
+      : (newAlbum.selected_photo_count -= 1);
+    newPhotos.photos = newPhotos;
+    this.setState({ album: newAlbum });
+  }
+
   openLightbox(photo) {
     const allPhotos = this.state.album.photos;
     const photoIndex = allPhotos.indexOf(photo);
@@ -56,7 +157,8 @@ export default class AlbumDetails extends Component {
       photoIndex,
       token,
       albumSlug,
-      passcodeLoginState
+      passcodeLoginState,
+      alert
     } = this.state;
     const photos = album.photos;
     if (album.is_private && passcodeLoginState === undefined) {
@@ -66,8 +168,27 @@ export default class AlbumDetails extends Component {
     }
     return (
       <div className="page-wrap portfolio-wrap">
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.setState({ alert: { show: false } })}
+        />
         <Grid>
           <Col xs={12} className="p-none">
+            <Col className="photo-count-detail left-15">
+              {album.selected_photo_count +
+                '/' +
+                album.photo_count +
+                ' photos selected'}
+            </Col>
+            <Col className="photo-count-detail">
+              Total Photos: {album.photo_count}
+            </Col>
             <PageHeader className="page-title page-main-title text-center">
               <label>{album.album_name}</label>
             </PageHeader>
@@ -77,7 +198,7 @@ export default class AlbumDetails extends Component {
               <Col sm={12} className="portfolio-content">
                 <Col xs={12} className="p-none">
                   {photos &&
-                    photos.map(photo => (
+                    photos.map((photo, index) => (
                       <Col
                         xs={4}
                         sm={3}
@@ -87,11 +208,6 @@ export default class AlbumDetails extends Component {
                       >
                         <Col xs={12} className="portfolio-thumbs p-none">
                           <img alt={photo.image_file_name} src={photo.image} />
-                          <Checkbox className="pic-selection-check">
-                            <div className="check">
-                              <div className="inside" />
-                            </div>
-                          </Checkbox>
                           <a
                             onClick={() => this.openLightbox(photo)}
                             className="overlay"
@@ -101,10 +217,21 @@ export default class AlbumDetails extends Component {
                               aria-hidden="true"
                             />
                           </a>
+                          {album.delivery_status !== 'Submitted' && (
+                            <Checkbox
+                              onChange={event =>
+                                this.selectPhoto(index, photo.id)}
+                              checked={photo.is_selected}
+                              className="pic-selection-check photo-selection-checkbox"
+                            >
+                              <div className="check">
+                                <div className="inside" />
+                              </div>
+                            </Checkbox>
+                          )}
                         </Col>
                       </Col>
                     ))}
-
                   {isOpenLightbox &&
                   photos && (
                     <Lightbox
@@ -132,6 +259,16 @@ export default class AlbumDetails extends Component {
                     />
                   )}
                 </Col>
+                {album.delivery_status !== 'Submitted' && (
+                  <Col xs={12} className="text-center p-t-40">
+                    <Button
+                      className="btn-orange contact-submit-btn text-center btn btn-default"
+                      onClick={() => this.showDialogueBox()}
+                    >
+                      Submit photos
+                    </Button>
+                  </Col>
+                )}
               </Col>
             </Row>
           </Col>

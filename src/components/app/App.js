@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 // import routes file
 import Routes from '../routes/Routes';
 
-window.paginationPerPage = 5;
+window.paginationPerPage = 1;
 
 class App extends Component {
   render() {
