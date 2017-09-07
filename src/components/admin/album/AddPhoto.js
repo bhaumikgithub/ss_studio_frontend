@@ -38,7 +38,6 @@ export default class AlreadyShared extends Component {
       }
     };
   }
-
   handleUploadFile(file) {
     var self = this;
     let data = new FormData();
@@ -127,7 +126,7 @@ export default class AlreadyShared extends Component {
               <Button
                 type="button"
                 onClick={() => this.handleOk()}
-                className="btn btn-orange create-album-cancel"
+                className="btn btn-orange create-album-cancel add-photo"
               >
                 Ok
               </Button>
