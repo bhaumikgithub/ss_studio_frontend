@@ -207,7 +207,7 @@ export default class AlbumDetails extends Component {
             <Col className="photo-count-detail">
               Total Photos: {album.photo_count}
             </Col>
-            <PageHeader className="page-title page-main-title text-center">
+            <PageHeader className="page-title page-main-title text-center portfolio-main-title">
               <label>{album.album_name}</label>
             </PageHeader>
           </Col>
