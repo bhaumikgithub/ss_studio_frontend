@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader, Grid, Col, Row } from 'react-bootstrap';
-import Lightbox from 'react-image-lightbox';
+
+// Import component
+import LightBoxModule from '../common/LightBoxModule';
 
 // Import services
 import { showAlbum } from '../../services/admin/Album';
@@ -40,6 +42,10 @@ export default class Portfolio extends Component {
     const photoIndex = allPhotos.indexOf(photo);
     this.setState({ isOpenLightbox: true, photoIndex: photoIndex });
   }
+
+  closeLightBox = () => {
+    this.setState({ isOpenLightbox: false });
+  };
 
   render() {
     const { album, isOpenLightbox, photoIndex } = this.state;
@@ -88,7 +94,16 @@ export default class Portfolio extends Component {
 
                   {isOpenLightbox &&
                   photos && (
-                    <Lightbox
+                    <LightBoxModule
+                      isOpenLightbox={isOpenLightbox}
+                      photos={photos}
+                      photoIndex={photoIndex}
+                      album={album}
+                      closeLightBox={this.closeLightBox}
+                    />
+                  )}
+
+                  {/* <Lightbox
                       mainSrc={photos[photoIndex].original_image}
                       nextSrc={
                         photos[(photoIndex + 1) % photos.length].original_image
@@ -110,8 +125,7 @@ export default class Portfolio extends Component {
                         })}
                       imageTitle={photos[photoIndex].image_file_name}
                       imageCaption={'From Album ' + album.album_name}
-                    />
-                  )}
+                    /> */}
                 </Col>
               </Col>
             </Row>
