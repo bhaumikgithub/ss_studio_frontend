@@ -9,10 +9,13 @@ import ShareAlbum from './ShareAlbum';
 import AlreadyShared from './AlreadyShared';
 import AddPhoto from './AddPhoto';
 import AlbumPopup from './AlbumPopup';
+import PaginationModule from '../../common/PaginationModule';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
 import { deleteSelectedPhotos } from '../../../services/admin/Photo';
 import { setCoverPhoto } from '../../../services/admin/Photo';
+import { showAlbum } from '../../../services/admin/Album';
 
 // Import helper
 import { getStatusClass } from '../../Helper';
@@ -47,6 +50,23 @@ export default class AlbumDetails extends Component {
         type: ''
       }
     };
+  }
+
+  showAlbum(page = 1) {
+    var self = this;
+    showAlbum(self.state.albumSlug, {
+      page: page,
+      per_page: 16
+    })
+      .then(function(response) {
+        var data = response.data;
+        if (response.status === 200) {
+          self.setState({ album: data.data.album });
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
   }
 
   showDialogueBox() {
@@ -145,6 +165,10 @@ export default class AlbumDetails extends Component {
     });
     newAlbum.photos = photos;
     document.querySelector('.all-selection-check input').checked = false;
+
+    if (photos.length === 0 && album.photo_pagination.total_count > 0) {
+      this.showAlbum();
+    }
 
     self.updateSuccessState(newAlbum, response.data.message, from);
   }
@@ -261,6 +285,11 @@ export default class AlbumDetails extends Component {
     newAlbum.portfolio_visibility = album.portfolio_visibility;
     newAlbum.categories = album.categories;
     this.setState({ album: newAlbum });
+  };
+
+  handlePaginationClick = eventKey => {
+    if (eventKey !== this.state.album.photo_pagination.current_page)
+      this.showAlbum(eventKey);
   };
 
   closeAddPhoto = () => {
@@ -433,61 +462,68 @@ export default class AlbumDetails extends Component {
                     upload images.
                   </h4>
                 )}
-
-                {album.photos &&
-                  album.photos.map((photo, index) => (
-                    <Col
-                      xs={6}
-                      sm={4}
-                      md={4}
-                      lg={3}
-                      className={
-                        photo.is_cover_photo ? (
-                          'album-image-wrap cover-pic no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
-                        ) : (
-                          'album-image-wrap no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
-                        )
-                      }
-                      key={photo.id}
-                    >
-                      <Col xs={12} className="album-photo-thumbs p-none">
-                        <img
-                          className="img-responsive album-image"
-                          src={photo.image}
-                          alt={photo.image_file_name}
-                        />
-                        <a
-                          onClick={() => this.openLightbox(photo)}
-                          className="overlay"
-                        >
-                          <i
-                            className="fa fa-search-plus overlay-search"
-                            aria-hidden="true"
-                          />
-                        </a>
-                      </Col>
-                      {!photo.is_cover_photo && (
-                        <span
-                          className="set-cover-pic custom-cover-pic"
-                          onClick={event => {
-                            this.handleSetCoverPicClick(photo.id, index);
-                          }}
-                        >
-                          {' '}
-                          Set as Cover Pic {' '}
-                        </span>
-                      )}
-                      <Checkbox
-                        name="photo-checkbox"
-                        id={photo.id}
-                        className="pic-selection-check photo-selection-checkbox"
+                <ReactCSSTransitionGroup
+                  transitionName="page-animation"
+                  transitionAppear={true}
+                  transitionAppearTimeout={500}
+                  transitionEnterTimeout={500}
+                  transitionLeave={false}
+                >
+                  {album.photos &&
+                    album.photos.map((photo, index) => (
+                      <Col
+                        xs={6}
+                        sm={4}
+                        md={4}
+                        lg={3}
+                        className={
+                          photo.is_cover_photo ? (
+                            'album-image-wrap cover-pic no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
+                          ) : (
+                            'album-image-wrap no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
+                          )
+                        }
+                        key={photo.id}
                       >
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </Col>
-                  ))}
+                        <Col xs={12} className="album-photo-thumbs p-none">
+                          <img
+                            className="img-responsive album-image"
+                            src={photo.image}
+                            alt={photo.image_file_name}
+                          />
+                          <a
+                            onClick={() => this.openLightbox(photo)}
+                            className="overlay"
+                          >
+                            <i
+                              className="fa fa-search-plus overlay-search"
+                              aria-hidden="true"
+                            />
+                          </a>
+                        </Col>
+                        {!photo.is_cover_photo && (
+                          <span
+                            className="set-cover-pic custom-cover-pic"
+                            onClick={event => {
+                              this.handleSetCoverPicClick(photo.id, index);
+                            }}
+                          >
+                            {' '}
+                            Set as Cover Pic {' '}
+                          </span>
+                        )}
+                        <Checkbox
+                          name="photo-checkbox"
+                          id={photo.id}
+                          className="pic-selection-check photo-selection-checkbox"
+                        >
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </Col>
+                    ))}
+                </ReactCSSTransitionGroup>
               </Col>
 
               <Col sm={12} md={4} lg={3} className="album-info-wrap">
@@ -648,6 +684,12 @@ export default class AlbumDetails extends Component {
                   />
                 )}
               </Col>
+            </Col>
+            <Col sm={9} xs={12}>
+              <PaginationModule
+                pagination={album.photo_pagination}
+                paginationClick={this.handlePaginationClick}
+              />
             </Col>
           </Col>
         </Col>
