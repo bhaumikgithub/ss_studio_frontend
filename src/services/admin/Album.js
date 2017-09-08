@@ -22,9 +22,10 @@ export function createAlbum(params) {
   return checkStatus(responsePromise);
 }
 
-export function showAlbum(id) {
+export function showAlbum(id, params) {
   const responsePromise = axios.get(
-    process.env.REACT_APP_API_BASE_URL + 'albums/' + id
+    process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
+    { params: params }
   );
   return checkStatus(responsePromise);
 }
@@ -53,5 +54,14 @@ export function albumPasscodeVerification(params) {
       params['albumSlug'] +
       '/passcode_verification?passcode=' +
       params['passcode']
+  );
+}
+
+export function submitAlbum(albumSlug) {
+  return axios.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_submitted'
   );
 }

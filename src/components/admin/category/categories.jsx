@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Table, Pagination } from 'react-bootstrap';
+import { Col, Table } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
@@ -241,20 +241,6 @@ export default class Categories extends Component {
               </tbody>
             </Table>
           </div>
-        </Col>
-
-        <Col xs={12} className="p-none custom-pagination-wrap">
-          <Pagination
-            prev
-            next
-            ellipsis
-            boundaryLinks
-            items={10}
-            maxButtons={3}
-            activePage={this.state.activePage}
-            onSelect={this.handleSelect}
-            className="custom-pagination"
-          />
         </Col>
       </Col>
     );

@@ -92,7 +92,7 @@ const HomePageGalley = Loadable({
   loading: Loading
 });
 const Testimonial = Loadable({
-  loader: () => import('../admin/testimonial/Testimonial'),
+  loader: () => import('../admin/testimonial/Testimonials'),
   loading: Loading
 });
 
