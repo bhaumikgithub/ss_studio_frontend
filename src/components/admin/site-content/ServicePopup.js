@@ -226,7 +226,7 @@ export default class ServicePopup extends Component {
                 )}
               </FormGroup>
 
-              <FormGroup className="custom-form-group">
+              <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Description
                 </ControlLabel>

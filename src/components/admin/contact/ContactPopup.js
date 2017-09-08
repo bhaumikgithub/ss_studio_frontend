@@ -160,6 +160,10 @@ export default class AddContact extends Component {
 
   render() {
     const { contactForm, errors } = this.state;
+    const previewUrl =
+      contactForm.photo_attributes && contactForm.photo_attributes.image
+        ? contactForm.photo_attributes.image
+        : require('../../../assets/images/admin/contact/admin-add-contact/contact-thumb.png');
     return (
       <Modal
         show={this.props.showCreate}
@@ -243,14 +247,7 @@ export default class AddContact extends Component {
 
                 <div className="upload-img-wrap">
                   <div className="upload-thumb upload-image-thumb-wrap">
-                    <img
-                      className="img-responsive"
-                      src={
-                        contactForm.photo_attributes &&
-                        contactForm.photo_attributes.image
-                      }
-                      alt=""
-                    />
+                    <img className="img-responsive" src={previewUrl} alt="" />
                   </div>
                   <div className="upload-img-btn">
                     <span>Upload</span>
