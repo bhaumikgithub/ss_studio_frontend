@@ -55,6 +55,41 @@
   padding-top: 40px;
 }
 
+/* pagination css start */
+.custom-pagination {
+  float: right;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+.custom-pagination a {
+  border: 0 !important;
+  color: #555 !important;
+}
+.custom-pagination li.active a,
+.custom-pagination li.active a:hover,
+.custom-pagination li.active a:focus,
+.custom-pagination li.active a:active {
+  background: #fff;
+  color: #f9a11d !important;
+}
+.custom-pagination li:first-child a {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  font-size: 14px !important;
+  padding: 0 5px 0 15px !important;
+}
+.custom-pagination li:last-child a {
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+  padding: 0 15px 0 5px !important;
+}
+.custom-pagination li:first-child a span,
+.custom-pagination li:last-child a span {
+  font-size: 23px !important;
+  color: #f9a11d !important;
+}
+/* pagination css end */
+
 /* Category delete page custom css start */
 .del_butn,
 .edit-icon {
@@ -162,6 +197,28 @@
 .left-15 {
   left: 15px;
 }
+.pic-selected:after {
+  content: 'Selected';
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  background: rgba(249, 161, 29, 0.9);
+  color: #fff;
+  height: 30px;
+  width: calc(100% - 30px);
+  font-size: 14px;
+  line-height: 30px;
+  text-align: center;
+  font-family: 'ralewaysemibold';
+  letter-spacing: 1px;
+  z-index: 2;
+}
+.shared-album-wrap {
+  border-radius: 6px;
+  border: 1px solid #e7e7e7;
+  padding-bottom: 30px;
+  box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
+}
 /* Share album page css end */
 
 /* Error page css start */
@@ -216,6 +273,9 @@
 .content-wrap .delete a:focus {
   color: #e22122;
   text-decoration: underline;
+}
+.shared-album-wrap {
+  margin-bottom: 30px;
 }
 /* changes by binoli end */
 
@@ -349,11 +409,12 @@ div.filepicker {
 /* end disable horizontal scroll in homepage gallery */
 
 /* start view album in admin album detail page */
-a:visited,
-.view-album-detail {
+.view-album-detail,
+.view-album-detail a:visited,
+.view-album-detail a:hover {
   font-size: 15px;
   font-family: 'ralewaymedium';
-  color: #666;
+  color: #666 !important;
   line-height: 41px;
   float: left;
   margin-left: 10px;

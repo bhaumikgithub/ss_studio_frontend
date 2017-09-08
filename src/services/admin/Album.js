@@ -22,9 +22,10 @@ export function createAlbum(params) {
   return checkStatus(responsePromise);
 }
 
-export function showAlbum(id) {
+export function showAlbum(id, params) {
   const responsePromise = axios.get(
-    process.env.REACT_APP_API_BASE_URL + 'albums/' + id
+    process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
+    { params: params }
   );
   return checkStatus(responsePromise);
 }

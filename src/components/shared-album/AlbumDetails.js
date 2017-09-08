@@ -4,12 +4,18 @@ import { PageHeader, Grid, Col, Row, Checkbox, Button } from 'react-bootstrap';
 import Lightbox from 'react-image-lightbox';
 import SweetAlert from 'sweetalert-react';
 
+// Import component
+import PaginationModule from '../common/PaginationModule';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 // Import services
 import { showAlbum, submitAlbum } from '../../services/admin/Album';
 import { selectPhoto } from '../../services/admin/Photo';
 
 // Import css
 import '../../assets/css/portfolio.css';
+
+const paginationPerPage = 24;
 
 export default class AlbumDetails extends Component {
   constructor(props) {
@@ -34,15 +40,22 @@ export default class AlbumDetails extends Component {
   }
 
   componentWillMount() {
-    var self = this;
     const { search, state } = this.props.location;
     const params = new URLSearchParams(search);
-    self.setState({ passcodeLoginState: state });
+    this.setState({ passcodeLoginState: state });
     if (params.get('token') !== this.state.token) {
-      self.setState({ token: params.get('token') });
+      this.setState({ token: params.get('token') });
     }
+    this.showAlbum();
+  }
 
-    showAlbum(self.state.albumSlug)
+  showAlbum(page = 1) {
+    var self = this;
+
+    showAlbum(self.state.albumSlug, {
+      page: page,
+      per_page: paginationPerPage
+    })
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {
@@ -53,6 +66,11 @@ export default class AlbumDetails extends Component {
         console.log(error.response);
       });
   }
+
+  handlePaginationClick = eventKey => {
+    if (eventKey !== this.state.album.photo_pagination.current_page)
+      this.showAlbum(eventKey);
+  };
 
   showDialogueBox() {
     var alert = {};
@@ -196,28 +214,39 @@ export default class AlbumDetails extends Component {
           <Col xs={12} className="p-none">
             <Row className="clearfix">
               <Col sm={12} className="portfolio-content">
-                <Col xs={12} className="p-none">
-                  {photos &&
-                    photos.map((photo, index) => (
-                      <Col
-                        xs={4}
-                        sm={3}
-                        md={2}
-                        className="no-m-l-r portfolio-thumbs-wrap portfolio-album-thub-wrap"
-                        key={photo.id}
-                      >
-                        <Col xs={12} className="portfolio-thumbs p-none">
-                          <img alt={photo.image_file_name} src={photo.image} />
-                          <a
-                            onClick={() => this.openLightbox(photo)}
-                            className="overlay"
-                          >
-                            <i
-                              className="fa fa-search-plus overlay-search"
-                              aria-hidden="true"
+                <Col xs={12} className="shared-album-wrap">
+                  <ReactCSSTransitionGroup
+                    transitionName="page-animation"
+                    transitionAppear={true}
+                    transitionAppearTimeout={500}
+                    transitionEnterTimeout={500}
+                    transitionLeave={false}
+                  >
+                    {photos &&
+                      photos.map((photo, index) => (
+                        <Col
+                          xs={4}
+                          sm={3}
+                          md={2}
+                          className="no-m-l-r portfolio-thumbs-wrap portfolio-album-thub-wrap"
+                          key={photo.id}
+                        >
+                          <Col xs={12} className="portfolio-thumbs p-none">
+                            <img
+                              alt={photo.image_file_name}
+                              src={photo.image}
                             />
-                          </a>
-                          {album.delivery_status !== 'Submitted' && (
+                            <a
+                              onClick={() => this.openLightbox(photo)}
+                              className="overlay"
+                            >
+                              <i
+                                className="fa fa-search-plus overlay-search"
+                                aria-hidden="true"
+                              />
+                            </a>
+                          </Col>
+                          {album.delivery_status !== 'Submitted' ? (
                             <Checkbox
                               onChange={event =>
                                 this.selectPhoto(index, photo.id)}
@@ -228,10 +257,16 @@ export default class AlbumDetails extends Component {
                                 <div className="inside" />
                               </div>
                             </Checkbox>
+                          ) : (
+                            <div
+                              className={
+                                photo.is_selected ? 'pic-selected' : ''
+                              }
+                            />
                           )}
                         </Col>
-                      </Col>
-                    ))}
+                      ))}
+                  </ReactCSSTransitionGroup>
                   {isOpenLightbox &&
                   photos && (
                     <Lightbox
@@ -254,21 +289,32 @@ export default class AlbumDetails extends Component {
                         this.setState({
                           photoIndex: (photoIndex + 1) % photos.length
                         })}
-                      imageTitle={photos[photoIndex].image_file_name}
+                      imageTitle={
+                        photos[photoIndex].image_file_name +
+                        (photos[photoIndex].is_selected ? ' - selected' : '')
+                      }
                       imageCaption={'From Album ' + album.album_name}
                     />
                   )}
                 </Col>
-                {album.delivery_status !== 'Submitted' && (
-                  <Col xs={12} className="text-center p-t-40">
-                    <Button
-                      className="btn-orange contact-submit-btn text-center btn btn-default"
-                      onClick={() => this.showDialogueBox()}
-                    >
-                      Submit photos
-                    </Button>
+                <Col>
+                  {album.delivery_status !== 'Submitted' && (
+                    <Col sm={6} xs={12} className="">
+                      <Button
+                        className="btn-orange contact-submit-btn text-center btn btn-default"
+                        onClick={() => this.showDialogueBox()}
+                      >
+                        Submit photos
+                      </Button>
+                    </Col>
+                  )}
+                  <Col sm={6} xs={12} className="p-none pull-right">
+                    <PaginationModule
+                      pagination={album.photo_pagination}
+                      paginationClick={this.handlePaginationClick}
+                    />
                   </Col>
-                )}
+                </Col>
               </Col>
             </Row>
           </Col>
