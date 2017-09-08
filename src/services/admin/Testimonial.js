@@ -1,10 +1,14 @@
 import axios from 'axios';
-import { apiHeader, checkStatus } from '../../components/Helper';
+import {
+  apiHeader,
+  apiCustomHeader,
+  checkStatus
+} from '../../components/Helper';
 
-export function getTestimonials() {
+export function getTestimonials(params) {
   const responsePromise = axios.get(
     process.env.REACT_APP_API_BASE_URL + 'testimonials',
-    apiHeader()
+    { params: params, headers: apiCustomHeader() }
   );
   return checkStatus(responsePromise);
 }
