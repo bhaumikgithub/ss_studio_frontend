@@ -467,3 +467,16 @@ div.filepicker {
   background: #f9a11d !important;
 }
 /* end pulic view album in Album Listing Page */
+/* start video Listing page */
+.sortBy-records {
+  margin-right: 15px;
+  margin-left: 20px;
+}
+.total-records {
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 8px;
+  padding-right: 20px;
+  border-right: 1px solid #ccc;
+}
+/* end video Listing page */
