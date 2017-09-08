@@ -15,6 +15,17 @@
   background: rgba(0, 0, 0, 0.8);
   display: none;
 }
+.loadingCirclePoint___3md-S:before {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  width: 15%;
+  height: 15%;
+  background-color: #f9a11d !important;
+  border-radius: 30%;
+  -webkit-animation: pointFade___2RA5J 1.2s infinite ease-in-out both;
+  animation: pointFade___2RA5J 1.2s infinite ease-in-out both;
+}
 .text-yellow {
   color: #f9a11d;
 }
