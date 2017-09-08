@@ -12,6 +12,8 @@ import { showAlbum } from '../../../services/admin/Album';
 // Import css
 import '../../../assets/css/admin/admin.css';
 
+const paginationPerPage = 16;
+
 export default class AfterLoginLayout extends Component {
   constructor(props) {
     super(props);
@@ -38,11 +40,14 @@ export default class AfterLoginLayout extends Component {
     }
   }
 
-  albumForAlbumDetailRoute() {
+  albumForAlbumDetailRoute(page = 1) {
     var self = this;
     const albumSlug = this.props.children.props.match.params.slug;
     if (this.props.title === 'Album detail') {
-      showAlbum(self.state.albumSlug || albumSlug)
+      showAlbum(self.state.albumSlug || albumSlug, {
+        page: page,
+        per_page: paginationPerPage
+      })
         .then(function(response) {
           self.handleAlbumSuccessResponse(response, albumSlug);
         })
