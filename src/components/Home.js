@@ -5,6 +5,9 @@ import { NavLink } from 'react-router-dom';
 // Import services
 import { getHomepagePhotos } from '../services/Home';
 
+// Import helper
+import { setLoader } from './Helper';
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +26,13 @@ class Home extends Component {
     });
   }
 
+  handleImageLoaded(index) {
+    setLoader({
+      elementId: 'image-loader-' + index,
+      styleProperty: 'block'
+    });
+  }
+
   render() {
     const photos = this.state.photos;
     return (
@@ -34,12 +44,23 @@ class Home extends Component {
               data-ride="carousel"
               controls={false}
             >
-              {photos.map(photo => (
+              {photos.map((photo, index) => (
                 <Carousel.Item className="full-screen" key={photo.id}>
                   <Col className="overlay" />
+                  <div
+                    className="loader-overlay image-loader-overlay"
+                    id={'image-loader-' + index}
+                  >
+                    <img
+                      src={require('../assets/images/loader.gif')}
+                      alt="loading"
+                      className="page-loader"
+                    />
+                  </div>
                   <img
                     src={photo.homepage_image}
                     alt={photo.homepage_image_file_name}
+                    onLoad={() => this.handleImageLoaded(index)}
                   />
                   <Carousel.Caption className="custom-carousel-caption">
                     <p>
