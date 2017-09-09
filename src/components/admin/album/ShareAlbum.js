@@ -25,6 +25,7 @@ export default class ShareAlbum extends Component {
         emails: [],
         contact_options: []
       },
+      emails_error: '',
       contacts: [],
       albumId: this.props.albumId
     };
@@ -80,10 +81,15 @@ export default class ShareAlbum extends Component {
 
   handleSubmit(e) {
     var self = this;
+    const shareAlbumForm = self.state.shareAlbumForm;
     var createParams = {
       album_id: self.props.shareAlbumObject.id,
-      album_recipient: self.state.shareAlbumForm
+      album_recipient: shareAlbumForm
     };
+
+    if (shareAlbumForm.emails.length < 1) {
+      return self.setState({ emails_error: "Emails can't be blank." });
+    }
 
     createAlbumRecipient(createParams)
       .then(function(response) {
@@ -110,7 +116,7 @@ export default class ShareAlbum extends Component {
   }
 
   render() {
-    const { shareAlbumForm } = this.state;
+    const { shareAlbumForm, emails_error } = this.state;
     const album = this.props.shareAlbumObject;
     return (
       <Modal
@@ -159,7 +165,7 @@ export default class ShareAlbum extends Component {
               </div>
             </div>
 
-            <form className="share-album-form custom-form">
+            <form className="admin-side share-album-form custom-form">
               <FormGroup className="custom-form-group">
                 <Creatable
                   className="custom-form-control"
@@ -170,6 +176,9 @@ export default class ShareAlbum extends Component {
                   multi={true}
                   onChange={this.handleMultiSelectChange.bind(this)}
                 />
+                {emails_error && (
+                  <span className="input-error text-red">{emails_error}</span>
+                )}
               </FormGroup>
               <FormGroup className="custom-form-group">
                 <FormControl

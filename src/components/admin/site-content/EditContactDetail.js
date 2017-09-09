@@ -10,6 +10,9 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars';
 import EditTitle from '../../../assets/images/admin/site-content/about-site-content-icon.png';
 
+// Import components
+import validationHandler from '../../common/ValidationHandler';
+
 // Import services
 import { updateContactDetail } from '../../../services/admin/SiteContent';
 
@@ -31,7 +34,8 @@ export default class EditContactDetail extends Component {
         email: '',
         phone: '',
         address: ''
-      }
+      },
+      errors: {}
     };
 
     return initialState;
@@ -84,7 +88,12 @@ export default class EditContactDetail extends Component {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        console.log(error);
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
@@ -104,7 +113,7 @@ export default class EditContactDetail extends Component {
   // }
 
   render() {
-    const { EditContactForm } = this.state;
+    const { EditContactForm, errors } = this.state;
 
     return (
       <Modal
@@ -141,7 +150,7 @@ export default class EditContactDetail extends Component {
             </Col>
           </Col>
           <Col className="edit-about-content-wrap" sm={8}>
-            <form className="edit-about-form custom-form">
+            <form className="admin-side edit-about-form custom-form">
               <FormGroup className="custom-form-group required">
                 <FormGroup className="custom-form-group required">
                   <ControlLabel className="custom-form-control-label">
@@ -155,6 +164,11 @@ export default class EditContactDetail extends Component {
                     value={EditContactForm.email}
                     onChange={this.handleChange.bind(this)}
                   />
+                  {errors['email'] && (
+                    <span className="input-error text-red">
+                      {errors['email']}
+                    </span>
+                  )}
                 </FormGroup>
                 <ControlLabel className="custom-form-control-label">
                   Phone
@@ -167,8 +181,13 @@ export default class EditContactDetail extends Component {
                   value={EditContactForm.phone}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['phone'] && (
+                  <span className="input-error text-red">
+                    {errors['phone']}
+                  </span>
+                )}
               </FormGroup>
-              <FormGroup className="custom-form-group required">
+              <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
                   Address
                 </ControlLabel>
@@ -183,6 +202,11 @@ export default class EditContactDetail extends Component {
                     onChange={this.handleChange.bind(this)}
                   />
                 </Scrollbars>
+                {errors['address'] && (
+                  <span className="input-error text-red">
+                    {errors['address']}
+                  </span>
+                )}
               </FormGroup>
 
               <Button
