@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Button, Checkbox } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
-import Lightbox from 'react-image-lightbox';
 
 // Import component
 import ShareAlbum from './ShareAlbum';
 import AlreadyShared from './AlreadyShared';
 import AddPhoto from './AddPhoto';
 import AlbumPopup from './AlbumPopup';
+import LightBoxModule from '../../common/LightBoxModule';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -297,6 +297,10 @@ export default class AlbumDetails extends Component {
   };
   closeShareAlbum = () => this.setState({ shareAlbum: false });
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
+
+  closeLightBox = () => {
+    this.setState({ isOpenLightbox: false });
+  };
 
   render() {
     const { album, alert, albumSlug, isOpenLightbox, photoIndex } = this.state;
@@ -653,34 +657,12 @@ export default class AlbumDetails extends Component {
                 {isOpenLightbox &&
                 photos &&
                 album.cover_photo && (
-                  <Lightbox
-                    mainSrc={photos[photoIndex].original_image}
-                    nextSrc={
-                      photos[(photoIndex + 1) % photos.length].original_image
-                    }
-                    prevSrc={
-                      photos[(photoIndex + photos.length - 1) % photos.length]
-                        .original_image
-                    }
-                    onCloseRequest={() =>
-                      this.setState({ isOpenLightbox: false })}
-                    onMovePrevRequest={() =>
-                      this.setState({
-                        photoIndex:
-                          (photoIndex + photos.length - 1) % photos.length
-                      })}
-                    onMoveNextRequest={() =>
-                      this.setState({
-                        photoIndex: (photoIndex + 1) % photos.length
-                      })}
-                    imageTitle={
-                      album.cover_photo.image && !photos[photoIndex] ? (
-                        album.cover_photo.image_file_name
-                      ) : (
-                        photos[photoIndex].image_file_name
-                      )
-                    }
-                    imageCaption={'From Album ' + album.album_name}
+                  <LightBoxModule
+                    isOpenLightbox={isOpenLightbox}
+                    photos={photos}
+                    photoIndex={photoIndex}
+                    album={album}
+                    closeLightBox={this.closeLightBox}
                   />
                 )}
               </Col>
