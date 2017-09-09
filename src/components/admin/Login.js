@@ -130,7 +130,6 @@ export default class Login extends Component {
                 <Button
                   type="submit"
                   className="btn-orange login-btn text-center"
-                  //onClick={event => this.handleLogin(event)}
                 >
                   LOGIN<img
                     src={require('../../assets/images/admin/login/next-icon.png')}
