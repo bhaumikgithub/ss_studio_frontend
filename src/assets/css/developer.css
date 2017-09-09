@@ -491,3 +491,7 @@ div.filepicker {
   border-right: 1px solid #ccc;
 }
 /* end video Listing page */
+.admin-login-side .input-error {
+  color: #f9a11d !important;
+  margin: 23% !important;
+}
