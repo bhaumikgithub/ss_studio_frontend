@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 class Header extends Component {
   render() {
@@ -49,16 +49,16 @@ class Header extends Component {
               <NavItem eventKey={3}>Films</NavItem>
             </LinkContainer>
             <LinkContainer to="/services">
-              <MenuItem eventKey={4}>Services</MenuItem>
+              <NavItem eventKey={4}>Services</NavItem>
             </LinkContainer>
             <LinkContainer to="/feedback">
               <NavItem eventKey={5}>Testimonials</NavItem>
             </LinkContainer>
             <LinkContainer to="/about_us">
-              <MenuItem eventKey={6}>About us</MenuItem>
+              <NavItem eventKey={6}>About us</NavItem>
             </LinkContainer>
             <LinkContainer to="/contact">
-              <MenuItem eventKey={7}>Contact</MenuItem>
+              <NavItem eventKey={7}>Contact</NavItem>
             </LinkContainer>
             {/*<li>
               <Link to="/admin" target="_blank">

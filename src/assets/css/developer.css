@@ -15,6 +15,9 @@
   background: rgba(0, 0, 0, 0.8);
   display: none;
 }
+.image-loader-overlay {
+  display: block;
+}
 .loadingCirclePoint___3md-S:before {
   content: '';
   display: block;

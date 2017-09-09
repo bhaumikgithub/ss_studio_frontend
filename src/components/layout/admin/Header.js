@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  MenuItem,
+  Button,
+  NavItem
+} from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
-
+import { IndexLinkContainer } from 'react-router-bootstrap';
 // Import helper
 import { authToken } from '../../Helper';
 
@@ -61,14 +68,14 @@ export default class Header extends Component {
           </Button>
           <Nav pullRight className="menu-links">
             {this.props.isAlbumDetail && (
-              <li className="back-to-album">
-                <Link to="/albums">
+              <IndexLinkContainer to="/albums">
+                <NavItem className="back-to-album">
                   <img
                     src={require('../../../assets/images/back-icon.png')}
                     alt=""
                   />Back To Albums
-                </Link>
-              </li>
+                </NavItem>
+              </IndexLinkContainer>
             )}
             <NavDropdown
               eventKey={5}
