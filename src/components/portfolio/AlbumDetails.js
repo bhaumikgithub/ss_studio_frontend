@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { PageHeader, Grid, Col, Row } from 'react-bootstrap';
-import Lightbox from 'react-image-lightbox';
+
+// Import component
+import LightBoxModule from '../common/LightBoxModule';
 
 // Import component
 import PaginationModule from '../common/PaginationModule';
@@ -58,6 +60,10 @@ export default class Portfolio extends Component {
     const photoIndex = allPhotos.indexOf(photo);
     this.setState({ isOpenLightbox: true, photoIndex: photoIndex });
   }
+
+  closeLightBox = () => {
+    this.setState({ isOpenLightbox: false });
+  };
 
   render() {
     const { album, isOpenLightbox, photoIndex } = this.state;
@@ -116,28 +122,12 @@ export default class Portfolio extends Component {
                   </ReactCSSTransitionGroup>
                   {isOpenLightbox &&
                   photos && (
-                    <Lightbox
-                      mainSrc={photos[photoIndex].original_image}
-                      nextSrc={
-                        photos[(photoIndex + 1) % photos.length].original_image
-                      }
-                      prevSrc={
-                        photos[(photoIndex + photos.length - 1) % photos.length]
-                          .original_image
-                      }
-                      onCloseRequest={() =>
-                        this.setState({ isOpenLightbox: false })}
-                      onMovePrevRequest={() =>
-                        this.setState({
-                          photoIndex:
-                            (photoIndex + photos.length - 1) % photos.length
-                        })}
-                      onMoveNextRequest={() =>
-                        this.setState({
-                          photoIndex: (photoIndex + 1) % photos.length
-                        })}
-                      imageTitle={photos[photoIndex].image_file_name}
-                      imageCaption={'From Album ' + album.album_name}
+                    <LightBoxModule
+                      isOpenLightbox={isOpenLightbox}
+                      photos={photos}
+                      photoIndex={photoIndex}
+                      album={album}
+                      closeLightBox={this.closeLightBox}
                     />
                   )}
                 </Col>

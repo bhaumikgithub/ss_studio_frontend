@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { PageHeader, Grid, Col, Row, Checkbox, Button } from 'react-bootstrap';
-import Lightbox from 'react-image-lightbox';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
 import PaginationModule from '../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import LightBoxModule from '../common/LightBoxModule';
 
 // Import services
 import { showAlbum, submitAlbum } from '../../services/admin/Album';
@@ -168,6 +168,10 @@ export default class AlbumDetails extends Component {
     this.setState({ isOpenLightbox: true, photoIndex: photoIndex });
   }
 
+  closeLightBox = () => {
+    this.setState({ isOpenLightbox: false });
+  };
+
   render() {
     const {
       album,
@@ -269,31 +273,12 @@ export default class AlbumDetails extends Component {
                   </ReactCSSTransitionGroup>
                   {isOpenLightbox &&
                   photos && (
-                    <Lightbox
-                      mainSrc={photos[photoIndex].original_image}
-                      nextSrc={
-                        photos[(photoIndex + 1) % photos.length].original_image
-                      }
-                      prevSrc={
-                        photos[(photoIndex + photos.length - 1) % photos.length]
-                          .original_image
-                      }
-                      onCloseRequest={() =>
-                        this.setState({ isOpenLightbox: false })}
-                      onMovePrevRequest={() =>
-                        this.setState({
-                          photoIndex:
-                            (photoIndex + photos.length - 1) % photos.length
-                        })}
-                      onMoveNextRequest={() =>
-                        this.setState({
-                          photoIndex: (photoIndex + 1) % photos.length
-                        })}
-                      imageTitle={
-                        photos[photoIndex].image_file_name +
-                        (photos[photoIndex].is_selected ? ' - selected' : '')
-                      }
-                      imageCaption={'From Album ' + album.album_name}
+                    <LightBoxModule
+                      isOpenLightbox={isOpenLightbox}
+                      photos={photos}
+                      photoIndex={photoIndex}
+                      album={album}
+                      closeLightBox={this.closeLightBox}
                     />
                   )}
                 </Col>
