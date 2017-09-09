@@ -54,7 +54,7 @@ class Home extends Component {
                     <img
                       src={require('../assets/images/loader.gif')}
                       alt="loading"
-                      className="page-loader"
+                      className="homepage-loader"
                     />
                   </div>
                   <img

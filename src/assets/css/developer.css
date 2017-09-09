@@ -17,6 +17,8 @@
 }
 .image-loader-overlay {
   display: block;
+  width: calc(100% - 0px) !important;
+  left: 15px !important;
 }
 .loadingCirclePoint___3md-S:before {
   content: '';
