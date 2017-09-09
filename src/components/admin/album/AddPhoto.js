@@ -17,7 +17,6 @@ import '../../../../node_modules/dropzone/dist/min/dropzone.min.css';
 export default class AlreadyShared extends Component {
   constructor(props) {
     super(props);
-    this.dropzone = null;
     this.state = {
       value: '',
       albumId: props.albumId,
@@ -25,6 +24,7 @@ export default class AlreadyShared extends Component {
       id: '',
       photoCount: props.photoCount
     };
+    this.dropzone = null;
     this.componentConfig = {
       iconFiletypes: ['.jpg', '.png', '.jpeg'],
       showFiletypeIcon: true,
@@ -39,34 +39,44 @@ export default class AlreadyShared extends Component {
       }
     };
   }
-  handleUploadProgress(file, progress) {
-    console.log(file);
-    console.log(progress);
-  }
-  handleUploadFile(file) {
-    debugger;
-    // var self = this;
-    // let data = new FormData();
-    // const { photoCount, albumId } = self.state;
-    // data.append('photo[][image]', file);
-    // data.append('photo[][imageable_id]', albumId);
-    // data.append('photo[][imageable_type]', 'Album');
-    // self.setState({ photoCount: photoCount + 1 });
-    // if (photoCount === 0) {
-    //   data.append('photo[][is_cover_photo]', true);
-    // }
 
-    // uploadPhoto(data)
-    //   .then(function(response) {
-    //     self.handleSuccessResponse(response, file);
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error.response);
-    //   });
+  handleUploadFile(file) {
+    var self = this;
+    let data = new FormData();
+    var dropzoneOptions = this.dropzone.options;
+    const { photoCount, albumId } = self.state;
+    data.append('photo[][image]', file);
+    data.append('photo[][imageable_id]', albumId);
+    data.append('photo[][imageable_type]', 'Album');
+    self.setState({ photoCount: photoCount + 1 });
+    if (photoCount === 0) {
+      data.append('photo[][is_cover_photo]', true);
+    }
+
+    uploadPhoto(data, file, this.uploadProgress)
+      .then(function(response) {
+        self.handleSuccessResponse(response, file);
+      })
+      .catch(function(error) {
+        const response = error.response;
+        if (response && response.data.errors.length > 0) {
+          file.previewElement.classList.add('dz-complete');
+          dropzoneOptions.error(
+            file,
+            'Image ' + response.data.errors[1].detail
+          );
+        }
+      });
   }
+
+  uploadProgress = (file, progress) => {
+    this.dropzone.options.uploadprogress(file, progress);
+  };
 
   handleRemoveFile(file) {
-    this.props.deletePhotos([file.id], 'Add photos');
+    if (file.id) {
+      this.props.deletePhotos([file.id], 'Add photos');
+    }
     this.handlePhotoRendering(file, 'remove');
   }
 
@@ -85,8 +95,11 @@ export default class AlreadyShared extends Component {
   }
 
   handleSuccessResponse(response, file) {
+    var dropzoneOptions = this.dropzone.options;
     if (response.status === 201) {
       this.handlePhotoRendering(file, 'insert', response);
+      file.previewElement.classList.add('dz-complete');
+      dropzoneOptions.success(file);
     }
   }
 
@@ -99,8 +112,7 @@ export default class AlreadyShared extends Component {
     const eventHandlers = {
       init: dz => (this.dropzone = dz),
       addedfile: this.handleUploadFile.bind(this),
-      removedfile: this.handleRemoveFile.bind(this),
-      uploadprogress: this.handleUploadProgress.bind(this)
+      removedfile: this.handleRemoveFile.bind(this)
     };
     return (
       <Modal
@@ -111,7 +123,7 @@ export default class AlreadyShared extends Component {
       >
         <Modal.Body className="shared-album-body p-none">
           <Col className="shared-content-wrap" sm={12}>
-            <Scrollbars style={{ height: '220px' }}>
+            <Scrollbars style={{ height: '450px' }}>
               <DropzoneComponent
                 config={this.componentConfig}
                 eventHandlers={eventHandlers}
