@@ -13,11 +13,19 @@ export function deleteSelectedPhotos(params) {
   return checkStatus(responsePromise);
 }
 
-export function uploadPhoto(params) {
+export function uploadPhoto(params, file, uploadProgress) {
   const responsePromise = axios.post(
     process.env.REACT_APP_API_BASE_URL + 'photos',
     params,
-    apiHeader()
+    {
+      headers: apiCustomHeader(),
+      onUploadProgress: progressEvent => {
+        let percentCompleted = Math.floor(
+          progressEvent.loaded * 100 / progressEvent.total
+        );
+        uploadProgress(file, percentCompleted);
+      }
+    }
   );
   return checkStatus(responsePromise);
 }

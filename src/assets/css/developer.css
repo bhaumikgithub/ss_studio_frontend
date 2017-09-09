@@ -475,7 +475,8 @@ div.filepicker {
 }
 
 .add-photo {
-  background: #f9a11d !important;
+  margin-top: 15px;
+  margin-bottom: -15px;
 }
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
