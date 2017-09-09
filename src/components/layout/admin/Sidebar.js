@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
 
 // Import services
 import { getCurrentUser } from '../../../services/admin/User';
@@ -13,8 +12,7 @@ export default class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {},
-      redirectToReferrer: false
+      user: {}
     };
   }
 
@@ -30,18 +28,12 @@ export default class Sidebar extends Component {
         }
       })
       .catch(function(error) {
-        if (error.response.status === 401) {
-          localStorage.clear();
-          self.setState({ redirectToReferrer: true });
-        }
+        console.log(error.response);
       });
   }
 
   render() {
-    const { user, redirectToReferrer } = this.state;
-    if (redirectToReferrer) {
-      return <Redirect push to="/admin" />;
-    }
+    const { user } = this.state;
     return (
       <Col className="sidebar">
         <Col xs={12} className="user-wrap">
