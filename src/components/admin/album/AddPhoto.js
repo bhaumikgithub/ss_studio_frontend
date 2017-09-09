@@ -17,6 +17,7 @@ import '../../../../node_modules/dropzone/dist/min/dropzone.min.css';
 export default class AlreadyShared extends Component {
   constructor(props) {
     super(props);
+    this.dropzone = null;
     this.state = {
       value: '',
       albumId: props.albumId,
@@ -38,25 +39,30 @@ export default class AlreadyShared extends Component {
       }
     };
   }
+  handleUploadProgress(file, progress) {
+    console.log(file);
+    console.log(progress);
+  }
   handleUploadFile(file) {
-    var self = this;
-    let data = new FormData();
-    const { photoCount, albumId } = self.state;
-    data.append('photo[][image]', file);
-    data.append('photo[][imageable_id]', albumId);
-    data.append('photo[][imageable_type]', 'Album');
-    self.setState({ photoCount: photoCount + 1 });
-    if (photoCount === 0) {
-      data.append('photo[][is_cover_photo]', true);
-    }
+    debugger;
+    // var self = this;
+    // let data = new FormData();
+    // const { photoCount, albumId } = self.state;
+    // data.append('photo[][image]', file);
+    // data.append('photo[][imageable_id]', albumId);
+    // data.append('photo[][imageable_type]', 'Album');
+    // self.setState({ photoCount: photoCount + 1 });
+    // if (photoCount === 0) {
+    //   data.append('photo[][is_cover_photo]', true);
+    // }
 
-    uploadPhoto(data)
-      .then(function(response) {
-        self.handleSuccessResponse(response, file);
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
+    // uploadPhoto(data)
+    //   .then(function(response) {
+    //     self.handleSuccessResponse(response, file);
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error.response);
+    //   });
   }
 
   handleRemoveFile(file) {
@@ -91,8 +97,10 @@ export default class AlreadyShared extends Component {
 
   render() {
     const eventHandlers = {
+      init: dz => (this.dropzone = dz),
       addedfile: this.handleUploadFile.bind(this),
-      removedfile: this.handleRemoveFile.bind(this)
+      removedfile: this.handleRemoveFile.bind(this),
+      uploadprogress: this.handleUploadProgress.bind(this)
     };
     return (
       <Modal
@@ -102,18 +110,6 @@ export default class AlreadyShared extends Component {
         bsSize="large"
       >
         <Modal.Body className="shared-album-body p-none">
-          <span className="close-modal-icon" onClick={() => this.handleOk()}>
-            <img
-              src={require('../../../assets/images/admin/album/already-shared/close-icon.png')}
-              alt=""
-              className="hidden-xs"
-            />
-            <img
-              src={require('../../../assets/images/admin/album/already-shared/close-icon-white.png')}
-              alt=""
-              className="visible-xs"
-            />
-          </span>
           <Col className="shared-content-wrap" sm={12}>
             <Scrollbars style={{ height: '220px' }}>
               <DropzoneComponent
@@ -126,7 +122,7 @@ export default class AlreadyShared extends Component {
               <Button
                 type="button"
                 onClick={() => this.handleOk()}
-                className="btn btn-orange create-album-cancel add-photo"
+                className="btn btn-orange create-album-submit add-photo"
               >
                 Ok
               </Button>
