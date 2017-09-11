@@ -78,6 +78,7 @@ export default class AddContact extends Component {
       'contact[photo_attributes][image]',
       newObject.photo_attributes.image
     );
+    data.append('contact[validation]', 'true');
     Object.keys(newObject).forEach(
       key =>
         key !== 'photo_attributes'
@@ -140,11 +141,11 @@ export default class AddContact extends Component {
     const { first_name, last_name, status, email, phone, photo } = contact;
     self.setState({
       contactForm: {
-        first_name: first_name,
-        last_name: last_name,
+        first_name: first_name || '',
+        last_name: last_name || '',
         status: status,
         email: email,
-        phone: phone,
+        phone: phone || '',
         photo_attributes: photo
       }
     });
