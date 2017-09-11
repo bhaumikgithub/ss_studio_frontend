@@ -175,6 +175,12 @@
 .custom-photo-edit {
   visibility: hidden;
 }
+.service-edit-icon {
+  padding-top: 0px !important;
+}
+.custom-service-thumb {
+  margin-right: 10px;
+}
 /* Site content about page css end */
 
 /* Home page galery css start */
