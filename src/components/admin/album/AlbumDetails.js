@@ -92,9 +92,8 @@ export default class AlbumDetails extends Component {
   };
 
   componentWillMount() {
-    if (this.state.album.id) {
+    this.state.album.id &&
       this.setState({ addPhoto: this.getAddPhotoStatus() });
-    }
   }
 
   componentDidUpdate(prevProps, prevState) {
