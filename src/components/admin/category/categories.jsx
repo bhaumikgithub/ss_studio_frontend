@@ -6,10 +6,7 @@ import SweetAlert from 'sweetalert-react';
 import CategoryPopup from './CategoryPopup';
 
 // Import services
-import {
-  getCategories,
-  deleteCategory
-} from '../../../services/admin/Category';
+import { CategoryService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -44,7 +41,7 @@ export default class Categories extends Component {
   componentWillMount() {
     var self = this;
 
-    getCategories()
+    CategoryService.getCategories()
       .then(function(response) {
         var data = response.data;
         self.setState({ categories: data.data.categories, meta: data.meta });
@@ -72,7 +69,7 @@ export default class Categories extends Component {
   deleteCategory() {
     var self = this;
 
-    deleteCategory(self.state.alert.objectId)
+    CategoryService.deleteCategory(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);
