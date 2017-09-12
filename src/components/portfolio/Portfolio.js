@@ -5,8 +5,7 @@ import { PageHeader, Grid, Col, Row, Tab, Nav, NavItem } from 'react-bootstrap';
 import SearchIcon from '../../assets/images/search-icon.png';
 
 // Import services
-import { getPortfolio } from '../../services/Portfolio';
-import { getActiveCategories } from '../../services/admin/Category';
+import { PortfolioService, CategoryService } from '../../services/Index';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -37,7 +36,7 @@ export default class Portfolio extends Component {
 
   fetchPortfolio(category) {
     var self = this;
-    getPortfolio({ category: category })
+    PortfolioService.getPortfolio({ category: category })
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {
@@ -51,7 +50,7 @@ export default class Portfolio extends Component {
 
   fetchCategories() {
     var self = this;
-    getActiveCategories()
+    CategoryService.getActiveCategories()
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {

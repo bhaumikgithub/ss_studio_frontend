@@ -13,9 +13,7 @@ import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
-import { deleteSelectedPhotos } from '../../../services/admin/Photo';
-import { setCoverPhoto } from '../../../services/admin/Photo';
-import { showAlbum } from '../../../services/admin/Album';
+import { PhotoService, AlbumService } from '../../../services/Index';
 
 // Import helper
 import { getStatusClass } from '../../Helper';
@@ -54,7 +52,7 @@ export default class AlbumDetails extends Component {
 
   showAlbum(page = 1) {
     var self = this;
-    showAlbum(self.state.albumSlug, {
+    AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: 16
     })
@@ -136,7 +134,7 @@ export default class AlbumDetails extends Component {
     var self = this;
     ids = ids || self.getSelectedCheckboxIds().map(Number);
 
-    deleteSelectedPhotos({ photo: { ids: ids } })
+    PhotoService.deleteSelectedPhotos({ photo: { ids: ids } })
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response, ids, from);
@@ -215,7 +213,7 @@ export default class AlbumDetails extends Component {
 
   handleSetCoverPicClick(id, index) {
     var self = this;
-    setCoverPhoto(id)
+    PhotoService.setCoverPhoto(id)
       .then(function(response) {
         self.handleCoverPicSuccessResponse(response, index);
       })

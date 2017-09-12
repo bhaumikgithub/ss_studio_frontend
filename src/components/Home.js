@@ -3,7 +3,7 @@ import { Carousel, Grid, Col, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 // Import services
-import { getHomepagePhotos } from '../services/Home';
+import { HomeService } from '../services/Index';
 
 // Import helper
 import { setLoader } from './Helper';
@@ -19,7 +19,7 @@ class Home extends Component {
   componentDidMount() {
     var self = this;
 
-    getHomepagePhotos().then(function(response) {
+    HomeService.getHomepagePhotos().then(function(response) {
       if (response.status === 200) {
         self.setState({ photos: response.data.data.active_photos });
       }
