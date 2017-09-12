@@ -78,7 +78,6 @@ export default class AddContact extends Component {
       'contact[photo_attributes][image]',
       newObject.photo_attributes.image
     );
-    data.append('contact[validation]', 'true');
     Object.keys(newObject).forEach(
       key =>
         key !== 'photo_attributes'
