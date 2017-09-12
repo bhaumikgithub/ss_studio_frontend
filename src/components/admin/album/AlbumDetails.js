@@ -91,19 +91,31 @@ export default class AlbumDetails extends Component {
     this.setState({ showCreatePopup: false, editObject: {} });
   };
 
+  componentWillMount() {
+    if (this.state.album.id) {
+      this.setState({ addPhoto: this.getAddPhotoStatus() });
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.album.id !== this.props.album.id) {
-      const location = this.props.location;
-      const params = new URLSearchParams(location.search);
-      var addPhoto = false;
-
-      if (params.get('add_photo') === 'true') {
-        addPhoto = true;
-        this.props.history.push(location.pathname);
-      }
-
-      this.setState({ album: this.props.album, addPhoto: addPhoto });
+      this.setState({
+        album: this.props.album,
+        addPhoto: this.getAddPhotoStatus()
+      });
     }
+  }
+
+  getAddPhotoStatus() {
+    const location = this.props.location;
+    const params = new URLSearchParams(location.search);
+    var addPhoto = false;
+
+    if (params.get('add_photo') === 'true') {
+      addPhoto = true;
+      this.props.history.push(location.pathname);
+    }
+    return addPhoto;
   }
 
   getSelectedCheckboxIds() {
