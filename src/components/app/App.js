@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import 'react-loading-bar/dist/index.css';
 
 // import routes file
 import Routes from '../routes/Routes';
