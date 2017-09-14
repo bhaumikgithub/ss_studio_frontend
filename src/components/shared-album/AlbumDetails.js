@@ -7,10 +7,12 @@ import SweetAlert from 'sweetalert-react';
 import PaginationModule from '../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import LightBoxModule from '../common/LightBoxModule';
+import CommentPopup from './CommentPopup';
 
 // Import services
 import { showAlbum, submitAlbum } from '../../services/admin/Album';
 import { selectPhoto } from '../../services/admin/Photo';
+import { showComment } from '../../services/Comment';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -27,6 +29,10 @@ export default class AlbumDetails extends Component {
       albumSlug: this.props.match.params.slug,
       token: '',
       passcodeLoginState: {},
+      createComment: false,
+      showComment: false,
+      photo: [],
+      comment: [],
       alert: {
         show: false,
         cancelBtn: true,
@@ -172,6 +178,24 @@ export default class AlbumDetails extends Component {
     this.setState({ isOpenLightbox: false });
   };
 
+  hideCreatePopup = () => {
+    this.setState({ createComment: false, showComment: false });
+  };
+  renderComment = (id, photo) => {
+    photo.comment_id = id;
+    this.setState({ photo: photo });
+  };
+  getComment(photo) {
+    var self = this;
+    showComment(photo.id, photo.comment_id).then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          showComment: true,
+          comment: response.data.data.comment
+        });
+      }
+    });
+  }
   render() {
     const {
       album,
@@ -200,6 +224,16 @@ export default class AlbumDetails extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.setState({ alert: { show: false } })}
         />
+        {(this.state.createComment || this.state.showComment) && (
+          <CommentPopup
+            createComment={this.state.createComment}
+            hideCreatePopup={this.hideCreatePopup}
+            showComment={this.state.showComment}
+            renderComment={this.renderComment}
+            comment={this.state.comment}
+            photo={this.state.photo}
+          />
+        )}
         <Grid>
           <Col xs={12} className="p-none">
             <Col className="photo-count-detail left-15">
@@ -268,6 +302,46 @@ export default class AlbumDetails extends Component {
                               }
                             />
                           )}
+                          <span className="photo-count custom-comment-wrapper">
+                            <a
+                              className={
+                                photo.comment_id ? (
+                                  'comment-disabled'
+                                ) : (
+                                  'add-comment'
+                                )
+                              }
+                              onClick={() =>
+                                this.setState({
+                                  createComment: photo.comment_id
+                                    ? false
+                                    : true,
+                                  photo: photo
+                                })}
+                            >
+                              <img
+                                src={require('../../assets/images/admin/album/testimonial-icon.png')}
+                                className="link-icons"
+                                alt=""
+                              />
+                            </a>
+
+                            <a
+                              className={
+                                photo.comment_id ? (
+                                  'add-comment'
+                                ) : (
+                                  'comment-disabled'
+                                )
+                              }
+                              onClick={() => this.getComment(photo)}
+                            >
+                              <img
+                                src={require('../../assets/images/admin/album/album-details/views-icon.png')}
+                                alt=""
+                              />
+                            </a>
+                          </span>
                         </Col>
                       ))}
                   </ReactCSSTransitionGroup>
