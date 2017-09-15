@@ -12,7 +12,7 @@ import {
   getActiveServices,
   getContactDetails
 } from '../../../services/Contact';
-import { updateAboutUs } from '../../../services/admin/SiteContent';
+import { SiteContentService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -128,7 +128,7 @@ export default class SiteContent extends Component {
     let data = new FormData();
     data.append('about[photo_attributes][image]', file);
 
-    updateAboutUs(data)
+    SiteContentService.updateAboutUs(data)
       .then(function(response) {
         self.handleSuccessResponse(response);
       })
@@ -157,27 +157,30 @@ export default class SiteContent extends Component {
     const { aboutUs, contactDetail, tab } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
-        {this.state.EditAboutShow &&
+        {this.state.EditAboutShow && (
           <EditAboutContent
             EditAboutShow={this.state.EditAboutShow}
             EditAboutClose={this.EditAboutClose}
             renderAboutUs={this.renderAboutUs}
             editObject={this.state.editObject}
-          />}
-        {this.state.AddServiceShow &&
+          />
+        )}
+        {this.state.AddServiceShow && (
           <ServicePopup
             AddServiceShow={this.state.AddServiceShow}
             ServiceCloseModal={this.ServiceCloseModal}
             renderService={this.renderService}
             editObject={this.state.editObject}
-          />}
-        {this.state.EditContactShow &&
+          />
+        )}
+        {this.state.EditContactShow && (
           <EditContactDetail
             EditContactShow={this.state.EditContactShow}
             EditContactClose={this.EditContactClose}
             renderContactDetail={this.renderContactDetail}
             editObject={this.state.editObject}
-          />}
+          />
+        )}
 
         <Tabs
           defaultActiveKey={tab}
@@ -210,12 +213,13 @@ export default class SiteContent extends Component {
             </Col>
             <Col xs={12} className="p-none">
               <Col className="content-about-img-wrap">
-                {aboutUs.photo &&
+                {aboutUs.photo && (
                   <img
                     className="img-responsive content-user-image"
                     src={aboutUs.photo.image}
                     alt="user"
-                  />}
+                  />
+                )}
 
                 <a className="img-edit-btn" onClick={this.handleEditClick}>
                   <img
@@ -232,14 +236,10 @@ export default class SiteContent extends Component {
               </Col>
               <Col className="right-content-wrap text-grey">
                 <Col xs={12} className="about-content-wrap">
-                  <h3 className="about-content-title">
-                    {aboutUs.title_text}
-                  </h3>
-                  <p>
-                    {aboutUs.description}
-                  </p>
+                  <h3 className="about-content-title">{aboutUs.title_text}</h3>
+                  <p>{aboutUs.description}</p>
                 </Col>
-                {aboutUs.facebook_link &&
+                {aboutUs.facebook_link && (
                   <Col className="about-solcial-icons" xs={12}>
                     <a
                       target="_blank"
@@ -255,7 +255,8 @@ export default class SiteContent extends Component {
                     >
                       <span className="fa fa-tumblr" />
                     </a> */}
-                  </Col>}
+                  </Col>
+                )}
               </Col>
             </Col>
           </Tab>
@@ -274,7 +275,7 @@ export default class SiteContent extends Component {
               </Button>
             </Col>
             <Col xs={12} className="admin-service-thumb-wrap">
-              {this.state.services.map(service =>
+              {this.state.services.map(service => (
                 <Thumbnail
                   className="admin-service-thumb"
                   alt="icon-images"
@@ -286,9 +287,7 @@ export default class SiteContent extends Component {
                       {service.service_name}
                     </h4>
                     <Col className="p-none admin-service-description">
-                      <p>
-                        {service.description}
-                      </p>
+                      <p>{service.description}</p>
                     </Col>
                   </Col>
                   <a
@@ -305,7 +304,7 @@ export default class SiteContent extends Component {
                     />
                   </a>
                 </Thumbnail>
-              )}
+              ))}
             </Col>
           </Tab>
           <Tab eventKey="contact_us" title="Contact Us">

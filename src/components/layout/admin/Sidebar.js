@@ -4,7 +4,7 @@ import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 // Import services
-import { getCurrentUser } from '../../../services/admin/User';
+import { UserService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/sidebar.css';
@@ -21,7 +21,7 @@ export default class Sidebar extends Component {
   componentWillMount() {
     var self = this;
 
-    getCurrentUser()
+    UserService.getCurrentUser()
       .then(function(response) {
         if (response.status === 200) {
           self.setState({ user: response.data.data.user });

@@ -22,11 +22,7 @@ import 'react-select/dist/react-select.min.css';
 import '../../../assets/css/admin/site-content/add-service.css';
 
 // Import services
-import {
-  getServiceIcons,
-  createService,
-  updateService
-} from '../../../services/admin/SiteContent';
+import { SiteContentService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -59,7 +55,7 @@ export default class ServicePopup extends Component {
   componentWillMount() {
     var self = this;
 
-    getServiceIcons()
+    SiteContentService.getServiceIcons()
       .then(function(response) {
         var data = response.data;
         self.setState({ service_icons: data.data.service_icons });
@@ -113,13 +109,13 @@ export default class ServicePopup extends Component {
 
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = { service: self.state.ServiceForm };
-      callServiceApi = createService(createParams);
+      callServiceApi = SiteContentService.createService(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         ServiceForm: { service: self.state.ServiceForm }
       };
-      callServiceApi = updateService(editParams);
+      callServiceApi = SiteContentService.updateService(editParams);
     }
 
     callServiceApi

@@ -14,7 +14,7 @@ import EditTitle from '../../../assets/images/admin/site-content/about-site-cont
 import validationHandler from '../../common/ValidationHandler';
 
 // Import services
-import { updateAboutUs } from '../../../services/admin/SiteContent';
+import { SiteContentService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -86,7 +86,7 @@ export default class EditAboutContent extends Component {
     var editParams = {
       about: self.state.editAboutForm
     };
-    updateAboutUs(editParams)
+    SiteContentService.updateAboutUs(editParams)
       .then(function(response) {
         self.handelResponse(response);
       })

@@ -5,7 +5,7 @@ import { PageHeader, Thumbnail, Grid, Col } from 'react-bootstrap';
 import '../../assets/css/contact/services.css';
 
 // Import services
-import { getActiveServices } from '../../services/Contact';
+import { ContactService } from '../../services/Index';
 
 export default class Services extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class Services extends Component {
   componentDidMount() {
     var self = this;
 
-    getActiveServices().then(function(response) {
+    ContactService.getActiveServices().then(function(response) {
       if (response.status === 200) {
         self.setState({ services: response.data.data.active_services });
       }

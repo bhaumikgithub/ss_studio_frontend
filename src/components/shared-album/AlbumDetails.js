@@ -9,8 +9,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import LightBoxModule from '../common/LightBoxModule';
 
 // Import services
-import { showAlbum, submitAlbum } from '../../services/admin/Album';
-import { selectPhoto } from '../../services/admin/Photo';
+import { AlbumService, PhotoService } from '../../services/Index';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -52,7 +51,7 @@ export default class AlbumDetails extends Component {
   showAlbum(page = 1) {
     var self = this;
 
-    showAlbum(self.state.albumSlug, {
+    AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage
     })
@@ -100,7 +99,7 @@ export default class AlbumDetails extends Component {
 
   handleSubmitPhotos() {
     var self = this;
-    submitAlbum(this.state.albumSlug)
+    AlbumService.submitAlbum(this.state.albumSlug)
       .then(function(response) {
         self.handleSubmitSuccessResponse(response);
       })
@@ -111,7 +110,7 @@ export default class AlbumDetails extends Component {
 
   selectPhoto(index, photoId) {
     var self = this;
-    selectPhoto(photoId)
+    PhotoService.selectPhoto(photoId)
       .then(function(response) {
         if (response.status === 201) {
           self.handlePhotoSuccessResponse(index, response);

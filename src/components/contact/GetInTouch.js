@@ -13,10 +13,7 @@ import SweetAlert from 'sweetalert-react';
 import '../../assets/css/contact/get-in-touch.css';
 
 // Import services
-import {
-  createContactMessage,
-  getContactDetails
-} from '../../services/Contact';
+import { ContactService } from '../../services/Index';
 
 // Import components
 import validationHandler from '../common/ValidationHandler';
@@ -56,7 +53,7 @@ export default class GetInTouch extends Component {
   componentDidMount() {
     var self = this;
 
-    getContactDetails().then(function(response) {
+    ContactService.getContactDetails().then(function(response) {
       if (response.status === 200) {
         self.setState({ contactDetails: response.data.data.contact_detail });
       }
@@ -75,7 +72,7 @@ export default class GetInTouch extends Component {
   handleClick(event) {
     var self = this;
 
-    createContactMessage(self.state.contactForm)
+    ContactService.createContactMessage(self.state.contactForm)
       .then(function(response) {
         console.log(response);
         self.handelResponse(response);
