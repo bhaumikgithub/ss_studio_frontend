@@ -246,7 +246,7 @@ export default class AlbumsListing extends Component {
                 }
                 onClick={event => this.handleSorting(event)}
               >
-                Sort By :{' '}
+                Sort By Latest Update :{' '}
                 <span
                   className={
                     sortingOrder === 'desc' ? (
