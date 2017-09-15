@@ -70,17 +70,22 @@ export default class AlbumDetails extends Component {
   }
 
   showDialogueBox() {
-    this.setState({
-      alert: {
-        show: true,
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        btnText: 'Yes, delete it!',
-        type: 'warning',
-        confirmAction: () => this.deletePhotos(),
-        cancelBtn: true
-      }
-    });
+    var id = this.getSelectedCheckboxIds();
+    if (id.length === 0) {
+      this.handleDeleteErrorResponse();
+    } else {
+      this.setState({
+        alert: {
+          show: true,
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          btnText: 'Yes, delete it!',
+          type: 'warning',
+          confirmAction: () => this.deletePhotos(),
+          cancelBtn: true
+        }
+      });
+    }
   }
 
   hideDialogueBox() {
@@ -207,7 +212,9 @@ export default class AlbumDetails extends Component {
     self.setState({
       alert: {
         show: true,
-        title: response.data.message,
+        title: response
+          ? response.data.message
+          : 'Please select atleast 1 photo to delete',
         text: '',
         type: 'warning',
         confirmAction: () => self.hideDialogueBox()
