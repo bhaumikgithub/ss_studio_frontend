@@ -289,9 +289,15 @@ export default class AlbumDetails extends Component {
                 </Col>
                 <Col>
                   {album.delivery_status !== 'Submitted' && (
-                    <Col sm={6} xs={12} className="">
+                    <Col sm={6} xs={12} className="custom-submit-photos-wrap">
+                      <Col className="footer-photo-selection-count">
+                        {album.selected_photo_count +
+                          '/' +
+                          album.photo_count +
+                          ' photos selected'}
+                      </Col>
                       <Button
-                        className="btn-orange contact-submit-btn text-center btn btn-default"
+                        className="btn-orange contact-submit-btn text-center btn btn-default submit-photos-btn"
                         onClick={() => this.showDialogueBox()}
                       >
                         Submit photos

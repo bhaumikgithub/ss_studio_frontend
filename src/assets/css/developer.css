@@ -241,6 +241,22 @@
   padding-bottom: 30px;
   box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
 }
+.custom-submit-photos-wrap {
+  position: fixed;
+  bottom: 0px;
+  z-index: 10;
+  background-color: rgb(221, 221, 221);
+  width: 100%;
+  left: 0px;
+  padding: 10px;
+  border-top: 1px solid rgb(204, 204, 204);
+}
+.submit-photos-btn {
+  float: right;
+}
+.footer-photo-selection-count {
+  float: left;
+}
 .custom-pic-selection label {
   background: #c8c8c8 !important;
 }
