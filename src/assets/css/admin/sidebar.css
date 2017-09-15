@@ -1,7 +1,5 @@
 .user-wrap {
-  min-height: 325px;
   background-image: url(../../images/admin/album/sidebar.png);
-  padding: 50px 20px 25px;
   background-size: cover;
   font-family: 'ralewaymedium';
 }
