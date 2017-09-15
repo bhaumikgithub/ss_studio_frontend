@@ -255,7 +255,13 @@ export default class AlbumDetails extends Component {
                               onChange={event =>
                                 this.selectPhoto(index, photo.id)}
                               checked={photo.is_selected}
-                              className="pic-selection-check photo-selection-checkbox"
+                              className={
+                                photo.is_selected ? (
+                                  'pic-selection-check photo-selection-checkbox'
+                                ) : (
+                                  'pic-selection-check photo-selection-checkbox custom-pic-selection'
+                                )
+                              }
                             >
                               <div className="check">
                                 <div className="inside" />
