@@ -85,8 +85,7 @@ export default class AlbumDetails extends Component {
     } else {
       alert = {
         show: true,
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Are you sure you want to send photos to Sagar?',
         btnText: 'Yes, submit it!',
         type: 'warning',
         confirmAction: () => this.handleSubmitPhotos(),
