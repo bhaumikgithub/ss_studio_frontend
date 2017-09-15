@@ -100,7 +100,13 @@ export default class CommentPopup extends Component {
           <Col className="add-comment-title-wrap p-none" sm={5}>
             <Col xs={12} className="p-none add-comment-title-details">
               <img
-                src={require('../../assets/images/admin/testimonial/add-testimonial-icon.png')}
+                src={
+                  this.props.createComment ? (
+                    require('../../assets/images/admin/testimonial/add-testimonial-icon.png')
+                  ) : (
+                    require('../../assets/images/admin/album/white-eye.png')
+                  )
+                }
                 alt=""
                 className="add-comment-icon img-responsive"
               />
@@ -154,7 +160,7 @@ export default class CommentPopup extends Component {
                 onClick={this.props.hideCreatePopup}
                 className="btn btn-grey add-comment-cancel"
               >
-                {this.props.createComment ? 'Cancel' : 'Okay'}
+                Cancel
               </Button>
             </form>
           </Col>

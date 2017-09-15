@@ -321,7 +321,7 @@ export default class AlbumDetails extends Component {
                             >
                               <img
                                 src={require('../../assets/images/admin/album/testimonial-icon.png')}
-                                className="link-icons"
+                                className="link-icons custom-add-comment-icon"
                                 alt=""
                               />
                             </a>
@@ -337,7 +337,8 @@ export default class AlbumDetails extends Component {
                               onClick={() => this.getComment(photo)}
                             >
                               <img
-                                src={require('../../assets/images/admin/album/album-details/views-icon.png')}
+                                src={require('../../assets/images/admin/album/white-eye.png')}
+                                className="link-icons custom-view-comment-icon"
                                 alt=""
                               />
                             </a>

@@ -242,14 +242,22 @@
   box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
 }
 .custom-comment-wrapper {
-  width: 85%;
-  margin-left: 14px;
+  float: left;
+  width: 100%;
+  margin-top: 2px;
+  position: relative !important;
 }
 .add-comment {
   cursor: pointer;
 }
 .comment-disabled {
   cursor: not-allowed;
+}
+.custom-add-comment-icon {
+  float: right;
+}
+.custom-view-comment-icon {
+  float: left;
 }
 /* Share album page css end */
 
