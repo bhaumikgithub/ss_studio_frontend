@@ -257,6 +257,9 @@
 .footer-photo-selection-count {
   float: left;
 }
+.custom-pic-selection label {
+  background: #c8c8c8 !important;
+}
 /* Share album page css end */
 
 /* Error page css start */
