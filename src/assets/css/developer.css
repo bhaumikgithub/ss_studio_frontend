@@ -582,7 +582,7 @@ div.filepicker {
   z-index: 1;
 }
 .add-comment-title-wrap {
-  background: url('/static/media/sidebar.966daed0.png');
+  background: url('../../assets/images/admin/testimonial/sidebar.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
