@@ -10,7 +10,7 @@ import {
 import { Scrollbars } from 'react-custom-scrollbars';
 
 // Import services
-import { createComment } from '../../services/Comment';
+import { CommentService } from '../../services/Index';
 
 // Import components
 import validationHandler from '../common/ValidationHandler';
@@ -48,7 +48,7 @@ export default class CommentPopup extends Component {
   handleSubmit(e) {
     var self = this;
     const { commentForm, photo } = self.state;
-    createComment({ comment: commentForm }, photo.id)
+    CommentService.createComment({ comment: commentForm }, photo.id)
       .then(function(response) {
         self.handelResponse(response);
       })

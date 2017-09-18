@@ -14,8 +14,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import CommentPopup from '../../shared-album/CommentPopup';
 
 // Import services
-import { PhotoService, AlbumService } from '../../../services/Index';
-import { showComment } from '../../../services/Comment';
+import {
+  PhotoService,
+  AlbumService,
+  CommentService
+} from '../../../services/Index';
 
 // Import helper
 import { getStatusClass } from '../../Helper';
@@ -327,7 +330,9 @@ export default class AlbumDetails extends Component {
   getComment(photo) {
     var self = this;
     if (photo.comment_id) {
-      showComment(photo.id, photo.comment_id).then(function(response) {
+      CommentService.showComment(photo.id, photo.comment_id).then(function(
+        response
+      ) {
         if (response.status === 200) {
           self.setState({
             showComment: true,

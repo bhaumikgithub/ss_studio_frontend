@@ -10,8 +10,11 @@ import LightBoxModule from '../common/LightBoxModule';
 import CommentPopup from './CommentPopup';
 
 // Import services
-import { AlbumService, PhotoService } from '../../services/Index';
-import { showComment } from '../../services/Comment';
+import {
+  AlbumService,
+  PhotoService,
+  CommentService
+} from '../../services/Index';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -186,7 +189,9 @@ export default class AlbumDetails extends Component {
   getComment(photo) {
     var self = this;
     if (photo.comment_id) {
-      showComment(photo.id, photo.comment_id).then(function(response) {
+      CommentService.showComment(photo.id, photo.comment_id).then(function(
+        response
+      ) {
         if (response.status === 200) {
           self.setState({
             showComment: true,

@@ -5,7 +5,7 @@ import { PageHeader, Carousel, Grid, Col } from 'react-bootstrap';
 import '../assets/css/feedback.css';
 
 // Import services
-import { FeedbackService } from '../services/Index';
+import { TestimonialService } from '../services/Index';
 
 export default class Feedback extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class Feedback extends Component {
   componentDidMount() {
     var self = this;
 
-    FeedbackService.getFeedbacks().then(function(response) {
+    TestimonialService.getFeedbacks().then(function(response) {
       if (response.status === 200) {
         console.log(response.data.data.testimonials);
         self.setState({ feedbacks: response.data.data.testimonials });

@@ -3,7 +3,7 @@ import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
 import Iframe from 'react-iframe';
 
 // Import services
-import { FilmService } from '../services/Index';
+import { VideoFilmService } from '../services/Index';
 
 // Import css
 import '../assets/css/films.css';
@@ -19,7 +19,7 @@ export default class Films extends Component {
 
   componentWillMount() {
     var self = this;
-    FilmService.getPublishVideos()
+    VideoFilmService.getPublishVideos()
       .then(function(response) {
         var data = response.data;
         self.setState({ videos: data.data.videos });

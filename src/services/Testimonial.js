@@ -34,3 +34,7 @@ export function deleteTestimonial(id) {
   );
   return checkStatus(responsePromise);
 }
+
+export function getFeedbacks() {
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'testimonials/active');
+}
