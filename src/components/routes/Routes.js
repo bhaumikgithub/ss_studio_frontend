@@ -31,29 +31,29 @@ const routes = () => (
   <Switch>
     {/* Before Login routes start */}
     <BeforeLoginLayout exact path="/" component={Home} />
-    <BeforeLoginLayout exact path="/portfolio" component={Portfolio} />
+    <BeforeLoginLayout exact path="(/*)/portfolio" component={Portfolio} />
     <BeforeLoginLayout
       exact
-      path="/portfolio/:slug"
+      path="(/*)/portfolio(/*)/:slug"
       component={PortfolioAlbumDetails}
     />
     <BeforeLoginLayout
       exact
-      path="/shared_album/:slug"
+      path="(/*)/shared_album(/*)/:slug"
       component={ShareAlbumDetails}
     />
-    <BeforeLoginLayout exact path="/films" component={Films} />
-    <BeforeLoginLayout exact path="/feedback" component={Feedback} />
-    <BeforeLoginLayout exact path="/contact" component={GetInTouch} />
-    <BeforeLoginLayout exact path="/about_us" component={AboutUs} />
-    <BeforeLoginLayout exact path="/services" component={Services} />
+    <BeforeLoginLayout exact path="(/*)/films" component={Films} />
+    <BeforeLoginLayout exact path="(/*)/feedback" component={Feedback} />
+    <BeforeLoginLayout exact path="(/*)/contact" component={GetInTouch} />
+    <BeforeLoginLayout exact path="(/*)/about_us" component={AboutUs} />
+    <BeforeLoginLayout exact path="(/*)/services" component={Services} />
     {/* Before Login routes end */}
 
     {/* Auth routes start */}
-    <LoginLayout exact path="/admin" component={Login} />
+    <LoginLayout exact path="(/*)/admin" component={Login} />
     <LoginLayout
       exact
-      path="/shared_album_login/:slug"
+      path="(/*)/shared_album_login(/*)/:slug"
       component={PasscodeLogin}
     />
     {/* Auth routes end */}
@@ -61,44 +61,44 @@ const routes = () => (
     {/* After Login routes start */}
     <PrivateRoute
       exact
-      path="/albums"
+      path="(/*)/albums"
       title="Albums"
       component={AlbumListing}
     />
     <PrivateRoute
       exact
-      path="/albums/:slug"
+      path="(/*)/albums(/*)/:slug"
       title="Album detail"
       component={AlbumDetails}
     />
     <PrivateRoute
       exact
-      path="/video_films"
+      path="(/*)/video_films"
       title="Video Films"
       component={VideoGallery}
     />
     <PrivateRoute
       exact
-      path="/categories"
+      path="(/*)/categories"
       title="Categories"
       component={Category}
     />
     <PrivateRoute exact path="/contacts" title="Contacts" component={Contact} />
     <PrivateRoute
       exact
-      path="/site_contents"
+      path="(/*)/site_contents"
       title="Site Contents"
       component={SiteContent}
     />
     <PrivateRoute
       exact
-      path="/homepage_gallery"
+      path="(/*)/homepage_gallery"
       title="Home Page Gallery"
       component={HomePageGalley}
     />
     <PrivateRoute
       exact
-      path="/testimonials"
+      path="(/*)/testimonials"
       title="Testimonials"
       component={Testimonial}
     />
