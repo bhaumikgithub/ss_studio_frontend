@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Col, Button, Tab, Tabs, Thumbnail } from 'react-bootstrap';
+import { Col, Button, Tab, Tabs } from 'react-bootstrap';
 
 // Import component
 import EditAboutContent from './EditAboutContent';
 import ServicePopup from './ServicePopup';
 import EditContactDetail from './EditContactDetail';
+import ServiceModule from '../../common/ServiceModule';
 
 // Import services
 import {
@@ -18,6 +19,7 @@ import { isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
+import '../../../assets/css/contact/services.css';
 
 export default class SiteContent extends Component {
   constructor(props) {
@@ -27,7 +29,8 @@ export default class SiteContent extends Component {
       aboutUs: [],
       services: [],
       contactDetail: {},
-      tab: 'about_us'
+      tab: 'about_us',
+      admin_service: true
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handleAboutModal = this.handleAboutModal.bind(this);
@@ -151,6 +154,12 @@ export default class SiteContent extends Component {
     var UpdatePhoto = response.data.data.about_us;
     this.setState({ aboutUs: UpdatePhoto });
   }
+  showEditPopup = service => {
+    this.setState({
+      AddServiceShow: true,
+      editObject: service
+    });
+  };
 
   render() {
     const { aboutUs, contactDetail, tab } = this.state;
@@ -273,38 +282,11 @@ export default class SiteContent extends Component {
                 </i>Add New
               </Button>
             </Col>
-            <Col xs={12} className="admin-service-thumb-wrap">
-              {this.state.services.map(service => (
-                <Thumbnail
-                  className="admin-service-thumb"
-                  alt="icon-images"
-                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
-                  key={service.id}
-                >
-                  <Col className="admin-sevice-details">
-                    <h4 className="admin-service-title text-center">
-                      {service.service_name}
-                    </h4>
-                    <Col className="p-none admin-service-description">
-                      <p>{service.description}</p>
-                    </Col>
-                  </Col>
-                  <a
-                    className="edit-service-thumb"
-                    onClick={() =>
-                      this.setState({
-                        AddServiceShow: true,
-                        editObject: service
-                      })}
-                  >
-                    <img
-                      src={require('../../../assets/images/admin/site-content/edit-icon-grey.png')}
-                      alt=""
-                    />
-                  </a>
-                </Thumbnail>
-              ))}
-            </Col>
+            <ServiceModule
+              services={this.state.services}
+              showEditPopup={this.showEditPopup}
+              admin_service={this.state.admin_service}
+            />
           </Tab>
           <Tab eventKey="contact_us" title="Contact Us">
             <Col xs={12} className="site-content-filter p-none">

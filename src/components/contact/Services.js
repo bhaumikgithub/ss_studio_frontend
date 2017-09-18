@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { PageHeader, Thumbnail, Grid, Col } from 'react-bootstrap';
+import { PageHeader, Grid, Col } from 'react-bootstrap';
 
 // Import css
 import '../../assets/css/contact/services.css';
+
+// Import component
+import ServiceModule from '../common/ServiceModule';
 
 // Import services
 import { UserServiceService } from '../../services/Index';
@@ -24,7 +27,6 @@ export default class Services extends Component {
       }
     });
   }
-
   render() {
     return (
       <div className="page-wrap service-wrap">
@@ -35,27 +37,10 @@ export default class Services extends Component {
                 <span className="text-grey">CREATIVE & BEST </span> SERVICES
               </label>
             </PageHeader>
-            {this.state.services.map(service => (
-              <Col xs={12} sm={6} md={4} className="no-m-l-r" key={service.id}>
-                <Thumbnail
-                  className="service-thumbs"
-                  alt="icon-images"
-                  src={service.service_icon.icon_image}
-                >
-                  <Col className="sevice-details">
-                    <h4 className="service-title text-center">
-                      {service.service_name}
-                    </h4>
-                    <Col className="p-none service-description">
-                      <p>{service.description}</p>
-                      {/*<Button className="btn outline-btn service-btn">
-                        View our Work
-                      </Button>*/}
-                    </Col>
-                  </Col>
-                </Thumbnail>
-              </Col>
-            ))}
+            <ServiceModule
+              services={this.state.services}
+              showEditPopup={this.showEditPopup}
+            />
           </Col>
         </Grid>
       </div>

@@ -180,6 +180,12 @@
 .custom-photo-edit {
   visibility: hidden;
 }
+.service-edit-icon {
+  padding-top: 0px !important;
+}
+.custom-service-thumb {
+  margin-right: 10px;
+}
 /* Site content about page css end */
 
 /* Home page galery css start */
@@ -234,6 +240,43 @@
   border: 1px solid #e7e7e7;
   padding-bottom: 30px;
   box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
+}
+.custom-comment-wrapper {
+  float: left;
+  width: 100%;
+  margin-top: 2px;
+  position: relative !important;
+}
+.add-comment {
+  cursor: pointer;
+}
+.comment-disabled {
+  cursor: not-allowed;
+}
+.custom-add-comment-icon {
+  float: right;
+}
+.custom-view-comment-icon {
+  float: left;
+}
+.custom-submit-photos-wrap {
+  position: fixed;
+  bottom: 0px;
+  z-index: 10;
+  background-color: rgb(221, 221, 221);
+  width: 100%;
+  left: 0px;
+  padding: 10px;
+  border-top: 1px solid rgb(204, 204, 204);
+}
+.submit-photos-btn {
+  float: right;
+}
+.footer-photo-selection-count {
+  float: left;
+}
+.custom-pic-selection label {
+  background: #c8c8c8 !important;
 }
 /* Share album page css end */
 
@@ -410,6 +453,20 @@ div.filepicker {
 .custom-cover-pic {
   z-index: 5;
 }
+.admin-view-comment {
+  left: 30px;
+  position: absolute;
+  top: 15px;
+  margin: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.admin-custom-view-comment-icon {
+  background: #f9a11d;
+  text-align: center;
+  border-radius: 50%;
+  padding: 2px;
+}
 /* album detail page css end */
 
 /* admin header page css start */
@@ -501,3 +558,100 @@ div.filepicker {
   color: #f9a11d !important;
   margin: 23% !important;
 }
+
+/* Comment popup page css start */
+.add-comment-modal {
+  padding-left: 15px;
+}
+.add-comment-modal .modal-content {
+  border-radius: 0;
+  border: 0;
+  margin-bottom: 30px;
+}
+.add-comment-body {
+  display: flex;
+}
+.close-comment-modal-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #c1c1c1;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  z-index: 1;
+}
+.add-comment-title-wrap {
+  background: url('/static/media/sidebar.966daed0.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.add-comment-title-details {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  height: 130px;
+  margin-top: -65px;
+  text-align: center;
+}
+.add-comment-icon {
+  margin: 0 auto;
+}
+.add-comment-text {
+  margin-top: 20px;
+  text-transform: capitalize;
+  font-family: 'ralewaymedium';
+}
+.add-comment-wrap {
+  padding: 20px 15px;
+}
+.comment-form-group {
+  position: relative;
+  font-family: 'ralewayregular';
+  margin-bottom: 25px;
+}
+.custom-label {
+  text-transform: capitalize;
+  font-weight: normal;
+  color: #555;
+  font-family: 'ralewaysemibold';
+  font-size: 15px;
+  letter-spacing: 0px;
+  width: 100%;
+}
+.custom-textarea {
+  overflow: hidden;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  position: relative;
+  padding: 6px 20px 6px 12px;
+  resize: none;
+  font-size: 12px;
+  color: #777;
+  line-height: 18px;
+}
+.add-comment-submit {
+  padding: 10px 30px;
+  font-family: 'ralewaysemibold';
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-top: 15px;
+}
+.add-comment-cancel {
+  background: #d7d7d7;
+  margin-left: 20px;
+  color: #555;
+  padding: 10px 30px;
+  font-family: 'ralewaysemibold';
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-top: 15px;
+}
+.add-comment-submit:hover {
+  background: #feae37;
+  color: #fff;
+}
+/* Comment popup page css end */

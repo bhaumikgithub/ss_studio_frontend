@@ -45,11 +45,6 @@ export default class Sidebar extends Component {
     return (
       <Col className="sidebar">
         <Col xs={12} className="user-wrap">
-          <img
-            className="img-responsive img-circle logged-user-thumb"
-            src={require('../../../assets/images/about/about-thumb.png')}
-            alt="user"
-          />
           <h5 className="user-name">{user.full_name}</h5>
           <Col xs={6} className="text-center">
             <h4 className="album-num">{user.album_count}</h4>

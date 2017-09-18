@@ -11,9 +11,11 @@ import AlbumPopup from './AlbumPopup';
 import LightBoxModule from '../../common/LightBoxModule';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CommentPopup from '../../shared-album/CommentPopup';
 
 // Import services
 import { PhotoService, AlbumService } from '../../../services/Index';
+import { showComment } from '../../../services/Comment';
 
 // Import helper
 import { getStatusClass } from '../../Helper';
@@ -38,6 +40,8 @@ export default class AlbumDetails extends Component {
       photoIndex: 0,
       albumSlug: this.props.match.params.slug,
       album: props.album,
+      showComment: false,
+      comment: [],
       alert: {
         show: false,
         cancelBtn: true,
@@ -68,17 +72,22 @@ export default class AlbumDetails extends Component {
   }
 
   showDialogueBox() {
-    this.setState({
-      alert: {
-        show: true,
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        btnText: 'Yes, delete it!',
-        type: 'warning',
-        confirmAction: () => this.deletePhotos(),
-        cancelBtn: true
-      }
-    });
+    var id = this.getSelectedCheckboxIds();
+    if (id.length === 0) {
+      this.handleDeleteErrorResponse();
+    } else {
+      this.setState({
+        alert: {
+          show: true,
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          btnText: 'Yes, delete it!',
+          type: 'warning',
+          confirmAction: () => this.deletePhotos(),
+          cancelBtn: true
+        }
+      });
+    }
   }
 
   hideDialogueBox() {
@@ -89,19 +98,30 @@ export default class AlbumDetails extends Component {
     this.setState({ showCreatePopup: false, editObject: {} });
   };
 
+  componentWillMount() {
+    this.state.album.id &&
+      this.setState({ addPhoto: this.getAddPhotoStatus() });
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.album.id !== this.props.album.id) {
-      const location = this.props.location;
-      const params = new URLSearchParams(location.search);
-      var addPhoto = false;
-
-      if (params.get('add_photo') === 'true') {
-        addPhoto = true;
-        this.props.history.push(location.pathname);
-      }
-
-      this.setState({ album: this.props.album, addPhoto: addPhoto });
+      this.setState({
+        album: this.props.album,
+        addPhoto: this.getAddPhotoStatus()
+      });
     }
+  }
+
+  getAddPhotoStatus() {
+    const location = this.props.location;
+    const params = new URLSearchParams(location.search);
+    var addPhoto = false;
+
+    if (params.get('add_photo') === 'true') {
+      addPhoto = true;
+      this.props.history.push(location.pathname);
+    }
+    return addPhoto;
   }
 
   getSelectedCheckboxIds() {
@@ -194,7 +214,9 @@ export default class AlbumDetails extends Component {
     self.setState({
       alert: {
         show: true,
-        title: response.data.message,
+        title: response
+          ? response.data.message
+          : 'Please select atleast 1 photo to delete',
         text: '',
         type: 'warning',
         confirmAction: () => self.hideDialogueBox()
@@ -299,6 +321,22 @@ export default class AlbumDetails extends Component {
   closeLightBox = () => {
     this.setState({ isOpenLightbox: false });
   };
+  hideCreatePopup = () => {
+    this.setState({ showComment: false });
+  };
+  getComment(photo) {
+    var self = this;
+    if (photo.comment_id) {
+      showComment(photo.id, photo.comment_id).then(function(response) {
+        if (response.status === 200) {
+          self.setState({
+            showComment: true,
+            comment: response.data.data.comment
+          });
+        }
+      });
+    }
+  }
 
   render() {
     const { album, alert, albumSlug, isOpenLightbox, photoIndex } = this.state;
@@ -349,6 +387,13 @@ export default class AlbumDetails extends Component {
               alreadySharedAlbum={this.state.alreadySharedAlbum}
               renderRecipientsCount={this.renderRecipientsCount}
               closeOn={this.closeAlreadySharedAlbum}
+            />
+          )}
+          {this.state.showComment && (
+            <CommentPopup
+              hideCreatePopup={this.hideCreatePopup}
+              showComment={this.state.showComment}
+              comment={this.state.comment}
             />
           )}
 
@@ -523,6 +568,19 @@ export default class AlbumDetails extends Component {
                             <div className="inside" />
                           </div>
                         </Checkbox>
+                        {photo.comment_id && (
+                          <a
+                            className="admin-view-comment"
+                            title="View comment"
+                            onClick={() => this.getComment(photo)}
+                          >
+                            <img
+                              src={require('../../../assets/images/admin/album/white-eye.png')}
+                              className="link-icons admin-custom-view-comment-icon"
+                              alt=""
+                            />
+                          </a>
+                        )}
                       </Col>
                     ))}
                 </ReactCSSTransitionGroup>
