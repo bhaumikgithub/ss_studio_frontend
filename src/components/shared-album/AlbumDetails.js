@@ -312,6 +312,7 @@ export default class AlbumDetails extends Component {
                                       'add-comment'
                                     )
                                   }
+                                  title={photo.comment_id ? '' : 'Add comment'}
                                   onClick={() =>
                                     this.setState({
                                       createComment: photo.comment_id
@@ -335,6 +336,7 @@ export default class AlbumDetails extends Component {
                                       'comment-disabled'
                                     )
                                   }
+                                  title={photo.comment_id ? 'View comment' : ''}
                                   onClick={() => this.getComment(photo)}
                                 >
                                   <img
