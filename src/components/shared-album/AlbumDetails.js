@@ -187,14 +187,16 @@ export default class AlbumDetails extends Component {
   };
   getComment(photo) {
     var self = this;
-    showComment(photo.id, photo.comment_id).then(function(response) {
-      if (response.status === 200) {
-        self.setState({
-          showComment: true,
-          comment: response.data.data.comment
-        });
-      }
-    });
+    if (photo.comment_id) {
+      showComment(photo.id, photo.comment_id).then(function(response) {
+        if (response.status === 200) {
+          self.setState({
+            showComment: true,
+            comment: response.data.data.comment
+          });
+        }
+      });
+    }
   }
   render() {
     const {
