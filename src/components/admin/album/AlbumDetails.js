@@ -11,11 +11,13 @@ import AlbumPopup from './AlbumPopup';
 import LightBoxModule from '../../common/LightBoxModule';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CommentPopup from '../../shared-album/CommentPopup';
 
 // Import services
 import { deleteSelectedPhotos } from '../../../services/admin/Photo';
 import { setCoverPhoto } from '../../../services/admin/Photo';
 import { showAlbum } from '../../../services/admin/Album';
+import { showComment } from '../../../services/Comment';
 
 // Import helper
 import { getStatusClass } from '../../Helper';
@@ -40,6 +42,8 @@ export default class AlbumDetails extends Component {
       photoIndex: 0,
       albumSlug: this.props.match.params.slug,
       album: props.album,
+      showComment: false,
+      comment: [],
       alert: {
         show: false,
         cancelBtn: true,
@@ -319,6 +323,22 @@ export default class AlbumDetails extends Component {
   closeLightBox = () => {
     this.setState({ isOpenLightbox: false });
   };
+  hideCreatePopup = () => {
+    this.setState({ showComment: false });
+  };
+  getComment(photo) {
+    var self = this;
+    if (photo.comment_id) {
+      showComment(photo.id, photo.comment_id).then(function(response) {
+        if (response.status === 200) {
+          self.setState({
+            showComment: true,
+            comment: response.data.data.comment
+          });
+        }
+      });
+    }
+  }
 
   render() {
     const { album, alert, albumSlug, isOpenLightbox, photoIndex } = this.state;
@@ -369,6 +389,13 @@ export default class AlbumDetails extends Component {
               alreadySharedAlbum={this.state.alreadySharedAlbum}
               renderRecipientsCount={this.renderRecipientsCount}
               closeOn={this.closeAlreadySharedAlbum}
+            />
+          )}
+          {this.state.showComment && (
+            <CommentPopup
+              hideCreatePopup={this.hideCreatePopup}
+              showComment={this.state.showComment}
+              comment={this.state.comment}
             />
           )}
 
@@ -543,6 +570,19 @@ export default class AlbumDetails extends Component {
                             <div className="inside" />
                           </div>
                         </Checkbox>
+                        {photo.comment_id && (
+                          <a
+                            className="admin-view-comment"
+                            title="View comment"
+                            onClick={() => this.getComment(photo)}
+                          >
+                            <img
+                              src={require('../../../assets/images/admin/album/white-eye.png')}
+                              className="link-icons admin-custom-view-comment-icon"
+                              alt=""
+                            />
+                          </a>
+                        )}
                       </Col>
                     ))}
                 </ReactCSSTransitionGroup>
