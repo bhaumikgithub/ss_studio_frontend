@@ -8,11 +8,10 @@ import EditContactDetail from './EditContactDetail';
 
 // Import services
 import {
-  getAboutUs,
-  getActiveServices,
-  getContactDetails
-} from '../../../services/Contact';
-import { SiteContentService } from '../../../services/Index';
+  AboutService,
+  ContactDetailService,
+  UserServiceService
+} from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -38,19 +37,19 @@ export default class SiteContent extends Component {
 
   componentWillMount() {
     var self = this;
-    getAboutUs().then(function(response) {
+    AboutService.getAboutUs().then(function(response) {
       if (response.status === 200) {
         self.setState({ aboutUs: response.data.data.about_us });
       }
     });
 
-    getActiveServices().then(function(response) {
+    UserServiceService.getActiveServices().then(function(response) {
       if (response.status === 200) {
         self.setState({ services: response.data.data.active_services });
       }
     });
 
-    getContactDetails().then(function(response) {
+    ContactDetailService.getContactDetails().then(function(response) {
       if (response.status === 200) {
         self.setState({ contactDetail: response.data.data.contact_detail });
       }
@@ -128,7 +127,7 @@ export default class SiteContent extends Component {
     let data = new FormData();
     data.append('about[photo_attributes][image]', file);
 
-    SiteContentService.updateAboutUs(data)
+    AboutService.updateAboutUs(data)
       .then(function(response) {
         self.handleSuccessResponse(response);
       })

@@ -1,9 +1,5 @@
 import axios from 'axios';
-import {
-  apiHeader,
-  apiCustomHeader,
-  checkStatus
-} from '../../components/Helper';
+import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
 
 export function getTestimonials(params) {
   const responsePromise = axios.get(

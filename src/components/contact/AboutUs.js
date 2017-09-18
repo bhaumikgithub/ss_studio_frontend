@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import '../../assets/css/contact/about-us.css';
 
 // Import services
-import { ContactService } from '../../services/Index';
+import { AboutService } from '../../services/Index';
 
 export default class AboutUs extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class AboutUs extends Component {
 
   componentWillMount() {
     var self = this;
-    ContactService.getAboutUs().then(function(response) {
+    AboutService.getAboutUs().then(function(response) {
       if (response.status === 200) {
         self.setState({ aboutUs: response.data.data.about_us });
       }

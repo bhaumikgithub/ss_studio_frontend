@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiHeader, checkStatus } from '../../components/Helper';
+import { apiHeader, checkStatus } from '../components/Helper';
 
 export function getHomepagePhotos() {
   const responsePromise = axios.get(

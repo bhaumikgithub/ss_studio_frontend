@@ -16,7 +16,7 @@ import editTitle from '../../../assets/images/admin/contact/admin-add-contact/ed
 import validationHandler from '../../common/ValidationHandler';
 
 // Import services
-import { AdminContactService } from '../../../services/Index';
+import { ContactService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -94,13 +94,13 @@ export default class AddContact extends Component {
     var callContactApi = () => {};
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = data;
-      callContactApi = AdminContactService.createContact(createParams);
+      callContactApi = ContactService.createContact(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         contactForm: data
       };
-      callContactApi = AdminContactService.updateContact(editParams);
+      callContactApi = ContactService.updateContact(editParams);
     }
 
     callContactApi

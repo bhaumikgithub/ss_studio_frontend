@@ -1,9 +1,5 @@
 import axios from 'axios';
-import {
-  apiHeader,
-  checkStatus,
-  apiCustomHeader
-} from '../../components/Helper';
+import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
 
 export function getVideoFilms(params) {
   const responsePromise = axios.get(
