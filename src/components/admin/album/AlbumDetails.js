@@ -98,7 +98,11 @@ export default class AlbumDetails extends Component {
   }
 
   hideCreatePopup = () => {
-    this.setState({ showCreatePopup: false, editObject: {} });
+    this.setState({
+      showCreatePopup: false,
+      editObject: {},
+      showComment: false
+    });
   };
 
   componentWillMount() {
@@ -304,6 +308,7 @@ export default class AlbumDetails extends Component {
 
   renderAlbum = album => {
     const newAlbum = Object.assign({}, this.state.album);
+    newAlbum.album_name = album.album_name;
     newAlbum.is_private = album.is_private;
     newAlbum.portfolio_visibility = album.portfolio_visibility;
     newAlbum.categories = album.categories;
@@ -324,9 +329,7 @@ export default class AlbumDetails extends Component {
   closeLightBox = () => {
     this.setState({ isOpenLightbox: false });
   };
-  hideCreatePopup = () => {
-    this.setState({ showComment: false });
-  };
+
   getComment(photo) {
     var self = this;
     if (photo.comment_id) {
