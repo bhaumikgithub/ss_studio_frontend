@@ -14,10 +14,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import CommentPopup from '../../shared-album/CommentPopup';
 
 // Import services
-import { deleteSelectedPhotos } from '../../../services/admin/Photo';
-import { setCoverPhoto } from '../../../services/admin/Photo';
-import { showAlbum } from '../../../services/admin/Album';
-import { showComment } from '../../../services/Comment';
+import {
+  PhotoService,
+  AlbumService,
+  CommentService
+} from '../../../services/Index';
 
 // Import helper
 import { getStatusClass } from '../../Helper';
@@ -58,7 +59,7 @@ export default class AlbumDetails extends Component {
 
   showAlbum(page = 1) {
     var self = this;
-    showAlbum(self.state.albumSlug, {
+    AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: 16
     })
@@ -97,7 +98,11 @@ export default class AlbumDetails extends Component {
   }
 
   hideCreatePopup = () => {
-    this.setState({ showCreatePopup: false, editObject: {} });
+    this.setState({
+      showCreatePopup: false,
+      editObject: {},
+      showComment: false
+    });
   };
 
   componentWillMount() {
@@ -156,7 +161,7 @@ export default class AlbumDetails extends Component {
     var self = this;
     ids = ids || self.getSelectedCheckboxIds().map(Number);
 
-    deleteSelectedPhotos({ photo: { ids: ids } })
+    PhotoService.deleteSelectedPhotos({ photo: { ids: ids } })
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response, ids, from);
@@ -237,7 +242,7 @@ export default class AlbumDetails extends Component {
 
   handleSetCoverPicClick(id, index) {
     var self = this;
-    setCoverPhoto(id)
+    PhotoService.setCoverPhoto(id)
       .then(function(response) {
         self.handleCoverPicSuccessResponse(response, index);
       })
@@ -303,6 +308,7 @@ export default class AlbumDetails extends Component {
 
   renderAlbum = album => {
     const newAlbum = Object.assign({}, this.state.album);
+    newAlbum.album_name = album.album_name;
     newAlbum.is_private = album.is_private;
     newAlbum.portfolio_visibility = album.portfolio_visibility;
     newAlbum.categories = album.categories;
@@ -323,13 +329,13 @@ export default class AlbumDetails extends Component {
   closeLightBox = () => {
     this.setState({ isOpenLightbox: false });
   };
-  hideCreatePopup = () => {
-    this.setState({ showComment: false });
-  };
+
   getComment(photo) {
     var self = this;
     if (photo.comment_id) {
-      showComment(photo.id, photo.comment_id).then(function(response) {
+      CommentService.showComment(photo.id, photo.comment_id).then(function(
+        response
+      ) {
         if (response.status === 200) {
           self.setState({
             showComment: true,

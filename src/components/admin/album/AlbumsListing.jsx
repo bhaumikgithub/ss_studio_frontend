@@ -10,7 +10,7 @@ import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
-import { getAlbums, deleteAlbum } from '../../../services/admin/Album';
+import { AlbumService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty, getStatusClass } from '../../Helper';
@@ -49,7 +49,7 @@ export default class AlbumsListing extends Component {
 
   getAllAlbums(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
-    getAlbums({
+    AlbumService.getAlbums({
       sorting_order: sortingOrder,
       page: page,
       per_page: window.paginationPerPage
@@ -100,7 +100,7 @@ export default class AlbumsListing extends Component {
   deleteAlbum() {
     var self = this;
 
-    deleteAlbum(self.state.alert.objectId)
+    AlbumService.deleteAlbum(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);

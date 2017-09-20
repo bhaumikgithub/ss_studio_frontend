@@ -9,10 +9,7 @@ import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
-import {
-  getVideoFilms,
-  deleteVideoFilm
-} from '../../../services/admin/VideoFilms';
+import { VideoFilmService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -52,7 +49,7 @@ export default class VideoFilms extends Component {
 
   getAllVideoFilms(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
-    getVideoFilms({
+    VideoFilmService.getVideoFilms({
       sorting_order: sortingOrder,
       page: page,
       per_page: window.paginationPerPage
@@ -105,7 +102,7 @@ export default class VideoFilms extends Component {
   deleteVideoFilm() {
     var self = this;
 
-    deleteVideoFilm(self.state.alert.objectId)
+    VideoFilmService.deleteVideoFilm(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);
