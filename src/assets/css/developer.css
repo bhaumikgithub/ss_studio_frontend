@@ -540,6 +540,11 @@ div.filepicker {
   margin-top: 15px;
   margin-bottom: -15px;
 }
+.shared-album-select-all {
+  float: left;
+  margin-top: 0px;
+  padding-left: 20px;
+}
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
 .sortBy-records {

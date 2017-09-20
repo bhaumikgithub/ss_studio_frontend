@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 export function authToken() {
   return localStorage.getItem('AUTH_TOKEN');
 }
@@ -67,6 +69,12 @@ export function getIndex(value, arr, prop) {
     }
   }
   return -1;
+}
+
+export function getIndexUsingLodash(array, id) {
+  return _.findIndex(array, function(o) {
+    return o.id === id;
+  });
 }
 
 export function setLoader(options) {
