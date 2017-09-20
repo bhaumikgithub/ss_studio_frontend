@@ -10,6 +10,8 @@ import {
 import { Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { IndexLinkContainer } from 'react-router-bootstrap';
+// Import component
+import ChangePasswordPopup from '../../admin/ChangePasswordPopup';
 // Import helper
 import { authToken } from '../../Helper';
 
@@ -24,7 +26,8 @@ export default class Header extends Component {
     super(props);
     this.state = {
       open: false,
-      redirectToReferrer: false
+      redirectToReferrer: false,
+      showChangePasswordPopup: false
     };
   }
 
@@ -34,6 +37,10 @@ export default class Header extends Component {
       self.handleResponse(response);
     });
   }
+
+  hideChangePasswordPopup = () => {
+    this.setState({ showChangePasswordPopup: false, editObject: {} });
+  };
 
   handleResponse(response) {
     if (response.status === 200) {
@@ -46,6 +53,7 @@ export default class Header extends Component {
     if (this.state.redirectToReferrer) {
       return <Redirect push to="/admin" />;
     }
+    debugger;
 
     return (
       <Navbar inverse fixedTop className="header">
@@ -59,6 +67,12 @@ export default class Header extends Component {
           </label>
           <Navbar.Toggle />
         </Navbar.Header>
+        {this.state.showChangePasswordPopup && (
+          <ChangePasswordPopup
+            showChangePasswordPopup={this.state.showChangePasswordPopup}
+            hideChangePasswordPopup={this.hideChangePasswordPopup}
+          />
+        )}
         <Navbar.Collapse>
           <Button
             className="logout-btn btn btn-orange"
@@ -94,7 +108,16 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
-              <MenuItem eventKey={5.1}>Change Password</MenuItem>
+              {/* <MenuItem eventKey={5.1}>Change Password</MenuItem> */}
+              <Button
+                className="edit-album-detail"
+                onClick={() =>
+                  this.setState({
+                    showChangePasswordPopup: true
+                  })}
+              >
+                Change Password
+              </Button>
               {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
             </NavDropdown>
           </Nav>
