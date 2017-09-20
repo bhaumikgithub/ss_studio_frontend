@@ -1,9 +1,5 @@
 import axios from 'axios';
-import {
-  apiHeader,
-  apiCustomHeader,
-  checkStatus
-} from '../../components/Helper';
+import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
 
 export function getAlbums(params) {
   const responsePromise = axios.get(
@@ -45,6 +41,12 @@ export function deleteAlbum(id) {
     apiHeader()
   );
   return checkStatus(responsePromise);
+}
+
+export function getPortfolio(params) {
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'albums/portfolio', {
+    params
+  });
 }
 
 export function albumPasscodeVerification(params) {

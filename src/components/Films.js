@@ -3,7 +3,7 @@ import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
 import Iframe from 'react-iframe';
 
 // Import services
-import { getPublishVideos } from '../services/Film';
+import { VideoFilmService } from '../services/Index';
 
 // Import css
 import '../assets/css/films.css';
@@ -19,7 +19,7 @@ export default class Films extends Component {
 
   componentWillMount() {
     var self = this;
-    getPublishVideos()
+    VideoFilmService.getPublishVideos()
       .then(function(response) {
         var data = response.data;
         self.setState({ videos: data.data.videos });
@@ -42,15 +42,13 @@ export default class Films extends Component {
             </PageHeader>
           </Col>
           <Col xs={12} className="p-none">
-            {videos.map((video, index) =>
+            {videos.map((video, index) => (
               <Col
                 xs={index === 0 ? 12 : 6}
                 className="video-wrap"
                 key={video.id}
               >
-                <Col className="video-title">
-                  {video.title}
-                </Col>
+                <Col className="video-title">{video.title}</Col>
                 <Col className="video-icons">
                   <Button className="icon-like action-icon">
                     <span className="fa fa-heart" />
@@ -68,7 +66,7 @@ export default class Films extends Component {
                   />
                 </Col>
               </Col>
-            )}
+            ))}
           </Col>
         </Grid>
       </div>

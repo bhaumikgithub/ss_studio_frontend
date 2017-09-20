@@ -3,10 +3,7 @@ import { Col, Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { Creatable } from 'react-select';
 
 // Import services
-import {
-  createAlbumRecipient,
-  getNotInvitedContact
-} from '../../../services/admin/AlbumRecipient';
+import { AlbumRecipientService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/album/share-album/share-album.css';
@@ -39,7 +36,7 @@ export default class ShareAlbum extends Component {
 
   componentWillMount() {
     var self = this;
-    getNotInvitedContact(self.state.albumId)
+    AlbumRecipientService.getNotInvitedContact(self.state.albumId)
       .then(function(response) {
         var data = response.data;
         self.setState({ contacts: data.data.contacts });
@@ -91,7 +88,7 @@ export default class ShareAlbum extends Component {
       return self.setState({ emails_error: "Emails can't be blank." });
     }
 
-    createAlbumRecipient(createParams)
+    AlbumRecipientService.createAlbumRecipient(createParams)
       .then(function(response) {
         self.handelResponse(response);
       })
