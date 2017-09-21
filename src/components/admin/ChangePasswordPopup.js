@@ -51,10 +51,6 @@ export default class ChangePasswordPopup extends Component {
     });
   }
 
-  updateState(element) {
-    this.setState({ value: element });
-  }
-
   handleSubmit(e) {
     var self = this;
     var callChangePasswordApi = () => {};
