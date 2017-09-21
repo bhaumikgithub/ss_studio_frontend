@@ -13,6 +13,14 @@ export function getContacts(params) {
   return checkStatus(responsePromise);
 }
 
+export function importContacts(access_token) {
+  const responsePromise = axios.get(
+    process.env.REACT_APP_API_BASE_URL + 'contacts/import',
+    { params: { access_token: access_token }, headers: apiCustomHeader() }
+  );
+  return checkStatus(responsePromise);
+}
+
 export function deleteContact(id) {
   const responsePromise = axios.delete(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + id,

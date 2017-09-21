@@ -6,6 +6,7 @@ import SweetAlert from 'sweetalert-react';
 import ContactPopup from './ContactPopup';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import GoogleLoginModule from '../../common/GoogleLoginModule';
 
 // Import services
 import { getContacts, deleteContact } from '../../../services/admin/Contact';
@@ -73,6 +74,10 @@ export default class Contacts extends Component {
   handlePaginationClick = eventKey => {
     if (eventKey !== this.state.meta.pagination.current_page)
       this.getAllContacts(undefined, eventKey);
+  };
+
+  importGoogleContacts = response => {
+    console.log(response);
   };
 
   showDialogueBox(id) {
@@ -240,6 +245,10 @@ export default class Contacts extends Component {
               />
             </i>Add New
           </Button>
+          <GoogleLoginModule
+            buttonText="Import google contacts"
+            afterResponse={this.importGoogleContacts}
+          />
         </Col>
         <div className="contact-list-wrap">
           {contacts.length === 0 && (
