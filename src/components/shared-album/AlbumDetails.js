@@ -10,9 +10,11 @@ import LightBoxModule from '../common/LightBoxModule';
 import CommentPopup from './CommentPopup';
 
 // Import services
-import { showAlbum, submitAlbum } from '../../services/admin/Album';
-import { selectPhoto } from '../../services/admin/Photo';
-import { showComment } from '../../services/Comment';
+import {
+  AlbumService,
+  PhotoService,
+  CommentService
+} from '../../services/Index';
 
 // Import helper
 import { getIndexUsingLodash } from '../Helper';
@@ -61,7 +63,7 @@ export default class AlbumDetails extends Component {
   showAlbum(page = 1) {
     var self = this;
 
-    showAlbum(self.state.albumSlug, {
+    AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage
     })
@@ -108,7 +110,7 @@ export default class AlbumDetails extends Component {
 
   handleSubmitPhotos() {
     var self = this;
-    submitAlbum(this.state.albumSlug)
+    AlbumService.submitAlbum(this.state.albumSlug)
       .then(function(response) {
         self.handleSubmitSuccessResponse(response);
       })
@@ -136,7 +138,7 @@ export default class AlbumDetails extends Component {
   selectPhoto(index, photoId) {
     var self = this;
     photoId = photoId || self.getSelectedCheckboxIds().map(Number);
-    selectPhoto({ photo: { ids: photoId } })
+    PhotoService.selectPhoto({ photo: { ids: photoId } })
       .then(function(response) {
         if (response.status === 201) {
           self.handlePhotoSuccessResponse(index, response);
@@ -212,7 +214,9 @@ export default class AlbumDetails extends Component {
   getComment(photo) {
     var self = this;
     if (photo.comment_id) {
-      showComment(photo.id, photo.comment_id).then(function(response) {
+      CommentService.showComment(photo.id, photo.comment_id).then(function(
+        response
+      ) {
         if (response.status === 200) {
           self.setState({
             showComment: true,

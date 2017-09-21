@@ -1,9 +1,5 @@
 import axios from 'axios';
-import {
-  apiHeader,
-  checkStatus,
-  apiCustomHeader
-} from '../../components/Helper';
+import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
 
 export function getVideoFilms(params) {
   const responsePromise = axios.get(
@@ -37,4 +33,8 @@ export function deleteVideoFilm(id) {
     apiHeader()
   );
   return checkStatus(responsePromise);
+}
+
+export function getPublishVideos() {
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'videos/publish');
 }

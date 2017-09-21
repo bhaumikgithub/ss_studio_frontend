@@ -1,9 +1,5 @@
 import axios from 'axios';
-import {
-  apiCustomHeader,
-  apiHeader,
-  checkStatus
-} from '../../components/Helper';
+import { apiCustomHeader, apiHeader, checkStatus } from '../components/Helper';
 
 export function deleteSelectedPhotos(params) {
   const responsePromise = axios.delete(

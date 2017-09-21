@@ -4,7 +4,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import DropzoneComponent from 'react-dropzone-component';
 
 // Import service
-import { uploadPhoto } from '../../../services/admin/Photo';
+import { PhotoService } from '../../../services/Index';
 
 // Import Helper
 import { getIndex } from '../../Helper';
@@ -53,7 +53,7 @@ export default class AlreadyShared extends Component {
       data.append('photo[][is_cover_photo]', true);
     }
 
-    uploadPhoto(data, file, this.uploadProgress)
+    PhotoService.uploadPhoto(data, file, this.uploadProgress)
       .then(function(response) {
         self.handleSuccessResponse(response, file);
       })

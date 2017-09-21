@@ -14,7 +14,7 @@ import EditTitle from '../../../assets/images/admin/site-content/about-site-cont
 import validationHandler from '../../common/ValidationHandler';
 
 // Import services
-import { updateContactDetail } from '../../../services/admin/SiteContent';
+import { ContactDetailService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -81,7 +81,7 @@ export default class EditContactDetail extends Component {
       id: self.props.editObject.id,
       EditContactForm: { contact_detail: self.state.EditContactForm }
     };
-    callContactDetailApi = updateContactDetail(editParams);
+    callContactDetailApi = ContactDetailService.updateContactDetail(editParams);
 
     callContactDetailApi
       .then(function(response) {

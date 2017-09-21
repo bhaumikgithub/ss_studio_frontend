@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiHeader, currentUser } from '../../components/Helper';
+import { apiHeader, currentUser } from '../components/Helper';
 
 export function getCurrentUser() {
   return axios.get(

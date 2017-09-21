@@ -17,10 +17,7 @@ import editTitle from '../../../assets/images/admin/category/edit-category-icon.
 import validationHandler from '../../common/ValidationHandler';
 
 // Import services
-import {
-  createCategory,
-  updateCategory
-} from '../../../services/admin/Category';
+import { CategoryService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -60,13 +57,13 @@ export default class CategoryPopup extends Component {
     var callCategoryApi = () => {};
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = { category: self.state.categoryForm };
-      callCategoryApi = createCategory(createParams);
+      callCategoryApi = CategoryService.createCategory(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         categoryForm: { category: self.state.categoryForm }
       };
-      callCategoryApi = updateCategory(editParams);
+      callCategoryApi = CategoryService.updateCategory(editParams);
     }
 
     callCategoryApi

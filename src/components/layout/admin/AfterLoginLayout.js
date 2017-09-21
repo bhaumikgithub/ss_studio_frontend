@@ -7,7 +7,7 @@ import Header from './Header';
 import Footer from './Footer';
 
 // Import service
-import { showAlbum } from '../../../services/admin/Album';
+import { AlbumService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/admin.css';
@@ -44,7 +44,7 @@ export default class AfterLoginLayout extends Component {
     var self = this;
     const albumSlug = this.props.children.props.match.params.slug;
     if (this.props.title === 'Album detail') {
-      showAlbum(self.state.albumSlug || albumSlug, {
+      AlbumService.showAlbum(self.state.albumSlug || albumSlug, {
         page: page,
         per_page: paginationPerPage
       })
