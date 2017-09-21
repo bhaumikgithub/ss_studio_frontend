@@ -3,38 +3,92 @@ import {
   Col,
   Button,
   Modal,
-  Row,
-  HelpBlock,
-  Checkbox,
-  Radio,
   ControlLabel,
   FormGroup,
   FormControl
 } from 'react-bootstrap';
 import createTitle from '../../assets/images/admin/album/create-album/add-album-icon.png';
-import Select from 'react-select';
 import 'react-select/dist/react-select.min.css';
 
+// Import components
+import validationHandler from '../common/ValidationHandler';
+
+// Import services
+import { UserService } from '../../services/Index';
+
+// Import css
 import '../../assets/css/admin/album/create-album/create-album.css';
 
 export default class ChangePasswordPopup extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
+    this.state = this.getInitialState();
   }
+  getInitialState() {
+    const initialState = {
+      changePasswordForm: {
+        current_password: '',
+        password: '',
+        password_confirmation: ''
+      },
+      errors: {}
+    };
+    return initialState;
+  }
+
+  resetchangePasswordForm() {
+    this.setState({
+      changePasswordForm: this.getInitialState().changePasswordForm
+    });
+  }
+
+  handleChange(e) {
+    const changePasswordForm = this.state.changePasswordForm;
+    var key = e.target.name;
+    changePasswordForm[key] = e.target.value;
+    this.setState({
+      changePasswordForm
+    });
+  }
+
   updateState(element) {
     this.setState({ value: element });
   }
 
+  handleSubmit(e) {
+    var self = this;
+    var callChangePasswordApi = () => {};
+    var changePasswordParams = {
+      changePasswordForm: { user: self.state.changePasswordForm }
+    };
+    callChangePasswordApi = UserService.changePassword(changePasswordParams);
+
+    callChangePasswordApi
+      .then(function(response) {
+        self.handelResponse(response);
+      })
+      .catch(function(error) {
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
+      });
+  }
+
+  handelResponse(response) {
+    var responseData = response.data;
+    if (response.status === 201) {
+      this.resetchangePasswordForm();
+      this.props.hideChangePasswordPopup();
+    } else {
+      console.log(responseData.errors);
+    }
+  }
+
   render() {
-    var Select = require('react-select'); //only for server-side
-    var options = [
-      { value: 'kids', label: 'Kids' },
-      { value: 'wedding', label: 'Wedding' },
-      { value: 'prevedding', label: 'Pre-Wedding' },
-      { value: 'fashion', label: 'Fashion' },
-      { value: 'art', label: 'Art' }
-    ];
+    const { changePasswordForm, errors } = this.state;
     return (
       <Modal
         show={this.props.showChangePasswordPopup}
@@ -69,7 +123,7 @@ export default class ChangePasswordPopup extends Component {
             </Col>
           </Col>
           <Col className="create-content-wrap" sm={8}>
-            <form className="create-album-form custom-form">
+            <form className="admin-side create-album-form custom-form">
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Current Password
@@ -78,7 +132,15 @@ export default class ChangePasswordPopup extends Component {
                   className="custom-form-control"
                   type="password"
                   placeholder="Current Password"
+                  name="current_password"
+                  value={changePasswordForm.current_password}
+                  onChange={this.handleChange.bind(this)}
                 />
+                {errors['current_password'] && (
+                  <span className="input-error text-red">
+                    {errors['current_password']}
+                  </span>
+                )}
               </FormGroup>
 
               <FormGroup className="custom-form-group required">
@@ -89,7 +151,15 @@ export default class ChangePasswordPopup extends Component {
                   className="custom-form-control"
                   type="password"
                   placeholder="New Password"
+                  name="password"
+                  value={changePasswordForm.password}
+                  onChange={this.handleChange.bind(this)}
                 />
+                {errors['password'] && (
+                  <span className="input-error text-red">
+                    {errors['password']}
+                  </span>
+                )}
               </FormGroup>
 
               <FormGroup className="custom-form-group required">
@@ -100,12 +170,20 @@ export default class ChangePasswordPopup extends Component {
                   className="custom-form-control"
                   type="password"
                   placeholder="Confirm Password"
+                  name="password_confirmation"
+                  value={changePasswordForm.password_confirmation}
+                  onChange={this.handleChange.bind(this)}
                 />
+                {errors['password_confirmation'] && (
+                  <span className="input-error text-red">
+                    {errors['password_confirmation']}
+                  </span>
+                )}
               </FormGroup>
 
               <Button
-                type="submit"
                 className="btn btn-orange create-album-submit"
+                onClick={event => this.handleSubmit(event)}
               >
                 Save
               </Button>

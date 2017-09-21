@@ -1,12 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  MenuItem,
-  Button,
-  NavItem
-} from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Button, NavItem } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { IndexLinkContainer } from 'react-router-bootstrap';
@@ -39,7 +32,7 @@ export default class Header extends Component {
   }
 
   hideChangePasswordPopup = () => {
-    this.setState({ showChangePasswordPopup: false, editObject: {} });
+    this.setState({ showChangePasswordPopup: false });
   };
 
   handleResponse(response) {
@@ -53,7 +46,6 @@ export default class Header extends Component {
     if (this.state.redirectToReferrer) {
       return <Redirect push to="/admin" />;
     }
-    debugger;
 
     return (
       <Navbar inverse fixedTop className="header">
@@ -108,7 +100,6 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
-              {/* <MenuItem eventKey={5.1}>Change Password</MenuItem> */}
               <Button
                 className="edit-album-detail"
                 onClick={() =>
