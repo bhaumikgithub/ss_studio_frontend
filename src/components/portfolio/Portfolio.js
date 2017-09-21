@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { PageHeader, Grid, Col, Row, Tab, Nav, NavItem } from 'react-bootstrap';
 import SearchIcon from '../../assets/images/search-icon.png';
-import Loading from 'react-loading-bar';
 
 // Import services
 import { getPortfolio } from '../../services/Portfolio';
@@ -18,8 +17,7 @@ export default class Portfolio extends Component {
     this.state = {
       albums: [],
       categories: [],
-      tab: '',
-      top_loading_bar: false
+      tab: ''
     };
   }
 
@@ -33,7 +31,6 @@ export default class Portfolio extends Component {
   }
 
   componentWillMount() {
-    this.setState({ top_loading_bar: true });
     this.fetchPortfolio();
     this.fetchCategories();
   }
@@ -44,7 +41,7 @@ export default class Portfolio extends Component {
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {
-          self.setState({ albums: data.data.albums, top_loading_bar: false });
+          self.setState({ albums: data.data.albums });
         }
       })
       .catch(function(error) {
@@ -154,7 +151,6 @@ export default class Portfolio extends Component {
             </Tab.Container>
           </Col>
         </Grid>
-        <Loading show={this.state.top_loading_bar} color="#f9a11d" />
       </div>
     );
   }
