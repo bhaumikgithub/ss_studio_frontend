@@ -16,7 +16,7 @@ import { isLoggedIn } from '../Helper';
 import '../../assets/css/admin/login.css';
 
 // Import services
-import { LoginService } from '../../services/admin/Auth';
+import { AuthService } from '../../services/Index';
 
 export default class Login extends Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class Login extends Component {
   handleLogin(event) {
     var self = this;
     event.preventDefault();
-    LoginService(self.state.loginForm)
+    AuthService.LoginService(self.state.loginForm)
       .then(function(response) {
         self.handelResponse(response);
       })

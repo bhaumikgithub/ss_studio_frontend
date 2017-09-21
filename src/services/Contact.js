@@ -1,23 +1,39 @@
-import axios from 'axios';
 import axiosInstance from '../axios/axiosInterceptor';
-export function createContactMessage(params) {
-  return axios.post(process.env.REACT_APP_API_BASE_URL + 'contact_messages', {
-    contact_message: params
-  });
-}
+import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
 
-export function getContactDetails() {
-  return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'contact_details'
+export function getContacts(params) {
+  const responsePromise = axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'contacts',
+    {
+      params: params,
+      headers: apiCustomHeader()
+    }
   );
+  return checkStatus(responsePromise);
 }
 
-export function getActiveServices() {
-  return axios.get(
-    process.env.REACT_APP_API_BASE_URL + 'services/active_services'
+export function deleteContact(id) {
+  const responsePromise = axiosInstance.delete(
+    process.env.REACT_APP_API_BASE_URL + 'contacts/' + id,
+    apiHeader()
   );
+  return checkStatus(responsePromise);
 }
 
-export function getAboutUs() {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'abouts');
+export function createContact(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'contacts',
+    params,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function updateContact(params) {
+  const responsePromise = axiosInstance.patch(
+    process.env.REACT_APP_API_BASE_URL + 'contacts/' + params['id'],
+    params['contactForm'],
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
 }

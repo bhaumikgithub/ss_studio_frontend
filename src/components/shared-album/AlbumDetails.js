@@ -7,10 +7,16 @@ import SweetAlert from 'sweetalert-react';
 import PaginationModule from '../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import LightBoxModule from '../common/LightBoxModule';
+import CommentPopup from './CommentPopup';
 
 // Import services
-import { showAlbum, submitAlbum } from '../../services/admin/Album';
-import { selectPhoto } from '../../services/admin/Photo';
+import {
+  AlbumService,
+  PhotoService
+} from '../../services/Index';
+
+// Import helper
+import { getIndexUsingLodash } from '../Helper';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -27,6 +33,10 @@ export default class AlbumDetails extends Component {
       albumSlug: this.props.match.params.slug,
       token: '',
       passcodeLoginState: {},
+      createComment: false,
+      //showComment: false,
+      photo: [],
+      comment: [],
       alert: {
         show: false,
         cancelBtn: true,
@@ -52,7 +62,7 @@ export default class AlbumDetails extends Component {
   showAlbum(page = 1) {
     var self = this;
 
-    showAlbum(self.state.albumSlug, {
+    AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage
     })
@@ -85,8 +95,7 @@ export default class AlbumDetails extends Component {
     } else {
       alert = {
         show: true,
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Are you sure you want to send photos to Sagar?',
         btnText: 'Yes, submit it!',
         type: 'warning',
         confirmAction: () => this.handleSubmitPhotos(),
@@ -100,7 +109,7 @@ export default class AlbumDetails extends Component {
 
   handleSubmitPhotos() {
     var self = this;
-    submitAlbum(this.state.albumSlug)
+    AlbumService.submitAlbum(this.state.albumSlug)
       .then(function(response) {
         self.handleSubmitSuccessResponse(response);
       })
@@ -109,9 +118,26 @@ export default class AlbumDetails extends Component {
       });
   }
 
+  getSelectedCheckboxIds() {
+    var ids = [];
+    var selected_photo_ids = [];
+    var is_checked = document.querySelector('.all-selection-check input')
+      .checked;
+    const photos = this.state.album.photos;
+    photos.map(photo => {
+      if (photo.is_selected === true) selected_photo_ids.push(photo.id);
+      return selected_photo_ids;
+    });
+    Object.keys(photos).map(key => ids.push(photos[key].id));
+    if (is_checked === true)
+      ids = ids.filter(val => !selected_photo_ids.includes(val));
+    return ids;
+  }
+
   selectPhoto(index, photoId) {
     var self = this;
-    selectPhoto(photoId)
+    photoId = photoId || self.getSelectedCheckboxIds().map(Number);
+    PhotoService.selectPhoto({ photo: { ids: photoId } })
       .then(function(response) {
         if (response.status === 201) {
           self.handlePhotoSuccessResponse(index, response);
@@ -150,15 +176,20 @@ export default class AlbumDetails extends Component {
   }
 
   handlePhotoSuccessResponse(index, response) {
-    var photo = response.data.data.photo;
+    var photos = response.data.data.photos;
     var newAlbum = Object.assign({}, this.state.album);
     var newPhotos = newAlbum.photos;
-
-    newPhotos.splice(index, 1, photo);
-    photo.is_selected
-      ? (newAlbum.selected_photo_count += 1)
-      : (newAlbum.selected_photo_count -= 1);
-    newPhotos.photos = newPhotos;
+    var album = this.state.album;
+    photos.map(photo => {
+      if (index === undefined) {
+        var new_photo_index = getIndexUsingLodash(album.photos, photo.id);
+      }
+      newPhotos.splice(index ? index : new_photo_index, 1, photo);
+      photo.is_selected
+        ? (newAlbum.selected_photo_count += 1)
+        : (newAlbum.selected_photo_count -= 1);
+      return true;
+    });
     this.setState({ album: newAlbum });
   }
 
@@ -172,6 +203,43 @@ export default class AlbumDetails extends Component {
     this.setState({ isOpenLightbox: false });
   };
 
+  hideCreatePopup = () => {
+    // this.setState({ createComment: false, showComment: false });
+    this.setState({ createComment: false });
+  };
+  renderComment = (id, photo) => {
+    photo.comment_id = id;
+    this.setState({ photo: photo });
+  };
+
+//   getComment(photo) {
+//     var self = this;
+//     if (photo.comment_id) {
+//       CommentService.showComment(photo.id, photo.comment_id).then(function(
+//         response
+//       ) {
+//         if (response.status === 200) {
+//           self.setState({
+//             showComment: true,
+//             comment: response.data.data.comment
+//           });
+//         }
+//       });
+//     }
+//   }
+  selectAll(event) {
+    if (event.target.checked) {
+      this.checkboxCheckUncheck(true);
+    } else {
+      this.checkboxCheckUncheck(false);
+    }
+    this.selectPhoto();
+  }
+  checkboxCheckUncheck(action) {
+    var checkboxes = document.getElementsByName('photo-checkbox');
+    document.querySelector('.all-selection-check input').checked = action;
+    Object.keys(checkboxes).map(key => (checkboxes[key].checked = action));
+  }
   render() {
     const {
       album,
@@ -200,6 +268,16 @@ export default class AlbumDetails extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.setState({ alert: { show: false } })}
         />
+        {(this.state.createComment || this.state.showComment) && (
+          <CommentPopup
+            createComment={this.state.createComment}
+            hideCreatePopup={this.hideCreatePopup}
+            //showComment={this.state.showComment}
+            renderComment={this.renderComment}
+            //comment={this.state.comment}
+            photo={this.state.photo}
+          />
+        )}
         <Grid>
           <Col xs={12} className="p-none">
             <Col className="photo-count-detail left-15">
@@ -251,16 +329,69 @@ export default class AlbumDetails extends Component {
                             </a>
                           </Col>
                           {album.delivery_status !== 'Submitted' ? (
-                            <Checkbox
-                              onChange={event =>
-                                this.selectPhoto(index, photo.id)}
-                              checked={photo.is_selected}
-                              className="pic-selection-check photo-selection-checkbox"
-                            >
-                              <div className="check">
-                                <div className="inside" />
-                              </div>
-                            </Checkbox>
+                            <div>
+                              <Checkbox
+                                name="photo-checkbox"
+                                id={photo.id}
+                                onChange={event =>
+                                  this.selectPhoto(index, photo.id)}
+                                checked={photo.is_selected}
+                                className={
+                                  photo.is_selected ? (
+                                    'pic-selection-check photo-selection-checkbox'
+                                  ) : (
+                                    'pic-selection-check photo-selection-checkbox custom-pic-selection'
+                                  )
+                                }
+                              >
+                                <div className="check">
+                                  <div className="inside" />
+                                </div>
+                              </Checkbox>
+                              <span className="photo-count custom-comment-wrapper">
+                                <a
+                                  className={
+                                    photo.comment_id ? (
+                                      'comment-disabled'
+                                    ) : (
+                                      'add-comment'
+                                    )
+                                  }
+                                  title={photo.comment_id ? '' : 'Add comment'}
+                                  onClick={() =>
+                                    this.setState({
+                                      createComment: photo.comment_id
+                                        ? false
+                                        : true,
+                                      photo: photo
+                                    })}
+                                >
+                                  <img
+                                    src={require('../../assets/images/admin/album/testimonial-icon.png')}
+                                    className="link-icons custom-add-comment-icon"
+                                    alt=""
+                                  />
+                                </a>
+
+                                {/* <a
+                                  className={
+                                    photo.comment_id ? (
+                                      'add-comment'
+                                    ) : (
+                                      'comment-disabled'
+                                    )
+                                  }
+                                  title={photo.comment_id ? 'View comment' : ''}
+                                  onClick={() => this.getComment(photo)}
+                                >
+                                  <img
+                                    src={require('../../assets/images/admin/album/white-eye.png')}
+                                    className="link-icons custom-view-comment-icon"
+                                    alt=""
+                                  />
+                                </a> */}
+                              </span>
+                            </div>
                           ) : (
                             <div
                               className={
@@ -284,13 +415,36 @@ export default class AlbumDetails extends Component {
                 </Col>
                 <Col>
                   {album.delivery_status !== 'Submitted' && (
-                    <Col sm={6} xs={12} className="">
+                    <Col sm={6} xs={12} className="custom-submit-photos-wrap">
+                      <Col className="footer-photo-selection-count">
+                        {album.selected_photo_count +
+                          '/' +
+                          album.photo_count +
+                          ' photos selected'}
+                      </Col>
                       <Button
-                        className="btn-orange contact-submit-btn text-center btn btn-default"
+                        className="btn-orange contact-submit-btn text-center btn btn-default submit-photos-btn"
                         onClick={() => this.showDialogueBox()}
                       >
                         Submit photos
                       </Button>
+                      <Checkbox
+                        className="all-selection-check shared-album-select-all"
+                        onChange={event => this.selectAll(event)}
+                        checked={
+                          album.selected_photo_count === album.photo_count ? (
+                            true
+                          ) : (
+                            false
+                          )
+                        }
+                      >
+                        {' '}
+                        Select All
+                        <div className="check">
+                          <div className="inside" />
+                        </div>
+                      </Checkbox>
                     </Col>
                   )}
                   <Col sm={6} xs={12} className="p-none pull-right">
