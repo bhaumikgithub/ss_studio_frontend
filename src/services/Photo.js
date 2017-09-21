@@ -35,8 +35,9 @@ export function setCoverPhoto(id) {
   return checkStatus(responsePromise);
 }
 
-export function selectPhoto(id) {
+export function selectPhoto(params) {
   return axios.put(
-    process.env.REACT_APP_API_BASE_URL + 'photos/' + id + '/mark_as_checked'
+    process.env.REACT_APP_API_BASE_URL + 'photos/mark_as_checked',
+    params
   );
 }
