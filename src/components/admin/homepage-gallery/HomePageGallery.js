@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
 
 // Import services
-import {
-  getHomepagePhotos,
-  updateHomepagePhoto
-} from '../../../services/admin/HomePageGallery';
+import { HomePageGalleryService } from '../../../services/Index';
 
 // Import helper
 import { setLoader } from '../../Helper';
@@ -26,7 +23,7 @@ export default class HomePageGallery extends Component {
   componentWillMount() {
     var self = this;
 
-    getHomepagePhotos()
+    HomePageGalleryService.getHomepagePhotos()
       .then(function(response) {
         var data = response.data;
         self.setState({ active_photos: data.data.active_photos });
@@ -45,7 +42,7 @@ export default class HomePageGallery extends Component {
     let data = new FormData();
     data.append('homepage_photo[homepage_image]', file);
 
-    updateHomepagePhoto(data, id)
+    HomePageGalleryService.updateHomepagePhoto(data, id)
       .then(function(response) {
         self.handleSuccessResponse(response, index);
       })
@@ -78,8 +75,8 @@ export default class HomePageGallery extends Component {
       <Col xs={12} className="homepage-gallery-page-wrap">
         <Row>
           <Col xs={12} className="homepage-gallery">
-            <Col xs={12} className="slider-images-wrap">
-              {active_photos.map((photo, index) =>
+            <Col xs={12} className="slider-images-wrap disable-horizontal">
+              {active_photos.map((photo, index) => (
                 <Col
                   xs={6}
                   sm={4}
@@ -121,7 +118,7 @@ export default class HomePageGallery extends Component {
                     </a>
                   </div>
                 </Col>
-              )}
+              ))}
             </Col>
           </Col>
         </Row>

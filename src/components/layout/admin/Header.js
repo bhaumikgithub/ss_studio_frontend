@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, MenuItem, Button } from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  MenuItem,
+  Button,
+  NavItem
+} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-
+import Helmet from 'react-helmet';
+import { IndexLinkContainer } from 'react-router-bootstrap';
 // Import helper
-import { currentUser } from '../../Helper';
+import { authToken } from '../../Helper';
 
 // Import services
-import { LogoutService } from '../../../services/admin/Auth';
+import { AuthService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/header.css';
@@ -22,7 +30,7 @@ export default class Header extends Component {
 
   handleLogout(event) {
     var self = this;
-    LogoutService({ user_id: currentUser().id }).then(function(response) {
+    AuthService.LogoutService({ token: authToken() }).then(function(response) {
       self.handleResponse(response);
     });
   }
@@ -41,11 +49,14 @@ export default class Header extends Component {
 
     return (
       <Navbar inverse fixedTop className="header">
+        <Helmet title={'Sagar Gadani :: ' + this.props.title} />
         <Navbar.Header>
           <Button className="side-toggle-btn" onClick={this.props.handler}>
             <i className="fa fa-bars" />
           </Button>
-          <label className="admin-page-title">Albums</label>
+          <label className="admin-page-title text-capitalize">
+            {this.props.title}
+          </label>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
@@ -56,30 +67,16 @@ export default class Header extends Component {
             <i className="fa fa-logout" /> Logout
           </Button>
           <Nav pullRight className="menu-links">
-            {/* <div className="search-wrap">
-              <InputGroup>
-                <FormControl
-                  type="text"
-                  onFocus={() => this.setState({ open: true })}
-                  placeholder="Type Album Name"
-                  className="form-control search-box"
-                />
-                <InputGroup.Addon className="search-btn-wrap">
-                  <Button className="search-btn">
-                    <Glyphicon glyph="search" />
-                  </Button>
-                </InputGroup.Addon>
-              </InputGroup>
-              <Collapse in={this.state.open} className="search-options">
-                <Col xs={12} className="search-Form">
-                  <Well>
-                    <Button onClick={() => this.setState({ open: false })}>
-                      Close
-                    </Button>
-                  </Well>
-                </Col>
-              </Collapse>
-            </div> */}
+            {this.props.isAlbumDetail && (
+              <IndexLinkContainer to="/albums">
+                <NavItem className="back-to-album">
+                  <img
+                    src={require('../../../assets/images/back-icon.png')}
+                    alt=""
+                  />Back To Albums
+                </NavItem>
+              </IndexLinkContainer>
+            )}
             <NavDropdown
               eventKey={5}
               title={
@@ -97,9 +94,7 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
-              <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
-              <MenuItem eventKey={5.2}>About us</MenuItem>
-              <MenuItem eventKey={5.3}>Services</MenuItem>
+              <MenuItem eventKey={5.1}>Change Password</MenuItem>
               {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
             </NavDropdown>
           </Nav>

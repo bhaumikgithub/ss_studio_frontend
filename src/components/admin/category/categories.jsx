@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import { Col, Table, Pagination } from 'react-bootstrap';
+import { Col, Table } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
 import CategoryPopup from './CategoryPopup';
 
 // Import services
-import {
-  getCategories,
-  deleteCategory
-} from '../../../services/admin/Category';
+import { CategoryService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -44,7 +41,7 @@ export default class Categories extends Component {
   componentWillMount() {
     var self = this;
 
-    getCategories()
+    CategoryService.getCategories()
       .then(function(response) {
         var data = response.data;
         self.setState({ categories: data.data.categories, meta: data.meta });
@@ -72,7 +69,7 @@ export default class Categories extends Component {
   deleteCategory() {
     var self = this;
 
-    deleteCategory(self.state.alert.objectId)
+    CategoryService.deleteCategory(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);
@@ -172,13 +169,14 @@ export default class Categories extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {this.state.CreateShow &&
+        {this.state.CreateShow && (
           <CategoryPopup
             showCreate={this.state.CreateShow}
             closeOn={this.CreateClose}
             editObject={this.state.editObject}
             renderCategory={this.renderCategory}
-          />}
+          />
+        )}
 
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
@@ -200,11 +198,9 @@ export default class Categories extends Component {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(category =>
+                {categories.map(category => (
                   <tr key={category.id}>
-                    <td>
-                      {category.category_name}
-                    </td>
+                    <td>{category.category_name}</td>
                     <td className={this.getStatusClass(category.status)}>
                       {category.status}
                     </td>
@@ -222,7 +218,7 @@ export default class Categories extends Component {
                           alt=""
                         />
                       </a>
-                      <img
+                      {/* <img
                         className="seprator"
                         src={require('../../../assets/images/admin/category/seprator.png')}
                         alt=""
@@ -235,27 +231,13 @@ export default class Categories extends Component {
                           src={require('../../../assets/images/admin/category/delete-icon.png')}
                           alt=""
                         />
-                      </a>
+                      </a> */}
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </Table>
           </div>
-        </Col>
-
-        <Col xs={12} className="p-none custom-pagination-wrap">
-          <Pagination
-            prev
-            next
-            ellipsis
-            boundaryLinks
-            items={10}
-            maxButtons={3}
-            activePage={this.state.activePage}
-            onSelect={this.handleSelect}
-            className="custom-pagination"
-          />
         </Col>
       </Col>
     );

@@ -14,9 +14,9 @@ import '../../assets/css/contact/get-in-touch.css';
 
 // Import services
 import {
-  createContactMessage,
-  getContactDetails
-} from '../../services/Contact';
+  ContactMessageService,
+  ContactDetailService
+} from '../../services/Index';
 
 // Import components
 import validationHandler from '../common/ValidationHandler';
@@ -56,7 +56,7 @@ export default class GetInTouch extends Component {
   componentDidMount() {
     var self = this;
 
-    getContactDetails().then(function(response) {
+    ContactDetailService.getContactDetails().then(function(response) {
       if (response.status === 200) {
         self.setState({ contactDetails: response.data.data.contact_detail });
       }
@@ -75,7 +75,7 @@ export default class GetInTouch extends Component {
   handleClick(event) {
     var self = this;
 
-    createContactMessage(self.state.contactForm)
+    ContactMessageService.createContactMessage(self.state.contactForm)
       .then(function(response) {
         console.log(response);
         self.handelResponse(response);
@@ -119,7 +119,7 @@ export default class GetInTouch extends Component {
           <Row>
             <PageHeader className="page-title page-main-title text-center">
               <label>
-                <span className="text-white">Get in</span> Touch
+                <span className="text-white">Contact</span>
               </label>
             </PageHeader>
             <Col sm={7}>
@@ -145,8 +145,8 @@ export default class GetInTouch extends Component {
                 <Col xs={12} className="contact-details-block">
                   <Col xs={2} md={1} className="p-none">
                     <img
-                      src={require('../../assets/images/call-icon.png')}
-                      alt="Mail"
+                      src={require('../../assets/images/message-icon.png')}
+                      alt="Call"
                       className="icon-img"
                     />
                   </Col>
@@ -158,17 +158,27 @@ export default class GetInTouch extends Component {
                 <Col xs={12} className="contact-details-block">
                   <Col xs={2} md={1} className="p-none">
                     <img
-                      src={require('../../assets/images/message-icon.png')}
-                      alt="Call"
+                      src={require('../../assets/images/call-icon.png')}
+                      alt="Mail"
                       className="icon-img"
                     />
                   </Col>
-                  <Col
-                    xs={10}
-                    md={11}
-                    className="col-xs-10 col-md-11 p-none text-white"
-                  >
-                    {contactDetails.phone}
+
+                  <Col xs={12} className="contact-details-block">
+                    <Col xs={2} md={1} className="p-none">
+                      <img
+                        src={require('../../assets/images/message-icon.png')}
+                        alt="Call"
+                        className="icon-img"
+                      />
+                    </Col>
+                    <Col
+                      xs={10}
+                      md={11}
+                      className="col-xs-10 col-md-11 p-none text-white"
+                    >
+                      {contactDetails.phone}
+                    </Col>
                   </Col>
                 </Col>
               </div>

@@ -16,7 +16,7 @@ import { isLoggedIn } from '../Helper';
 import '../../assets/css/admin/login.css';
 
 // Import services
-import { LoginService } from '../../services/admin/Auth';
+import { AuthService } from '../../services/Index';
 
 export default class Login extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ export default class Login extends Component {
         password: '',
         grant_type: 'password'
       },
-      errors: '',
+      login_error: '',
       redirectToReferrer: false
     };
 
@@ -49,15 +49,13 @@ export default class Login extends Component {
 
   handleLogin(event) {
     var self = this;
-
-    LoginService(self.state.loginForm)
+    event.preventDefault();
+    AuthService.LoginService(self.state.loginForm)
       .then(function(response) {
-        console.log(response);
         self.handelResponse(response);
       })
       .catch(function(error) {
-        alert(error.response.data.error);
-        self.setState({ errors: error.response.data.errors });
+        self.setState({ login_error: error.response.data.error });
       });
   }
 
@@ -76,6 +74,7 @@ export default class Login extends Component {
   }
 
   render() {
+    const { login_error } = this.state;
     if (isLoggedIn() || this.state.redirectToReferrer) {
       return <Redirect push to="/albums" />;
     }
@@ -90,40 +89,55 @@ export default class Login extends Component {
                 alt="Logo"
                 className="img-responsive login-logo"
               />
-              <Col xs={12} sm={10} md={8} className="login-details-block">
-                <FormGroup className="custom-fromgrp">
-                  <FormControl
-                    className="login-control"
-                    type="email"
-                    placeholder="Email"
-                    label="email"
-                    name="email"
-                    onChange={this.handleChange.bind(this)}
-                  />
-                  <span className="custom-addon">*</span>
-                </FormGroup>
-                <FormGroup className="custom-fromgrp">
-                  <FormControl
-                    className="login-control"
-                    type="password"
-                    placeholder="Password"
-                    label="password"
-                    name="password"
-                    onChange={this.handleChange.bind(this)}
-                  />
-                  <span className="custom-addon">*</span>
-                </FormGroup>
-              </Col>
-              <Button
-                className="btn-orange login-btn text-center"
-                onClick={event => this.handleLogin(event)}
+              <form
+                className="admin-login-side"
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    this.handleLogin(e);
+                  }
+                }}
+                onSubmit={event => {
+                  this.handleLogin(event);
+                }}
               >
-                LOGIN<img
-                  src={require('../../assets/images/admin/login/next-icon.png')}
-                  alt="Logo"
-                  className="img-responsive arrow-icon"
-                />
-              </Button>
+                <Col xs={12} sm={10} md={8} className="login-details-block">
+                  <FormGroup className="custom-fromgrp">
+                    <FormControl
+                      className="login-control"
+                      type="email"
+                      placeholder="Email"
+                      label="email"
+                      name="email"
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    <span className="custom-addon">*</span>
+                  </FormGroup>
+                  <FormGroup className="custom-fromgrp">
+                    <FormControl
+                      className="login-control"
+                      type="password"
+                      placeholder="Password"
+                      label="password"
+                      name="password"
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    <span className="custom-addon">*</span>
+                  </FormGroup>
+                  {login_error && (
+                    <span className="input-error text-red">{login_error}</span>
+                  )}
+                </Col>
+                <Button
+                  type="submit"
+                  className="btn-orange login-btn text-center"
+                >
+                  LOGIN<img
+                    src={require('../../assets/images/admin/login/next-icon.png')}
+                    alt="Logo"
+                    className="img-responsive arrow-icon"
+                  />
+                </Button>
+              </form>
             </Col>
           </Row>
         </Grid>

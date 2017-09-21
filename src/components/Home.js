@@ -3,7 +3,10 @@ import { Carousel, Grid, Col, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 // Import services
-import { getHomepagePhotos } from '../services/Home';
+import { HomePageGalleryService } from '../services/Index';
+
+// Import helper
+import { setLoader } from './Helper';
 
 class Home extends Component {
   constructor(props) {
@@ -16,10 +19,17 @@ class Home extends Component {
   componentDidMount() {
     var self = this;
 
-    getHomepagePhotos().then(function(response) {
+    HomePageGalleryService.getActiveHomepagePhotos().then(function(response) {
       if (response.status === 200) {
         self.setState({ photos: response.data.data.active_photos });
       }
+    });
+  }
+
+  handleImageLoaded(index) {
+    setLoader({
+      elementId: 'image-loader-' + index,
+      styleProperty: 'block'
     });
   }
 
@@ -34,12 +44,23 @@ class Home extends Component {
               data-ride="carousel"
               controls={false}
             >
-              {photos.map(photo => (
+              {photos.map((photo, index) => (
                 <Carousel.Item className="full-screen" key={photo.id}>
                   <Col className="overlay" />
+                  <div
+                    className="loader-overlay image-loader-overlay"
+                    id={'image-loader-' + index}
+                  >
+                    <img
+                      src={require('../assets/images/loader.gif')}
+                      alt="loading"
+                      className="homepage-loader"
+                    />
+                  </div>
                   <img
                     src={photo.homepage_image}
                     alt={photo.homepage_image_file_name}
+                    onLoad={() => this.handleImageLoaded(index)}
                   />
                   <Carousel.Caption className="custom-carousel-caption">
                     <p>

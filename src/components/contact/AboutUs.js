@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { PageHeader, Grid, Col, Button } from 'react-bootstrap';
+import { PageHeader, Grid, Col } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 // Import css
 import '../../assets/css/contact/about-us.css';
 
 // Import services
-import { getAboutUs } from '../../services/Contact';
+import { AboutService } from '../../services/Index';
 
 export default class AboutUs extends Component {
   constructor(props) {
@@ -17,9 +18,7 @@ export default class AboutUs extends Component {
 
   componentWillMount() {
     var self = this;
-    console.log(self);
-
-    getAboutUs().then(function(response) {
+    AboutService.getAboutUs().then(function(response) {
       if (response.status === 200) {
         self.setState({ aboutUs: response.data.data.about_us });
       }
@@ -40,23 +39,20 @@ export default class AboutUs extends Component {
           </Col>
           <Col xs={12} className="p-none">
             <Col xs={12} sm={4} className="about-img-wrap">
-              {aboutUs.photo &&
+              {aboutUs.photo && (
                 <img
                   className="img-responsive"
                   src={aboutUs.photo.image}
                   alt="user"
-                />}
+                />
+              )}
             </Col>
             <Col xs={12} sm={8} className="text-grey">
               <Col xs={12} className="about-details-wrap">
-                <h3 className="about-title">
-                  {aboutUs.title_text}
-                </h3>
-                <p className="p-wrap">
-                  {aboutUs.description}
-                </p>
+                <h3 className="about-title">{aboutUs.title_text}</h3>
+                <p className="p-wrap">{aboutUs.description}</p>
               </Col>
-              {aboutUs.social_links &&
+              {aboutUs.social_links && (
                 <Col className="media-icons" xs={12}>
                   <a
                     target="_blank"
@@ -72,9 +68,15 @@ export default class AboutUs extends Component {
                   >
                     <span className="fa fa-tumblr" />
                   </a> */}
-                </Col>}
+                </Col>
+              )}
               <Col xs={12} className="hire-wrap">
-                <Button className="btn btn-orange hire-btn">hire me</Button>
+                <LinkContainer
+                  to="/contact"
+                  className="btn btn-orange hire-btn"
+                >
+                  <span>hire me</span>
+                </LinkContainer>
               </Col>
             </Col>
           </Col>

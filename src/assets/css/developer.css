@@ -15,6 +15,22 @@
   background: rgba(0, 0, 0, 0.8);
   display: none;
 }
+.image-loader-overlay {
+  display: block;
+  width: calc(100% - 0px) !important;
+  left: 0px !important;
+}
+.loadingCirclePoint___3md-S:before {
+  content: '';
+  display: block;
+  margin: 0 auto;
+  width: 15%;
+  height: 15%;
+  background-color: #f9a11d !important;
+  border-radius: 30%;
+  -webkit-animation: pointFade___2RA5J 1.2s infinite ease-in-out both;
+  animation: pointFade___2RA5J 1.2s infinite ease-in-out both;
+}
 .text-yellow {
   color: #f9a11d;
 }
@@ -27,6 +43,68 @@
 .text-brown {
   color: #a64301;
 }
+.m-t-15 {
+  margin-top: 15px;
+}
+
+.page-animation-enter {
+  opacity: 0.01;
+}
+.page-animation-enter.page-animation-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.page-animation-leave {
+  opacity: 1;
+}
+.page-animation-leave.page-animation-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+.page-animation-appear {
+  opacity: 0.01;
+}
+.page-animation-appear.page-animation-appear-active {
+  opacity: 0.01;
+}
+.p-t-40 {
+  padding-top: 40px;
+}
+
+/* pagination css start */
+.custom-pagination {
+  float: right;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+.custom-pagination a {
+  border: 0 !important;
+  color: #555 !important;
+}
+.custom-pagination li.active a,
+.custom-pagination li.active a:hover,
+.custom-pagination li.active a:focus,
+.custom-pagination li.active a:active {
+  background: #fff;
+  color: #f9a11d !important;
+}
+.custom-pagination li:first-child a {
+  border-top-left-radius: 2em;
+  border-bottom-left-radius: 2em;
+  font-size: 14px !important;
+  padding: 0 5px 0 15px !important;
+}
+.custom-pagination li:last-child a {
+  border-top-right-radius: 2em;
+  border-bottom-right-radius: 2em;
+  padding: 0 15px 0 5px !important;
+}
+.custom-pagination li:first-child a span,
+.custom-pagination li:last-child a span {
+  font-size: 23px !important;
+  color: #f9a11d !important;
+}
+/* pagination css end */
 
 /* Category delete page custom css start */
 .del_butn,
@@ -38,6 +116,10 @@
 /* Album show page custom css start */
 .album-info-label .album-passcode {
   cursor: pointer;
+}
+
+.passcode-text {
+  text-transform: none !important;
 }
 /* Album show page custom css end */
 
@@ -98,6 +180,12 @@
 .custom-photo-edit {
   visibility: hidden;
 }
+.service-edit-icon {
+  padding-top: 0px !important;
+}
+.custom-service-thumb {
+  margin-right: 10px;
+}
 /* Site content about page css end */
 
 /* Home page galery css start */
@@ -127,6 +215,69 @@
 /* Share album page css start */
 .share-album-form .custom-form-control .Select-control {
   border: 0;
+}
+.left-15 {
+  left: 15px;
+}
+.pic-selected:after {
+  content: 'Selected';
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  background: rgba(249, 161, 29, 0.9);
+  color: #fff;
+  height: 30px;
+  width: calc(100% - 30px);
+  font-size: 14px;
+  line-height: 30px;
+  text-align: center;
+  font-family: 'ralewaysemibold';
+  letter-spacing: 1px;
+  z-index: 2;
+}
+.shared-album-wrap {
+  border-radius: 6px;
+  border: 1px solid #e7e7e7;
+  padding-bottom: 30px;
+  box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
+}
+.custom-comment-wrapper {
+  float: left;
+  width: 100%;
+  margin-top: 2px;
+  position: relative !important;
+}
+.add-comment {
+  cursor: pointer;
+}
+.comment-disabled {
+  cursor: not-allowed;
+}
+.custom-add-comment-icon {
+  /* float: right; */
+  text-align: center;
+}
+.custom-view-comment-icon {
+  float: left;
+}
+.custom-submit-photos-wrap {
+  position: fixed;
+  bottom: 0px;
+  z-index: 10;
+  background-color: rgb(221, 221, 221);
+  width: 100%;
+  left: 0px;
+  padding: 10px;
+  border-top: 1px solid rgb(204, 204, 204);
+}
+.submit-photos-btn {
+  float: right;
+}
+.footer-photo-selection-count {
+  float: left;
+}
+.custom-pic-selection label {
+  background: #c8c8c8 !important;
 }
 /* Share album page css end */
 
@@ -183,6 +334,9 @@
   color: #e22122;
   text-decoration: underline;
 }
+.shared-album-wrap {
+  margin-bottom: 30px;
+}
 /* changes by binoli end */
 
 div.filepicker {
@@ -193,3 +347,312 @@ div.filepicker {
 .upload-image-thumb-wrap {
   overflow: hidden;
 }
+
+/* facebook icon on public pages */
+.fb_btn {
+  position: fixed;
+  right: 0px;
+  top: 300px;
+  z-index: 9999999;
+}
+.facebook-img {
+  height: 100px;
+  width: 30px;
+}
+
+/* start photo count in portfolio album detail */
+.photo-count-detail {
+  font-size: 16px;
+  position: absolute;
+  right: 15px;
+  top: 70px;
+  z-index: 1;
+  color: #666;
+  font-weight: bold;
+}
+
+.portfolio-main-title {
+  margin-bottom: 0 !important;
+}
+/* end photo count in portfolio album detail */
+
+/* admin testimonial page css start */
+.edit-testimonial-btn {
+  right: 99px !important;
+}
+.testimonial-delete-icon {
+  right: 48px !important;
+}
+/* admin testimonial page css end */
+
+/* admin video page css start */
+.video-edit-btn {
+  right: 20px !important;
+}
+/* admin video page css end */
+
+/* album detail page css start */
+.album-photo-thumbs > img {
+  width: 100%;
+}
+.album-photo-thumbs {
+  position: relative;
+}
+.album-photo-thumbs .overlay:after {
+  content: '';
+  background-image: url('../images/portfolio/hover-design.png');
+  position: absolute;
+  height: 70px;
+  width: 70px;
+  display: none;
+  right: 15px;
+  top: 15px;
+  z-index: 10;
+}
+.album-photo-thumbs .overlay:before {
+  content: '';
+  background-image: url('../images/portfolio/hover-design.png');
+  position: absolute;
+  height: 70px;
+  width: 70px;
+  display: none;
+  left: 15px;
+  bottom: 15px;
+  z-index: 10;
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.album-photo-thumbs:hover .overlay:after,
+.album-photo-thumbs:hover .overlay:before {
+  display: block;
+}
+.album-photo-thumbs .overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: none;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+.album-photo-thumbs:hover .overlay {
+  display: block;
+}
+.portfolio-thumbs-wrap {
+  margin-top: 15px;
+}
+.album-photo-thumbs-wrap .overlay-search {
+  position: absolute;
+  top: 43%;
+  left: 43%;
+  border: 1px solid #f9a11d;
+  padding: 7px;
+}
+.photo-selection-checkbox,
+.custom-cover-pic {
+  z-index: 5;
+}
+.admin-view-comment {
+  left: 30px;
+  position: absolute;
+  top: 15px;
+  margin: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.admin-custom-view-comment-icon {
+  background: #f9a11d;
+  text-align: center;
+  border-radius: 50%;
+  padding: 2px;
+}
+/* album detail page css end */
+
+/* admin header page css start */
+.navbar-fixed-top {
+  z-index: 1;
+}
+/* admin header page css end */
+
+/* start disable horizontal scroll in homepage gallery */
+.disable-horizontal {
+  overflow-x: hidden;
+}
+/* end disable horizontal scroll in homepage gallery */
+
+/* start view album in admin album detail page */
+.view-album-detail,
+.view-album-detail a:visited,
+.view-album-detail a:hover {
+  font-size: 15px;
+  font-family: 'ralewaymedium';
+  color: #666 !important;
+  line-height: 41px;
+  float: left;
+  margin-left: 10px;
+}
+.edit-album-detail {
+  color: #666;
+  float: right;
+  padding: 10px 20px;
+  font-family: 'ralewaymedium';
+  border-color: transparent;
+}
+.edit-album-detail img {
+  margin-right: 3px;
+}
+.edit-album-detail:hover,
+.edit-album-detail:focus {
+  color: #666;
+  border-color: transparent;
+  background-color: transparent;
+  outline: none !important;
+}
+/* end view album in admin album detail page */
+
+/* start pulic view album in Album Listing Page */
+.view-album-listing {
+  font-size: 15px;
+  font-family: 'ralewaymedium';
+  color: #666;
+  line-height: 41px;
+  right: 75px;
+  position: absolute;
+  top: 8px;
+}
+
+.add-photos-album-listing {
+  font-size: 15px;
+  font-family: 'ralewaymedium';
+  color: #666;
+  line-height: 41px;
+  right: 195px;
+  position: absolute;
+  top: 8px;
+}
+.add-photos-album-listing img {
+  background: #999;
+  border-radius: 7px;
+}
+
+.add-photo {
+  margin-top: 15px;
+  margin-bottom: -15px;
+}
+/* end pulic view album in Album Listing Page */
+/* start video Listing page */
+.sortBy-records {
+  margin-right: 15px;
+  margin-left: 20px;
+}
+.total-records {
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 8px;
+  padding-right: 20px;
+  border-right: 1px solid #ccc;
+}
+/* end video Listing page */
+.admin-login-side .input-error {
+  color: #f9a11d !important;
+  margin: 23% !important;
+}
+
+/* Comment popup page css start */
+.add-comment-modal {
+  padding-left: 15px;
+}
+.add-comment-modal .modal-content {
+  border-radius: 0;
+  border: 0;
+  margin-bottom: 30px;
+}
+.add-comment-body {
+  display: flex;
+}
+.close-comment-modal-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: #c1c1c1;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  z-index: 1;
+}
+.add-comment-title-wrap {
+  background: url('../../assets/images/admin/testimonial/sidebar.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.add-comment-title-details {
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  height: 130px;
+  margin-top: -65px;
+  text-align: center;
+}
+.add-comment-icon {
+  margin: 0 auto;
+}
+.add-comment-text {
+  margin-top: 20px;
+  text-transform: capitalize;
+  font-family: 'ralewaymedium';
+}
+.add-comment-wrap {
+  padding: 20px 15px;
+}
+.comment-form-group {
+  position: relative;
+  font-family: 'ralewayregular';
+  margin-bottom: 25px;
+}
+.custom-label {
+  text-transform: capitalize;
+  font-weight: normal;
+  color: #555;
+  font-family: 'ralewaysemibold';
+  font-size: 15px;
+  letter-spacing: 0px;
+  width: 100%;
+}
+.custom-textarea {
+  overflow: hidden;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  position: relative;
+  padding: 6px 20px 6px 12px;
+  resize: none;
+  font-size: 12px;
+  color: #777;
+  line-height: 18px;
+}
+.add-comment-submit {
+  padding: 10px 30px;
+  font-family: 'ralewaysemibold';
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-top: 15px;
+}
+.add-comment-cancel {
+  background: #d7d7d7;
+  margin-left: 20px;
+  color: #555;
+  padding: 10px 30px;
+  font-family: 'ralewaysemibold';
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-top: 15px;
+}
+.add-comment-submit:hover {
+  background: #feae37;
+  color: #fff;
+}
+/* Comment popup page css end */

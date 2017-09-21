@@ -3,8 +3,7 @@ import { Col, Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
 import { Creatable } from 'react-select';
 
 // Import services
-import { getContacts } from '../../../services/admin/Contact';
-import { createAlbumRecipient } from '../../../services/admin/AlbumRecipient';
+import { AlbumRecipientService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/album/share-album/share-album.css';
@@ -23,7 +22,9 @@ export default class ShareAlbum extends Component {
         emails: [],
         contact_options: []
       },
-      contacts: []
+      emails_error: '',
+      contacts: [],
+      albumId: this.props.albumId
     };
 
     return initialState;
@@ -35,7 +36,7 @@ export default class ShareAlbum extends Component {
 
   componentWillMount() {
     var self = this;
-    getContacts()
+    AlbumRecipientService.getNotInvitedContact(self.state.albumId)
       .then(function(response) {
         var data = response.data;
         self.setState({ contacts: data.data.contacts });
@@ -77,12 +78,17 @@ export default class ShareAlbum extends Component {
 
   handleSubmit(e) {
     var self = this;
+    const shareAlbumForm = self.state.shareAlbumForm;
     var createParams = {
       album_id: self.props.shareAlbumObject.id,
-      album_recipient: self.state.shareAlbumForm
+      album_recipient: shareAlbumForm
     };
 
-    createAlbumRecipient(createParams)
+    if (shareAlbumForm.emails.length < 1) {
+      return self.setState({ emails_error: "Emails can't be blank." });
+    }
+
+    AlbumRecipientService.createAlbumRecipient(createParams)
       .then(function(response) {
         self.handelResponse(response);
       })
@@ -95,9 +101,11 @@ export default class ShareAlbum extends Component {
     var responseData = response.data;
     if (response.status === 201) {
       this.resetShareAlbumForm();
-      this.props.renderShareAlbum(this.props.shareAlbumAction === "albumsListing" ?
-        this.props.shareAlbumObject : responseData.data.album_recipients.length
-      )
+      this.props.renderShareAlbum(
+        this.props.shareAlbumAction === 'albumsListing'
+          ? this.props.shareAlbumObject
+          : responseData.data.album_recipients.length
+      );
       this.props.closeShareAlbum();
     } else {
       console.log(responseData.errors);
@@ -105,7 +113,7 @@ export default class ShareAlbum extends Component {
   }
 
   render() {
-    const { shareAlbumForm } = this.state;
+    const { shareAlbumForm, emails_error } = this.state;
     const album = this.props.shareAlbumObject;
     return (
       <Modal
@@ -149,16 +157,12 @@ export default class ShareAlbum extends Component {
                 />
               </div>
               <div className="text-wrap">
-                <h3 className="title">
-                  {album.album_name}
-                </h3>
-                <p>
-                  {album.photo_count} photos
-                </p>
+                <h3 className="title">{album.album_name}</h3>
+                <p>{album.photo_count} photos</p>
               </div>
             </div>
 
-            <form className="share-album-form custom-form">
+            <form className="admin-side share-album-form custom-form">
               <FormGroup className="custom-form-group">
                 <Creatable
                   className="custom-form-control"
@@ -169,6 +173,9 @@ export default class ShareAlbum extends Component {
                   multi={true}
                   onChange={this.handleMultiSelectChange.bind(this)}
                 />
+                {emails_error && (
+                  <span className="input-error text-red">{emails_error}</span>
+                )}
               </FormGroup>
               <FormGroup className="custom-form-group">
                 <FormControl

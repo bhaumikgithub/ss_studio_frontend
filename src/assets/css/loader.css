@@ -11,6 +11,13 @@
   left: 50%;
   margin: -20px 0 0 -20px;
 }
+.homepage-loader {
+  height: 40px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  margin: -20px 0 0 -20px;
+}
 .page-error-wrap {
   background: #fff;
 }

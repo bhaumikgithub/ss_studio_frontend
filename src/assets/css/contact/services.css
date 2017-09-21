@@ -11,9 +11,18 @@
     border-color: #f1f1f1;
     border-radius: 0px;
 }
-.service-thumbs img{
-    padding-top:20px;
+.service-thumbs .caption{
+    padding:0; 
 }
+
+.service-thumbs img{
+    padding-top:30px;
+}
+
+.sevice-details {
+    padding: 15px 15px 10px;
+}
+
 .service-title, .service-btn{
     Text-transform: uppercase;
 }
@@ -43,8 +52,9 @@
     min-width: 160px;
     min-height: 40px;
     font-family: 'ralewaymedium';
-    
+    margin-top: 10px;
 }
+
 .service-btn:hover,
 .service-btn:focus {
     color: #fff !important;

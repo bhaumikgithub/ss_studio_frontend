@@ -6,9 +6,9 @@
   -webkit-border-radius: 6px;
   border-radius: 6px;
   background-color: #fff;
-  -moz-box-shadow: 3px 4px 5px rgba(1, 1, 1, .08);
-  -webkit-box-shadow: 3px 4px 5px rgba(1, 1, 1, .08);
-  box-shadow: 3px 4px 5px rgba(1, 1, 1, .08);
+  -moz-box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
+  -webkit-box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
+  box-shadow: 3px 4px 5px rgba(1, 1, 1, 0.08);
   border: 1px solid #e7e7e7;
   margin: 25px 0;
 }
@@ -85,7 +85,7 @@
   width: 100%;
 }
 .album-image-wrap.cover-pic:after {
-  content: "Cover Pic";
+  content: 'Cover Pic';
   position: absolute;
   bottom: 0;
   left: 15px;
@@ -98,6 +98,7 @@
   text-align: center;
   font-family: 'ralewaysemibold';
   letter-spacing: 1px;
+  z-index: 2;
 }
 .pic-selection-check {
   position: absolute;
@@ -122,8 +123,8 @@
   width: 12px;
   top: 8px;
   left: 8px;
-  transition: border .25s linear;
-  -webkit-transition: border .25s linear;
+  transition: border 0.25s linear;
+  -webkit-transition: border 0.25s linear;
 }
 
 .album-image-wrap .check::before {
@@ -155,8 +156,8 @@
   width: 14px;
   top: 1px;
   left: 0px;
-  transition: border .25s linear;
-  -webkit-transition: border .25s linear;
+  transition: border 0.25s linear;
+  -webkit-transition: border 0.25s linear;
 }
 .all-selection-check .check::before {
   display: block;
@@ -174,13 +175,13 @@
   display: none;
   z-index: 999;
 }
-.album-image-wrap input[type=checkbox]:checked ~ .check::before,
-.all-selection-check input[type=checkbox]:checked ~ .check::before {
+.album-image-wrap input[type='checkbox']:checked ~ .check::before,
+.all-selection-check input[type='checkbox']:checked ~ .check::before {
   display: block;
 }
 
-.album-image-wrap input[type=checkbox],
-.all-selection-check input[type=checkbox] {
+.album-image-wrap input[type='checkbox'],
+.all-selection-check input[type='checkbox'] {
   position: absolute;
   visibility: hidden;
 }
@@ -258,7 +259,7 @@
   border: 1px solid #e2e2e2;
 }
 .share-count:after {
-  content: "";
+  content: '';
   width: 8px;
   height: 1px;
   display: block;

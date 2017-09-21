@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Col, Button, Media, Pagination } from 'react-bootstrap';
+import { Col, Button, Media } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
 import ContactPopup from './ContactPopup';
+import PaginationModule from '../../common/PaginationModule';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 // Import services
-import { getContacts, deleteContact } from '../../../services/admin/Contact';
+import { ContactService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -21,6 +24,7 @@ export default class Contacts extends Component {
       open: false,
       activePage: 3,
       CreateShow: false,
+      sortingOrder: 'desc',
       contacts: [],
       meta: [],
       alert: {
@@ -37,17 +41,39 @@ export default class Contacts extends Component {
   }
 
   componentWillMount() {
-    var self = this;
+    this.getAllContacts();
+  }
 
-    getContacts()
+  getAllContacts(sortingOrder = this.state.sortingOrder, page = 1) {
+    var self = this;
+    ContactService.getContacts({
+      sorting_order: sortingOrder,
+      page: page,
+      per_page: window.paginationPerPage
+    })
       .then(function(response) {
         var data = response.data;
-        self.setState({ contacts: data.data.contacts, meta: data.meta });
+        self.setState({
+          contacts: data.data.contacts,
+          meta: data.meta,
+          sortingOrder: sortingOrder
+        });
       })
       .catch(function(error) {
         console.log(error.response);
       });
   }
+
+  handleSorting(e) {
+    e.preventDefault();
+    const sortingOrder = this.state.sortingOrder === 'desc' ? 'asc' : 'desc';
+    this.getAllContacts(sortingOrder);
+  }
+
+  handlePaginationClick = eventKey => {
+    if (eventKey !== this.state.meta.pagination.current_page)
+      this.getAllContacts(undefined, eventKey);
+  };
 
   showDialogueBox(id) {
     this.setState({
@@ -66,7 +92,7 @@ export default class Contacts extends Component {
 
   deleteContact() {
     var self = this;
-    deleteContact(self.state.alert.objectId)
+    ContactService.deleteContact(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);
@@ -82,12 +108,17 @@ export default class Contacts extends Component {
   handleDeleteSuccessResponse(response) {
     var self = this;
     const contacts = self.state.contacts.filter(
-      album => album.id !== self.state.alert.objectId
+      contact => contact.id !== self.state.alert.objectId
     );
+    var pagination = Object.assign({}, self.state.meta.pagination);
+    pagination.total_count -= 1;
 
+    if (contacts.length === 0 && pagination.total_count > 0) {
+      this.getAllContacts();
+    }
     self.setState({
       contacts: contacts,
-
+      meta: { pagination: pagination },
       alert: {
         show: true,
         title: 'Success',
@@ -117,9 +148,11 @@ export default class Contacts extends Component {
 
   renderContact = (contact, action) => {
     const newcontacts = this.state.contacts.slice();
+    var totalCount = this.state.meta.pagination.total_count;
 
     if (action === 'insert') {
       newcontacts.splice(0, 0, contact);
+      totalCount = totalCount + 1;
     } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
       newcontacts.splice(
         newcontacts.indexOf(this.state.editObject),
@@ -129,7 +162,8 @@ export default class Contacts extends Component {
     }
 
     this.setState({
-      contacts: newcontacts
+      contacts: newcontacts,
+      meta: { pagination: { total_count: totalCount } }
     });
   };
 
@@ -144,7 +178,7 @@ export default class Contacts extends Component {
   }
 
   render() {
-    const { contacts, alert } = this.state;
+    const { contacts, alert, meta, sortingOrder } = this.state;
 
     return (
       <Col xs={12} className="contacts-page-wrap">
@@ -158,14 +192,43 @@ export default class Contacts extends Component {
           onConfirm={alert.confirmAction}
           onCancel={() => this.hideDialogueBox()}
         />
-        {this.state.CreateShow &&
+        {this.state.CreateShow && (
           <ContactPopup
             showCreate={this.state.CreateShow}
             closeOn={this.CreateClose}
             editObject={this.state.editObject}
             renderContact={this.renderContact}
-          />}
+          />
+        )}
         <Col xs={12} className="filter-wrap p-none">
+          <span className="total-records pull-left">
+            Total :{' '}
+            <span>
+              {contacts.length + '/'}
+              {meta.pagination && meta.pagination.total_count}
+            </span>{' '}
+            contacts
+          </span>
+          <h5 className="pull-left sortBy-records">
+            <a
+              href=""
+              title={
+                sortingOrder === 'desc' ? (
+                  'Sort By Ascending'
+                ) : (
+                  'Sort By Descending'
+                )
+              }
+              onClick={event => this.handleSorting(event)}
+            >
+              Sort By :{' '}
+              <span
+                className={
+                  sortingOrder === 'desc' ? 'fa fa-sort-asc' : 'fa fa-sort-desc'
+                }
+              />
+            </a>
+          </h5>
           <Button
             className="pull-right btn btn-orange add-new-btn"
             onClick={() => this.setState({ CreateShow: true })}
@@ -179,103 +242,104 @@ export default class Contacts extends Component {
           </Button>
         </Col>
         <div className="contact-list-wrap">
-          {contacts.map(contact =>
-            <Col xs={12} className="p-none contact-list" key={contact.id}>
-              {/*alphabet wise block*/}
-              <span className="contact-char"> </span>
-              {/*alphabet wise block*/}
-              <Col xs={12} className="contact-list-wrap p-none">
-                <Col xs={12} className="contact-wrap">
-                  <Media className="single-contact">
-                    <Media.Left align="top" className="contact-img-wrap">
-                      { contact.photo &&
-                        <img
-                          className="contact-thumb"
-                          src={contact.photo.image}
-                          alt={contact.photo.image_file_name}
-                        />
-                      }
-                    </Media.Left>
-                    <Media.Body className="contact-detail-wrap">
-                      <Media.Heading className="contact-name">
-                        {contact.full_name}
-                      </Media.Heading>
-                      <div className="contact-detail">
-                        <div className="contact-info call-detail">
+          {contacts.length === 0 && (
+            <h4 className="text-center">No contacts available</h4>
+          )}
+          <ReactCSSTransitionGroup
+            transitionName="page-animation"
+            transitionAppear={true}
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeave={false}
+          >
+            {contacts.map(contact => (
+              <Col xs={12} className="p-none contact-list" key={contact.id}>
+                {/*alphabet wise block*/}
+                <span className="contact-char"> </span>
+                {/*alphabet wise block*/}
+                <Col xs={12} className="contact-list-wrap p-none">
+                  <Col xs={12} className="contact-wrap">
+                    <Media className="single-contact">
+                      <Media.Left align="top" className="contact-img-wrap">
+                        {contact.photo && (
                           <img
-                            src={require('../../../assets/images/admin/contact/call-icon-bg.png')}
-                            alt=""
+                            className="contact-thumb"
+                            src={contact.photo.image}
+                            alt={contact.photo.image_file_name}
                           />
-                          <a
-                            href={'callto:' + contact.phone}
-                            className="call-num"
+                        )}
+                      </Media.Left>
+                      <Media.Body className="contact-detail-wrap">
+                        <Media.Heading className="contact-name">
+                          {contact.full_name}
+                        </Media.Heading>
+                        <div className="contact-detail">
+                          <div className="contact-info call-detail">
+                            <img
+                              src={require('../../../assets/images/admin/contact/call-icon-bg.png')}
+                              alt=""
+                            />
+                            <a
+                              href={'callto:' + contact.phone}
+                              className="call-num"
+                            >
+                              {contact.phone}
+                            </a>
+                          </div>
+                          <div className="contact-info mail-detail">
+                            <img
+                              src={require('../../../assets/images/admin/contact/mail-icon-bg.png')}
+                              alt=""
+                            />
+                            <a href={'mailto:' + contact.email}>
+                              {contact.email}
+                            </a>
+                          </div>
+                        </div>
+                        <div className="action-wrapper">
+                          <Button
+                            className="btn-link p-none contact-action-btn contact-edit-btn"
+                            onClick={() =>
+                              this.setState({
+                                CreateShow: true,
+                                editObject: contact
+                              })}
                           >
-                            {contact.phone}
-                          </a>
+                            <img
+                              src={require('../../../assets/images/admin/album/edit-icon.png')}
+                              alt=""
+                            />
+                          </Button>
+                          <img
+                            src={require('../../../assets/images/admin/contact/seprator.png')}
+                            alt=""
+                            className="vertical-seprator"
+                          />
+                          <Button
+                            className="btn-link p-none contact-action-btn contact-delete-btn"
+                            onClick={event => this.showDialogueBox(contact.id)}
+                          >
+                            <img
+                              src={require('../../../assets/images/admin/album/delete-icon.png')}
+                              alt=""
+                            />
+                          </Button>
                         </div>
-                        <div className="contact-info mail-detail">
-                          <img
-                            src={require('../../../assets/images/admin/contact/mail-icon-bg.png')}
-                            alt=""
-                          />
-                          <a href={'mailto:' + contact.email}>
-                            {contact.email}
-                          </a>
-                        </div>
-                      </div>
-                      <div className="action-wrapper">
-                        <Button
-                          className="btn-link p-none contact-action-btn contact-edit-btn"
-                          onClick={() =>
-                            this.setState({
-                              CreateShow: true,
-                              editObject: contact
-                            })}
-                        >
-                          <img
-                            src={require('../../../assets/images/admin/album/edit-icon.png')}
-                            alt=""
-                          />
-                        </Button>
-                        <img
-                          src={require('../../../assets/images/admin/contact/seprator.png')}
-                          alt=""
-                          className="vertical-seprator"
-                        />
-                        <Button
-                          className="btn-link p-none contact-action-btn contact-delete-btn"
-                          onClick={event => this.showDialogueBox(contact.id)}
-                        >
-                          <img
-                            src={require('../../../assets/images/admin/album/delete-icon.png')}
-                            alt=""
-                          />
-                        </Button>
-                      </div>
-                    </Media.Body>
-                  </Media>
-                  {/*<Col xs={12} className="p-none contact-separator">
+                      </Media.Body>
+                    </Media>
+                    {/*<Col xs={12} className="p-none contact-separator">
                   <hr/>
                 </Col> */}
+                  </Col>
                 </Col>
               </Col>
-            </Col>
-          )}
+            ))}
+          </ReactCSSTransitionGroup>
         </div>
-
-        <Col xs={12} className="p-none custom-pagination-wrap">
-          <Pagination
-            prev
-            next
-            ellipsis
-            boundaryLinks
-            items={10}
-            maxButtons={3}
-            activePage={this.state.activePage}
-            onSelect={this.handleSelect}
-            className="custom-pagination"
-          />
-        </Col>
+        <PaginationModule
+          pagination={meta.pagination}
+          paginationClick={this.handlePaginationClick}
+        />
       </Col>
     );
   }

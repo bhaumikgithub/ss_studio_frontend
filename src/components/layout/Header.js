@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 class Header extends Component {
   render() {
@@ -12,6 +12,19 @@ class Header extends Component {
         collapseOnSelect
         className="header custom-navbar"
       >
+        <div className="fb_btn">
+          <a
+            href="https://www.facebook.com/sagarphotocam"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={require('../../assets/images/fb_btn.png')}
+              alt=""
+              className="facebook-img"
+            />
+          </a>
+        </div>
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
             <Link to="/">
@@ -35,41 +48,27 @@ class Header extends Component {
             <LinkContainer to="/films">
               <NavItem eventKey={3}>Films</NavItem>
             </LinkContainer>
+            <LinkContainer to="/services">
+              <NavItem eventKey={4}>Services</NavItem>
+            </LinkContainer>
             <LinkContainer to="/feedback">
-              <NavItem eventKey={4}>Feedback</NavItem>
+              <NavItem eventKey={5}>Testimonials</NavItem>
             </LinkContainer>
-            <LinkContainer
-              to="/contact"
-              className="navbar-dropdown"
-              onClick={event => event.preventDefault()}
-            >
-              <NavDropdown
-                eventKey={3}
-                href="/contact"
-                title="Contact"
-                id="basic-nav-dropdown"
-              >
-                <LinkContainer to="/contact/get_in_touch">
-                  <MenuItem eventKey={5.1}>Get in Touch</MenuItem>
-                </LinkContainer>
-                <LinkContainer to="/contact/about_us">
-                  <MenuItem eventKey={5.2}>About us</MenuItem>
-                </LinkContainer>
-                <LinkContainer to="/contact/services">
-                  <MenuItem eventKey={5.3}>Services</MenuItem>
-                </LinkContainer>
-                {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
-              </NavDropdown>
+            <LinkContainer to="/about_us">
+              <NavItem eventKey={6}>About us</NavItem>
             </LinkContainer>
-            <LinkContainer to="/admin">
-              <NavItem eventKey={4}>
+            <LinkContainer to="/contact">
+              <NavItem eventKey={7}>Contact</NavItem>
+            </LinkContainer>
+            {/*<li>
+              <Link to="/admin" target="_blank">
                 <img
                   src={require('../../assets/images/lock-icon.png')}
                   alt=""
                   className="img-responsive"
                 />
-              </NavItem>
-            </LinkContainer>
+              </Link>
+            </li>*/}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

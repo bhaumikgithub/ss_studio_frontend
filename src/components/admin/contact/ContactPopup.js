@@ -12,8 +12,11 @@ import {
 import createTitle from '../../../assets/images/admin/contact/admin-add-contact/add-contact-icon.png';
 import editTitle from '../../../assets/images/admin/contact/admin-add-contact/edit-contact-icon.png';
 
+// Import components
+import validationHandler from '../../common/ValidationHandler';
+
 // Import services
-import { createContact, updateContact } from '../../../services/admin/Contact';
+import { ContactService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -38,7 +41,8 @@ export default class AddContact extends Component {
         photo_attributes: {
           image: ''
         }
-      }
+      },
+      errors: {}
     };
 
     return initialState;
@@ -53,7 +57,7 @@ export default class AddContact extends Component {
     });
   }
 
-handleFileChange(e) {
+  handleFileChange(e) {
     var reader = new FileReader();
     var file = e.target.files[0];
     const newContactForm = Object.assign({}, this.state.contactForm);
@@ -90,13 +94,13 @@ handleFileChange(e) {
     var callContactApi = () => {};
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = data;
-      callContactApi = createContact(createParams);
+      callContactApi = ContactService.createContact(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         contactForm: data
       };
-      callContactApi = updateContact(editParams);
+      callContactApi = ContactService.updateContact(editParams);
     }
 
     callContactApi
@@ -104,7 +108,12 @@ handleFileChange(e) {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        console.log(error.response);
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
@@ -131,11 +140,11 @@ handleFileChange(e) {
     const { first_name, last_name, status, email, phone, photo } = contact;
     self.setState({
       contactForm: {
-        first_name: first_name,
-        last_name: last_name,
+        first_name: first_name || '',
+        last_name: last_name || '',
         status: status,
         email: email,
-        phone: phone,
+        phone: phone || '',
         photo_attributes: photo
       }
     });
@@ -150,7 +159,11 @@ handleFileChange(e) {
   }
 
   render() {
-    const { contactForm } = this.state;
+    const { contactForm, errors } = this.state;
+    const previewUrl =
+      contactForm.photo_attributes && contactForm.photo_attributes.image
+        ? contactForm.photo_attributes.image
+        : require('../../../assets/images/admin/contact/admin-add-contact/contact-thumb.png');
     return (
       <Modal
         show={this.props.showCreate}
@@ -181,15 +194,17 @@ handleFileChange(e) {
               />
               <h4 className="add-contact-text text-white">
                 {/*Create New Contact*/}
-                {isObjectEmpty(this.props.editObject)
-                  ? 'Create New Contact'
-                  : 'Edit Contact'}
+                {isObjectEmpty(this.props.editObject) ? (
+                  'Create New Contact'
+                ) : (
+                  'Edit Contact'
+                )}
               </h4>
             </Col>
           </Col>
           <Col className="add-contact-wrap" sm={7}>
-            <form className="add-contact-form custom-form">
-              <FormGroup className="custom-form-group required">
+            <form className="admin-side add-contact-form custom-form">
+              <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
                   First Name
                 </ControlLabel>
@@ -201,8 +216,13 @@ handleFileChange(e) {
                   value={contactForm.first_name}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['first_name'] && (
+                  <span className="input-error text-red">
+                    {errors['first_name']}
+                  </span>
+                )}
               </FormGroup>
-              <FormGroup className="custom-form-group required">
+              <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
                   Last Name
                 </ControlLabel>
@@ -214,6 +234,11 @@ handleFileChange(e) {
                   value={contactForm.last_name}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['last_name'] && (
+                  <span className="input-error text-red">
+                    {errors['last_name']}
+                  </span>
+                )}
               </FormGroup>
               <FormGroup className="<custom-form-group></custom-form-group>">
                 <ControlLabel className="custom-form-control-label">
@@ -222,13 +247,7 @@ handleFileChange(e) {
 
                 <div className="upload-img-wrap">
                   <div className="upload-thumb upload-image-thumb-wrap">
-                    <img className="img-responsive"
-                      src={
-                        contactForm.photo_attributes &&
-                        contactForm.photo_attributes.image
-                      }
-                      alt=""
-                    />
+                    <img className="img-responsive" src={previewUrl} alt="" />
                   </div>
                   <div className="upload-img-btn">
                     <span>Upload</span>
@@ -256,6 +275,11 @@ handleFileChange(e) {
                   value={contactForm.email}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['email'] && (
+                  <span className="input-error text-red">
+                    {errors['email']}
+                  </span>
+                )}
               </FormGroup>
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
@@ -269,6 +293,11 @@ handleFileChange(e) {
                   value={contactForm.phone}
                   onChange={this.handleChange.bind(this)}
                 />
+                {errors['phone'] && (
+                  <span className="input-error text-red">
+                    {errors['phone']}
+                  </span>
+                )}
               </FormGroup>
 
               <Button
