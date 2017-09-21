@@ -14,7 +14,7 @@ import { IndexLinkContainer } from 'react-router-bootstrap';
 import { authToken } from '../../Helper';
 
 // Import services
-import { LogoutService } from '../../../services/admin/Auth';
+import { AuthService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/header.css';
@@ -30,7 +30,7 @@ export default class Header extends Component {
 
   handleLogout(event) {
     var self = this;
-    LogoutService({ token: authToken() }).then(function(response) {
+    AuthService.LogoutService({ token: authToken() }).then(function(response) {
       self.handleResponse(response);
     });
   }

@@ -1,9 +1,5 @@
 import axios from 'axios';
-import {
-  apiHeader,
-  apiCustomHeader,
-  checkStatus
-} from '../../components/Helper';
+import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
 
 export function getTestimonials(params) {
   const responsePromise = axios.get(
@@ -37,4 +33,8 @@ export function deleteTestimonial(id) {
     apiHeader()
   );
   return checkStatus(responsePromise);
+}
+
+export function getFeedbacks() {
+  return axios.get(process.env.REACT_APP_API_BASE_URL + 'testimonials/active');
 }

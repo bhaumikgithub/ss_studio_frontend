@@ -18,8 +18,7 @@ import editAlbumIcon from '../../../assets/images/admin/album/create-album/edit-
 import validationHandler from '../../common/ValidationHandler';
 
 // Import services
-import { getCategories } from '../../../services/admin/Category';
-import { createAlbum, updateAlbum } from '../../../services/admin/Album';
+import { AlbumService, CategoryService } from '../../../services/Index';
 
 // Import helper
 import { toCapitalize, str2bool, isObjectEmpty } from '../../Helper';
@@ -58,7 +57,7 @@ export default class AlbumPopup extends Component {
   componentWillMount() {
     var self = this;
 
-    getCategories()
+    CategoryService.getCategories()
       .then(function(response) {
         var data = response.data;
         self.setState({ categories: data.data.categories });
@@ -129,13 +128,13 @@ export default class AlbumPopup extends Component {
 
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = { album: self.state.albumForm };
-      callAlbumApi = createAlbum(createParams);
+      callAlbumApi = AlbumService.createAlbum(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         albumForm: { album: self.state.albumForm }
       };
-      callAlbumApi = updateAlbum(editParams);
+      callAlbumApi = AlbumService.updateAlbum(editParams);
     }
 
     callAlbumApi

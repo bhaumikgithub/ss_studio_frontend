@@ -10,7 +10,7 @@ import {
 import { Redirect } from 'react-router-dom';
 
 // Import services
-import { albumPasscodeVerification } from '../../services/admin/Album';
+import { AlbumService } from '../../services/Index';
 
 // Import css
 import '../../assets/css/admin/login.css';
@@ -58,7 +58,7 @@ export default class PasscodeLogin extends Component {
 
   handleLogin(event) {
     var self = this;
-    albumPasscodeVerification(self.state.passcodeLoginForm)
+    AlbumService.albumPasscodeVerification(self.state.passcodeLoginForm)
       .then(function(response) {
         self.handelResponse(response);
       })

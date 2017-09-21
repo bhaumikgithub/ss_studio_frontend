@@ -8,10 +8,7 @@ import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
-import {
-  getTestimonials,
-  deleteTestimonial
-} from '../../../services/admin/Testimonial';
+import { TestimonialService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -49,7 +46,7 @@ export default class Testmonials extends Component {
   getAllTestimonials(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
 
-    getTestimonials({
+    TestimonialService.getTestimonials({
       sorting_order: sortingOrder,
       page: page,
       per_page: window.paginationPerPage
@@ -102,7 +99,7 @@ export default class Testmonials extends Component {
   deleteTestimonial() {
     var self = this;
 
-    deleteTestimonial(self.state.alert.objectId)
+    TestimonialService.deleteTestimonial(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { apiHeader, checkStatus } from '../../components/Helper';
+import { apiHeader, checkStatus } from '../components/Helper';
 
 export function createAlbumRecipient(params) {
   const responsePromise = axios.post(
