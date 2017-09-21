@@ -12,8 +12,7 @@ import CommentPopup from './CommentPopup';
 // Import services
 import {
   AlbumService,
-  PhotoService,
-  CommentService
+  PhotoService
 } from '../../services/Index';
 
 // Import helper
