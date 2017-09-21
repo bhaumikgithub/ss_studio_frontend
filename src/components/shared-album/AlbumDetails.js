@@ -32,7 +32,7 @@ export default class AlbumDetails extends Component {
       token: '',
       passcodeLoginState: {},
       createComment: false,
-      showComment: false,
+      //showComment: false,
       photo: [],
       comment: [],
       alert: {
@@ -180,27 +180,28 @@ export default class AlbumDetails extends Component {
   };
 
   hideCreatePopup = () => {
-    this.setState({ createComment: false, showComment: false });
+    // this.setState({ createComment: false, showComment: false });
+    this.setState({ createComment: false });
   };
   renderComment = (id, photo) => {
     photo.comment_id = id;
     this.setState({ photo: photo });
   };
-  getComment(photo) {
-    var self = this;
-    if (photo.comment_id) {
-      CommentService.showComment(photo.id, photo.comment_id).then(function(
-        response
-      ) {
-        if (response.status === 200) {
-          self.setState({
-            showComment: true,
-            comment: response.data.data.comment
-          });
-        }
-      });
-    }
-  }
+  // getComment(photo) {
+  //   var self = this;
+  //   if (photo.comment_id) {
+  //     CommentService.showComment(photo.id, photo.comment_id).then(function(
+  //       response
+  //     ) {
+  //       if (response.status === 200) {
+  //         self.setState({
+  //           showComment: true,
+  //           comment: response.data.data.comment
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
   render() {
     const {
       album,
@@ -233,9 +234,9 @@ export default class AlbumDetails extends Component {
           <CommentPopup
             createComment={this.state.createComment}
             hideCreatePopup={this.hideCreatePopup}
-            showComment={this.state.showComment}
+            //showComment={this.state.showComment}
             renderComment={this.renderComment}
-            comment={this.state.comment}
+            //comment={this.state.comment}
             photo={this.state.photo}
           />
         )}
@@ -332,7 +333,7 @@ export default class AlbumDetails extends Component {
                                   />
                                 </a>
 
-                                <a
+                                {/* <a
                                   className={
                                     photo.comment_id ? (
                                       'add-comment'
@@ -348,7 +349,7 @@ export default class AlbumDetails extends Component {
                                     className="link-icons custom-view-comment-icon"
                                     alt=""
                                   />
-                                </a>
+                                </a> */}
                               </span>
                             </div>
                           ) : (
