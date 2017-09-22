@@ -20,7 +20,7 @@
 }
 
 .sevice-details {
-    padding: 15px 15px 10px;
+    padding: 15px 10px 10px;
 }
 
 .service-title, .service-btn{
@@ -40,7 +40,7 @@
 }
 .service-description p{
     text-overflow: ellipsis;
-    height: 38px;
+    height: 95px;
     /* Required for text-overflow to do anything */
     overflow: hidden;
 }
@@ -67,4 +67,5 @@
     display: flex;
     flex-wrap: wrap;
     display: inline-block;
+    padding: 0;
 }

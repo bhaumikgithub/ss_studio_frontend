@@ -154,20 +154,11 @@ export default class GetInTouch extends Component {
                     {contactDetails.email}
                   </Col>
                 </Col>
-
-                <Col xs={12} className="contact-details-block">
-                  <Col xs={2} md={1} className="p-none">
-                    <img
-                      src={require('../../assets/images/call-icon.png')}
-                      alt="Mail"
-                      className="icon-img"
-                    />
-                  </Col>
-
+              
                   <Col xs={12} className="contact-details-block">
                     <Col xs={2} md={1} className="p-none">
                       <img
-                        src={require('../../assets/images/message-icon.png')}
+                        src={require('../../assets/images/call-icon.png')}
                         alt="Call"
                         className="icon-img"
                       />
@@ -180,7 +171,7 @@ export default class GetInTouch extends Component {
                       {contactDetails.phone}
                     </Col>
                   </Col>
-                </Col>
+               
               </div>
             </Col>
 

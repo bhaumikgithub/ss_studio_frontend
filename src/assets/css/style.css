@@ -156,7 +156,7 @@ body,
 }
 
 body {
-  font-family: 'Quicksand-Regular', helvetica;
+  font-family: 'ralewayregular', helvetica;
   color: #545454;
 }
 
@@ -637,6 +637,13 @@ a:focus {
   border: 2px solid #f9a11d;
   background-color: #f9a11d;
   color: #fff;
+}
+.slider-img{
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  background-position: center center;
 }
 /** HOMEPAGE CSS END **/
 
