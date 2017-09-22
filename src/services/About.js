@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiHeader, checkStatus } from '../components/Helper';
 
 export function getAboutUs() {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'abouts');
+  return axiosInstance.get(process.env.REACT_APP_API_BASE_URL + 'abouts');
 }
 
 export function updateAboutUs(params) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'abouts',
     params,
     apiHeader()

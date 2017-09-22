@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiCustomHeader, apiHeader, checkStatus } from '../components/Helper';
 
 export function deleteSelectedPhotos(params) {
-  const responsePromise = axios.delete(
+  const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL + 'photos/multi_delete',
     { data: params, headers: apiCustomHeader() }
   );
@@ -10,7 +10,7 @@ export function deleteSelectedPhotos(params) {
 }
 
 export function uploadPhoto(params, file, uploadProgress) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL + 'photos',
     params,
     {
@@ -27,7 +27,7 @@ export function uploadPhoto(params, file, uploadProgress) {
 }
 
 export function setCoverPhoto(id) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'photos/' + id + '/set_cover_photo',
     {},
     apiHeader()
@@ -36,7 +36,7 @@ export function setCoverPhoto(id) {
 }
 
 export function selectPhoto(params) {
-  return axios.put(
+  return axiosInstance.put(
     process.env.REACT_APP_API_BASE_URL + 'photos/mark_as_checked',
     params
   );
