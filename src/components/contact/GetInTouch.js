@@ -123,121 +123,126 @@ export default class GetInTouch extends Component {
               </label>
             </PageHeader>
             <Col sm={7}>
-              <img
-                src={require('../../assets/images/logo.png')}
-                alt="Logo"
-                className="img-responsive contact-logo"
-              />
-              <Col xs={12} className="contact-details-block">
-                <Col md={1} xs={2} className="p-none">
-                  <img
-                    src={require('../../assets/images/home-icon.png')}
-                    alt="Home"
-                    className="icon-img"
-                  />
+              <div className="contact-detail-wrap">
+                <img
+                  src={require('../../assets/images/logo.png')}
+                  alt="Logo"
+                  className="img-responsive contact-logo"
+                />
+                <Col xs={12} className="contact-details-block">
+                  <Col md={1} xs={2} className="p-none">
+                    <img
+                      src={require('../../assets/images/home-icon.png')}
+                      alt="Home"
+                      className="icon-img"
+                    />
+                  </Col>
+                  <Col md={11} xs={10} className="p-none text-white p-wrap">
+                    {contactDetails.address}
+                  </Col>
                 </Col>
-                <Col md={11} xs={10} className="p-none text-white p-wrap">
-                  {contactDetails.address}
-                </Col>
-              </Col>
 
-              <Col xs={12} className="contact-details-block">
-                <Col xs={2} md={1} className="p-none">
-                  <img
-                    src={require('../../assets/images/message-icon.png')}
-                    alt="Call"
-                    className="icon-img"
-                  />
+                <Col xs={12} className="contact-details-block">
+                  <Col xs={2} md={1} className="p-none">
+                    <img
+                      src={require('../../assets/images/message-icon.png')}
+                      alt="Call"
+                      className="icon-img"
+                    />
+                  </Col>
+                  <Col xs={10} md={11} className="p-none text-white">
+                    {contactDetails.email}
+                  </Col>
                 </Col>
-                <Col xs={10} md={11} className="p-none text-white">
-                  {contactDetails.email}
-                </Col>
-              </Col>
-
-              <Col xs={12} className="contact-details-block">
-                <Col xs={2} md={1} className="p-none">
-                  <img
-                    src={require('../../assets/images/call-icon.png')}
-                    alt="Mail"
-                    className="icon-img"
-                  />
-                </Col>
-                <Col
-                  xs={10}
-                  md={11}
-                  className="col-xs-10 col-md-11 p-none text-white"
-                >
-                  {contactDetails.phone}
-                </Col>
-              </Col>
+              
+                  <Col xs={12} className="contact-details-block">
+                    <Col xs={2} md={1} className="p-none">
+                      <img
+                        src={require('../../assets/images/call-icon.png')}
+                        alt="Call"
+                        className="icon-img"
+                      />
+                    </Col>
+                    <Col
+                      xs={10}
+                      md={11}
+                      className="col-xs-10 col-md-11 p-none text-white"
+                    >
+                      {contactDetails.phone}
+                    </Col>
+                  </Col>
+               
+              </div>
             </Col>
 
             <Col sm={5}>
-              <form className="contact-form">
-                <FormControl
-                  className="contact-control"
-                  type="text"
-                  label="name"
-                  placeholder="Name"
-                  name="name"
-                  value={contactForm.name}
-                  onChange={this.handleChange.bind(this)}
-                />
-                {errors['name'] && (
-                  <span className="input-error text-yellow">
-                    {errors['name']}
-                  </span>
-                )}
-                <FormControl
-                  className="contact-control"
-                  type="email"
-                  label="email"
-                  placeholder="Email"
-                  name="email"
-                  value={contactForm.email}
-                  onChange={this.handleChange.bind(this)}
-                />
-                {errors['email'] && (
-                  <span className="input-error text-yellow">
-                    {errors['email']}
-                  </span>
-                )}
-                <FormControl
-                  className="contact-control"
-                  type="number"
-                  label="phone"
-                  placeholder="Phone"
-                  name="phone"
-                  value={contactForm.phone}
-                  onChange={this.handleChange.bind(this)}
-                />
-                {errors['phone'] && (
-                  <span className="input-error text-yellow">
-                    {errors['phone']}
-                  </span>
-                )}
-                <FormControl
-                  className="contact-control"
-                  componentClass="textarea"
-                  placeholder="Message"
-                  name="message"
-                  value={contactForm.message}
-                  onChange={this.handleChange.bind(this)}
-                />
-                {errors['message'] && (
-                  <span className="input-error text-yellow">
-                    {errors['message']}
-                  </span>
-                )}
-                <Col xs={12} className="text-center">
-                  <Button
-                    className="btn-orange contact-submit-btn text-center"
-                    onClick={event => this.handleClick(event)}
-                  >
-                    SEND MESSAGE
-                  </Button>
-                </Col>
-              </form>
+              <div className="contact-form-wrap">
+                <form className="contact-form">
+                  <FormControl
+                    className="contact-control"
+                    type="text"
+                    label="name"
+                    placeholder="Name"
+                    name="name"
+                    value={contactForm.name}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['name'] && (
+                    <span className="input-error text-yellow">
+                      {errors['name']}
+                    </span>
+                  )}
+                  <FormControl
+                    className="contact-control"
+                    type="email"
+                    label="email"
+                    placeholder="Email"
+                    name="email"
+                    value={contactForm.email}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['email'] && (
+                    <span className="input-error text-yellow">
+                      {errors['email']}
+                    </span>
+                  )}
+                  <FormControl
+                    className="contact-control"
+                    type="number"
+                    label="phone"
+                    placeholder="Phone"
+                    name="phone"
+                    value={contactForm.phone}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['phone'] && (
+                    <span className="input-error text-yellow">
+                      {errors['phone']}
+                    </span>
+                  )}
+                  <FormControl
+                    className="contact-control"
+                    componentClass="textarea"
+                    placeholder="Message"
+                    name="message"
+                    value={contactForm.message}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['message'] && (
+                    <span className="input-error text-yellow">
+                      {errors['message']}
+                    </span>
+                  )}
+                  <Col xs={12} className="text-center">
+                    <Button
+                      className="btn-orange contact-submit-btn text-center"
+                      onClick={event => this.handleClick(event)}
+                    >
+                      SEND MESSAGE
+                    </Button>
+                  </Col>
+                </form>
+              </div>
             </Col>
           </Row>
         </Grid>

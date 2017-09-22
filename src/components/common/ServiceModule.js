@@ -8,7 +8,7 @@ export default class ServiceModule extends Component {
       <div>
         {services &&
           services.map(service => (
-            <Col xs={12} sm={6} md={4} className="no-m-l-r" key={service.id}>
+            <Col xs={12} sm={6} md={4} className="service-thumb-wrap no-m-l-r" key={service.id}>
               <Thumbnail
                 className="service-thumbs"
                 alt={service.service_icon ? 'icon-images' : ''}
