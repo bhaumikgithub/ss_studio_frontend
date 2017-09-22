@@ -28,7 +28,6 @@ export default class Feedback extends Component {
 
   render() {
     const feedbacks = this.state.feedbacks;
-    console.log(feedbacks);
     var Rating = require('react-rating');
     return (
       <div className="page-wrap feedback-wrap">

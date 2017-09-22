@@ -12,7 +12,7 @@
     min-width: 160px;
     padding: 6px 15px;
 }
-.add-album-icon{
+.edit-icon{
     height: 18px;
     width: 18px;
     padding: 0;
@@ -100,6 +100,7 @@
     background-color: #f9a11d;
     line-height: 20px;
     padding: 10px 12px;
+    cursor: pointer;
 }
 .img-edit-btn:hover,
 .img-edit-btn:focus{
@@ -211,10 +212,7 @@
     color:#fff;
     background-color: #feae37;
 }
-.add-new-service i{
-    margin-right: 8px;
-    line-height: 14px;
-}
+
 .edit-service-thumb{
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -283,6 +281,19 @@
     outline:none !important;
     color:#fff;
     background-color: #feae37;
+}
+
+.add-service-icon{ 
+    height: 18px;
+    width: 18px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    line-height: 16px;
+    font-size: 10px;
+    margin-right: 5px;
+    margin-top: 1px;
+    float: left;
 }
 
 @media only screen and (max-width: 1200px) {   

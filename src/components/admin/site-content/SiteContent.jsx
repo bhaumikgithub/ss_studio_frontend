@@ -210,7 +210,7 @@ export default class SiteContent extends Component {
                     editObject: aboutUs
                   })}
               >
-                <i className="add-album-icon">
+                <i className="edit-icon">
                   <img
                     src={require('../../../assets/images/admin/site-content/edit-icon.png')}
                     alt=""
@@ -274,11 +274,7 @@ export default class SiteContent extends Component {
                 className="btn btn-orange pull-right add-new-service"
                 onClick={this.handleAddserviceModal}
               >
-                <i className="add-service-icon">
-                  <img
-                    src={require('../../../assets/images/admin/site-content/add-icon.png')}
-                    alt=""
-                  />
+                <i className="fa fa-plus add-service-icon">
                 </i>Add New
               </Button>
             </Col>

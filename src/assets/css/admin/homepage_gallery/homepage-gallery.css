@@ -167,7 +167,8 @@
 .slider-num .edit-slide{
     position: absolute;
     right: 10px; 
-    top: 8px;
+    top: 2px;
+    color: #fff;
 }
 .pic-selection-check{
     position: absolute;

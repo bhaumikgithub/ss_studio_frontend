@@ -87,12 +87,17 @@
 .custom-pagination li.active a:active {
   background: #fff;
   color: #f9a11d !important;
+  outline: none !important;
 }
 .custom-pagination li:first-child a {
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
   font-size: 14px !important;
   padding: 0 5px 0 15px !important;
+}
+.custom-pagination li:first-child a:hover,
+.custom-pagination li:first-child a:focus{
+  outline: none !important;
 }
 .custom-pagination li:last-child a {
   border-top-right-radius: 2em;
@@ -378,10 +383,10 @@ div.filepicker {
 
 /* admin testimonial page css start */
 .edit-testimonial-btn {
-  right: 99px !important;
+  right: 70px !important;
 }
 .testimonial-delete-icon {
-  right: 48px !important;
+  right: 20px !important;
 }
 /* admin testimonial page css end */
 
@@ -514,23 +519,32 @@ div.filepicker {
 
 /* start pulic view album in Album Listing Page */
 .view-album-listing {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 75px;
+  right: 85px;
   position: absolute;
   top: 8px;
 }
-
+.view-album-listing:hover,
+.view-album-listing:focus{
+  color: #666;
+  outline: none !important;  
+}
 .add-photos-album-listing {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 195px;
+  right: 200px;
   position: absolute;
   top: 8px;
+}
+.add-photos-album-listing:hover,
+.add-photos-album-listing:focus{
+  color: #666;
+  outline: none !important;  
 }
 .add-photos-album-listing img {
   background: #999;
@@ -546,6 +560,9 @@ div.filepicker {
 .sortBy-records {
   margin-right: 15px;
   margin-left: 20px;
+}
+.sortBy-records a{
+  color: #545454;
 }
 .total-records {
   font-size: 16px;

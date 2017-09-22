@@ -328,10 +328,7 @@ export default class AlbumsListing extends Component {
                         }}
                         className="add-photos-album-listing"
                       >
-                        <img
-                          src={require('../../../assets/images/admin/album/add-icon.png')}
-                          alt=""
-                        />{' '}
+                      <i className="fa fa-plus-circle" aria-hidden="true" />{' '}
                         Add Photos
                       </Link>
 
