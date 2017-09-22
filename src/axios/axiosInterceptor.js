@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 var axiosInstance = axios.create();
-var reactNprogress = require('react-nprogress');
+var reactNprogress = require('nprogress');
 
 // Add a request interceptor
 axiosInstance.interceptors.request.use(

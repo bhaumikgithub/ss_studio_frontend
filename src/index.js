@@ -8,7 +8,7 @@ import 'sweetalert/dist/sweetalert.css';
 import './assets/css/style.css';
 import './assets/css/developer.css';
 import './assets/css/nprogress.css';
-import 'react-nprogress/nprogress.js';
+import 'nprogress/nprogress.js';
 
 // import component
 import App from './components/app/App';
