@@ -135,12 +135,9 @@
 .back-link .fa {
   margin-right: 5px;
 }
-.portfolio-thumbs-wrap {
+.portfolio-album-thub-wrap {
   margin-top: 30px;
 }
-/* .portfolio-album-thub-wrap {
-  margin-top: 30px;
-} */
 .portfolio-album-thub-wrap .overlay {
   cursor: zoom-in !important;
 }
