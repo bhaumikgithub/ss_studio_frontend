@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'sweetalert/dist/sweetalert.css';
 import './assets/css/style.css';
-import './assets/css/developer.css';
+// import './assets/css/developer.css';
 import './assets/css/nprogress.css';
 import 'nprogress/nprogress.js';
 
