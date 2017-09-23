@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
 
 export function getAlbums(params) {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'albums',
     { params: params, headers: apiCustomHeader() }
   );
@@ -10,7 +10,7 @@ export function getAlbums(params) {
 }
 
 export function createAlbum(params) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL + 'albums',
     params,
     apiHeader()
@@ -19,7 +19,7 @@ export function createAlbum(params) {
 }
 
 export function showAlbum(id, params) {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
     { params: params }
   );
@@ -27,7 +27,7 @@ export function showAlbum(id, params) {
 }
 
 export function updateAlbum(params) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'albums/' + params['id'],
     params['albumForm'],
     apiHeader()
@@ -36,7 +36,7 @@ export function updateAlbum(params) {
 }
 
 export function deleteAlbum(id) {
-  const responsePromise = axios.delete(
+  const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
     apiHeader()
   );
@@ -44,13 +44,16 @@ export function deleteAlbum(id) {
 }
 
 export function getPortfolio(params) {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'albums/portfolio', {
-    params
-  });
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'albums/portfolio',
+    {
+      params
+    }
+  );
 }
 
 export function albumPasscodeVerification(params) {
-  return axios.get(
+  return axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       params['albumSlug'] +
@@ -60,7 +63,7 @@ export function albumPasscodeVerification(params) {
 }
 
 export function submitAlbum(albumSlug) {
-  return axios.put(
+  return axiosInstance.put(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumSlug +

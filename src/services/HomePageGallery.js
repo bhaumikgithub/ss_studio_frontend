@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiHeader, checkStatus } from '../components/Helper';
 
 export function getHomepagePhotos() {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'homepage_photos',
     apiHeader()
   );
@@ -10,7 +10,7 @@ export function getHomepagePhotos() {
 }
 
 export function updateHomepagePhoto(params, id) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'homepage_photos/' + id,
     params,
     apiHeader()
@@ -19,7 +19,7 @@ export function updateHomepagePhoto(params, id) {
 }
 
 export function getActiveHomepagePhotos() {
-  return axios.get(
+  return axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'homepage_photos/active'
   );
 }

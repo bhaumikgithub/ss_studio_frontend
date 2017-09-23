@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
 
 export function getTestimonials(params) {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'testimonials',
     { params: params, headers: apiCustomHeader() }
   );
@@ -10,7 +10,7 @@ export function getTestimonials(params) {
 }
 
 export function createTestimonial(params) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL + 'testimonials',
     params,
     apiHeader()
@@ -19,7 +19,7 @@ export function createTestimonial(params) {
 }
 
 export function updateTestimonial(params) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'testimonials/' + params['id'],
     params['testimonialForm'],
     apiHeader()
@@ -28,7 +28,7 @@ export function updateTestimonial(params) {
 }
 
 export function deleteTestimonial(id) {
-  const responsePromise = axios.delete(
+  const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL + 'testimonials/' + id,
     apiHeader()
   );
@@ -36,5 +36,7 @@ export function deleteTestimonial(id) {
 }
 
 export function getFeedbacks() {
-  return axios.get(process.env.REACT_APP_API_BASE_URL + 'testimonials/active');
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'testimonials/active'
+  );
 }

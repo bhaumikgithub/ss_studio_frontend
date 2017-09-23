@@ -1,38 +1,38 @@
-.AdminApp .page-wrap{
+.AdminApp .page-wrap {
   padding-top: 80px;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   position: relative;
   float: left;
   width: 100%;
 }
-.AdminApp .footer{
-    position: relative;
-    float: left;
-    width: 100%;
-    background: #fff;
-    font-family: 'ralewayregular';
-    color: #242424;  
-    font-size: 12px;
-    max-height: 40px;
-    padding: 6px 0;
+.AdminApp .footer {
+  position: relative;
+  float: left;
+  width: 100%;
+  background: #fff;
+  font-family: 'ralewayregular';
+  color: #242424;
+  font-size: 12px;
+  max-height: 40px;
+  padding: 6px 0;
 }
-.left-sidebar-main-wrap{
-    width: 260px;
-    position: fixed;
-    background-color: #293541;
-    padding: 0;
-    left: -260px;
-    height: 100%;
-    z-index: 1000;
-    overflow-y: auto;
-    overflow-x: hidden;
-    color: #fff;
-    -webkit-transition: all 500ms ease-out;
-    -moz-transition: all 500ms ease-out;
-    -o-transition: all 500ms ease-out;
-    transition: all 500ms ease-out;
+.left-sidebar-main-wrap {
+  width: 260px;
+  position: fixed;
+  background-color: #293541;
+  padding: 0;
+  left: -260px;
+  height: 100%;
+  z-index: 1000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  color: #fff;
+  -webkit-transition: all 500ms ease-out;
+  -moz-transition: all 500ms ease-out;
+  -o-transition: all 500ms ease-out;
+  transition: all 500ms ease-out;
 }
-.content-area{
+.content-area {
   width: auto;
   height: 100%;
   margin-left: 0px;
@@ -42,29 +42,30 @@
   -o-transition: all 500ms ease-out;
   transition: all 500ms ease-out;
 }
-.AdminApp{
+.AdminApp {
   height: 100%;
 }
-.AdminApp.Toggled .left-sidebar-main-wrap{
+.AdminApp.Toggled .left-sidebar-main-wrap {
   left: 0px;
 }
 
-.AdminApp.Toggled .content-area{
-    width: auto !important;
-    margin-left: 260px !important;
+.AdminApp.Toggled .content-area {
+  width: auto !important;
+  margin-left: 260px !important;
 }
-.AdminApp .footer .container, .AdminApp .header .container{
-  width:auto;
+.AdminApp .footer .container,
+.AdminApp .header .container {
+  width: auto;
   color: #555555 !important;
 }
-.AdminApp .header .container{
+.AdminApp .header .container {
   padding-left: 0;
 }
-.AdminApp .navbar-inverse .navbar-toggle .icon-bar{
+.AdminApp .navbar-inverse .navbar-toggle .icon-bar {
   background-color: #f9a11d;
 }
 
-.admin-page-title{
+.admin-page-title {
   font-size: 28px;
   font-weight: normal;
   height: 80px;
@@ -76,170 +77,178 @@
   position: relative;
   width: auto;
 }
-.AdminApp .header{
+.AdminApp .header {
   position: absolute;
   top: 0;
   left: 0;
   background-color: #fff !important;
   box-shadow: 0px 1px 2px #f1f1f1;
-  border:0;
+  border: 0;
   color: #555555;
 }
-.AdminApp .header .menu-links{
+.AdminApp .header .menu-links {
   margin-top: 15px;
 }
- .AdminApp .header .menu-links li a{
+.AdminApp .header .menu-links li a {
   color: #555555 !important;
-} 
- .AdminApp .header .admin-setting ul{
+}
+.AdminApp .header .admin-setting ul {
   background-color: #fff;
   margin-top: 15px !important;
   border: 0;
   margin-right: 10px;
 }
 
-.AdminApp .header .menu-links li a .caret{
+.AdminApp .header .menu-links li a .caret {
   border-top: 5px dashed;
-  border-left : 5px solid transparent;
+  border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   color: #999;
   margin-top: -5px;
 }
 
-.setting-dropdown-wrap i{
-    font-size: 22px;
-    line-height: 26px;
-    color: #999;
+.setting-dropdown-wrap i {
+  font-size: 22px;
+  line-height: 26px;
+  color: #999;
 }
-  
-.side-toggle-btn{
-  float:left;
+
+.side-toggle-btn {
+  float: left;
   height: 80px;
   width: 80px !important;
   max-width: 80px !important;
   border-radius: 0;
-  font-size:14px;
-   margin-right: 25px; 
-  border: none ;
+  font-size: 14px;
+  margin-right: 25px;
+  border: none;
   border-right: 1px solid #f1f1f1;
-  background-color:#fff;
+  background-color: #fff;
   color: #777;
   position: relative;
 }
-.side-toggle-btn:active:focus{
-  outline:0;
+.side-toggle-btn:active:focus {
+  outline: 0;
 }
-.side-toggle-btn:active, .side-toggle-btn:hover, .side-toggle-btn:focus{
+.side-toggle-btn:active,
+.side-toggle-btn:hover,
+.side-toggle-btn:focus {
   box-shadow: none;
-  background-color:#fff !important;
+  background-color: #fff !important;
   outline: 0;
   border: 0;
   border-right: 1px solid #f1f1f1 !important;
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    body.modal-open {
+  body.modal-open {
     overflow: hidden !important;
   }
 }
 
 /*Media queries*/
 @media only screen and (max-width: 1200px) {
-  
 }
 @media only screen and (max-width: 1130px) {
-  .photo-wrap, .view-count-wrap, .status-wrap, .visible-wrap{
-        width: 50%;
-        padding: 0;
-    }
-    .count-detail{
-      width: auto;
-    }
-    .count-num, .visible-wrap .count-num{
-      margin-top: 0;
-      margin-left: 8px;
-    }
-    .count-wrap:nth-child(2){
-      border:0;
-    }
-    .count-wrap:nth-child(2), .count-wrap:nth-child(4){
-      padding-left: 15px;
-    }
+  .photo-wrap,
+  .view-count-wrap,
+  .status-wrap,
+  .visible-wrap {
+    width: 50%;
+    padding: 0;
+  }
+  .count-detail {
+    width: auto;
+  }
+  .count-num,
+  .visible-wrap .count-num {
+    margin-top: 0;
+    margin-left: 8px;
+  }
+  .count-wrap:nth-child(2) {
+    border: 0;
+  }
+  .count-wrap:nth-child(2),
+  .count-wrap:nth-child(4) {
+    padding-left: 15px;
+  }
 }
 @media only screen and (max-width: 1024px) {
-    .count-wrap:nth-child(2), .count-wrap:nth-child(4){
-      width: 60%;
-    }
-    .count-wrap:nth-child(1), .count-wrap:nth-child(3){
-      width: 40%;
-    }
-    .album-delete-btn{
-      bottom: 10px;
-    }    
+  .count-wrap:nth-child(2),
+  .count-wrap:nth-child(4) {
+    width: 60%;
+  }
+  .count-wrap:nth-child(1),
+  .count-wrap:nth-child(3) {
+    width: 40%;
+  }
+  .album-delete-btn {
+    bottom: 10px;
+  }
 }
 @media only screen and (max-width: 991px) {
-  .AdminApp .page-wrap{
-      padding-top: 60px;
-    }
-    .AdminApp .custom-navbar .navbar-toggle {
-      border-color: #f9a11d;
-      margin-top: 25px;
-      margin-right: 30px;
-    }
-    .AdminApp .header .menu-links {
-      margin-top: 0;
-    } 
-    .AdminApp .header .menu-links li.back-to-album a{
-      padding: 20px 5px;
-    }
-    .admin-page-title {
-      font-size: 24px;
-      height:60px;
-      line-height: 60px;
-    }
-    .side-toggle-btn {  
-      height: 60px;
-      width: 60px !important;
-      margin-right: 10px;
-    }   
-    .AdminApp .header .menu-links li a{
-      padding: 16px 8px;
-    }  
-     .search-wrap{
-      width: 150px;
-    }
-    .search-btn{
-      padding: 3px 6px;
-    }
-    .search-box{
-      padding: 6px;
-      font-size: 12px;
-    }
-  .sortBy{
+  .AdminApp .page-wrap {
+    padding-top: 60px;
+  }
+  .AdminApp .custom-navbar .navbar-toggle {
+    border-color: #f9a11d;
+    margin-top: 25px;
+    margin-right: 30px;
+  }
+  .AdminApp .header .menu-links {
+    margin-top: 0;
+  }
+  .AdminApp .header .menu-links li.back-to-album a {
+    padding: 20px 5px;
+  }
+  .admin-page-title {
+    font-size: 24px;
+    height: 60px;
+    line-height: 60px;
+  }
+  .side-toggle-btn {
+    height: 60px;
+    width: 60px !important;
+    margin-right: 10px;
+  }
+  .AdminApp .header .menu-links li a {
+    padding: 16px 8px;
+  }
+  .search-wrap {
+    width: 150px;
+  }
+  .search-btn {
+    padding: 3px 6px;
+  }
+  .search-box {
+    padding: 6px;
+    font-size: 12px;
+  }
+  .sortBy {
     margin-left: 10px;
     margin-right: 10px;
-  }  
-  .AdminApp .footer{
+  }
+  .AdminApp .footer {
     font-size: 10px;
     line-height: 16px;
   }
 }
 @media only screen and (max-width: 940px) {
-    .album-thumb{
-      height: 120px;
-      width: 120px;
-    }
-    .count-main-wrap{
-      width: 100%;
-      margin-left: 0px;
-      margin-top: 10px;
-    }
-    .album-separator{
-      display: none;
-    }
-    .admin-page-title {
-      font-size: 22px;
-    }
+  .album-thumb {
+    height: 120px;
+    width: 120px;
+  }
+  .count-main-wrap {
+    width: 100%;
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .album-separator {
+    display: none;
+  }
+  .admin-page-title {
+    font-size: 22px;
+  }
 }
 @media only screen and (max-width: 767px) {
   .AdminApp .header .navbar-toggle {
@@ -256,216 +265,218 @@
   .navbar-default .navbar-toggle .icon-bar {
     background-color: #f9a11d !important;
   }
-  .AdminApp .header .admin-setting ul{
+  .AdminApp .header .admin-setting ul {
     margin-top: 5px !important;
   }
-  .AdminApp .header .navbar-inverse .navbar-nav .open .dropdown-menu>li>a{
+  .AdminApp .header .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #9d9d9d !important;
     padding: 8px;
   }
-  .AdminApp .header .menu-links li.back-to-album a{
+  .AdminApp .header .menu-links li.back-to-album a {
     padding: 15px 30px 0;
   }
   .AdminApp .header .navbar-collapse {
     border-top: 2px solid #f1f1f1;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
-  .AdminApp .header .navbar-toggle{
-      margin-right: 20px;
-      margin-top: 13px;
+  .AdminApp .header .navbar-toggle {
+    margin-right: 20px;
+    margin-top: 13px;
   }
-  .admin-page-title{
+  .admin-page-title {
     font-size: 24px;
     line-height: 64px;
   }
-  .AdminApp .menu-links{
+  .AdminApp .menu-links {
     margin-top: 0;
   }
-  .setting-dropdown-wrap{
+  .setting-dropdown-wrap {
     float: left;
     position: relative;
     width: 100%;
     width: 86px;
   }
-  .setting-dropdown-wrap i{
-  line-height: 20px;
+  .setting-dropdown-wrap i {
+    line-height: 20px;
   }
-  .setting-dropdown-wrap img{
+  .setting-dropdown-wrap img {
     float: left;
     position: relative;
   }
 
-  .setting-label{
+  .setting-label {
     float: left;
     position: relative;
     margin-left: 0px;
     margin-right: 10px;
     color: #777;
   }
-  .AdminApp .header .menu-links li a .caret{
+  .AdminApp .header .menu-links li a .caret {
     float: left;
     margin-top: 8px !important;
   }
 
-  .AdminApp{
+  .AdminApp {
     overflow-x: hidden;
   }
-  .AdminApp .header, .AdminApp .page-wrap, .AdminApp .footer{
+  .AdminApp .header,
+  .AdminApp .page-wrap,
+  .AdminApp .footer {
     width: 100vw !important;
   }
-  .search-wrap{
+  .search-wrap {
     width: 100%;
     position: relative;
     float: left;
     padding: 5px 30px;
     margin-top: 0;
   }
-  .search-Form{
+  .search-Form {
     position: relative;
     width: 100%;
     top: 5px;
     border-radius: 0;
   }
-  .search-Form .well{ 
+  .search-Form .well {
     margin-bottom: 0px;
   }
-  .admin-setting{
+  .admin-setting {
     position: relative;
     float: left;
     width: 100%;
     padding: 0 25px;
   }
-  .AdminApp .footer{
+  .AdminApp .footer {
     padding: 8px 0;
   }
 }
 @media only screen and (max-width: 540px) {
-    .album-img-wrap{
-      position: relative;
-      float: left;
-      width: 100%;
-    }
-    .album-detail-wrap{
-      position: relative;
-      float: left;
-      width: 100%;
-      padding-left: 0;
-      margin-top: 15px;
-    }
-    .album-share-btn, .album-edit-btn{
-      top: 0;
-    }
-    .album-share-btn{
-      right: 0;
-    }
-    .album-edit-btn{
-      right: 30px;
-    }
-    .album-thumb{
-      width: 60%;
-      /*margin-left: 20%;*/
-      height: auto;
-    }
-    .album-title{
-      font-size: 14px;
-      line-height: 20px;
-    }
-    .count-main-wrap{
-      margin-top: 5px;
-    }
-    .count-wrap{
-      width: 100% !important;
-      padding-left: 0 !important;
-      border: 0;
-      margin-top: 3px;
-    }
-    .album-delete-btn{
-      bottom: 0px;
-    }
-    .total-album{
-      width: 25%;
-    }
-    .total-album, .sortBy{
-      width: auto;
-      padding: 0;
-      margin: 10px 0 0;
-      border: 0;
-    }
-    .sortBy{
-      text-align: right;
-    }
-    .lock-icon{
-      top: 12px;
-      left: 12px;
-      right: none;
-    }
-    .count-detail{
-      min-width: 140px;
-      text-align: left;
-    } 
-    .count-num{
-      font-size: 14px;
-    }
-    .album-badges-wrap {
-      padding: 10px 0;
+  .album-img-wrap {
+    position: relative;
+    float: left;
+    width: 100%;
   }
-    
+  .album-detail-wrap {
+    position: relative;
+    float: left;
+    width: 100%;
+    padding-left: 0;
+    margin-top: 15px;
+  }
+  .album-share-btn,
+  .album-edit-btn {
+    top: 0;
+  }
+  .album-share-btn {
+    right: 0;
+  }
+  .album-edit-btn {
+    right: 30px;
+  }
+  .album-thumb {
+    width: 60%;
+    /*margin-left: 20%;*/
+    height: auto;
+  }
+  .album-title {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .count-main-wrap {
+    margin-top: 5px;
+  }
+  .count-wrap {
+    width: 100% !important;
+    padding-left: 0 !important;
+    border: 0;
+    margin-top: 3px;
+  }
+  .album-delete-btn {
+    bottom: 0px;
+  }
+  .total-album {
+    width: 25%;
+  }
+  .total-album,
+  .sortBy {
+    width: auto;
+    padding: 0;
+    margin: 10px 0 0;
+    border: 0;
+  }
+  .sortBy {
+    text-align: right;
+  }
+  .lock-icon {
+    top: 12px;
+    left: 12px;
+    right: none;
+  }
+  .count-detail {
+    min-width: 140px;
+    text-align: left;
+  }
+  .count-num {
+    font-size: 14px;
+  }
+  .album-badges-wrap {
+    padding: 10px 0;
+  }
 }
 @media only screen and (max-width: 480px) {
-   .album-thumb{
-      width: 100%;
-      margin-left: 0;
-      height: auto;
-    }
-    .create-album-btn{
-      width: 65%;
-      margin-left: 20%;
-      float: none !important;
-    }
-    .side-toggle-btn{
-      margin-right: 10px;
-    }
-    .right-wrapper{
-      float: left !important;
-    }
-    .total-album{
-      width: 100%;
-    }
-    .sortBy{
-        width: 100%;
-        float: left;
-        text-align: left;
-        margin: 15px 0;
-    }
-    .create-album-btn{
-        margin: 0;
-    }
-    .count-detail{
-      min-width: 120px;
-      font-size: 12px;
-    } 
+  .album-thumb {
+    width: 100%;
+    margin-left: 0;
+    height: auto;
+  }
+  .create-album-btn {
+    width: 65%;
+    margin-left: 20%;
+    float: none !important;
+  }
+  .side-toggle-btn {
+    margin-right: 10px;
+  }
+  .right-wrapper {
+    float: left !important;
+  }
+  .total-album {
+    width: 100%;
+  }
+  .sortBy {
+    width: 100%;
+    float: left;
+    text-align: left;
+    margin: 15px 0;
+  }
+  .create-album-btn {
+    margin: 0;
+  }
+  .count-detail {
+    min-width: 120px;
+    font-size: 12px;
+  }
 }
 @media only screen and (max-width: 460px) {
-   
 }
 @media only screen and (max-width: 420px) {
-  .create-album-btn{
-      width: 80%;
-      margin-left: 0;
+  .create-album-btn {
+    width: 80%;
+    margin-left: 0;
   }
 }
 @media only screen and (max-width: 360px) {
-  .album-wrap{
+  .album-wrap {
     padding: 15px;
   }
-  .admin-page-title{
+  .admin-page-title {
     font-size: 18px;
   }
-  .count-detail{
+  .count-detail {
     font-size: 12px;
     min-width: 110px;
   }
-  .count-detail.count-num{
-    width: auto !important; 
+  .count-detail.count-num {
+    width: auto !important;
   }
 }

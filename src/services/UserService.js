@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiHeader, checkStatus } from '../components/Helper';
 
 export function getActiveServices() {
-  return axios.get(
+  return axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'services/active_services'
   );
 }
 
 export function updateService(params) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'services/' + params['id'],
     params['ServiceForm'],
     apiHeader()
@@ -17,7 +17,7 @@ export function updateService(params) {
 }
 
 export function createService(params) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL + 'services',
     params,
     apiHeader()

@@ -12,9 +12,11 @@ import CommentPopup from './CommentPopup';
 // Import services
 import {
   AlbumService,
-  PhotoService,
-  CommentService
+  PhotoService
 } from '../../services/Index';
+
+// Import helper
+import { getIndexUsingLodash } from '../Helper';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -116,9 +118,26 @@ export default class AlbumDetails extends Component {
       });
   }
 
+  getSelectedCheckboxIds() {
+    var ids = [];
+    var selected_photo_ids = [];
+    var is_checked = document.querySelector('.all-selection-check input')
+      .checked;
+    const photos = this.state.album.photos;
+    photos.map(photo => {
+      if (photo.is_selected === true) selected_photo_ids.push(photo.id);
+      return selected_photo_ids;
+    });
+    Object.keys(photos).map(key => ids.push(photos[key].id));
+    if (is_checked === true)
+      ids = ids.filter(val => !selected_photo_ids.includes(val));
+    return ids;
+  }
+
   selectPhoto(index, photoId) {
     var self = this;
-    PhotoService.selectPhoto(photoId)
+    photoId = photoId || self.getSelectedCheckboxIds().map(Number);
+    PhotoService.selectPhoto({ photo: { ids: photoId } })
       .then(function(response) {
         if (response.status === 201) {
           self.handlePhotoSuccessResponse(index, response);
@@ -157,15 +176,20 @@ export default class AlbumDetails extends Component {
   }
 
   handlePhotoSuccessResponse(index, response) {
-    var photo = response.data.data.photo;
+    var photos = response.data.data.photos;
     var newAlbum = Object.assign({}, this.state.album);
     var newPhotos = newAlbum.photos;
-
-    newPhotos.splice(index, 1, photo);
-    photo.is_selected
-      ? (newAlbum.selected_photo_count += 1)
-      : (newAlbum.selected_photo_count -= 1);
-    newPhotos.photos = newPhotos;
+    var album = this.state.album;
+    photos.map(photo => {
+      if (index === undefined) {
+        var new_photo_index = getIndexUsingLodash(album.photos, photo.id);
+      }
+      newPhotos.splice(index ? index : new_photo_index, 1, photo);
+      photo.is_selected
+        ? (newAlbum.selected_photo_count += 1)
+        : (newAlbum.selected_photo_count -= 1);
+      return true;
+    });
     this.setState({ album: newAlbum });
   }
 
@@ -187,21 +211,35 @@ export default class AlbumDetails extends Component {
     photo.comment_id = id;
     this.setState({ photo: photo });
   };
-  // getComment(photo) {
-  //   var self = this;
-  //   if (photo.comment_id) {
-  //     CommentService.showComment(photo.id, photo.comment_id).then(function(
-  //       response
-  //     ) {
-  //       if (response.status === 200) {
-  //         self.setState({
-  //           showComment: true,
-  //           comment: response.data.data.comment
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
+
+//   getComment(photo) {
+//     var self = this;
+//     if (photo.comment_id) {
+//       CommentService.showComment(photo.id, photo.comment_id).then(function(
+//         response
+//       ) {
+//         if (response.status === 200) {
+//           self.setState({
+//             showComment: true,
+//             comment: response.data.data.comment
+//           });
+//         }
+//       });
+//     }
+//   }
+  selectAll(event) {
+    if (event.target.checked) {
+      this.checkboxCheckUncheck(true);
+    } else {
+      this.checkboxCheckUncheck(false);
+    }
+    this.selectPhoto();
+  }
+  checkboxCheckUncheck(action) {
+    var checkboxes = document.getElementsByName('photo-checkbox');
+    document.querySelector('.all-selection-check input').checked = action;
+    Object.keys(checkboxes).map(key => (checkboxes[key].checked = action));
+  }
   render() {
     const {
       album,
@@ -293,6 +331,8 @@ export default class AlbumDetails extends Component {
                           {album.delivery_status !== 'Submitted' ? (
                             <div>
                               <Checkbox
+                                name="photo-checkbox"
+                                id={photo.id}
                                 onChange={event =>
                                   this.selectPhoto(index, photo.id)}
                                 checked={photo.is_selected}
@@ -388,6 +428,23 @@ export default class AlbumDetails extends Component {
                       >
                         Submit photos
                       </Button>
+                      <Checkbox
+                        className="all-selection-check shared-album-select-all"
+                        onChange={event => this.selectAll(event)}
+                        checked={
+                          album.selected_photo_count === album.photo_count ? (
+                            true
+                          ) : (
+                            false
+                          )
+                        }
+                      >
+                        {' '}
+                        Select All
+                        <div className="check">
+                          <div className="inside" />
+                        </div>
+                      </Checkbox>
                     </Col>
                   )}
                   <Col sm={6} xs={12} className="p-none pull-right">

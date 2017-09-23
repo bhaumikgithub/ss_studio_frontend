@@ -1,16 +1,19 @@
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInterceptor';
 import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
 
 export function getContacts(params) {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'contacts',
-    { params: params, headers: apiCustomHeader() }
+    {
+      params: params,
+      headers: apiCustomHeader()
+    }
   );
   return checkStatus(responsePromise);
 }
 
 export function deleteContact(id) {
-  const responsePromise = axios.delete(
+  const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + id,
     apiHeader()
   );
@@ -18,7 +21,7 @@ export function deleteContact(id) {
 }
 
 export function createContact(params) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL + 'contacts',
     params,
     apiHeader()
@@ -27,7 +30,7 @@ export function createContact(params) {
 }
 
 export function updateContact(params) {
-  const responsePromise = axios.patch(
+  const responsePromise = axiosInstance.patch(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + params['id'],
     params['contactForm'],
     apiHeader()

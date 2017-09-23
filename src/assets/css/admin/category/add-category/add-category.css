@@ -93,6 +93,8 @@
     position: relative;
     color: #777;
     font-size: 12px;
+    padding: 6px 20px 6px 12px;
+    
 }
 .custom-form-control:focus, .custom-form-control:active, .custom-form-control:hover{
     outline: 0;

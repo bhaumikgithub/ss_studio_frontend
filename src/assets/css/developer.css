@@ -494,7 +494,7 @@ div.filepicker {
   font-size: 15px;
   font-family: 'ralewaymedium';
   color: #666 !important;
-  line-height: 41px;
+  line-height: 34px;
   float: left;
   margin-left: 10px;
 }
@@ -554,6 +554,11 @@ div.filepicker {
 .add-photo {
   margin-top: 15px;
   margin-bottom: -15px;
+}
+.shared-album-select-all {
+  float: left;
+  margin-top: 0px;
+  padding-left: 20px;
 }
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
