@@ -106,13 +106,13 @@ const routes = () => (
     <PrivateRoute
       exact
       path="(/*)/albums(/*)/:slug/(/*)selected_photos"
-      title="Selected Photos"
+      title="Album detail"
       component={SelectedPhotoListing}
     />
     <PrivateRoute
       exact
       path="(/*)/albums(/*)/:slug/(/*)comments"
-      title="comments"
+      title="Album detail"
       component={SelectedPhotoListing}
     />
     {/* After Login routes end */}

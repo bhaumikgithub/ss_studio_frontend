@@ -279,6 +279,9 @@
 .custom-pic-selection label {
   background: #c8c8c8 !important;
 }
+.share-album-title-details {
+  top: calc(100% - 256px) !important;
+}
 /* Share album page css end */
 
 /* Error page css start */
@@ -472,11 +475,8 @@ div.filepicker {
   cursor: pointer;
   color: #f9a11d;
 }
-.minimum-photo-selection {
-  width: 100%;
-}
-.minimum-photo-selection-count {
-  float: none !important;
+.commented-photo-count-wrapper {
+  clear: left;
 }
 .album-deliverd-btn {
   margin-top: 10px;

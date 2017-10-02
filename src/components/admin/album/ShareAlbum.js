@@ -50,7 +50,11 @@ export default class ShareAlbum extends Component {
   componentWillMount() {
     var self = this;
     const { albumRecipientObject, albumId } = self.state;
-    if (!isObjectEmpty(albumRecipientObject) && self.props.albumSelection) {
+    if (
+      !isObjectEmpty(albumRecipientObject) &&
+      albumRecipientObject.length > 0 &&
+      self.props.albumSelection
+    ) {
       self.editSharedAlbum(albumRecipientObject);
     }
     AlbumRecipientService.getNotInvitedContact(albumId)

@@ -48,7 +48,6 @@ export default class AlbumDetails extends Component {
       albumSelection: false,
       selectionAlbumObject: props.selectionAlbumObject,
       adminAlbumRecipient: {},
-      isAlbumDelivered: false,
       comment: [],
       alert: {
         show: false,
@@ -306,13 +305,17 @@ export default class AlbumDetails extends Component {
 
   renderShareAlbum = (count, adminAlbumRecipient, albumReceipientObject) => {
     const newAlbum = Object.assign({}, this.state.album);
-    newAlbum.delivery_status = 'Shared';
+    if (this.state.album.delivery_status === 'New') {
+      newAlbum.delivery_status = 'Shared';
+    }
     this.setState({
       album: newAlbum,
       selectionAlbumObject: albumReceipientObject,
       adminAlbumRecipient: adminAlbumRecipient
     });
-    this.renderRecipientsCount('add', count);
+    if (albumReceipientObject === '') {
+      this.renderRecipientsCount('add', count);
+    }
   };
 
   renderAlbum = album => {
@@ -361,7 +364,10 @@ export default class AlbumDetails extends Component {
 
   getAdminAlbumRecipients(album) {
     var self = this;
-    const { selectionAlbumObject, adminAlbumRecipient } = self.state;
+    var { selectionAlbumObject, adminAlbumRecipient } = self.state;
+    selectionAlbumObject = isObjectEmpty(this.state.selectionAlbumObject)
+      ? self.props.selectionAlbumObject
+      : self.state.selectionAlbumObject;
     if (
       selectionAlbumObject.length > 0 ||
       (adminAlbumRecipient !== null && !isObjectEmpty(adminAlbumRecipient))
@@ -390,8 +396,10 @@ export default class AlbumDetails extends Component {
     var self = this;
     AlbumService.markAsDelivered(this.state.albumSlug).then(function(response) {
       if (response.status === 200) {
+        const newAlbum = Object.assign({}, self.state.album);
+        newAlbum.delivery_status = 'Delivered';
         self.setState({
-          isAlbumDelivered: true
+          album: newAlbum
         });
       }
     });
@@ -404,11 +412,12 @@ export default class AlbumDetails extends Component {
       albumSlug,
       isOpenLightbox,
       photoIndex,
-      isAlbumDelivered,
-      selectionAlbumObject,
       adminAlbumRecipient
     } = this.state;
     const photos = album.photos;
+    const selectionAlbumObject = isObjectEmpty(this.state.selectionAlbumObject)
+      ? this.props.selectionAlbumObject
+      : this.state.selectionAlbumObject;
     return (
       <div>
         <Col xs={12} className="album-details-main-wrap">
@@ -737,8 +746,7 @@ export default class AlbumDetails extends Component {
                   album.delivery_status === 'Delivered' ? (
                     <Col>
                       <span className="album-delivery-status text-yellow">
-                        {album.delivery_status === 'Delivered' ||
-                        isAlbumDelivered ? (
+                        {album.delivery_status === 'Delivered' ? (
                           'Album Delivered'
                         ) : (
                           'Selection Process Completed'
@@ -752,7 +760,7 @@ export default class AlbumDetails extends Component {
                           </span>
                         </Link>
                       </div>
-                      <div className="already-shared-with">
+                      <div className="already-shared-with commented-photo-count-wrapper">
                         Comments:
                         <Link
                           to={{
@@ -765,15 +773,14 @@ export default class AlbumDetails extends Component {
                           </span>
                         </Link>
                       </div>
-                      {album.delivery_status === 'Submitted' &&
-                        (!isAlbumDelivered && (
-                          <Button
-                            className="btn btn-orange share-album-btn album-deliverd-btn"
-                            onClick={() => this.deliveredAlbum()}
-                          >
-                            Album Deliverd
-                          </Button>
-                        ))}
+                      {album.delivery_status === 'Submitted' && (
+                        <Button
+                          className="btn btn-orange share-album-btn album-deliverd-btn"
+                          onClick={() => this.deliveredAlbum()}
+                        >
+                          Album Deliverd
+                        </Button>
+                      )}
                     </Col>
                   ) : (
                     <Col>
