@@ -468,6 +468,25 @@ div.filepicker {
   border-radius: 50%;
   padding: 2px;
 }
+.selection-album-link:hover {
+  cursor: pointer;
+  color: #f9a11d;
+}
+.minimum-photo-selection {
+  width: 100%;
+}
+.minimum-photo-selection-count {
+  float: none !important;
+}
+.album-deliverd-btn {
+  margin-top: 10px;
+}
+.selected-photo-wrap {
+  margin-bottom: 30px;
+}
+.photo-selection-count-with-progress {
+  cursor: text;
+}
 /* album detail page css end */
 
 /* admin header page css start */

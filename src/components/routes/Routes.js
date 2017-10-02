@@ -24,7 +24,8 @@ import {
   HomePageGalley,
   Testimonial,
   Login,
-  PasscodeLogin
+  PasscodeLogin,
+  SelectedPhotoListing
 } from './Index';
 
 const routes = () => (
@@ -101,6 +102,18 @@ const routes = () => (
       path="(/*)/testimonials"
       title="Testimonials"
       component={Testimonial}
+    />
+    <PrivateRoute
+      exact
+      path="(/*)/albums(/*)/:slug/(/*)selected_photos"
+      title="Selected Photos"
+      component={SelectedPhotoListing}
+    />
+    <PrivateRoute
+      exact
+      path="(/*)/albums(/*)/:slug/(/*)comments"
+      title="comments"
+      component={SelectedPhotoListing}
     />
     {/* After Login routes end */}
 

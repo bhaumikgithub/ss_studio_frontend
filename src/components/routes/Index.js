@@ -95,6 +95,10 @@ const Testimonial = Loadable({
   loader: () => import('../admin/testimonial/Testimonials'),
   loading: Loading
 });
+const SelectedPhotoListing = Loadable({
+  loader: () => import('../admin/album/SelectedPhotoListing'),
+  loading: Loading
+});
 
 // Import not found component
 const NotFound = Loadable({
@@ -146,5 +150,6 @@ export {
   HomePageGalley,
   Testimonial,
   Login,
-  PasscodeLogin
+  PasscodeLogin,
+  SelectedPhotoListing
 };
