@@ -10,10 +10,7 @@ import {
 } from 'react-bootstrap';
 
 // Import services
-import {
-  createVideoFilm,
-  updateVideoFilm
-} from '../../../services/admin/VideoFilms';
+import { VideoFilmService } from '../../../services/Index';
 
 // Import components
 import validationHandler from '../../common/ValidationHandler';
@@ -82,13 +79,13 @@ export default class VideoPopup extends Component {
 
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = { video: this.state.videoForm };
-      callVideoApi = createVideoFilm(createParams);
+      callVideoApi = VideoFilmService.createVideoFilm(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         videoForm: { video: self.state.videoForm }
       };
-      callVideoApi = updateVideoFilm(editParams);
+      callVideoApi = VideoFilmService.updateVideoFilm(editParams);
     }
 
     callVideoApi

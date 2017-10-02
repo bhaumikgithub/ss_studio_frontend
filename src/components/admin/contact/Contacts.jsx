@@ -9,7 +9,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import GoogleLoginModule from '../../common/GoogleLoginModule';
 
 // Import services
-import { getContacts, deleteContact } from '../../../services/admin/Contact';
+import { ContactService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -47,7 +47,7 @@ export default class Contacts extends Component {
 
   getAllContacts(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
-    getContacts({
+    ContactService.getContacts({
       sorting_order: sortingOrder,
       page: page,
       per_page: window.paginationPerPage
@@ -97,7 +97,7 @@ export default class Contacts extends Component {
 
   deleteContact() {
     var self = this;
-    deleteContact(self.state.alert.objectId)
+    ContactService.deleteContact(self.state.alert.objectId)
       .then(function(response) {
         if (response.status === 200) {
           self.handleDeleteSuccessResponse(response);

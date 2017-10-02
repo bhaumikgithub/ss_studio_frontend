@@ -5,7 +5,7 @@ import { PageHeader, Carousel, Grid, Col } from 'react-bootstrap';
 import '../assets/css/feedback.css';
 
 // Import services
-import { getFeedbacks } from '../services/Feedback';
+import { TestimonialService } from '../services/Index';
 
 export default class Feedback extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ export default class Feedback extends Component {
   componentDidMount() {
     var self = this;
 
-    getFeedbacks().then(function(response) {
+    TestimonialService.getFeedbacks().then(function(response) {
       if (response.status === 200) {
         console.log(response.data.data.testimonials);
         self.setState({ feedbacks: response.data.data.testimonials });
@@ -42,7 +42,7 @@ export default class Feedback extends Component {
           </Col>
           <Col xs={12}>
             <Carousel className="feedback-carousel">
-              {feedbacks.map(feedback =>
+              {feedbacks.map(feedback => (
                 <Carousel.Item className="feedback-item" key={feedback.id}>
                   <Col xs={12} sm={4} className="feedback-img-wrap">
                     <img
@@ -56,12 +56,8 @@ export default class Feedback extends Component {
                     sm={8}
                     className="text-white feedback-content-wrap"
                   >
-                    <h4 className="feedback-title">
-                      {feedback.client_name}
-                    </h4>
-                    <p>
-                      {feedback.message}
-                    </p>
+                    <h4 className="feedback-title">{feedback.client_name}</h4>
+                    <p>{feedback.message}</p>
                     <Rating
                       className="feedback-rating"
                       empty="fa fa-star-o"
@@ -72,7 +68,7 @@ export default class Feedback extends Component {
                     />
                   </Col>
                 </Carousel.Item>
-              )}
+              ))}
             </Carousel>
           </Col>
         </Grid>

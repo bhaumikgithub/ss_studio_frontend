@@ -14,7 +14,8 @@
     border-radius: 50%;
 }
 .video-wrap .video-react:hover .video-react-big-play-button{
-    background: #f9a11d;
+    background-color: #f9a11d;
+    border-color: #f9a11d;
 }
 .video-title{
     position: absolute;
@@ -26,6 +27,9 @@
     padding: 3px 15px;
     z-index:5;
     text-transform: capitalize;
+    font-family: 'ralewaymedium';
+    font-size: 28px;
+    letter-spacing: 0.05em;    
 }
 .video-wrap .video-react-poster{
     background-size: cover;
@@ -51,6 +55,8 @@
     margin:2px 0;
 }
 
-.video-wrap .action-icon:hover{
-    background: #f9a11d;
+.video-wrap .action-icon:hover,
+.video-wrap .action-icon:focus{
+    background: #f9a11d;    
+    outline: none !important;
 }

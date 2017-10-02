@@ -138,9 +138,12 @@
 .back-link .fa {
   margin-right: 5px;
 }
-.portfolio-album-thub-wrap {
-  margin-top: 30px !important;
+.portfolio-thumbs-wrap {
+  margin-top: 30px;
 }
+/* .portfolio-album-thub-wrap {
+  margin-top: 30px;
+} */
 .portfolio-album-thub-wrap .overlay {
   cursor: zoom-in !important;
 }
@@ -257,7 +260,8 @@
   cursor: not-allowed;
 }
 .custom-add-comment-icon {
-  float: right;
+  /* float: right; */
+  text-align: center;
 }
 .custom-view-comment-icon {
   float: left;
@@ -442,9 +446,7 @@ div.filepicker {
 .album-photo-thumbs:hover .overlay {
   display: block;
 }
-.portfolio-thumbs-wrap {
-  margin-top: 15px;
-}
+
 .album-photo-thumbs-wrap .overlay-search {
   position: absolute;
   top: 43%;
@@ -542,6 +544,11 @@ div.filepicker {
 .add-photo {
   margin-top: 15px;
   margin-bottom: -15px;
+}
+.shared-album-select-all {
+  float: left;
+  margin-top: 0px;
+  padding-left: 20px;
 }
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */

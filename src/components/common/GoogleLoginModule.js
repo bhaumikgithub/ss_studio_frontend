@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 
 // Import services
-import { importContacts } from '../../services/admin/Contact';
+import { ContactService } from '../../services/Index';
 
 export default class GoogleLoginModule extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class GoogleLoginModule extends Component {
 
   importGoogleContacts = access_token => {
     var self = this;
-    importContacts(access_token)
+    ContactService.importContacts(access_token)
       .then(function(response) {
         self.props.afterResponse(response);
         self.disableButton(false);

@@ -4,11 +4,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import SweetAlert from 'sweetalert-react';
 
 // Import services
-import {
-  getAlbumRecipients,
-  deleteAlbumRecipient,
-  resendAlbumToRecipient
-} from '../../../services/admin/AlbumRecipient';
+import { AlbumRecipientService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/album/already-shared/already-shared.css';
@@ -33,7 +29,7 @@ export default class AlreadyShared extends Component {
 
   componentWillMount() {
     var self = this;
-    getAlbumRecipients(self.state.albumId)
+    AlbumRecipientService.getAlbumRecipients(self.state.albumId)
       .then(function(response) {
         self.setState({ recipients: response.data.data.album_recipients });
       })
@@ -45,7 +41,7 @@ export default class AlreadyShared extends Component {
   deleteRecipient(id) {
     var self = this;
 
-    deleteAlbumRecipient(self.state.albumId, id)
+    AlbumRecipientService.deleteAlbumRecipient(self.state.albumId, id)
       .then(function(response) {
         self.handleDeleteSuccessResponse(response, id);
       })
@@ -58,7 +54,7 @@ export default class AlreadyShared extends Component {
     var self = this;
     event.preventDefault();
 
-    resendAlbumToRecipient(self.state.albumId, id)
+    AlbumRecipientService.resendAlbumToRecipient(self.state.albumId, id)
       .then(function(response) {
         self.handleResendSuccessResponse(response);
       })
@@ -166,7 +162,7 @@ export default class AlreadyShared extends Component {
             <Scrollbars style={{ height: '220px' }}>
               <div className="shared-contact-list">
                 {recipients.length === 0 && <h4>No recipients available</h4>}
-                {recipients.map((recipient, index) =>
+                {recipients.map((recipient, index) => (
                   <div className="shared-contact-block" key={recipient.id}>
                     <div className="img-wrap">
                       <img
@@ -215,7 +211,7 @@ export default class AlreadyShared extends Component {
                       </div>
                     </div>
                   </div>
-                )}
+                ))}
               </div>
             </Scrollbars>
           </Col>

@@ -10,7 +10,7 @@ import PaginationModule from '../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 // Import services
-import { showAlbum } from '../../services/admin/Album';
+import { AlbumService } from '../../services/Index';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -35,7 +35,7 @@ export default class Portfolio extends Component {
   showAlbum(page = 1) {
     var self = this;
 
-    showAlbum(self.state.albumSlug, {
+    AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage
     })

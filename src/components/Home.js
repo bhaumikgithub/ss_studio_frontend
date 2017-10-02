@@ -3,7 +3,7 @@ import { Carousel, Grid, Col, Row } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 // Import services
-import { getHomepagePhotos } from '../services/Home';
+import { HomePageGalleryService } from '../services/Index';
 
 // Import helper
 import { setLoader } from './Helper';
@@ -19,7 +19,7 @@ class Home extends Component {
   componentDidMount() {
     var self = this;
 
-    getHomepagePhotos().then(function(response) {
+    HomePageGalleryService.getActiveHomepagePhotos().then(function(response) {
       if (response.status === 200) {
         self.setState({ photos: response.data.data.active_photos });
       }
@@ -47,7 +47,7 @@ class Home extends Component {
               {photos.map((photo, index) => (
                 <Carousel.Item className="full-screen" key={photo.id}>
                   <Col className="overlay" />
-                  <div
+                  {/* <div
                     className="loader-overlay image-loader-overlay"
                     id={'image-loader-' + index}
                   >
@@ -56,12 +56,13 @@ class Home extends Component {
                       alt="loading"
                       className="homepage-loader"
                     />
-                  </div>
-                  <img
+                  </div> */}
+                  <div className="slider-img" style={{backgroundImage: "url(" + photo.homepage_image +")"}} />
+                  {/* <img
                     src={photo.homepage_image}
                     alt={photo.homepage_image_file_name}
                     onLoad={() => this.handleImageLoaded(index)}
-                  />
+                  /> */}
                   <Carousel.Caption className="custom-carousel-caption">
                     <p>
                       We Capture <span>Memories..</span>

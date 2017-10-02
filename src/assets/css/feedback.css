@@ -2,6 +2,7 @@
     background: url('../images/feedback/feedback-bg-with-overlay.png');
     background-size: cover;
     padding-top: 94px;
+    padding-bottom: 60px;
 }
 .feedback-item{
     padding:10px 50px;
@@ -25,7 +26,19 @@
     background-position: center;
 }
 .feedback-carousel .carousel-indicators{
-    bottom:-40px;
+    bottom:-40px;   
+}
+.feedback-carousel .carousel-control{
+    opacity: 0.8;
+}
+.feedback-carousel .carousel-control span{
+    font-size: 22px;
+}
+.feedback-carousel .carousel-control .glyphicon-chevron-left{
+    margin-left: -20px;
+}
+.feedback-carousel .carousel-control .glyphicon-chevron-right{
+    margin-right: -20px;
 }
 .feedback-carousel .carousel-indicators li, .feedback-carousel .carousel-indicators .active{
     height: 15px;
@@ -52,17 +65,25 @@
 
 .feedback-content-wrap{
     padding:30px 0 0 50px;
+    line-height: 22px;
+    font-family: 'ralewaylight';        
 }
 .feedback-title{
     padding: 8px 0;
     text-transform: capitalize;
+    font-family: 'ralewaysemibold';    
+    letter-spacing: 0.08em;
+    font-size: 24px;
 }
 .feedback-rating{
-    margin-top:10px;
+    margin-top:15px;
+    float: left;
+    position: relative;
     padding-left: 0;
     font-size: 18px;
     color: #f9a11d;
 }
 .feedback-rating span.fa{
-    margin: 0 2px;
+    margin: 0 3px;
+    font-size: 20px;
 }

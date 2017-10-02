@@ -7,12 +7,13 @@ const BeforeLoginLayout = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={matchProps =>
+      render={matchProps => (
         <div className="app-wrap">
           <Header />
           <Component {...matchProps} />
           <Footer />
-        </div>}
+        </div>
+      )}
     />
   );
 };

@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { apiHeader, checkStatus } from '../../components/Helper';
+import axiosInstance from '../axios/axiosInterceptor';
+import { apiHeader, checkStatus } from '../components/Helper';
 
 export function createAlbumRecipient(params) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       params.album_id +
@@ -14,7 +14,7 @@ export function createAlbumRecipient(params) {
 }
 
 export function getAlbumRecipients(albumId) {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +
@@ -25,7 +25,7 @@ export function getAlbumRecipients(albumId) {
 }
 
 export function deleteAlbumRecipient(albumId, id) {
-  const responsePromise = axios.delete(
+  const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +
@@ -37,7 +37,7 @@ export function deleteAlbumRecipient(albumId, id) {
 }
 
 export function resendAlbumToRecipient(albumId, id) {
-  const responsePromise = axios.post(
+  const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +
@@ -51,7 +51,7 @@ export function resendAlbumToRecipient(albumId, id) {
 }
 
 export function getNotInvitedContact(albumId) {
-  const responsePromise = axios.get(
+  const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL +
       'albums/' +
       albumId +

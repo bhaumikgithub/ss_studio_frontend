@@ -17,10 +17,7 @@ import editTestimonialIcon from '../../../assets/images/admin/testimonial/edit-t
 import validationHandler from '../../common/ValidationHandler';
 
 // Import services
-import {
-  createTestimonial,
-  updateTestimonial
-} from '../../../services/admin/Testimonial';
+import { TestimonialService } from '../../../services/Index';
 
 // Import helper
 import { isObjectEmpty } from '../../Helper';
@@ -127,13 +124,13 @@ export default class TestimonialPopup extends Component {
 
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = data;
-      callTestimonialApi = createTestimonial(createParams);
+      callTestimonialApi = TestimonialService.createTestimonial(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         testimonialForm: data
       };
-      callTestimonialApi = updateTestimonial(editParams);
+      callTestimonialApi = TestimonialService.updateTestimonial(editParams);
     }
     callTestimonialApi
       .then(function(response) {
