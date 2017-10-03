@@ -60,3 +60,14 @@ export function getNotInvitedContact(albumId) {
   );
   return checkStatus(responsePromise);
 }
+
+export function getAdminAlbumRecipients(albumId) {
+  const responsePromise = axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumId +
+      '/album_recipients/get_admin_album_recipients?type=1',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}

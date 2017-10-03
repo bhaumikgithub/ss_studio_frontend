@@ -17,11 +17,12 @@ import CommentPopup from '../../shared-album/CommentPopup';
 import {
   PhotoService,
   AlbumService,
-  CommentService
+  CommentService,
+  AlbumRecipientService
 } from '../../../services/Index';
 
 // Import helper
-import { getStatusClass } from '../../Helper';
+import { getStatusClass, isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/album-details/album-details.css';
@@ -44,6 +45,10 @@ export default class AlbumDetails extends Component {
       albumSlug: this.props.match.params.slug,
       album: props.album,
       showComment: false,
+      albumSelection: false,
+      selectionAlbumObject: props.selectionAlbumObject,
+      adminAlbumRecipient: {},
+      showSelectedPhotos: false,
       comment: [],
       alert: {
         show: false,
@@ -66,7 +71,7 @@ export default class AlbumDetails extends Component {
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {
-          self.setState({ album: data.data.album });
+          self.setState({ album: data.data.album, showSelectedPhotos: false });
         }
       })
       .catch(function(error) {
@@ -299,11 +304,19 @@ export default class AlbumDetails extends Component {
     this.setState({ album: newAlbum });
   };
 
-  renderShareAlbum = count => {
+  renderShareAlbum = (count, adminAlbumRecipient, albumReceipientObject) => {
     const newAlbum = Object.assign({}, this.state.album);
-    newAlbum.delivery_status = 'Shared';
-    this.setState({ album: newAlbum });
-    this.renderRecipientsCount('add', count);
+    if (this.state.album.delivery_status === 'New') {
+      newAlbum.delivery_status = 'Shared';
+    }
+    this.setState({
+      album: newAlbum,
+      selectionAlbumObject: albumReceipientObject,
+      adminAlbumRecipient: adminAlbumRecipient
+    });
+    if (albumReceipientObject === '') {
+      this.renderRecipientsCount('add', count);
+    }
   };
 
   renderAlbum = album => {
@@ -323,7 +336,11 @@ export default class AlbumDetails extends Component {
   closeAddPhoto = () => {
     this.setState({ addPhoto: false });
   };
-  closeShareAlbum = () => this.setState({ shareAlbum: false });
+  closeShareAlbum = () =>
+    this.setState({
+      shareAlbum: false,
+      albumSelection: false
+    });
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
 
   closeLightBox = () => {
@@ -346,9 +363,88 @@ export default class AlbumDetails extends Component {
     }
   }
 
+  getAdminAlbumRecipients(album) {
+    var self = this;
+    var { selectionAlbumObject, adminAlbumRecipient } = self.state;
+    selectionAlbumObject = isObjectEmpty(this.state.selectionAlbumObject)
+      ? self.props.selectionAlbumObject
+      : self.state.selectionAlbumObject;
+    if (
+      selectionAlbumObject.length > 0 ||
+      (adminAlbumRecipient !== null && !isObjectEmpty(adminAlbumRecipient))
+    ) {
+      AlbumRecipientService.getAdminAlbumRecipients(album.id).then(function(
+        response
+      ) {
+        if (response.status === 200) {
+          self.setState({
+            albumSelection: true,
+            shareAlbumObject: album,
+            selectionAlbumObject: response.data.data.album_recipients
+          });
+        }
+      });
+    } else {
+      self.setState({
+        albumSelection: true,
+        shareAlbumObject: album,
+        selectionAlbumObject: {}
+      });
+    }
+  }
+
+  deliveredAlbum() {
+    var self = this;
+    AlbumService.markAsDelivered(self.state.albumSlug).then(function(response) {
+      if (response.status === 200) {
+        const newAlbum = Object.assign({}, self.state.album);
+        newAlbum.delivery_status = 'Delivered';
+        self.setState({
+          album: newAlbum
+        });
+      }
+    });
+  }
+  getSelectedPhotos() {
+    var self = this;
+    AlbumService.getSelectedPhotos(self.state.albumSlug).then(function(
+      response
+    ) {
+      if (response.status === 200) {
+        const newAlbum = Object.assign({}, self.state.album);
+        newAlbum.photos = response.data.data.photos;
+        self.setState({ album: newAlbum, showSelectedPhotos: true });
+      }
+    });
+  }
+
+  getCommentedPhotos() {
+    var self = this;
+    AlbumService.getCommentedPhotos(self.state.albumSlug).then(function(
+      response
+    ) {
+      if (response.status === 200) {
+        const newAlbum = Object.assign({}, self.state.album);
+        newAlbum.photos = response.data.data.photos;
+        self.setState({ album: newAlbum, showSelectedPhotos: true });
+      }
+    });
+  }
+
   render() {
-    const { album, alert, albumSlug, isOpenLightbox, photoIndex } = this.state;
+    const {
+      album,
+      alert,
+      albumSlug,
+      isOpenLightbox,
+      photoIndex,
+      adminAlbumRecipient,
+      showSelectedPhotos
+    } = this.state;
     const photos = album.photos;
+    const selectionAlbumObject = isObjectEmpty(this.state.selectionAlbumObject)
+      ? this.props.selectionAlbumObject
+      : this.state.selectionAlbumObject;
     return (
       <div>
         <Col xs={12} className="album-details-main-wrap">
@@ -380,13 +476,15 @@ export default class AlbumDetails extends Component {
               photoCount={photos.length}
             />
           )}
-          {this.state.shareAlbum && (
+          {(this.state.shareAlbum || this.state.albumSelection) && (
             <ShareAlbum
               albumId={album.id}
               shareAlbum={this.state.shareAlbum}
               closeShareAlbum={this.closeShareAlbum}
               renderShareAlbum={this.renderShareAlbum}
               shareAlbumObject={this.state.shareAlbumObject}
+              albumSelection={this.state.albumSelection}
+              selectionAlbumObject={selectionAlbumObject}
             />
           )}
           {this.state.alreadySharedAlbum && (
@@ -446,6 +544,26 @@ export default class AlbumDetails extends Component {
                   />{' '}
                   View Album
                 </Link>
+                {(album.delivery_status === 'Submitted' ||
+                  album.delivery_status === 'Delivered') && (
+                  <Button
+                    className="delete-selected btn-link"
+                    onClick={() =>
+                      showSelectedPhotos
+                        ? this.showAlbum()
+                        : this.getSelectedPhotos()}
+                  >
+                    <img
+                      src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                      alt=""
+                    />{' '}
+                    {showSelectedPhotos ? (
+                      'Show All Photos'
+                    ) : (
+                      'Show Selected Photos'
+                    )}
+                  </Button>
+                )}
               </div>
 
               <Button
@@ -532,7 +650,9 @@ export default class AlbumDetails extends Component {
                         md={4}
                         lg={3}
                         className={
-                          photo.is_cover_photo ? (
+                          showSelectedPhotos ? (
+                            'album-image-wrap no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap selected-photo-name-wrapper'
+                          ) : photo.is_cover_photo ? (
                             'album-image-wrap cover-pic no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
                           ) : (
                             'album-image-wrap no-m-l-r album-photo-thumbs-wrap portfolio-album-thub-wrap'
@@ -556,17 +676,34 @@ export default class AlbumDetails extends Component {
                             />
                           </a>
                         </Col>
-                        {!photo.is_cover_photo && (
+                        {showSelectedPhotos ? (
                           <span
-                            className="set-cover-pic custom-cover-pic"
+                            className="set-cover-pic custom-cover-pic "
                             onClick={event => {
                               this.handleSetCoverPicClick(photo.id, index);
                             }}
                           >
                             {' '}
-                            Set as Cover Pic {' '}
+                            {photo.image_file_name}
                           </span>
+                        ) : (
+                          !photo.is_cover_photo && (
+                            <span
+                              className="set-cover-pic custom-cover-pic "
+                              onClick={event => {
+                                this.handleSetCoverPicClick(photo.id, index);
+                              }}
+                            >
+                              {' '}
+                              {showSelectedPhotos ? (
+                                photo.image_file_name
+                              ) : (
+                                'Set as Cover Pic'
+                              )}
+                            </span>
+                          )
                         )}
+
                         <Checkbox
                           name="photo-checkbox"
                           id={photo.id}
@@ -666,6 +803,107 @@ export default class AlbumDetails extends Component {
                     </span>
                   </label>
                 )}
+                <Col xs={12} className="p-none detail-separator">
+                  <hr />
+                </Col>
+                <Col xs={12} className="p-none">
+                  <h4 className="album-delivery-details">selection process</h4>
+                  {album.delivery_status === 'Submitted' ||
+                  album.delivery_status === 'Delivered' ? (
+                    <Col>
+                      <span className="album-delivery-status text-yellow">
+                        {album.delivery_status === 'Delivered' ? (
+                          'Album Delivered'
+                        ) : (
+                          'Selection Process Completed'
+                        )}
+                      </span>
+                      <div className="already-shared-with minimum-photo-selection">
+                        Photos Selected:
+                        <button
+                          className="share-count minimum-photo-selection-count"
+                          onClick={() => this.getSelectedPhotos()}
+                        >
+                          {album.selected_photo_count}
+                        </button>
+                      </div>
+                      <div className="already-shared-with commented-photo-count-wrapper">
+                        Comments:
+                        {album.commented_photo_count > 0 ? (
+                          <button
+                            className="share-count minimum-photo-selection-count"
+                            onClick={() => this.getCommentedPhotos()}
+                          >
+                            {album.commented_photo_count}
+                          </button>
+                        ) : (
+                          <span className="share-count minimum-photo-selection-count">
+                            {album.commented_photo_count}
+                          </span>
+                        )}
+                      </div>
+                      {album.delivery_status === 'Submitted' && (
+                        <Button
+                          className="btn btn-orange share-album-btn album-deliverd-btn"
+                          onClick={() => this.deliveredAlbum()}
+                        >
+                          Album Deliverd
+                        </Button>
+                      )}
+                    </Col>
+                  ) : (
+                    <Col>
+                      <a
+                        className={
+                          'album-delivery-status text-yellow selection-album-link'
+                        }
+                        onClick={() => this.getAdminAlbumRecipients(album)}
+                      >
+                        {selectionAlbumObject.length > 0 ||
+                        (adminAlbumRecipient !== null &&
+                          !isObjectEmpty(adminAlbumRecipient)) ? (
+                          'Client Selection In Progress'
+                        ) : (
+                          'Invite For Selection Album'
+                        )}
+                      </a>
+                      <div className="already-shared-with minimum-photo-selection">
+                        Minimum Photo
+                        <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
+                          {' '}
+                          {selectionAlbumObject.length > 0 ||
+                          (adminAlbumRecipient !== null &&
+                            !isObjectEmpty(adminAlbumRecipient)) ? (
+                            (selectionAlbumObject.length > 0 &&
+                              selectionAlbumObject[0]
+                                .minimum_photo_selection) ||
+                            adminAlbumRecipient.minimum_photo_selection
+                          ) : (
+                            0
+                          )}{' '}
+                        </button>
+                      </div>
+                      <div className="already-shared-with">
+                        Comments Allowed:
+                        <span className="comment-allowed">
+                          {selectionAlbumObject.length > 0 ||
+                          (adminAlbumRecipient !== null &&
+                            !isObjectEmpty(
+                              adminAlbumRecipient
+                            )) ? (selectionAlbumObject.length > 0 &&
+                            selectionAlbumObject[0].allow_comments) ||
+                          adminAlbumRecipient.allow_comments ? (
+                            ' Yes'
+                          ) : (
+                            ' No'
+                          ) : (
+                            '     -'
+                          )}
+                        </span>
+                      </div>
+                    </Col>
+                  )}
+                </Col>
                 <Col xs={12} className="p-none detail-separator">
                   <hr />
                 </Col>

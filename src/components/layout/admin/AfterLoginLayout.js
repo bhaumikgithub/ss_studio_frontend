@@ -22,7 +22,8 @@ export default class AfterLoginLayout extends Component {
       album: {},
       albumSlug: props.children.props.match.params.slug,
       title: '',
-      albumDetailTitle: ''
+      albumDetailTitle: '',
+      selectionAlbumObject: {}
     };
     this.handler = this.handler.bind(this);
   }
@@ -55,7 +56,12 @@ export default class AfterLoginLayout extends Component {
           console.log(error.response);
         });
     } else {
-      self.setState({ album: {}, albumSlug: '', albumDetailTitle: '' });
+      self.setState({
+        album: {},
+        albumSlug: '',
+        albumDetailTitle: '',
+        selectionAlbumObject: {}
+      });
     }
   }
 
@@ -65,7 +71,8 @@ export default class AfterLoginLayout extends Component {
       this.setState({
         album: data.data.album,
         albumSlug: albumSlug,
-        albumDetailTitle: data.data.album.album_name
+        albumDetailTitle: data.data.album.album_name,
+        selectionAlbumObject: data.data.album.album_recipients
       });
     } else {
       console.log(data);
@@ -78,10 +85,17 @@ export default class AfterLoginLayout extends Component {
   }
 
   render() {
-    const { album, title, condition, albumDetailTitle } = this.state;
+    const {
+      album,
+      title,
+      condition,
+      albumDetailTitle,
+      selectionAlbumObject
+    } = this.state;
     const childrenWithProps = React.Children.map(this.props.children, child =>
       React.cloneElement(child, {
-        album: album
+        album: album,
+        selectionAlbumObject: selectionAlbumObject
       })
     );
 

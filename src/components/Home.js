@@ -57,7 +57,12 @@ class Home extends Component {
                       className="homepage-loader"
                     />
                   </div> */}
-                  <div className="slider-img" style={{backgroundImage: "url(" + photo.homepage_image +")"}} />
+                  <div
+                    className="slider-img"
+                    style={{
+                      backgroundImage: 'url(' + photo.homepage_image + ')'
+                    }}
+                  />
                   {/* <img
                     src={photo.homepage_image}
                     alt={photo.homepage_image_file_name}

@@ -10,10 +10,7 @@ import LightBoxModule from '../common/LightBoxModule';
 import CommentPopup from './CommentPopup';
 
 // Import services
-import {
-  AlbumService,
-  PhotoService
-} from '../../services/Index';
+import { AlbumService, PhotoService } from '../../services/Index';
 
 // Import helper
 import { getIndexUsingLodash } from '../Helper';
@@ -93,14 +90,28 @@ export default class AlbumDetails extends Component {
         confirmAction: () => this.setState({ alert: { show: false } })
       };
     } else {
-      alert = {
-        show: true,
-        title: 'Are you sure you want to send photos to Sagar?',
-        btnText: 'Yes, submit it!',
-        type: 'warning',
-        confirmAction: () => this.handleSubmitPhotos(),
-        cancelBtn: true
-      };
+      if (
+        this.state.album.selected_photo_count <
+        this.state.album.album_recipients[0].minimum_photo_selection
+      ) {
+        console.log('please select minimum photo');
+        alert = {
+          show: true,
+          title: 'Ooops',
+          text: 'Please select minimum photos',
+          type: 'warning',
+          confirmAction: () => this.setState({ alert: { show: false } })
+        };
+      } else {
+        alert = {
+          show: true,
+          title: 'Are you sure you want to send photos to Sagar?',
+          btnText: 'Yes, submit it!',
+          type: 'warning',
+          confirmAction: () => this.handleSubmitPhotos(),
+          cancelBtn: true
+        };
+      }
     }
     this.setState({
       alert: alert
@@ -212,21 +223,21 @@ export default class AlbumDetails extends Component {
     this.setState({ photo: photo });
   };
 
-//   getComment(photo) {
-//     var self = this;
-//     if (photo.comment_id) {
-//       CommentService.showComment(photo.id, photo.comment_id).then(function(
-//         response
-//       ) {
-//         if (response.status === 200) {
-//           self.setState({
-//             showComment: true,
-//             comment: response.data.data.comment
-//           });
-//         }
-//       });
-//     }
-//   }
+  //   getComment(photo) {
+  //     var self = this;
+  //     if (photo.comment_id) {
+  //       CommentService.showComment(photo.id, photo.comment_id).then(function(
+  //         response
+  //       ) {
+  //         if (response.status === 200) {
+  //           self.setState({
+  //             showComment: true,
+  //             comment: response.data.data.comment
+  //           });
+  //         }
+  //       });
+  //     }
+  //   }
   selectAll(event) {
     if (event.target.checked) {
       this.checkboxCheckUncheck(true);
@@ -280,12 +291,15 @@ export default class AlbumDetails extends Component {
         )}
         <Grid>
           <Col xs={12} className="p-none">
-            <Col className="photo-count-detail left-15">
-              {album.selected_photo_count +
-                '/' +
-                album.photo_count +
-                ' photos selected'}
-            </Col>
+            {album.album_recipients &&
+            album.album_recipients.length > 0 && (
+              <Col className="photo-count-detail left-15">
+                {album.selected_photo_count +
+                  '/' +
+                  album.photo_count +
+                  ' photos selected'}
+              </Col>
+            )}
             <Col className="photo-count-detail">
               Total Photos: {album.photo_count}
             </Col>
@@ -328,7 +342,8 @@ export default class AlbumDetails extends Component {
                               />
                             </a>
                           </Col>
-                          {album.delivery_status !== 'Submitted' ? (
+                          {album.delivery_status !== 'Submitted' &&
+                          album.album_recipients.length > 0 ? (
                             <div>
                               <Checkbox
                                 name="photo-checkbox"
@@ -348,32 +363,35 @@ export default class AlbumDetails extends Component {
                                   <div className="inside" />
                                 </div>
                               </Checkbox>
-                              <span className="photo-count custom-comment-wrapper">
-                                <a
-                                  className={
-                                    photo.comment_id ? (
-                                      'comment-disabled'
-                                    ) : (
-                                      'add-comment'
-                                    )
-                                  }
-                                  title={photo.comment_id ? '' : 'Add comment'}
-                                  onClick={() =>
-                                    this.setState({
-                                      createComment: photo.comment_id
-                                        ? false
-                                        : true,
-                                      photo: photo
-                                    })}
-                                >
-                                  <img
-                                    src={require('../../assets/images/admin/album/testimonial-icon.png')}
-                                    className="link-icons custom-add-comment-icon"
-                                    alt=""
-                                  />
-                                </a>
+                              {album.album_recipients[0].allow_comments && (
+                                <span className="photo-count custom-comment-wrapper">
+                                  <a
+                                    className={
+                                      photo.comment_id ? (
+                                        'comment-disabled'
+                                      ) : (
+                                        'add-comment'
+                                      )
+                                    }
+                                    title={
+                                      photo.comment_id ? '' : 'Add comment'
+                                    }
+                                    onClick={() =>
+                                      this.setState({
+                                        createComment: photo.comment_id
+                                          ? false
+                                          : true,
+                                        photo: photo
+                                      })}
+                                  >
+                                    <img
+                                      src={require('../../assets/images/admin/album/testimonial-icon.png')}
+                                      className="link-icons custom-add-comment-icon"
+                                      alt=""
+                                    />
+                                  </a>
 
-                                {/* <a
+                                  {/* <a
                                   className={
                                     photo.comment_id ? (
                                       'add-comment'
@@ -390,7 +408,8 @@ export default class AlbumDetails extends Component {
                                     alt=""
                                   />
                                 </a> */}
-                              </span>
+                                </span>
+                              )}
                             </div>
                           ) : (
                             <div
@@ -414,7 +433,9 @@ export default class AlbumDetails extends Component {
                   )}
                 </Col>
                 <Col>
-                  {album.delivery_status !== 'Submitted' && (
+                  {album.delivery_status !== 'Submitted' &&
+                  album.album_recipients &&
+                  album.album_recipients.length > 0 && (
                     <Col sm={6} xs={12} className="custom-submit-photos-wrap">
                       <Col className="footer-photo-selection-count">
                         {album.selected_photo_count +
