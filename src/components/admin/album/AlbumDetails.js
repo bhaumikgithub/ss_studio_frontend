@@ -762,16 +762,22 @@ export default class AlbumDetails extends Component {
                       </div>
                       <div className="already-shared-with commented-photo-count-wrapper">
                         Comments:
-                        <Link
-                          to={{
-                            pathname: '/albums/' + albumSlug + '/comments',
-                            query: { commented_photos: true }
-                          }}
-                        >
+                        {album.commented_photo_count > 0 ? (
+                          <Link
+                            to={{
+                              pathname: '/albums/' + albumSlug + '/comments',
+                              query: { commented_photos: true }
+                            }}
+                          >
+                            <span className="share-count minimum-photo-selection-count">
+                              {album.commented_photo_count}
+                            </span>
+                          </Link>
+                        ) : (
                           <span className="share-count minimum-photo-selection-count">
                             {album.commented_photo_count}
                           </span>
-                        </Link>
+                        )}
                       </div>
                       {album.delivery_status === 'Submitted' && (
                         <Button

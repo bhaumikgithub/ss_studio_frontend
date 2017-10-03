@@ -31,7 +31,7 @@ export default class ShareAlbum extends Component {
         custom_message: '',
         emails: [],
         contact_options: [],
-        minimum_photo_selection: 0,
+        minimum_photo_selection: 1,
         allow_comments: false
       },
       emails_error: '',
@@ -82,7 +82,8 @@ export default class ShareAlbum extends Component {
         custom_message: custom_message || '',
         minimum_photo_selection: minimum_photo_selection || '',
         allow_comments: allow_comments || '',
-        contact_options: self.contactOptions(albumRecipients)
+        contact_options: self.contactOptions(albumRecipients),
+        email: emails || ''
       }
     });
   }
