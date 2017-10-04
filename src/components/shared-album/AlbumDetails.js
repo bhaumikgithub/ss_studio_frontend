@@ -61,7 +61,8 @@ export default class AlbumDetails extends Component {
 
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
-      per_page: paginationPerPage
+      per_page: paginationPerPage,
+      token: this.state.token
     })
       .then(function(response) {
         var data = response.data;
@@ -292,14 +293,14 @@ export default class AlbumDetails extends Component {
         <Grid>
           <Col xs={12} className="p-none">
             {album.album_recipients &&
-            album.album_recipients.length > 0 && (
-              <Col className="photo-count-detail left-15">
-                {album.selected_photo_count +
-                  '/' +
-                  album.photo_count +
-                  ' photos selected'}
-              </Col>
-            )}
+              album.album_recipients.length > 0 && (
+                <Col className="photo-count-detail left-15">
+                  {album.selected_photo_count +
+                    '/' +
+                    album.photo_count +
+                    ' photos selected'}
+                </Col>
+              )}
             <Col className="photo-count-detail">
               Total Photos: {album.photo_count}
             </Col>
@@ -343,7 +344,8 @@ export default class AlbumDetails extends Component {
                             </a>
                           </Col>
                           {album.delivery_status !== 'Submitted' &&
-                          album.album_recipients.length > 0 ? (
+                          album.album_recipients.length > 0 &&
+                          album.is_viewable ? (
                             <div>
                               <Checkbox
                                 name="photo-checkbox"
@@ -352,11 +354,9 @@ export default class AlbumDetails extends Component {
                                   this.selectPhoto(index, photo.id)}
                                 checked={photo.is_selected}
                                 className={
-                                  photo.is_selected ? (
-                                    'pic-selection-check photo-selection-checkbox'
-                                  ) : (
-                                    'pic-selection-check photo-selection-checkbox custom-pic-selection'
-                                  )
+                                  photo.is_selected
+                                    ? 'pic-selection-check photo-selection-checkbox'
+                                    : 'pic-selection-check photo-selection-checkbox custom-pic-selection'
                                 }
                               >
                                 <div className="check">
@@ -367,11 +367,9 @@ export default class AlbumDetails extends Component {
                                 <span className="photo-count custom-comment-wrapper">
                                   <a
                                     className={
-                                      photo.comment_id ? (
-                                        'comment-disabled'
-                                      ) : (
-                                        'add-comment'
-                                      )
+                                      photo.comment_id
+                                        ? 'comment-disabled'
+                                        : 'add-comment'
                                     }
                                     title={
                                       photo.comment_id ? '' : 'Add comment'
@@ -422,52 +420,51 @@ export default class AlbumDetails extends Component {
                       ))}
                   </ReactCSSTransitionGroup>
                   {isOpenLightbox &&
-                  photos && (
-                    <LightBoxModule
-                      isOpenLightbox={isOpenLightbox}
-                      photos={photos}
-                      photoIndex={photoIndex}
-                      album={album}
-                      closeLightBox={this.closeLightBox}
-                    />
-                  )}
+                    photos && (
+                      <LightBoxModule
+                        isOpenLightbox={isOpenLightbox}
+                        photos={photos}
+                        photoIndex={photoIndex}
+                        album={album}
+                        closeLightBox={this.closeLightBox}
+                      />
+                    )}
                 </Col>
                 <Col>
                   {album.delivery_status !== 'Submitted' &&
-                  album.album_recipients &&
-                  album.album_recipients.length > 0 && (
-                    <Col sm={6} xs={12} className="custom-submit-photos-wrap">
-                      <Col className="footer-photo-selection-count">
-                        {album.selected_photo_count +
-                          '/' +
-                          album.photo_count +
-                          ' photos selected'}
+                    album.is_viewable &&
+                    album.album_recipients &&
+                    album.album_recipients.length > 0 && (
+                      <Col sm={6} xs={12} className="custom-submit-photos-wrap">
+                        <Col className="footer-photo-selection-count">
+                          {album.selected_photo_count +
+                            '/' +
+                            album.photo_count +
+                            ' photos selected'}
+                        </Col>
+                        <Button
+                          className="btn-orange contact-submit-btn text-center btn btn-default submit-photos-btn"
+                          onClick={() => this.showDialogueBox()}
+                        >
+                          Submit photos
+                        </Button>
+                        <Checkbox
+                          className="all-selection-check shared-album-select-all"
+                          onChange={event => this.selectAll(event)}
+                          checked={
+                            album.selected_photo_count === album.photo_count
+                              ? true
+                              : false
+                          }
+                        >
+                          {' '}
+                          Select All
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
                       </Col>
-                      <Button
-                        className="btn-orange contact-submit-btn text-center btn btn-default submit-photos-btn"
-                        onClick={() => this.showDialogueBox()}
-                      >
-                        Submit photos
-                      </Button>
-                      <Checkbox
-                        className="all-selection-check shared-album-select-all"
-                        onChange={event => this.selectAll(event)}
-                        checked={
-                          album.selected_photo_count === album.photo_count ? (
-                            true
-                          ) : (
-                            false
-                          )
-                        }
-                      >
-                        {' '}
-                        Select All
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </Col>
-                  )}
+                    )}
                   <Col sm={6} xs={12} className="p-none pull-right">
                     <PaginationModule
                       pagination={album.photo_pagination}
