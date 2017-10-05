@@ -49,6 +49,7 @@ export default class AlbumDetails extends Component {
   componentWillMount() {
     const { search, state } = this.props.location;
     const params = new URLSearchParams(search);
+    // const newToken = search.split('=')[1];
     this.setState({ passcodeLoginState: state });
     if (params.get('token') !== this.state.token) {
       this.setState({ token: params.get('token') });
@@ -63,6 +64,7 @@ export default class AlbumDetails extends Component {
       page: page,
       per_page: paginationPerPage,
       token: this.state.token
+      // token: token
     })
       .then(function(response) {
         var data = response.data;
@@ -95,7 +97,6 @@ export default class AlbumDetails extends Component {
         this.state.album.selected_photo_count <
         this.state.album.album_recipients[0].minimum_photo_selection
       ) {
-        console.log('please select minimum photo');
         alert = {
           show: true,
           title: 'Ooops',
@@ -343,7 +344,7 @@ export default class AlbumDetails extends Component {
                               />
                             </a>
                           </Col>
-                          {album.delivery_status !== 'Submitted' &&
+                          {album.delivery_status === 'Shared' &&
                           album.album_recipients.length > 0 &&
                           album.is_viewable ? (
                             <div>
@@ -431,7 +432,7 @@ export default class AlbumDetails extends Component {
                     )}
                 </Col>
                 <Col>
-                  {album.delivery_status !== 'Submitted' &&
+                  {album.delivery_status === 'Shared' &&
                     album.is_viewable &&
                     album.album_recipients &&
                     album.album_recipients.length > 0 && (

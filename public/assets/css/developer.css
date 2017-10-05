@@ -485,6 +485,9 @@ div.filepicker {
 .photo-selection-count-with-progress {
   cursor: text;
 }
+.stoped-selection-album:hover {
+  color: #f9a11d;
+}
 .album-image-wrap.selected-photo-name-wrapper:after {
   position: absolute;
   bottom: 0;
