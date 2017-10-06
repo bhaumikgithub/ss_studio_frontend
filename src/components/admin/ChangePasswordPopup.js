@@ -7,7 +7,7 @@ import {
   FormGroup,
   FormControl
 } from 'react-bootstrap';
-import createTitle from '../../assets/images/admin/album/create-album/add-album-icon.png';
+import createTitle from '../../assets/images/admin/album/change-password-title.png';
 import 'react-select/dist/react-select.min.css';
 
 // Import components
@@ -88,7 +88,6 @@ export default class ChangePasswordPopup extends Component {
     return (
       <Modal
         show={this.props.showChangePasswordPopup}
-        bsSize="large"
         className="create-new-album-modal"
         aria-labelledby="contained-modal-title-lg"
       >

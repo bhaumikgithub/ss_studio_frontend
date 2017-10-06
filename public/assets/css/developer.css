@@ -87,12 +87,17 @@
 .custom-pagination li.active a:active {
   background: #fff;
   color: #f9a11d !important;
+  outline: none !important;
 }
 .custom-pagination li:first-child a {
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
   font-size: 14px !important;
   padding: 0 5px 0 15px !important;
+}
+.custom-pagination li:first-child a:hover,
+.custom-pagination li:first-child a:focus{
+  outline: none !important;
 }
 .custom-pagination li:last-child a {
   border-top-right-radius: 2em;
@@ -124,20 +129,13 @@
 /* Album show page custom css end */
 
 /* Portfolio album page custom css start */
-.back-link {
-  position: absolute;
-  left: 15px;
-  top: 70px;
-  z-index: 1;
-  color: #555;
-  text-decoration: underline;
-}
-.back-link .fa {
-  margin-right: 5px;
-}
-.portfolio-album-thub-wrap {
+
+.portfolio-thumbs-wrap {
   margin-top: 30px;
 }
+/* .portfolio-album-thub-wrap {
+  margin-top: 30px;
+} */
 .portfolio-album-thub-wrap .overlay {
   cursor: zoom-in !important;
 }
@@ -355,8 +353,8 @@ div.filepicker {
 .fb_btn {
   position: fixed;
   right: 0px;
-  top: 300px;
-  z-index: 9999999;
+  top: calc(50% - 100px);
+  z-index: 0;
 }
 .facebook-img {
   height: 100px;
@@ -364,15 +362,7 @@ div.filepicker {
 }
 
 /* start photo count in portfolio album detail */
-.photo-count-detail {
-  font-size: 16px;
-  position: absolute;
-  right: 15px;
-  top: 70px;
-  z-index: 1;
-  color: #666;
-  font-weight: bold;
-}
+
 
 .portfolio-main-title {
   margin-bottom: 0 !important;
@@ -381,10 +371,10 @@ div.filepicker {
 
 /* admin testimonial page css start */
 .edit-testimonial-btn {
-  right: 99px !important;
+  right: 70px !important;
 }
 .testimonial-delete-icon {
-  right: 48px !important;
+  right: 20px !important;
 }
 /* admin testimonial page css end */
 
@@ -462,12 +452,16 @@ div.filepicker {
   margin: 0;
   z-index: 1;
   cursor: pointer;
+  background: #f9a11d;
+  border-radius: 50%;  
+  height: 26px;
+  width: 26px;
 }
 .admin-custom-view-comment-icon {
-  background: #f9a11d;
   text-align: center;
-  border-radius: 50%;
-  padding: 2px;
+  padding: 4px;
+  color: #fff;
+  font-size: 16px;
 }
 .selection-album-link:hover {
   cursor: pointer;
@@ -511,7 +505,7 @@ div.filepicker {
 
 /* admin header page css start */
 .navbar-fixed-top {
-  z-index: 1;
+  z-index: 11;
 }
 /* admin header page css end */
 
@@ -528,14 +522,13 @@ div.filepicker {
   font-size: 15px;
   font-family: 'ralewaymedium';
   color: #666 !important;
-  line-height: 41px;
+  line-height: 34px;
   float: left;
   margin-left: 10px;
 }
 .edit-album-detail {
   color: #666;
-  float: right;
-  padding: 10px 20px;
+  padding: 10px 15px;
   font-family: 'ralewaymedium';
   border-color: transparent;
 }
@@ -553,23 +546,32 @@ div.filepicker {
 
 /* start pulic view album in Album Listing Page */
 .view-album-listing {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 75px;
+  right: 85px;
   position: absolute;
   top: 8px;
 }
-
+.view-album-listing:hover,
+.view-album-listing:focus{
+  color: #666;
+  outline: none !important;  
+}
 .add-photos-album-listing {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 195px;
+  right: 200px;
   position: absolute;
   top: 8px;
+}
+.add-photos-album-listing:hover,
+.add-photos-album-listing:focus{
+  color: #666;
+  outline: none !important;  
 }
 .add-photos-album-listing img {
   background: #999;
@@ -590,6 +592,9 @@ div.filepicker {
 .sortBy-records {
   margin-right: 15px;
   margin-left: 20px;
+}
+.sortBy-records a{
+  color: #545454;
 }
 .total-records {
   font-size: 16px;

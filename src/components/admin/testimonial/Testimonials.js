@@ -241,11 +241,7 @@ export default class Testmonials extends Component {
             className="btn btn-orange pull-right add-testimonial-btn"
             onClick={() => this.setState({ CreateShow: true })}
           >
-            <i className="add-testmonial-icon">
-              <img
-                src={require('../../../assets/images/admin/album/add-icon.png')}
-                alt=""
-              />
+            <i className="fa fa-plus add-testmonial-icon">
             </i>Add New
           </Button>
         </Col>
