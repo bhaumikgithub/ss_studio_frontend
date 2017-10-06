@@ -277,6 +277,9 @@
 .custom-pic-selection label {
   background: #c8c8c8 !important;
 }
+.share-album-title-details {
+  top: calc(100% - 256px) !important;
+}
 /* Share album page css end */
 
 /* Error page css start */
@@ -460,6 +463,41 @@ div.filepicker {
   color: #fff;
   font-size: 16px;
 }
+.selection-album-link:hover {
+  cursor: pointer;
+  color: #f9a11d;
+}
+.commented-photo-count-wrapper {
+  clear: left;
+}
+.album-deliverd-btn {
+  margin-top: 10px;
+}
+.selected-photo-wrap {
+  margin-bottom: 30px;
+}
+.photo-selection-count-with-progress {
+  cursor: text;
+}
+.album-image-wrap.selected-photo-name-wrapper:after {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  background: rgba(249, 161, 29, 0.9);
+  color: #fff;
+  height: 30px;
+  width: calc(100% - 30px);
+  font-size: 14px;
+  line-height: 30px;
+  text-align: center;
+  font-family: 'ralewaysemibold';
+  letter-spacing: 1px;
+  z-index: 2;
+}
+.album-image-wrap.selected-photo-name-wrapper .set-cover-pic {
+  opacity: 1;
+  left: 0;
+}
 /* album detail page css end */
 
 /* admin header page css start */
@@ -591,7 +629,7 @@ div.filepicker {
   z-index: 1;
 }
 .add-comment-title-wrap {
-  background: url('../../assets/images/admin/testimonial/sidebar.png');
+  background: url('../images/admin/testimonial/sidebar.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
