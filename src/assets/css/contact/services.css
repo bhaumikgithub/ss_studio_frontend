@@ -40,7 +40,8 @@
 }
 .service-description p{
     text-overflow: ellipsis;
-    height: 95px;
+    height: 100px;
+    margin-bottom: 0;
     /* Required for text-overflow to do anything */
     overflow: hidden;
 }

@@ -25,11 +25,17 @@
   box-shadow: none;
 }
 .add-testmonial-icon {
-  position: relative;
+  height: 18px;
+  width: 18px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #fff;
   line-height: 16px;
+  font-size: 10px;
+  margin-right: 5px;
+  margin-top: 1px;
   float: left;
-  height: 15px;
-  width: 15px;
+
 }
 .testimonial-list-wrap {
   margin-bottom: 30px;

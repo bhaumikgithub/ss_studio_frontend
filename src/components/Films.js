@@ -44,7 +44,8 @@ export default class Films extends Component {
           <Col xs={12} className="p-none">
             {videos.map((video, index) => (
               <Col
-                xs={index === 0 ? 12 : 6}
+                sm={index === 0 ? 12 : 6}
+                xs={12}                
                 className="video-wrap"
                 key={video.id}
               >

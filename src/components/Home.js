@@ -37,7 +37,7 @@ class Home extends Component {
     const photos = this.state.photos;
     return (
       <Grid fluid={true} className="home-slider">
-        <Row className="row">
+        <Row>
           <Col xs={12} className="p-none">
             <Carousel
               id="carousel-example-generic"

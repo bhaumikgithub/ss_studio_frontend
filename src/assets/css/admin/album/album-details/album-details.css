@@ -47,7 +47,7 @@
 .delete-selected {
   font-family: 'ralewaymedium';
   color: #555;
-  line-height: 26px;
+  line-height: 22px;
   float: left;
 }
 .delete-selected img {
@@ -61,10 +61,11 @@
 }
 .add-photoes-btn {
   float: right;
-  padding: 10px 20px;
+  padding: 6px 15px;
   font-family: 'ralewaysemibold';
   text-transform: uppercase;
   font-size: 14px;
+  margin-top: 5px;
 }
 .add-photoes-btn:hover,
 .add-photoes-btn:focus {
@@ -72,6 +73,9 @@
   color: #fff;
   outline: none !important;
   box-shadow: none;
+}
+.detail-btn-wrap{
+  float: right;
 }
 .add-photoes-btn img {
   margin-top: -5px;
@@ -322,23 +326,26 @@
     -o-transition: all 500ms ease-out;
     transition: all 500ms ease-out;
     border: 1px solid #ccc;
+    z-index: 11;
   }
   .album-details-page-wrap.open-detail .album-info-wrap {
     right: 0px;
   }
+  
 }
 @media only screen and (max-width: 991px) {
   .album-image-wrap .check {
-    top: 6px;
-    left: 6px;
+    top: 8px;
+    left: 8px;
   }
+ 
 }
 @media only screen and (max-width: 767px) {
   .add-photoes-btn {
     font-size: 12px;
-    padding: 8px 16px;
+    padding: 8px 8px;
     margin-top: 5px;
-    line-height: 14px;
+    line-height: 16px;
   }
   .add-photoes-btn img {
     margin-top: -3px;
@@ -363,7 +370,7 @@
   .add-photoes-btn {
     width: 100%;
     margin-bottom: 15px;
-    max-width: 145px;
+    max-width: 125px;
     float: left;
   }
   .album-image-wrap {
