@@ -10,6 +10,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   function(error) {
+    reactNprogress.start();
     return Promise.reject(error);
   }
 );
@@ -21,6 +22,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   function(error) {
+    reactNprogress.done();
     return Promise.reject(error);
   }
 );
