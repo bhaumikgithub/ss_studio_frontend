@@ -361,7 +361,7 @@ div.filepicker {
   position: fixed;
   right: 0px;
   top: 300px;
-  z-index: 9999999;
+  z-index: 0;
 }
 .facebook-img {
   height: 100px;

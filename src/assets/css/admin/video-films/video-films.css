@@ -281,11 +281,20 @@
     font-size: 13px;
   }
 }
-@media only screen and (max-width: 479px) {
+@media only screen and (max-width: 480px) {
   .video-film-wrap {
     padding: 15px;
   }
-  .video-count-wrap,
-  .video-status-wrap {
-  }
+  .add-video-btn {
+    padding: 3px 10px;
+    float: left !important;
+    width: 100%;
+    max-width: 135px;
+    height: 30px;
+  }  
 }
+@media only screen and (max-width: 360px) {
+  .video-films-page-wrap{
+    padding: 0;
+  }
+}  

@@ -447,34 +447,33 @@ export default class AlbumDetails extends Component {
                   View Album
                 </Link>
               </div>
-
-              <Button
-                className="add-photoes-btn btn btn-orange"
-                onClick={event => {
-                  this.setState({ addPhoto: true });
-                  this.checkboxCheckUncheck(false);
-                }}
-              >
-                <img
-                  src={require('../../../assets/images/admin/album/album-details/add-icon.png')}
-                  alt=""
-                />{' '}
-                Add photos
-              </Button>
-              <Button
-                className="edit-album-detail"
-                onClick={() =>
-                  this.setState({
-                    showCreatePopup: true,
-                    editObject: album
-                  })}
-              >
-                <img
-                  src={require('../../../assets/images/admin/category/edit-icon.png')}
-                  alt=""
-                />{' '}
-                Edit Album
-              </Button>
+              <div className="detail-btn-wrap">
+                <Button
+                  className="edit-album-detail"
+                  onClick={() =>
+                    this.setState({
+                      showCreatePopup: true,
+                      editObject: album
+                    })}>
+                  <img
+                    src={require('../../../assets/images/admin/category/edit-icon.png')}
+                    alt=""
+                  />{' '}
+                  Edit Album
+                </Button>
+                <Button
+                  className="add-photoes-btn btn btn-orange"
+                  onClick={event => {
+                    this.setState({ addPhoto: true });
+                    this.checkboxCheckUncheck(false);
+                  }}>
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/add-icon.png')}
+                    alt=""
+                  />{' '}
+                  Add photos
+                </Button>
+              </div>
             </Col>
             <Col
               xs={12}
@@ -582,11 +581,12 @@ export default class AlbumDetails extends Component {
                             title="View comment"
                             onClick={() => this.getComment(photo)}
                           >
-                            <img
+                            {/* <img
                               src={require('../../../assets/images/admin/album/white-eye.png')}
-                              className="link-icons admin-custom-view-comment-icon"
+                              
                               alt=""
-                            />
+                            /> */}
+                            <i className="fa fa-eye link-icons admin-custom-view-comment-icon"/>
                           </a>
                         )}
                       </Col>

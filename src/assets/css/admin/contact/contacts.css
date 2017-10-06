@@ -186,4 +186,10 @@
   .contact-list:last-child {
     margin-bottom: 35px;
   }
+  .add-new-btn{
+    padding: 3px 10px;
+    max-width: 152px;
+    width: 100%;
+    float: left !important;
+  }
 }
