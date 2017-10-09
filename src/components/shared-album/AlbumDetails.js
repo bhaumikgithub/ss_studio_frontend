@@ -47,23 +47,24 @@ export default class AlbumDetails extends Component {
   }
 
   componentWillMount() {
-    const { search, state } = this.props.location;
+    var self = this;
+    const { search, state } = self.props.location;
     const params = new URLSearchParams(search);
     // const newToken = search.split('=')[1];
-    this.setState({ passcodeLoginState: state });
-    if (params.get('token') !== this.state.token) {
-      this.setState({ token: params.get('token') });
+    self.setState({ passcodeLoginState: state });
+    const token = params.get('token');
+    if (token !== self.state.token) {
+      self.setState({ token: token });
     }
-    this.showAlbum();
+    self.showAlbum(token);
   }
 
-  showAlbum(page = 1) {
+  showAlbum(token, page = 1) {
     var self = this;
-
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage,
-      token: this.state.token
+      token: token
       // token: token
     })
       .then(function(response) {
@@ -100,7 +101,10 @@ export default class AlbumDetails extends Component {
         alert = {
           show: true,
           title: 'Ooops',
-          text: 'Please select minimum photos',
+          text:
+            'Please select minimum ' +
+            this.state.album.album_recipients[0].minimum_photo_selection +
+            ' photos',
           type: 'warning',
           confirmAction: () => this.setState({ alert: { show: false } })
         };
@@ -296,15 +300,14 @@ export default class AlbumDetails extends Component {
             <label>{album.album_name}</label>
           </PageHeader>
           <Col xs={12} className="p-none">
-            {album.album_recipients &&
-              album.album_recipients.length > 0 && (
-                <Col xs={6} className="photo-count-detail selected-photo-count">
-                  {album.selected_photo_count +
-                    '/' +
-                    album.photo_count +
-                    ' photos selected'}
-                </Col>
-              )}
+            <Col xs={6} className="photo-count-detail selected-photo-count">
+              {album.album_recipients &&
+                album.album_recipients.length > 0 &&
+                album.selected_photo_count +
+                  '/' +
+                  album.photo_count +
+                  ' photos selected'}
+            </Col>
             <Col xs={6} className="photo-count-detail">
               Total Photos: {album.photo_count}
             </Col>

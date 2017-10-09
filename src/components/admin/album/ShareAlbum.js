@@ -273,6 +273,7 @@ export default class ShareAlbum extends Component {
                       type="number"
                       name="minimum_photo_selection"
                       min="1"
+                      max={album.photo_count}
                       onChange={this.handleChange.bind(this)}
                     />
                   </FormGroup>
