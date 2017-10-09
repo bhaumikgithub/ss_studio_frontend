@@ -503,6 +503,9 @@ div.filepicker {
   opacity: 1;
   left: 0;
 }
+.text-lowercase {
+  text-transform: none;
+}
 /* album detail page css end */
 
 /* admin header page css start */
