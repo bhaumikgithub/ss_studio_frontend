@@ -965,7 +965,7 @@ export default class AlbumDetails extends Component {
                       (!isObjectEmpty(album.album_recipients) &&
                         album.album_recipients.length > 0) ? (
                         <Button
-                          className="btn btn-orange share-album-btn album-deliverd-btn"
+                          className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
                           onClick={event => this.showActionDialogueBox(event)}
                         >
                           Reset Selection
@@ -977,7 +977,7 @@ export default class AlbumDetails extends Component {
                       (!isObjectEmpty(album.album_recipients) &&
                         album.album_recipients.length > 0) ? (
                         <Button
-                          className="btn btn-orange share-album-btn album-deliverd-btn"
+                          className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
                           onClick={event => this.showActionDialogueBox(event)}
                         >
                           {album.delivery_status === 'Stoped_selection'
