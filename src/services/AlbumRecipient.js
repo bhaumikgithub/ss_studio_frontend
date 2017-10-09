@@ -71,3 +71,14 @@ export function getAdminAlbumRecipients(albumId) {
   );
   return checkStatus(responsePromise);
 }
+
+export function resetAdminRecipients(albumId) {
+  const responsePromise = axiosInstance.delete(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumId +
+      '/album_recipients/reset_admin_recipients',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}

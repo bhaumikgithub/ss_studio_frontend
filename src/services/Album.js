@@ -104,3 +104,27 @@ export function markAsDelivered(albumSlug) {
   );
   return checkStatus(responsePromise);
 }
+
+export function markAsStopedSelection(albumSlug) {
+  const responsePromise = axiosInstance.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_stoped_selection',
+    {},
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function markAsShared(albumSlug) {
+  const responsePromise = axiosInstance.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_shared',
+    {},
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
