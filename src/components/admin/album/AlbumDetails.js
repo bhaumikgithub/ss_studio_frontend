@@ -462,7 +462,7 @@ export default class AlbumDetails extends Component {
 
   resetPhotoSelection() {
     var self = this;
-    AlbumRecipientService.deleteAdminAlbumRecipients(self.state.album.id)
+    AlbumRecipientService.resetAdminRecipients(self.state.album.id)
       .then(function(response) {
         if (response.status === 200) {
           const newAlbum = Object.assign({}, self.state.album);
@@ -648,7 +648,8 @@ export default class AlbumDetails extends Component {
                     this.setState({
                       showCreatePopup: true,
                       editObject: album
-                    })}>
+                    })}
+                >
                   <img
                     src={require('../../../assets/images/admin/category/edit-icon.png')}
                     alt=""
@@ -660,7 +661,8 @@ export default class AlbumDetails extends Component {
                   onClick={event => {
                     this.setState({ addPhoto: true });
                     this.checkboxCheckUncheck(false);
-                  }}>
+                  }}
+                >
                   <img
                     src={require('../../../assets/images/admin/album/album-details/add-icon.png')}
                     alt=""
@@ -791,7 +793,7 @@ export default class AlbumDetails extends Component {
                               
                               alt=""
                             /> */}
-                            <i className="fa fa-eye link-icons admin-custom-view-comment-icon"/>
+                            <i className="fa fa-eye link-icons admin-custom-view-comment-icon" />
                           </a>
                         )}
                       </Col>

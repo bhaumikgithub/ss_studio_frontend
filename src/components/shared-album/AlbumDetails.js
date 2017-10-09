@@ -292,22 +292,22 @@ export default class AlbumDetails extends Component {
           />
         )}
         <Grid>
+          <PageHeader className="page-title page-main-title text-center portfolio-main-title">
+            <label>{album.album_name}</label>
+          </PageHeader>
           <Col xs={12} className="p-none">
             {album.album_recipients &&
               album.album_recipients.length > 0 && (
-                <Col className="photo-count-detail left-15">
+                <Col xs={6} className="photo-count-detail selected-photo-count">
                   {album.selected_photo_count +
                     '/' +
                     album.photo_count +
                     ' photos selected'}
                 </Col>
               )}
-            <Col className="photo-count-detail">
+            <Col xs={6} className="photo-count-detail">
               Total Photos: {album.photo_count}
             </Col>
-            <PageHeader className="page-title page-main-title text-center portfolio-main-title">
-              <label>{album.album_name}</label>
-            </PageHeader>
           </Col>
           <Col xs={12} className="p-none">
             <Row className="clearfix">
@@ -346,7 +346,7 @@ export default class AlbumDetails extends Component {
                           </Col>
                           {album.delivery_status === 'Shared' &&
                           album.album_recipients.length > 0 &&
-                          album.is_viewable ? (
+                          album.can_moderate_album ? (
                             <div>
                               <Checkbox
                                 name="photo-checkbox"
@@ -433,7 +433,7 @@ export default class AlbumDetails extends Component {
                 </Col>
                 <Col>
                   {album.delivery_status === 'Shared' &&
-                    album.is_viewable &&
+                    album.can_moderate_album &&
                     album.album_recipients &&
                     album.album_recipients.length > 0 && (
                       <Col sm={6} xs={12} className="custom-submit-photos-wrap">
