@@ -264,11 +264,7 @@ export default class VideoFilms extends Component {
               className="btn btn-orange pull-right add-video-btn"
               onClick={() => this.setState({ showPopup: true })}
             >
-              <i className="add-video-icon">
-                <img
-                  src={require('../../../assets/images/admin/album/add-icon.png')}
-                  alt=""
-                />
+              <i className="fa fa-plus add-video-icon">
               </i>Add New
             </Button>
           </Col>
@@ -321,6 +317,8 @@ export default class VideoFilms extends Component {
                             editObject: video
                           })}
                       >
+                       {/* <i className="fa fa-pencil-square-o" aria-hidden="true"></i> */}
+
                         <img
                           src={require('../../../assets/images/admin/album/edit-icon.png')}
                           alt=""

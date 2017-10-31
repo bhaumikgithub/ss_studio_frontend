@@ -103,11 +103,7 @@ export default class HomePageGallery extends Component {
                       className="edit-slide"
                       onClick={event => this.handleImageChange(event, index)}
                     >
-                      <img
-                        className="img-responsive"
-                        alt=""
-                        src={require('../../../assets/images/admin/homepage_gallery/img-edit-icon.png')}
-                      />
+                    <i className="fa fa-pencil-square-o" aria-hidden="true"></i>
                       <input
                         type="file"
                         ref={'editHomeImage' + index}

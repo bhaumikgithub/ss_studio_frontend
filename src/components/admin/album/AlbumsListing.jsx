@@ -25,6 +25,7 @@ export default class AlbumsListing extends Component {
       editObject: {},
       shareAlbumObject: {},
       shareAlbumAction: {},
+      selectionAlbumObject: {},
       showCreatePopup: false,
       shareAlbum: false,
       sortingOrder: 'desc',
@@ -222,6 +223,7 @@ export default class AlbumsListing extends Component {
             shareAlbumObject={this.state.shareAlbumObject}
             renderShareAlbum={this.renderShareAlbum}
             shareAlbumAction={this.state.shareAlbumAction}
+            selectionAlbumObject={this.state.selectionAlbumObject}
           />
         )}
         <Col xs={12} className="filter-wrap p-none">
@@ -328,10 +330,7 @@ export default class AlbumsListing extends Component {
                         }}
                         className="add-photos-album-listing"
                       >
-                        <img
-                          src={require('../../../assets/images/admin/album/add-icon.png')}
-                          alt=""
-                        />{' '}
+                      <i className="fa fa-plus-circle" aria-hidden="true" />{' '}
                         Add Photos
                       </Link>
 

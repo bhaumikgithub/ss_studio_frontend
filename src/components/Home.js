@@ -5,9 +5,6 @@ import { NavLink } from 'react-router-dom';
 // Import services
 import { HomePageGalleryService } from '../services/Index';
 
-// Import helper
-import { setLoader } from './Helper';
-
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -26,18 +23,11 @@ class Home extends Component {
     });
   }
 
-  handleImageLoaded(index) {
-    setLoader({
-      elementId: 'image-loader-' + index,
-      styleProperty: 'block'
-    });
-  }
-
   render() {
-    const photos = this.state.photos;
+    const { photos } = this.state;
     return (
       <Grid fluid={true} className="home-slider">
-        <Row className="row">
+        <Row>
           <Col xs={12} className="p-none">
             <Carousel
               id="carousel-example-generic"
@@ -46,23 +36,12 @@ class Home extends Component {
             >
               {photos.map((photo, index) => (
                 <Carousel.Item className="full-screen" key={photo.id}>
-                  <Col className="overlay" />
-                  {/* <div
-                    className="loader-overlay image-loader-overlay"
-                    id={'image-loader-' + index}
-                  >
-                    <img
-                      src={require('../assets/images/loader.gif')}
-                      alt="loading"
-                      className="homepage-loader"
-                    />
-                  </div> */}
-                  <div className="slider-img" style={{backgroundImage: "url(" + photo.homepage_image +")"}} />
-                  {/* <img
-                    src={photo.homepage_image}
-                    alt={photo.homepage_image_file_name}
-                    onLoad={() => this.handleImageLoaded(index)}
-                  /> */}
+                  <div
+                    className="slider-img"
+                    style={{
+                      backgroundImage: 'url(' + photo.homepage_image + ')'
+                    }}
+                  />
                   <Carousel.Caption className="custom-carousel-caption">
                     <p>
                       We Capture <span>Memories..</span>

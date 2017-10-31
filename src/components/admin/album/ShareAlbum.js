@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { Col, Button, Modal, FormGroup, FormControl } from 'react-bootstrap';
+import {
+  Col,
+  Button,
+  Modal,
+  FormGroup,
+  FormControl,
+  Checkbox
+} from 'react-bootstrap';
 import { Creatable } from 'react-select';
 
 // Import services
@@ -8,6 +15,9 @@ import { AlbumRecipientService } from '../../../services/Index';
 // Import css
 import '../../../assets/css/admin/album/share-album/share-album.css';
 import 'react-select/dist/react-select.min.css';
+
+// Import helper
+import { isObjectEmpty } from '../../Helper';
 
 export default class ShareAlbum extends Component {
   constructor(props) {
@@ -20,11 +30,14 @@ export default class ShareAlbum extends Component {
       shareAlbumForm: {
         custom_message: '',
         emails: [],
-        contact_options: []
+        contact_options: [],
+        minimum_photo_selection: 1,
+        allow_comments: false
       },
       emails_error: '',
       contacts: [],
-      albumId: this.props.albumId
+      albumId: this.props.albumId,
+      albumRecipientObject: this.props.selectionAlbumObject
     };
 
     return initialState;
@@ -36,7 +49,15 @@ export default class ShareAlbum extends Component {
 
   componentWillMount() {
     var self = this;
-    AlbumRecipientService.getNotInvitedContact(self.state.albumId)
+    const { albumRecipientObject, albumId } = self.state;
+    if (
+      !isObjectEmpty(albumRecipientObject) &&
+      albumRecipientObject.length > 0 &&
+      self.props.albumSelection
+    ) {
+      self.editSharedAlbum(albumRecipientObject);
+    }
+    AlbumRecipientService.getNotInvitedContact(albumId)
       .then(function(response) {
         var data = response.data;
         self.setState({ contacts: data.data.contacts });
@@ -46,12 +67,37 @@ export default class ShareAlbum extends Component {
       });
   }
 
-  contactOptions() {
+  editSharedAlbum(albumRecipients) {
+    var self = this;
+    const {
+      custom_message,
+      minimum_photo_selection,
+      allow_comments,
+      // contacts,
+      emails
+    } = albumRecipients[0];
+
+    self.setState({
+      shareAlbumForm: {
+        custom_message: custom_message || '',
+        minimum_photo_selection: minimum_photo_selection || '',
+        allow_comments: allow_comments || '',
+        contact_options: self.contactOptions(albumRecipients),
+        email: emails || ''
+      }
+    });
+  }
+  contactOptions(albumRecipients = this.state.contacts) {
     var options = [];
-    this.state.contacts.map(contact => {
+
+    albumRecipients.map(albumRecipient => {
       return options.push({
-        value: contact.email,
-        label: contact.email
+        value: albumRecipient.contact
+          ? albumRecipient.contact.email
+          : albumRecipient.email,
+        label: albumRecipient.contact
+          ? albumRecipient.contact.email
+          : albumRecipient.email
       });
     });
     return options;
@@ -60,7 +106,11 @@ export default class ShareAlbum extends Component {
   handleChange(e) {
     const shareAlbumForm = this.state.shareAlbumForm;
     var key = e.target.name;
-    shareAlbumForm[key] = e.target.value;
+    if (key === 'allow_comments') {
+      shareAlbumForm[key] = e.target.checked;
+    } else {
+      shareAlbumForm[key] = e.target.value;
+    }
     this.setState({
       shareAlbumForm
     });
@@ -78,16 +128,40 @@ export default class ShareAlbum extends Component {
 
   handleSubmit(e) {
     var self = this;
-    const shareAlbumForm = self.state.shareAlbumForm;
+    var { shareAlbumForm } = self.state;
+    var recipientTypeData = { recipient_type: 1 };
+    var AlbumRecipients = self.props.selectionAlbumObject;
+    var ids = [];
+
+    if (
+      shareAlbumForm.contact_options.length > 0 &&
+      shareAlbumForm.emails === undefined
+    ) {
+      this.handleMultiSelectChange(shareAlbumForm.contact_options);
+    }
+    if (shareAlbumForm.contact_options.length < 1) {
+      return self.setState({ emails_error: "Emails can't be blank." });
+    }
+    if (AlbumRecipients.length > 0) {
+      AlbumRecipients.map(albumRecipient => {
+        ids.push(albumRecipient.id);
+        return ids;
+      });
+    }
+    var albumRecipientIds = { ids: ids };
+    if (self.props.albumSelection) {
+      var obj = Object.assign(
+        {},
+        shareAlbumForm,
+        recipientTypeData,
+        albumRecipientIds
+      );
+      shareAlbumForm = obj;
+    }
     var createParams = {
       album_id: self.props.shareAlbumObject.id,
       album_recipient: shareAlbumForm
     };
-
-    if (shareAlbumForm.emails.length < 1) {
-      return self.setState({ emails_error: "Emails can't be blank." });
-    }
-
     AlbumRecipientService.createAlbumRecipient(createParams)
       .then(function(response) {
         self.handelResponse(response);
@@ -104,7 +178,9 @@ export default class ShareAlbum extends Component {
       this.props.renderShareAlbum(
         this.props.shareAlbumAction === 'albumsListing'
           ? this.props.shareAlbumObject
-          : responseData.data.album_recipients.length
+          : responseData.data.album_recipients.length,
+        responseData.data.album_recipients[0].admin_album_recipients,
+        this.props.albumSelection ? responseData.data.album_recipients : ''
       );
       this.props.closeShareAlbum();
     } else {
@@ -117,7 +193,7 @@ export default class ShareAlbum extends Component {
     const album = this.props.shareAlbumObject;
     return (
       <Modal
-        show={this.props.shareAlbum}
+        show={this.props.shareAlbum || this.props.albumSelection}
         className="share-album-modal"
         aria-labelledby="contained-modal-title-lg"
       >
@@ -188,6 +264,36 @@ export default class ShareAlbum extends Component {
                   onChange={this.handleChange.bind(this)}
                 />
               </FormGroup>
+              {this.props.albumSelection && (
+                <Col>
+                  <FormGroup className="custom-form-group">
+                    <FormControl
+                      className="custom-form-control"
+                      value={shareAlbumForm.minimum_photo_selection}
+                      type="number"
+                      name="minimum_photo_selection"
+                      min="1"
+                      max={album.photo_count}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                  </FormGroup>
+                  <FormGroup className="custom-form-group">
+                    <Checkbox
+                      className=""
+                      name="allow_comments"
+                      value={shareAlbumForm.allow_comments}
+                      onClick={this.handleChange.bind(this)}
+                      defaultChecked={shareAlbumForm.allow_comments}
+                    >
+                      {' '}
+                      Allow Comments
+                      <div className="check">
+                        <div className="inside" />
+                      </div>
+                    </Checkbox>
+                  </FormGroup>
+                </Col>
+              )}
               <Button
                 className="btn btn-orange share-submit"
                 onClick={event => this.handleSubmit(event)}

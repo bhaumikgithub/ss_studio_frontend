@@ -70,3 +70,61 @@ export function submitAlbum(albumSlug) {
       '/mark_as_submitted'
   );
 }
+
+export function getSelectedPhotos(albumslug) {
+  const responsePromise = axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumslug +
+      '/get_selected_photos',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function getCommentedPhotos(albumslug) {
+  const responsePromise = axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumslug +
+      '/get_commented_photos',
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function markAsDelivered(albumSlug) {
+  const responsePromise = axiosInstance.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_deliverd',
+    {},
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function markAsStopedSelection(albumSlug) {
+  const responsePromise = axiosInstance.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_stoped_selection',
+    {},
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function markAsShared(albumSlug) {
+  const responsePromise = axiosInstance.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/mark_as_shared',
+    {},
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}

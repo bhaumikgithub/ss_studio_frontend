@@ -2,7 +2,7 @@
   font-family: 'ralewayregular';
 }
 .total-album {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 18px;
   margin-top: 8px;
   padding-right: 20px;
@@ -12,6 +12,10 @@
   margin-right: 15px;
   float: left;
   margin-left: 20px;
+}
+.sortBy a,
+.sortBy span{
+  color: #545454;
 }
 .filter-wrap {
   padding: 20px 0;
@@ -32,17 +36,18 @@
   padding: 6px 18px;
   height: 35px;
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   text-transform: uppercase;
   border: 2px solid #f9a11d;
+  font-family: 'ralewaysemibold';
 }
 .create-album-btn:hover,
 .create-album-btn:focus,
 .create-album-btn:active,
 .create-album-btn:active:hover {
-  background: #fff;
-  color: #f9a11d;
-  border: 2px solid #f9a11d;
+  background: #feae37;
+  color: #fff;
+  border: 2px solid #feae37;
   outline: none;
   box-shadow: none;
 }
@@ -50,7 +55,7 @@
 .create-album-btn:focus .add-icon,
 .create-album-btn:active .add-icon,
 .create-album-btn:active:hover .add-icon {
-  border: 1px solid #f9a11d;
+  border: 1px solid #fff;
 }
 .albums-list-wrap {
   margin-bottom: 30px;
@@ -66,7 +71,7 @@
 .album-title {
   color: #a36241;
   text-transform: uppercase;
-  font-family: 'ralewaymedium';
+  font-family: 'ralewaysemibold';  
   padding-right: 50px;
 }
 .album-detail-wrap {
@@ -95,7 +100,7 @@
 }
 .updated-icon {
   font-size: 14px;
-  color: #555;
+  color: #909090;
 }
 .album-separator hr {
   margin: 15px 0;
@@ -181,4 +186,9 @@
   background: #f9a11d;
   text-align: center;
   color: #fff;
+}
+.add-photos-album-listing i{
+  color: #999999;
+  font-size: 16px;
+  margin-right: 3px;
 }
