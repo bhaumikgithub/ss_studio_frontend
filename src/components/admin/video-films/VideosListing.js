@@ -279,14 +279,16 @@ export default class VideoFilms extends Component {
               <Col xs={12} className="videos-list-wrap p-none" key={video.id}>
                 <Col xs={12} className="video-film-wrap">
                   <Media>
-                    <Media.Left align="top" className="video-thumb-wrap">
+                    <Media.Left
+                      align="top"
+                      className="video-thumb-wrap cursor-pointer"
+                    >
                       <a
                         onClick={() =>
                           this.setState({
                             showPlayVideo: true,
                             editObject: video
                           })}
-                        className="cursor-pointer"
                       >
                         <img
                           className="video-thumb"
