@@ -514,11 +514,11 @@ div.filepicker {
 }
 /* admin header page css end */
 
-/* start disable horizontal scroll in homepage gallery */
-.disable-horizontal {
-  overflow-x: hidden;
+/* start disable scroll in homepage gallery */
+.disable-scrollbar {
+  overflow: hidden;
 }
-/* end disable horizontal scroll in homepage gallery */
+/* end disable scroll in homepage gallery */
 
 /* start view album in admin album detail page */
 .view-album-detail,
