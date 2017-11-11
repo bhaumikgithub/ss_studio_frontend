@@ -32,8 +32,8 @@ export default class EditAboutContent extends Component {
     const initialState = {
       editAboutForm: {
         title_text: '',
-        description: '',
-        facebook_link: ''
+        description: ''
+        // facebook_link: ''
         // twitter_link: '',
         // instagram_link: '',
       },
@@ -50,16 +50,16 @@ export default class EditAboutContent extends Component {
     var self = this;
     const {
       title_text,
-      description,
-      facebook_link
+      description
+      // facebook_link
       // twitter_link,
       // instagram_link,
     } = aboutUs;
     self.setState({
       editAboutForm: {
         title_text: title_text,
-        description: description,
-        facebook_link: facebook_link
+        description: description
+        // facebook_link: facebook_link
         // twitter_link: twitter_link
       }
     });
@@ -150,8 +150,8 @@ export default class EditAboutContent extends Component {
           </Col>
           <Col className="edit-about-content-wrap" sm={8}>
             <form className="admin-side edit-about-form custom-form">
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-fonamerm-control-label">
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label required">
                   Title
                 </ControlLabel>
                 <FormControl
@@ -168,8 +168,8 @@ export default class EditAboutContent extends Component {
                   </span>
                 )}
               </FormGroup>
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-form-control-label">
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label required">
                   Description
                 </ControlLabel>
                 <Scrollbars style={{ height: '40px' }}>
@@ -190,7 +190,7 @@ export default class EditAboutContent extends Component {
                 )}
               </FormGroup>
 
-              <FormGroup className="custom-form-group">
+              {/* <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
                   Facebook Profile
                 </ControlLabel>
@@ -202,7 +202,7 @@ export default class EditAboutContent extends Component {
                   value={editAboutForm.facebook_link}
                   onChange={this.handleChange.bind(this)}
                 />
-              </FormGroup>
+              </FormGroup> */}
               {/* <FormGroup className="custom-form-group">
                     <ControlLabel className="custom-form-control-label">Twitter Profile</ControlLabel>
                     <FormControl 

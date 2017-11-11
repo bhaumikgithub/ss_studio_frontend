@@ -710,3 +710,16 @@ div.filepicker {
   color: #fff;
 }
 /* Comment popup page css end */
+
+/* start for about us detail title */
+.custom-form-control-label.required::after {
+  content: '*';
+  position: absolute;
+  top: -3px;
+  height: 0;
+  width: 0;
+  font-size: 30px;
+  color: #fd6257;
+  font-family: 'ralewaysemibold';
+}
+/* end for about us detail title */
