@@ -710,3 +710,8 @@ div.filepicker {
   color: #fff;
 }
 /* Comment popup page css end */
+/* start cursor pointer */
+.cursor-pointer {
+  cursor: pointer;
+}
+/* end cursor pointer */
