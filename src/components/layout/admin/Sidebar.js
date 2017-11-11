@@ -84,34 +84,14 @@ export default class Sidebar extends Component {
                 Video films
               </ListGroupItem>
             </NavLink>
-            <NavLink to="/categories">
-              <ListGroupItem>
+            <NavLink to="/testimonials">
+              <ListGroupItem href="">
                 <img
-                  src={require('../../../assets/images/admin/album/categories-icon.png')}
+                  src={require('../../../assets/images/admin/album/testimonial-icon.png')}
                   className="link-icons"
                   alt=""
                 />{' '}
-                categories
-              </ListGroupItem>
-            </NavLink>
-            <NavLink to="/contacts">
-              <ListGroupItem>
-                <img
-                  src={require('../../../assets/images/admin/album/contacts-icon.png')}
-                  className="link-icons"
-                  alt=""
-                />{' '}
-                Contacts
-              </ListGroupItem>
-            </NavLink>
-            <NavLink to="/site_contents">
-              <ListGroupItem>
-                <img
-                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
-                  className="link-icons"
-                  alt=""
-                />{' '}
-                site content
+                Manage Testimonials
               </ListGroupItem>
             </NavLink>
             <NavLink to="/homepage_gallery">
@@ -121,17 +101,37 @@ export default class Sidebar extends Component {
                   className="link-icons"
                   alt=""
                 />{' '}
-                Home Page Gallery
+                Homepage Gallery
               </ListGroupItem>
             </NavLink>
-            <NavLink to="/testimonials">
-              <ListGroupItem href="">
+            <NavLink to="/contacts">
+              <ListGroupItem>
                 <img
-                  src={require('../../../assets/images/admin/album/testimonial-icon.png')}
+                  src={require('../../../assets/images/admin/album/contacts-icon.png')}
                   className="link-icons"
                   alt=""
                 />{' '}
-                Testimonials
+                My Contacts
+              </ListGroupItem>
+            </NavLink>
+            <NavLink to="/site_contents">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Site Content
+              </ListGroupItem>
+            </NavLink>
+            <NavLink to="/categories">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/categories-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Categories
               </ListGroupItem>
             </NavLink>
           </ListGroup>
