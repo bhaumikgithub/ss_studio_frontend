@@ -6,6 +6,7 @@ import EditAboutContent from './EditAboutContent';
 import ServicePopup from './ServicePopup';
 import EditContactDetail from './EditContactDetail';
 import ServiceModule from '../../common/ServiceModule';
+import SocialMediaPopup from './SocialMediaPopup';
 
 // Import services
 import {
@@ -28,6 +29,7 @@ export default class SiteContent extends Component {
       editObject: {},
       aboutUs: [],
       services: [],
+      socialMedia: {},
       contactDetail: {},
       tab: 'about_us',
       admin_service: true
@@ -36,13 +38,17 @@ export default class SiteContent extends Component {
     this.handleAboutModal = this.handleAboutModal.bind(this);
     this.handleAddserviceModal = this.handleAddserviceModal.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
+    this.handleSocialMediaModal = this.handleSocialMediaModal.bind(this);
   }
 
   componentWillMount() {
     var self = this;
     AboutService.getAboutUs().then(function(response) {
       if (response.status === 200) {
-        self.setState({ aboutUs: response.data.data.about_us });
+        self.setState({
+          aboutUs: response.data.data.about_us,
+          socialMedia: response.data.data.about_us.social_links
+        });
       }
     });
 
@@ -63,6 +69,10 @@ export default class SiteContent extends Component {
     this.setState({ AddServiceShow: false, editObject: {} });
   };
 
+  SocialMediaCloseModal = () => {
+    this.setState({ AddSocialMediaShow: false, editObject: {} });
+  };
+
   renderService = (service, action) => {
     const newServices = this.state.services.slice();
     if (action === 'insert') {
@@ -76,6 +86,13 @@ export default class SiteContent extends Component {
     }
     this.setState({
       services: newServices
+    });
+  };
+
+  renderSocialMedia = (social_link, action) => {
+    const social_links = social_link;
+    this.setState({
+      socialMedia: social_links
     });
   };
 
@@ -122,6 +139,10 @@ export default class SiteContent extends Component {
     }, 1000);
   }
 
+  handleSocialMediaModal() {
+    this.setState({ AddSocialMediaShow: true });
+  }
+
   handleUploadFile = e => {
     e.preventDefault();
 
@@ -162,7 +183,7 @@ export default class SiteContent extends Component {
   };
 
   render() {
-    const { aboutUs, contactDetail, tab } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
         {this.state.EditAboutShow && (
@@ -187,6 +208,14 @@ export default class SiteContent extends Component {
             EditContactClose={this.EditContactClose}
             renderContactDetail={this.renderContactDetail}
             editObject={this.state.editObject}
+          />
+        )}
+        {this.state.AddSocialMediaShow && (
+          <SocialMediaPopup
+            AddSocialMediaShow={this.state.AddSocialMediaShow}
+            SocialMediaCloseModal={this.SocialMediaCloseModal}
+            editObject={this.state.editObject}
+            renderSocialMedia={this.renderSocialMedia}
           />
         )}
 
@@ -274,8 +303,7 @@ export default class SiteContent extends Component {
                 className="btn btn-orange pull-right add-new-service"
                 onClick={this.handleAddserviceModal}
               >
-                <i className="fa fa-plus add-service-icon">
-                </i>Add New
+                <i className="fa fa-plus add-service-icon" />Add New
               </Button>
             </Col>
             <ServiceModule
@@ -345,6 +373,16 @@ export default class SiteContent extends Component {
                   {contactDetail.phone}
                 </Col>
               </Col>
+            </Col>
+          </Tab>
+          <Tab eventKey="social_media" title="Social Media">
+            <Col xs={12} className="site-content-filter p-none">
+              <Button
+                className="btn btn-orange pull-right add-new-service"
+                onClick={this.handleSocialMediaModal}
+              >
+                <i className="fa fa-plus add-service-icon" />Add New
+              </Button>
             </Col>
           </Tab>
         </Tabs>
