@@ -330,6 +330,7 @@ export default class AlbumDetails extends Component {
     newAlbum.is_private = album.is_private;
     newAlbum.portfolio_visibility = album.portfolio_visibility;
     newAlbum.categories = album.categories;
+    newAlbum.status = album.status;
     this.setState({ album: newAlbum });
   };
 
@@ -513,6 +514,22 @@ export default class AlbumDetails extends Component {
         console.log(error.response);
       });
   }
+  activateAlbum() {
+    var self = this;
+    AlbumService.acivateAlbum(self.state.albumSlug)
+      .then(function(response) {
+        if (response.status === 200) {
+          const newAlbum = Object.assign({}, self.state.album);
+          newAlbum.status = 'active';
+          self.setState({
+            album: newAlbum
+          });
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
 
   render() {
     const {
@@ -582,7 +599,19 @@ export default class AlbumDetails extends Component {
               comment={this.state.comment}
             />
           )}
-
+          {album.status === 'inactive' && (
+            <Col xs={12} className="inactive-album-section">
+              <span className="inactive-album-heading">
+                Deactive Album -{' '}
+                <Button
+                  className="activate-album-btn"
+                  onClick={() => this.activateAlbum()}
+                >
+                  Click here to Activate
+                </Button>
+              </span>
+            </Col>
+          )}
           <Col xs={12} className="album-details-outer-wrap p-none">
             <Col xs={12} className="action-wrap">
               <div className="select-delete">
