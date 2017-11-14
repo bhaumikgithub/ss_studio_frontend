@@ -13,7 +13,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { AlbumService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, getStatusClass } from '../../Helper';
+import {
+  isObjectEmpty,
+  getStatusClass,
+  getAlbumStatusClass
+} from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
@@ -240,22 +244,18 @@ export default class AlbumsListing extends Component {
               <a
                 href=""
                 title={
-                  sortingOrder === 'desc' ? (
-                    'Sort By Ascending'
-                  ) : (
-                    'Sort By Descending'
-                  )
+                  sortingOrder === 'desc'
+                    ? 'Sort By Ascending'
+                    : 'Sort By Descending'
                 }
                 onClick={event => this.handleSorting(event)}
               >
                 Sort By Latest Update :{' '}
                 <span
                   className={
-                    sortingOrder === 'desc' ? (
-                      'fa fa-sort-asc'
-                    ) : (
-                      'fa fa-sort-desc'
-                    )
+                    sortingOrder === 'desc'
+                      ? 'fa fa-sort-asc'
+                      : 'fa fa-sort-desc'
                   }
                 />
               </a>
@@ -281,7 +281,13 @@ export default class AlbumsListing extends Component {
           >
             {albums.map(album => (
               <Col xs={12} className="albums-list-wrap p-none" key={album.id}>
-                <Col xs={12} className="album-wrap">
+                <Col
+                  xs={12}
+                  className={
+                    'album-wrap' +
+                    (album.status === 'inactive' ? ' inactive-album-wrap' : '')
+                  }
+                >
                   <Media>
                     <Media.Left align="top" className="album-img-wrap">
                       <Link to={'/albums/' + album.slug}>
@@ -308,11 +314,9 @@ export default class AlbumsListing extends Component {
 
                       <Link
                         to={
-                          album.is_private ? (
-                            '/shared_album_login/' + album.slug
-                          ) : (
-                            '/shared_album/' + album.slug
-                          )
+                          album.is_private
+                            ? '/shared_album_login/' + album.slug
+                            : '/shared_album/' + album.slug
                         }
                         target="_blank"
                         className="view-album-listing"
@@ -330,7 +334,10 @@ export default class AlbumsListing extends Component {
                         }}
                         className="add-photos-album-listing"
                       >
-                      <i className="fa fa-plus-circle" aria-hidden="true" />{' '}
+                        <i
+                          className="fa fa-plus-circle"
+                          aria-hidden="true"
+                        />{' '}
                         Add Photos
                       </Link>
 
@@ -414,10 +421,10 @@ export default class AlbumsListing extends Component {
                         <span
                           className={
                             'count-detail count-num ' +
-                            getStatusClass(album.delivery_status)
+                            getAlbumStatusClass(album.status)
                           }
                         >
-                          {album.delivery_status}
+                          {album.status}
                         </span>
                       </Col>
                       <Col

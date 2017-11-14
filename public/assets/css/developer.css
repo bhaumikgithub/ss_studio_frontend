@@ -592,6 +592,9 @@ div.filepicker {
   margin-top: 0px;
   padding-left: 20px;
 }
+.inactive-album-wrap{
+  background: #e2e2e2;
+}
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
 .sortBy-records {
