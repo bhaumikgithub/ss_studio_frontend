@@ -592,6 +592,12 @@ div.filepicker {
   margin-top: 0px;
   padding-left: 20px;
 }
+.deactive-checkbox {
+  margin-top: 10px !important;
+}
+.album-status-checkboxes label {
+  font-size: 14px;
+}
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
 .sortBy-records {
