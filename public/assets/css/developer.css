@@ -514,11 +514,11 @@ div.filepicker {
 }
 /* admin header page css end */
 
-/* start disable horizontal scroll in homepage gallery */
-.disable-horizontal {
-  overflow-x: hidden;
+/* start disable scroll in homepage gallery */
+.disable-scrollbar {
+  overflow: hidden;
 }
-/* end disable horizontal scroll in homepage gallery */
+/* end disable scroll in homepage gallery */
 
 /* start view album in admin album detail page */
 .view-album-detail,
@@ -725,3 +725,20 @@ div.filepicker {
   width: 100%;
 }
 /* end social media page css */
+/* start cursor pointer */
+.cursor-pointer {
+  cursor: pointer;
+}
+/* end cursor pointer */
+/* start for about us detail title */
+.custom-form-control-label.required::after {
+  content: '*';
+  position: absolute;
+  top: -3px;
+  height: 0;
+  width: 0;
+  font-size: 30px;
+  color: #fd6257;
+  font-family: 'ralewaysemibold';
+}
+/* end for about us detail title */
