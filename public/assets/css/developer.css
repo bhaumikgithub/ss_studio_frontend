@@ -727,3 +727,11 @@ div.filepicker {
   font-family: 'ralewaysemibold';
 }
 /* end for about us detail title */
+
+/* share album popup page css start */
+.view-album-url {
+  color: #777;
+  font-size: 12px;
+}
+
+/* share album popup page css end */
