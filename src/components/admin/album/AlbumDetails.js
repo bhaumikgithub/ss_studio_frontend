@@ -602,7 +602,7 @@ export default class AlbumDetails extends Component {
           {album.status === 'inactive' && (
             <Col xs={12} className="inactive-album-section">
               <span className="inactive-album-heading">
-                Deactive Album -{' '}
+                Deactive Album(Draft) -{' '}
                 <Button
                   className="activate-album-btn"
                   onClick={() => this.activateAlbum()}
