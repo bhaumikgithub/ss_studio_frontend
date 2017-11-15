@@ -37,13 +37,43 @@ export default class SocialMediaPopup extends Component {
 
   getInitialState() {
     const initialState = {
+      socialMedia: {},
       SocialMediaForm: {
-        soical_media_title: ''
+        soical_media_title: '',
+        social_link: ''
       },
+      social_media_title_error: '',
+      social_link_error: '',
       errors: {}
     };
 
     return initialState;
+  }
+
+  componentWillMount() {
+    var self = this;
+    AboutService.getAboutUs().then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          socialMedia: response.data.data.about_us.social_links
+        });
+      }
+    });
+    if (!isObjectEmpty(self.props.editObject)) {
+      self.editSocialMedia(self.props.editObject);
+    }
+  }
+
+  editSocialMedia(socialMedia) {
+    var self = this;
+    const { soical_media_title, social_link } = socialMedia;
+
+    self.setState({
+      SocialMediaForm: {
+        soical_media_title: soical_media_title,
+        social_link: social_link
+      }
+    });
   }
 
   resetSocialMediaForm() {
@@ -62,7 +92,12 @@ export default class SocialMediaPopup extends Component {
   handleChange(e) {
     const SocialMediaForm = this.state.SocialMediaForm;
     var key = e.target.name;
+    var social_link_name =
+      key === 'social_link'
+        ? SocialMediaForm['soical_media_title']
+        : 'social_link';
     SocialMediaForm[key] = str2bool(e.target.value);
+    SocialMediaForm[social_link_name] = SocialMediaForm[key];
     this.setState({
       SocialMediaForm
     });
@@ -70,9 +105,20 @@ export default class SocialMediaPopup extends Component {
 
   handleSubmit(e) {
     var self = this;
+    var { SocialMediaForm } = self.state;
     var editParams = {
-      about: self.state.SocialMediaForm
+      about: SocialMediaForm
     };
+
+    if (SocialMediaForm.soical_media_title.length < 1) {
+      return self.setState({
+        social_media_title_error: "Social medial title can't be blank."
+      });
+    } else if (SocialMediaForm.social_link.length < 1) {
+      return self.setState({
+        social_link_error: "Social link can't be blank."
+      });
+    }
     AboutService.updateAboutUs(editParams)
       .then(function(response) {
         self.handelResponse(response);
@@ -107,17 +153,24 @@ export default class SocialMediaPopup extends Component {
   }
 
   render() {
-    const { SocialMediaForm, errors } = this.state;
-    var options = [
-      { value: 'facebook_link', label: 'Facebook' },
-      { value: 'twitter_link', label: 'Twitter' },
-      { value: 'instagram_link', label: 'Instagram' },
-      { value: 'youtube_link', label: 'Youtube' },
-      { value: 'vimeo_link', label: 'Vimeo' },
-      { value: 'linkedin_link', label: 'Linkedin' },
-      { value: 'pinterest_link', label: 'Pinterest' },
-      { value: 'flickr_link', label: 'Flickr' }
-    ];
+    const {
+      SocialMediaForm,
+      socialMedia,
+      social_media_title_error,
+      social_link_error
+    } = this.state;
+    var options = [];
+
+    socialMedia &&
+      Object.keys(socialMedia).map(social_link => {
+        if (socialMedia[social_link] === '') {
+          options.push({
+            value: social_link,
+            label: social_link.replace('_link', '')
+          });
+        }
+        return options;
+      });
     return (
       <Modal
         show={this.props.AddSocialMediaShow}
@@ -163,17 +216,30 @@ export default class SocialMediaPopup extends Component {
                 <ControlLabel className="custom-form-control-label">
                   Select social media platform
                 </ControlLabel>
-                <Select
-                  className="custom-form-control"
-                  name="soical_media_title"
-                  value={SocialMediaForm.soical_media_title}
-                  options={options}
-                  placeholder={false}
-                  onChange={this.handleSelectChange.bind(this)}
-                />
-                {errors['service_name'] && (
+                {isObjectEmpty(this.props.editObject) ? (
+                  <Select
+                    className="custom-form-control social_media_custom-label"
+                    name="soical_media_title"
+                    value={SocialMediaForm.soical_media_title}
+                    options={options}
+                    placeholder={false}
+                    onChange={this.handleSelectChange.bind(this)}
+                  />
+                ) : (
+                  <FormControl
+                    className="custom-form-control social_media_custom-label"
+                    type="text"
+                    disabled="true"
+                    name="soical_media_title"
+                    value={SocialMediaForm.soical_media_title.replace(
+                      '_link',
+                      ''
+                    )}
+                  />
+                )}
+                {social_media_title_error && (
                   <span className="input-error text-red">
-                    {errors['service_name']}
+                    {social_media_title_error}
                   </span>
                 )}
               </FormGroup>
@@ -188,14 +254,14 @@ export default class SocialMediaPopup extends Component {
                     className="custom-form-control"
                     type="text"
                     placeholder="Url"
-                    name={SocialMediaForm.soical_media_title}
-                    //value={SocialMediaForm.service_name}
+                    name="social_link"
+                    value={SocialMediaForm.social_link}
                     onChange={this.handleChange.bind(this)}
                   />
                 </Scrollbars>
-                {errors['description'] && (
+                {social_link_error && (
                   <span className="input-error text-red">
-                    {errors['description']}
+                    {social_link_error}
                   </span>
                 )}
               </FormGroup>

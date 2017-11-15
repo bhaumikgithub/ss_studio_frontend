@@ -710,3 +710,18 @@ div.filepicker {
   color: #fff;
 }
 /* Comment popup page css end */
+
+/* start social media page css */
+.social-media-margin {
+  margin-left: 43%;
+}
+.social-media-delete {
+  margin-top: 15%;
+}
+.social_media_custom-label {
+  text-transform: capitalize;
+  font-family: 'ralewaysemibold';
+  font-size: 12px;
+  width: 100%;
+}
+/* end social media page css */

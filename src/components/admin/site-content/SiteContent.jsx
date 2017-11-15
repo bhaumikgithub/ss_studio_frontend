@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Col, Button, Tab, Tabs } from 'react-bootstrap';
-
+import { Col, Button, Tab, Tabs, Thumbnail } from 'react-bootstrap';
+import { SocialIcon } from 'react-social-icons';
+import SweetAlert from 'sweetalert-react';
 // Import component
 import EditAboutContent from './EditAboutContent';
 import ServicePopup from './ServicePopup';
@@ -32,7 +33,17 @@ export default class SiteContent extends Component {
       socialMedia: {},
       contactDetail: {},
       tab: 'about_us',
-      admin_service: true
+      admin_service: true,
+      alert: {
+        objectId: '',
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handleAboutModal = this.handleAboutModal.bind(this);
@@ -182,10 +193,70 @@ export default class SiteContent extends Component {
     });
   };
 
+  showDialogueBox(id) {
+    this.setState({
+      alert: {
+        objectId: id,
+        show: true,
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes, delete it!',
+        type: 'warning',
+        confirmAction: () => this.deleteSocialMedia(),
+        cancelBtn: true
+      }
+    });
+  }
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+  deleteSocialMedia() {
+    var self = this;
+    const item = self.state.alert.objectId;
+    var newMedia = Object.assign({}, self.state.socialMedia);
+
+    Object.entries(newMedia).map(([key, value]) => {
+      if (item === key) {
+        newMedia[key] = '';
+      }
+      return newMedia;
+    });
+
+    self.setState({ socialMedia: newMedia });
+    var editParams = {
+      about: self.state.socialMedia
+    };
+    AboutService.updateAboutUs(editParams)
+      .then(function(response) {
+        self.handelResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  handelResponse(response) {
+    var responseData = response.data;
+    if (response.status === 201) {
+      this.hideDialogueBox();
+    } else {
+      console.log(responseData.errors);
+    }
+  }
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
+        />
         {this.state.EditAboutShow && (
           <EditAboutContent
             EditAboutShow={this.state.EditAboutShow}
@@ -384,6 +455,74 @@ export default class SiteContent extends Component {
                 <i className="fa fa-plus add-service-icon" />Add New
               </Button>
             </Col>
+            <div>
+              {socialMedia &&
+                Object.keys(socialMedia).map(
+                  social_link =>
+                    socialMedia[social_link] !== '' ? (
+                      <Col
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        className="service-thumb-wrap"
+                        key={socialMedia[social_link]}
+                      >
+                        <Thumbnail className="service-thumbs">
+                          <SocialIcon
+                            url={socialMedia[social_link]}
+                            className="social-media-margin"
+                          />
+                          <Col className="sevice-details">
+                            <h4 className="service-title text-center">
+                              {social_link.replace('_link', '')}
+                            </h4>
+                            <Col className="p-none service-description">
+                              <a
+                                href={socialMedia[social_link]}
+                                target="_blank"
+                              >
+                                {socialMedia[social_link]}
+                              </a>
+                            </Col>
+                          </Col>
+                          <a className="edit-service-thumb custom-service-thumb">
+                            <Button
+                              className="btn-link p-none edit-testimonial-btn"
+                              onClick={() =>
+                                this.setState({
+                                  AddSocialMediaShow: true,
+                                  editObject: {
+                                    soical_media_title: social_link,
+                                    social_link: socialMedia[social_link]
+                                  }
+                                })}
+                            >
+                              <img
+                                src={require('../../../assets/images/admin/album/edit-icon.png')}
+                                alt=""
+                                className="service-edit-icon"
+                              />
+                            </Button>
+                          </a>
+                          <a className="edit-service-thumb custom-service-thumb social-media-delete">
+                            <Button
+                              className="btn-link p-none video-action-btn video-delete-btn"
+                              onClick={() => this.showDialogueBox(social_link)}
+                            >
+                              <img
+                                src={require('../../../assets/images/admin/album/delete-icon.png')}
+                                alt=""
+                                className="service-edit-icon"
+                              />
+                            </Button>
+                          </a>
+                        </Thumbnail>
+                      </Col>
+                    ) : (
+                      ''
+                    )
+                )}
+            </div>
           </Tab>
         </Tabs>
       </Col>
