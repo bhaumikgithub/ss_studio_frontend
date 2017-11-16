@@ -330,6 +330,7 @@ export default class AlbumDetails extends Component {
     newAlbum.is_private = album.is_private;
     newAlbum.portfolio_visibility = album.portfolio_visibility;
     newAlbum.categories = album.categories;
+    newAlbum.updated_at = album.updated_at;
     this.setState({ album: newAlbum });
   };
 
@@ -855,7 +856,19 @@ export default class AlbumDetails extends Component {
                     className="info-icon"
                     alt=""
                   />
-                  <span className="information">{album.updated_at}</span>
+                  <span className="information">
+                    {album.updated_at} (Last Update)
+                  </span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">
+                    {album.created_at} (Created On)
+                  </span>
                 </label>
                 {album.is_private && (
                   <label className="album-info-label">
