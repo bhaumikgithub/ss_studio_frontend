@@ -654,7 +654,7 @@ export default class AlbumDetails extends Component {
                 {album.is_private ? (
                   <div className="private-album"> Private Album </div>
                 ) : (
-                  <div className="public-album"> public Album </div>
+                  <div className="public-album"> Public Album </div>
                 )}
                 <Button
                   className="edit-album-detail"
