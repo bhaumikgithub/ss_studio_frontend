@@ -240,22 +240,18 @@ export default class AlbumsListing extends Component {
               <a
                 href=""
                 title={
-                  sortingOrder === 'desc' ? (
-                    'Sort By Ascending'
-                  ) : (
-                    'Sort By Descending'
-                  )
+                  sortingOrder === 'desc'
+                    ? 'Sort By Ascending'
+                    : 'Sort By Descending'
                 }
                 onClick={event => this.handleSorting(event)}
               >
                 Sort By Latest Update :{' '}
                 <span
                   className={
-                    sortingOrder === 'desc' ? (
-                      'fa fa-sort-asc'
-                    ) : (
-                      'fa fa-sort-desc'
-                    )
+                    sortingOrder === 'desc'
+                      ? 'fa fa-sort-asc'
+                      : 'fa fa-sort-desc'
                   }
                 />
               </a>
@@ -308,11 +304,9 @@ export default class AlbumsListing extends Component {
 
                       <Link
                         to={
-                          album.is_private ? (
-                            '/shared_album_login/' + album.slug
-                          ) : (
-                            '/shared_album/' + album.slug
-                          )
+                          album.is_private
+                            ? '/shared_album_login/' + album.slug
+                            : '/shared_album/' + album.slug
                         }
                         target="_blank"
                         className="view-album-listing"
@@ -330,7 +324,10 @@ export default class AlbumsListing extends Component {
                         }}
                         className="add-photos-album-listing"
                       >
-                      <i className="fa fa-plus-circle" aria-hidden="true" />{' '}
+                        <i
+                          className="fa fa-plus-circle"
+                          aria-hidden="true"
+                        />{' '}
                         Add Photos
                       </Link>
 
@@ -373,9 +370,13 @@ export default class AlbumsListing extends Component {
                         ))}
                       </Col>
 
-                      <Col xs={12} className="p-none updated-info">
+                      <Col xs={3} className="p-none updated-info">
                         <span className="fa fa-clock-o updated-icon" /> Last
                         updated on {album.updated_at}.
+                      </Col>
+                      <Col xs={9} className="p-none updated-info">
+                        <span className="fa fa-clock-o updated-icon" /> Created
+                        on {album.created_at}.
                       </Col>
                       <Col xs={12} className="p-none album-separator">
                         <hr />
