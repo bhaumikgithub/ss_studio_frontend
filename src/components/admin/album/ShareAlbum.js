@@ -237,7 +237,23 @@ export default class ShareAlbum extends Component {
                 <p>{album.photo_count} photos</p>
               </div>
             </div>
-
+            {this.props.albumSelection &&
+              !isObjectEmpty(this.state.albumRecipientObject) && (
+                <div>
+                  {this.props.selectionAlbumObject.map(albumRecipient => (
+                    <span key={albumRecipient.id} className="view-album-url">
+                      Url for {albumRecipient.contact.email} : <br />
+                      {albumRecipient.view_album_url}
+                      <hr />
+                    </span>
+                  ))}
+                  {album.is_private && (
+                    <span className="view-album-url">
+                      Password: {album.passcode} <hr />
+                    </span>
+                  )}
+                </div>
+              )}
             <form className="admin-side share-album-form custom-form">
               <FormGroup className="custom-form-group">
                 <Creatable

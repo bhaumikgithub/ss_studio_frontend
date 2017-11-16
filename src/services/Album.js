@@ -128,3 +128,26 @@ export function markAsShared(albumSlug) {
   );
   return checkStatus(responsePromise);
 }
+
+export function acivateAlbum(albumSlug) {
+  const responsePromise = axiosInstance.put(
+    process.env.REACT_APP_API_BASE_URL +
+      'albums/' +
+      albumSlug +
+      '/acivate_album',
+    {},
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function getAlbumStatusWise(params) {
+  const responsePromise = axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'albums/get_album_status_wise',
+    {
+      params: params,
+      headers: apiCustomHeader()
+    }
+  );
+  return checkStatus(responsePromise);
+}
