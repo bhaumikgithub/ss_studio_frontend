@@ -95,3 +95,11 @@ export function getStatusClass(status) {
     return 'text-green';
   }
 }
+
+export function getAlbumStatusClass(status) {
+  if (status === 'inactive') {
+    return 'text-red';
+  } else if (status === 'active') {
+    return 'text-green';
+  }
+}
