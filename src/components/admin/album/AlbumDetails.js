@@ -818,7 +818,7 @@ export default class AlbumDetails extends Component {
               <Col sm={12} md={4} lg={3} className="album-info-wrap">
                 <label className="album-info-label">
                   <img
-                    src={require('../../../assets/images/admin/album/active-categories-icon.png')}
+                    src={require('../../../assets/images/admin/album/album-categories-icon.png')}
                     className="info-icon delete-selected total-photo-img"
                     alt=""
                   />
