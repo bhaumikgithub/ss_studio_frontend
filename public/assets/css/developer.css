@@ -611,6 +611,12 @@ div.filepicker {
   margin-top: 0px;
   padding-left: 20px;
 }
+.deactive-checkbox {
+  margin-top: 10px !important;
+}
+.album-status-checkboxes label {
+  font-size: 14px;
+}
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
 .sortBy-records {
@@ -729,6 +735,21 @@ div.filepicker {
   color: #fff;
 }
 /* Comment popup page css end */
+
+/* start social media page css */
+.social-media-margin {
+  margin-left: 43%;
+}
+.social-media-delete {
+  margin-top: 15%;
+}
+.social_media_custom-label {
+  text-transform: capitalize;
+  font-family: 'ralewaysemibold';
+  font-size: 12px;
+  width: 100%;
+}
+/* end social media page css */
 /* start cursor pointer */
 .cursor-pointer {
   cursor: pointer;
@@ -746,3 +767,36 @@ div.filepicker {
   font-family: 'ralewaysemibold';
 }
 /* end for about us detail title */
+/* start album detail page css  */
+.total-photo-count {
+  margin-top: 6px;
+  margin-right: 15px;
+}
+.total-photo-img {
+  margin-top: 9px;
+  margin-right: 8px;
+}
+.private-album {
+  background-color: #ff0000;
+  float: left;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: 9px;
+}
+.public-album {
+  background-color: #1faf1f;
+  float: left;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: bold;
+  margin-top: 9px;
+}
+/* end album detail page css  */
+.custom-form-control {
+  font-size: 14px !important;
+}

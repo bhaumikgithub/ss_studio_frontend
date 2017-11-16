@@ -331,6 +331,7 @@ export default class AlbumDetails extends Component {
     newAlbum.portfolio_visibility = album.portfolio_visibility;
     newAlbum.categories = album.categories;
     newAlbum.status = album.status;
+    newAlbum.updated_at = album.updated_at;
     this.setState({ album: newAlbum });
   };
 
@@ -615,6 +616,14 @@ export default class AlbumDetails extends Component {
           <Col xs={12} className="album-details-outer-wrap p-none">
             <Col xs={12} className="action-wrap">
               <div className="select-delete">
+                <img
+                  src={require('../../../assets/images/admin/album/album-details/photos-icon.png')}
+                  className="info-icon delete-selected total-photo-img"
+                  alt=""
+                />
+                <span className="delete-selected total-photo-count">
+                  {album.photo_count} photos
+                </span>
                 <Checkbox
                   className="all-selection-check"
                   onClick={event => this.selectAll(event)}
@@ -670,7 +679,13 @@ export default class AlbumDetails extends Component {
                   </Button>
                 )}
               </div>
+
               <div className="detail-btn-wrap">
+                {album.is_private ? (
+                  <div className="private-album"> Private Album </div>
+                ) : (
+                  <div className="public-album"> Public Album </div>
+                )}
                 <Button
                   className="edit-album-detail"
                   onClick={() =>
@@ -833,13 +848,16 @@ export default class AlbumDetails extends Component {
               <Col sm={12} md={4} lg={3} className="album-info-wrap">
                 <label className="album-info-label">
                   <img
-                    src={require('../../../assets/images/admin/album/album-details/photos-icon.png')}
-                    className="info-icon"
+                    src={require('../../../assets/images/admin/album/album-categories-icon.png')}
+                    className="info-icon delete-selected total-photo-img"
                     alt=""
                   />
-                  <span className="information">
-                    {album.photo_count} photos
-                  </span>
+                  {album.categories &&
+                    album.categories.map(category => (
+                      <span className="album-badge" key={category.id}>
+                        {category.category_name}
+                      </span>
+                    ))}
                 </label>
                 <label className="album-info-label">
                   <img
@@ -863,14 +881,12 @@ export default class AlbumDetails extends Component {
                 </label>
                 <label className="album-info-label">
                   <img
-                    src={require('../../../assets/images/admin/album/album-details/public-icon.png')}
+                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
                     className="info-icon"
                     alt=""
                   />
                   <span className="information">
-                    {album.is_private
-                      ? 'Marked as private'
-                      : 'Marked as public'}
+                    {album.updated_at} (Last Update)
                   </span>
                 </label>
                 <label className="album-info-label">
@@ -879,7 +895,9 @@ export default class AlbumDetails extends Component {
                     className="info-icon"
                     alt=""
                   />
-                  <span className="information">{album.updated_at}</span>
+                  <span className="information">
+                    {album.created_at} (Created On)
+                  </span>
                 </label>
                 {album.is_private && (
                   <label className="album-info-label">
@@ -1063,14 +1081,7 @@ export default class AlbumDetails extends Component {
                 <Col xs={12} className="p-none detail-separator">
                   <hr />
                 </Col>
-                <Col xs={12} className="p-none album-badges-wrap">
-                  {album.categories &&
-                    album.categories.map(category => (
-                      <span className="album-badge" key={category.id}>
-                        {category.category_name}
-                      </span>
-                    ))}
-                </Col>
+
                 {isOpenLightbox &&
                   photos &&
                   album.cover_photo && (

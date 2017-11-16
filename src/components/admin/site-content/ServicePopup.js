@@ -193,11 +193,9 @@ export default class ServicePopup extends Component {
                 className="add-category-icon img-responsive"
               />
               <h4 className="add-category-text text-white">
-                {isObjectEmpty(this.props.editObject) ? (
-                  'Add New Service'
-                ) : (
-                  'Edit Service'
-                )}
+                {isObjectEmpty(this.props.editObject)
+                  ? 'Add New Service'
+                  : 'Edit Service'}
               </h4>
             </Col>
           </Col>
