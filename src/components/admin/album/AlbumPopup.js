@@ -188,21 +188,17 @@ export default class AlbumPopup extends Component {
             <Col xs={12} className="p-none create-album-title-details">
               <img
                 src={
-                  isObjectEmpty(this.props.editObject) ? (
-                    createAlbumIcon
-                  ) : (
-                    editAlbumIcon
-                  )
+                  isObjectEmpty(this.props.editObject)
+                    ? createAlbumIcon
+                    : editAlbumIcon
                 }
                 alt=""
                 className="create-album-icon img-responsive"
               />
               <h4 className="create-album-text text-white">
-                {isObjectEmpty(this.props.editObject) ? (
-                  'Create new album'
-                ) : (
-                  'Edit album'
-                )}
+                {isObjectEmpty(this.props.editObject)
+                  ? 'Create new album'
+                  : 'Edit album'}
               </h4>
             </Col>
           </Col>

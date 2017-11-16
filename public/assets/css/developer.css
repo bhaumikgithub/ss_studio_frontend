@@ -506,6 +506,25 @@ div.filepicker {
 .text-lowercase {
   text-transform: none;
 }
+.inactive-album-section {
+  background: red;
+  text-align: center;
+  height: 30px;
+  margin-top: 10px;
+}
+.inactive-album-heading {
+  color: #fff;
+}
+.activate-album-btn,
+.activate-album-btn:hover {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: medium none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: medium none;
+  color: rgb(255, 255, 255);
+}
 /* album detail page css end */
 
 /* admin header page css start */
