@@ -906,14 +906,14 @@ export default class AlbumDetails extends Component {
                           </span>
                         )}
                       </div>
-                      {album.delivery_status === 'Submitted' && (
+                      {/* {album.delivery_status === 'Submitted' && (
                         <Button
                           className="btn btn-orange share-album-btn album-deliverd-btn"
                           onClick={() => this.deliveredAlbum()}
                         >
                           Album Deliverd
                         </Button>
-                      )}
+                      )} */}
                     </Col>
                   ) : (
                     <Col>
@@ -997,14 +997,14 @@ export default class AlbumDetails extends Component {
                   <h4 className="album-delivery-details">
                     album sharing details
                   </h4>
-                  {/* <h4
+                  <h4
                     className={
                       'album-delivery-status ' +
                       getStatusClass(album.delivery_status)
                     }
                   >
                     {album.delivery_status} album
-                  </h4> */}
+                  </h4>
                   <Button
                     className="btn btn-orange share-album-btn"
                     onClick={() =>
