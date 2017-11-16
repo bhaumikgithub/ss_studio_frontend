@@ -1042,16 +1042,16 @@ export default class AlbumDetails extends Component {
                 </Col>
                 <Col xs={12} className="p-none">
                   <h4 className="album-delivery-details">
-                    album delivery details
+                    album sharing details
                   </h4>
-                  <h4
+                  {/* <h4
                     className={
                       'album-delivery-status ' +
                       getStatusClass(album.delivery_status)
                     }
                   >
                     {album.delivery_status} album
-                  </h4>
+                  </h4> */}
                   <Button
                     className="btn btn-orange share-album-btn"
                     onClick={() =>
@@ -1066,17 +1066,19 @@ export default class AlbumDetails extends Component {
                     />Share album
                   </Button>
                   <br />
-                  <div className="already-shared-with">
-                    Already shared with
-                    <button
-                      className="share-count"
-                      onClick={() =>
-                        this.setState({ alreadySharedAlbum: true })}
-                    >
-                      {' '}
-                      {album.recipients_count}{' '}
-                    </button>
-                  </div>
+                  {album.recipients_count > 0 && (
+                    <div className="already-shared-with">
+                      Already shared with
+                      <button
+                        className="share-count"
+                        onClick={() =>
+                          this.setState({ alreadySharedAlbum: true })}
+                      >
+                        {' '}
+                        {album.recipients_count}{' '}
+                      </button>
+                    </div>
+                  )}
                 </Col>
                 <Col xs={12} className="p-none detail-separator">
                   <hr />
