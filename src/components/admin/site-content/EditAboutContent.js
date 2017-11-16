@@ -9,7 +9,11 @@ import {
 } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import EditTitle from '../../../assets/images/admin/site-content/about-site-content-icon.png';
-
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import draftToHtml from 'draftjs-to-html';
+// import htmlToDraft from 'html-to-draftjs';
 // Import components
 import validationHandler from '../../common/ValidationHandler';
 
@@ -32,11 +36,13 @@ export default class EditAboutContent extends Component {
     const initialState = {
       editAboutForm: {
         title_text: '',
+        // description: '',
         description: ''
         // facebook_link: ''
         // twitter_link: '',
         // instagram_link: '',
       },
+      editorState: EditorState.createEmpty(),
       errors: {}
     };
     return initialState;
@@ -80,8 +86,22 @@ export default class EditAboutContent extends Component {
       editAboutForm
     });
   }
+  // onEditorStateChange = editorState => {
+  //   const editAboutForm = this.state.editAboutForm;
+  //   // var key = 'description'
+  //   editAboutForm['description'] = editorState;
 
+  //   this.setState({
+  //     editAboutForm
+  //   });
+  // };
+  onEditorStateChange = editorState => {
+    this.setState({
+      editorState
+    });
+  };
   handleSubmit(e) {
+    debugger;
     var self = this;
     var editParams = {
       about: self.state.editAboutForm
@@ -113,7 +133,7 @@ export default class EditAboutContent extends Component {
   }
 
   render() {
-    const { editAboutForm, errors } = this.state;
+    const { editAboutForm, errors, editorState } = this.state;
     return (
       <Modal
         show={this.props.EditAboutShow}
@@ -189,7 +209,20 @@ export default class EditAboutContent extends Component {
                   </span>
                 )}
               </FormGroup>
-
+              <Editor
+                initialEditorState={editAboutForm.description}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                onEditorStateChange={this.onEditorStateChange}
+              />
+              <textarea
+                disabled
+                //name="description"
+                value={draftToHtml(
+                  convertToRaw(editorState.getCurrentContent())
+                )}
+                //onChange={this.handleChange.bind(this)}
+              />
               {/* <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
                   Facebook Profile
