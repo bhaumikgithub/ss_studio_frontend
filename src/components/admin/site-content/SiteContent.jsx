@@ -345,7 +345,9 @@ export default class SiteContent extends Component {
               <Col className="right-content-wrap text-grey">
                 <Col xs={12} className="about-content-wrap">
                   <h3 className="about-content-title">{aboutUs.title_text}</h3>
-                  <p>{aboutUs.description}</p>
+                  <p
+                    dangerouslySetInnerHTML={{ __html: aboutUs.description }}
+                  />
                 </Col>
                 {aboutUs.facebook_link && (
                   <Col className="about-solcial-icons" xs={12}>
