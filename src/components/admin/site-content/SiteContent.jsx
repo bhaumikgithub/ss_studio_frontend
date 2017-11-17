@@ -470,7 +470,6 @@ export default class SiteContent extends Component {
                       >
                         <Thumbnail className="service-thumbs">
                           <SocialIcon
-                            //url={socialMedia[social_link]}
                             url={
                               'http://www.' +
                               (socialMediaLink = social_link.replace(
