@@ -245,6 +245,7 @@ export default class SiteContent extends Component {
   }
   render() {
     const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
+    var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
         <SweetAlert
@@ -469,12 +470,20 @@ export default class SiteContent extends Component {
                       >
                         <Thumbnail className="service-thumbs">
                           <SocialIcon
-                            url={socialMedia[social_link]}
+                            //url={socialMedia[social_link]}
+                            url={
+                              'http://www.' +
+                              (socialMediaLink = social_link.replace(
+                                '_link',
+                                ''
+                              )) +
+                              '.com'
+                            }
                             className="social-media-margin"
                           />
                           <Col className="sevice-details">
                             <h4 className="service-title text-center">
-                              {social_link.replace('_link', '')}
+                              {socialMediaLink}
                             </h4>
                             <Col className="p-none service-description">
                               <a
