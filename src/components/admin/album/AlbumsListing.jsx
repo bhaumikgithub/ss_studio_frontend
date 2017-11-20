@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Col, Button, Media, Checkbox } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
-
+import Select from 'react-select';
 // Import component
 import AlbumPopup from './AlbumPopup';
 import ShareAlbum from './ShareAlbum';
@@ -34,6 +34,8 @@ export default class AlbumsListing extends Component {
       showCreatePopup: false,
       shareAlbum: false,
       sortingOrder: 'desc',
+      sortingField: 'updated_at',
+      albumSortingOrder: '',
       activeCheckboxSelected: false,
       deactiveCheckboxSelected: false,
       albums: [],
@@ -52,13 +54,63 @@ export default class AlbumsListing extends Component {
   }
 
   componentWillMount() {
+    var self = this;
+    var {
+      sortingField,
+      activeCheckboxSelected,
+      deactiveCheckboxSelected
+    } = self.state;
     this.getAllAlbums(
-      this.state.activeCheckboxSelected,
-      this.state.deactiveCheckboxSelected
+      sortingField,
+      activeCheckboxSelected,
+      deactiveCheckboxSelected,
+      undefined
     );
   }
 
+  handleAlbumSorting(sorting_order, sorting_field, eventKey = 1) {
+    var self = this;
+    var checked, status;
+    var { activeCheckboxSelected, deactiveCheckboxSelected } = self.state;
+
+    checked = activeCheckboxSelected || deactiveCheckboxSelected ? true : false;
+    status = activeCheckboxSelected ? 'active' : 'inactive';
+    if (
+      (deactiveCheckboxSelected === true && activeCheckboxSelected === true) ||
+      (deactiveCheckboxSelected === false && activeCheckboxSelected === false)
+    ) {
+      self.getAllAlbums(
+        sorting_field,
+        activeCheckboxSelected,
+        deactiveCheckboxSelected,
+        sorting_order,
+        eventKey
+      );
+    } else {
+      self.getSlectedAlbums(
+        status,
+        checked,
+        activeCheckboxSelected,
+        deactiveCheckboxSelected,
+        sorting_field,
+        sorting_order,
+        eventKey
+      );
+    }
+  }
+
+  handleSelectChange(e) {
+    if (e) {
+      this.setState({
+        sortingOrder: e.order,
+        sortingField: e.field,
+        albumSortingOrder: e.value
+      });
+      this.handleAlbumSorting(e.order, e.field);
+    }
+  }
   getAllAlbums(
+    sortingField = this.state.sortingField,
     activeCheckbox,
     deactiveCheckbox,
     sortingOrder = this.state.sortingOrder,
@@ -67,6 +119,7 @@ export default class AlbumsListing extends Component {
     var self = this;
     AlbumService.getAlbums({
       sorting_order: sortingOrder,
+      sorting_field: sortingField,
       page: page,
       per_page: window.paginationPerPage
     })
@@ -76,6 +129,7 @@ export default class AlbumsListing extends Component {
           albums: data.data.albums,
           meta: data.meta,
           sortingOrder: sortingOrder,
+          sortingField: sortingField,
           activeCheckboxSelected: activeCheckbox,
           deactiveCheckboxSelected: deactiveCheckbox
         });
@@ -89,6 +143,7 @@ export default class AlbumsListing extends Component {
     e.preventDefault();
     const sortingOrder = this.state.sortingOrder === 'desc' ? 'asc' : 'desc';
     this.getAllAlbums(
+      undefined,
       this.state.activeCheckboxSelected,
       this.state.deactiveCheckboxSelected,
       sortingOrder
@@ -96,13 +151,7 @@ export default class AlbumsListing extends Component {
   }
 
   handlePaginationClick = eventKey => {
-    if (eventKey !== this.state.meta.pagination.current_page)
-      this.getAllAlbums(
-        this.state.activeCheckboxSelected,
-        this.state.deactiveCheckboxSelected,
-        undefined,
-        eventKey
-      );
+    this.handleAlbumSorting(undefined, this.state.sortingField, eventKey);
   };
 
   showDialogueBox(id) {
@@ -151,6 +200,7 @@ export default class AlbumsListing extends Component {
 
     if (albums.length === 0 && pagination.total_count > 0) {
       this.getAllAlbums(
+        undefined,
         this.state.activeCheckboxSelected,
         this.state.deactiveCheckboxSelected
       );
@@ -226,11 +276,13 @@ export default class AlbumsListing extends Component {
     checked,
     activeCheckbox,
     deactiveCheckbox,
+    sortingField = this.state.sortingField,
     sortingOrder = this.state.sortingOrder,
     page = 1
   ) {
     var self = this;
     AlbumService.getAlbumStatusWise({
+      sorting_field: sortingField,
       sorting_order: sortingOrder,
       page: page,
       per_page: window.paginationPerPage,
@@ -243,6 +295,7 @@ export default class AlbumsListing extends Component {
           albums: data.data.albums,
           meta: data.meta,
           sortingOrder: sortingOrder,
+          sortingField: sortingField,
           activeCheckboxSelected: activeCheckbox,
           deactiveCheckboxSelected: deactiveCheckbox
         });
@@ -266,7 +319,7 @@ export default class AlbumsListing extends Component {
       (deactiveCheckbox === true && activeCheckbox === true) ||
       (deactiveCheckbox === false && activeCheckbox === false)
     ) {
-      this.getAllAlbums(activeCheckbox, deactiveCheckbox);
+      this.getAllAlbums(undefined, activeCheckbox, deactiveCheckbox);
     } else {
       this.getSlectedAlbums(status, checked, activeCheckbox, deactiveCheckbox);
     }
@@ -278,8 +331,37 @@ export default class AlbumsListing extends Component {
       alert,
       sortingOrder,
       activeCheckboxSelected,
-      deactiveCheckboxSelected
+      deactiveCheckboxSelected,
+      albumSortingOrder
     } = this.state;
+    var options = [
+      {
+        order: 'desc',
+        field: 'updated_at',
+        value: 'recent_updated',
+        label: 'Most Recent Update'
+      },
+      {
+        order: 'asc',
+        field: 'updated_at',
+        value: 'oldest_updated',
+        label: 'Most Oldest Update'
+      },
+      {
+        order: 'desc',
+        field: 'created_at',
+        value: 'recent_created',
+        label: 'Most Recent Created'
+      },
+      {
+        order: 'asc',
+        field: 'created_at',
+        value: 'oldest_created',
+        label: 'Most Oldest Created'
+      },
+      { order: 'asc', field: 'album_name', value: 'a_z', label: 'A to Z' },
+      { order: 'desc', field: 'album_name', value: 'z_a', label: 'Z to A' }
+    ];
     return (
       <Col xs={12} className="albums-page-wrap">
         <SweetAlert
@@ -312,7 +394,7 @@ export default class AlbumsListing extends Component {
             selectionAlbumObject={this.state.selectionAlbumObject}
           />
         )}
-        <Col xs={12} className="filter-wrap p-none">
+        <Col xs={12} className="filter-wrap p-none album-listing-title-wrap">
           <Col xs={12} className="p-none">
             <span className="total-album pull-left">
               Total :{' '}
@@ -338,7 +420,7 @@ export default class AlbumsListing extends Component {
                     ? 'Sort By Active Albums'
                     : deactiveCheckboxSelected
                       ? 'Sort By Deactive Albums'
-                      : 'Sort By Latest Update '}
+                      : 'Sort By '}
                 <span
                   className={
                     sortingOrder === 'desc'
@@ -348,6 +430,13 @@ export default class AlbumsListing extends Component {
                 />
               </a>
             </h5>
+            <Select
+              name="sorting"
+              value={albumSortingOrder}
+              options={options}
+              placeholder={false}
+              onChange={this.handleSelectChange.bind(this)}
+            />
             <Checkbox
               name="active-checkbox"
               className="all-selection-check album-status-checkboxes"
@@ -578,7 +667,7 @@ export default class AlbumsListing extends Component {
         </Col>
         <PaginationModule
           pagination={meta.pagination}
-          paginationClick={this.handlePaginationClick}
+          paginationClick={this.handlePaginationClick.bind(this)}
         />
       </Col>
     );
