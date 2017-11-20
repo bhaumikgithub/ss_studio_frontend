@@ -555,6 +555,7 @@ div.filepicker {
   padding: 10px 15px;
   font-family: 'ralewaymedium';
   border-color: transparent;
+  float: left !important;
 }
 .edit-album-detail img {
   margin-right: 3px;
@@ -790,25 +791,87 @@ div.filepicker {
 }
 .private-album {
   background-color: #ff0000;
-  float: left;
-  color: white;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 10px;
-  font-weight: bold;
-  margin-top: 9px;
 }
 .public-album {
   background-color: #1faf1f;
-  float: left;
-  color: white;
-  padding: 5px;
+}
+.add-photoes-btn {
+  border-radius: 20px !important;
+}
+.add-photoes-btn,
+.public-album,
+.private-album {
+  padding: 10px 15px;
+  margin-top: 5px;
   border-radius: 5px;
   font-size: 10px;
   font-weight: bold;
-  margin-top: 9px;
+  color: white;
+  /* margin-top: 9px; */
+  float: left !important;
 }
 /* end album detail page css  */
 .custom-form-control {
   font-size: 14px !important;
+}
+.Select {
+  display: inline-block;
+  min-width: 200px;
+  float: left;
+  margin-right: 10px;
+}
+@media only screen and (max-width: 680px) {
+  .private-album,
+  .public-album,
+  .edit-album-detail {
+    margin: 5px 15px;
+  }
+}
+@media only screen and (max-width: 568px) {
+  .total-photo-count {
+    margin-top: 0px;
+  }
+  .view-album-detail {
+    margin-left: 5px !important;
+    margin-top: 9px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  /* album-listing page css starts*/
+
+  .Select {
+    display: block;
+    min-width: 200px;
+    float: none;
+    clear: both;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .album-listing-title-wrap .all-selection-check {
+    margin-top: 0px !important;
+  }
+  /* album-listing page css ends here*/
+  /* album-detail page css starts*/
+  .add-photoes-btn,
+  .public-album,
+  .private-album,
+  .edit-album-detail {
+    margin: 5px;
+  }
+  /*---------------------------*/
+}
+@media only screen and (max-width: 420px) {
+  .public-album,
+  .private-album {
+    width: fit-content;
+  }
+  .add-photoes-btn,
+  .public-album,
+  .private-album,
+  .edit-album-detail {
+    float: none !important;
+    clear: both;
+    display: block;
+    margin-bottom: 15px;
+  }
 }
