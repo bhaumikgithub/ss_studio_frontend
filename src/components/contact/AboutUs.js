@@ -50,7 +50,10 @@ export default class AboutUs extends Component {
             <Col xs={12} sm={8} className="text-grey">
               <Col xs={12} className="about-details-wrap">
                 <h3 className="about-title">{aboutUs.title_text}</h3>
-                <p className="p-wrap">{aboutUs.description}</p>
+                <p
+                  dangerouslySetInnerHTML={{ __html: aboutUs.description }}
+                  className="p-wrap"
+                />
               </Col>
               {aboutUs.social_links && (
                 <Col className="media-icons" xs={12}>

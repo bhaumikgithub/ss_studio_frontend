@@ -9,7 +9,11 @@ import {
 } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import EditTitle from '../../../assets/images/admin/site-content/about-site-content-icon.png';
-
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 // Import components
 import validationHandler from '../../common/ValidationHandler';
 
@@ -37,6 +41,7 @@ export default class EditAboutContent extends Component {
         // twitter_link: '',
         // instagram_link: '',
       },
+      editorState: EditorState.createEmpty(),
       errors: {}
     };
     return initialState;
@@ -48,6 +53,7 @@ export default class EditAboutContent extends Component {
 
   editAboutUs(aboutUs) {
     var self = this;
+    var editorState;
     const {
       title_text,
       description
@@ -55,13 +61,21 @@ export default class EditAboutContent extends Component {
       // twitter_link,
       // instagram_link,
     } = aboutUs;
+    const contentBlock = htmlToDraft(description);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
+      editorState = EditorState.createWithContent(contentState);
+    }
     self.setState({
       editAboutForm: {
         title_text: title_text,
         description: description
         // facebook_link: facebook_link
         // twitter_link: twitter_link
-      }
+      },
+      editorState: editorState
     });
   }
 
@@ -80,9 +94,21 @@ export default class EditAboutContent extends Component {
       editAboutForm
     });
   }
-
+  onEditorStateChange = editorState => {
+    const editAboutForm = this.state.editAboutForm;
+    editAboutForm['description'] = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+    this.setState({
+      editorState,
+      editAboutForm
+    });
+  };
   handleSubmit(e) {
     var self = this;
+    if (self.state.editAboutForm.description === '<p></p>\n') {
+      self.state.editAboutForm.description = '';
+    }
     var editParams = {
       about: self.state.editAboutForm
     };
@@ -113,7 +139,7 @@ export default class EditAboutContent extends Component {
   }
 
   render() {
-    const { editAboutForm, errors } = this.state;
+    const { editAboutForm, errors, editorState } = this.state;
     return (
       <Modal
         show={this.props.EditAboutShow}
@@ -172,11 +198,17 @@ export default class EditAboutContent extends Component {
                 <ControlLabel className="custom-form-control-label required">
                   Description
                 </ControlLabel>
+                <Editor
+                  defaultEditorState={editorState}
+                  wrapperClassName="demo-wrapper"
+                  editorClassName="demo-editor"
+                  onEditorStateChange={this.onEditorStateChange}
+                />
                 <Scrollbars style={{ height: '40px' }}>
                   <FormControl
                     id="modalAboutDesc"
                     className="custom-form-control editabouttxtarea"
-                    componentClass="textarea"
+                    componentClass="hidden"
                     placeholder="We are Capture Best Moments which is impossible to recapture.. Wedding Photography, Wedding Videography , Candid Photography, Birthday Party, Candid Video, Short Film, Wedding Highlights , Portrait Songs , Pre Wedding Songs , Model Photography , Indoor/outdoor Photography , Product Photography , Making Brochure Design , etc..."
                     name="description"
                     value={editAboutForm.description}
@@ -189,7 +221,6 @@ export default class EditAboutContent extends Component {
                   </span>
                 )}
               </FormGroup>
-
               {/* <FormGroup className="custom-form-group">
                 <ControlLabel className="custom-form-control-label">
                   Facebook Profile
