@@ -431,6 +431,7 @@ export default class AlbumsListing extends Component {
               </a>
             </h5>
             <Select
+              className="album-sorting-option"
               name="sorting"
               value={albumSortingOrder}
               options={options}
