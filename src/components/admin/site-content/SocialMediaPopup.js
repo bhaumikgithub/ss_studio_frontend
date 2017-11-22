@@ -124,7 +124,6 @@ export default class SocialMediaPopup extends Component {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        debugger;
         const errors = error.response.data.errors;
         if (errors.length > 0) {
           self.setState({ errors: validationHandler(errors) });

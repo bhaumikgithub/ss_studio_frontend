@@ -22,7 +22,7 @@ import {
 } from '../../../services/Index';
 
 // Import helper
-import { getStatusClass, isObjectEmpty } from '../../Helper';
+import { isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/album-details/album-details.css';
@@ -324,6 +324,17 @@ export default class AlbumDetails extends Component {
     }
   };
 
+  renderSelectedAlbum = (albumObject, message) => {
+    const newAlbum = Object.assign({}, this.state.album);
+    if (this.state.album.delivery_status === 'Shared') {
+      newAlbum.delivery_status = 'New';
+    }
+    this.setState({
+      album: newAlbum
+    });
+    this.updateSuccessState(albumObject, message);
+  };
+
   renderAlbum = album => {
     const newAlbum = Object.assign({}, this.state.album);
     newAlbum.album_name = album.album_name;
@@ -409,6 +420,7 @@ export default class AlbumDetails extends Component {
         self.setState({
           album: newAlbum
         });
+        self.updateSuccessState(self.state.album, response.data.message);
       }
     });
   }
@@ -442,78 +454,14 @@ export default class AlbumDetails extends Component {
     this.setState({
       alert: {
         show: true,
-        title:
-          event.target.textContent === 'Reset Selection'
-            ? 'Are you sure you want to reset selection process?'
-            : event.target.textContent === 'Stop Allowing Selection'
-              ? 'Are you sure you want to stop allowing selection?'
-              : 'Are you sure you want to re allow photo selection?',
+        title: 'Are you sure you want to Deliverd Album?',
         text: "You won't be able to revert this!",
         btnText: 'Yes',
         type: 'warning',
-        confirmAction:
-          event.target.textContent === 'Reset Selection'
-            ? () => this.resetPhotoSelection()
-            : event.target.textContent === 'Stop Allowing Selection'
-              ? () => this.stopAllowingSelection()
-              : () => this.reAllowingSelection(),
+        confirmAction: () => this.deliveredAlbum(),
         cancelBtn: true
       }
     });
-  }
-
-  resetPhotoSelection() {
-    var self = this;
-    AlbumRecipientService.resetAdminRecipients(self.state.album.id)
-      .then(function(response) {
-        if (response.status === 200) {
-          const newAlbum = Object.assign({}, self.state.album);
-          newAlbum.album_recipients = {};
-          newAlbum.delivery_status = 'Shared';
-          newAlbum.photos = response.data.data.data.photos;
-          self.setState({ album: newAlbum });
-          self.updateSuccessState(self.state.album, response.data.message);
-        }
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
-  }
-
-  stopAllowingSelection() {
-    var self = this;
-    AlbumService.markAsStopedSelection(self.state.albumSlug)
-      .then(function(response) {
-        if (response.status === 200) {
-          const newAlbum = Object.assign({}, self.state.album);
-          newAlbum.delivery_status = 'Stoped_selection';
-          self.setState({
-            album: newAlbum
-          });
-          self.updateSuccessState(self.state.album, response.data.message);
-        }
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
-  }
-
-  reAllowingSelection() {
-    var self = this;
-    AlbumService.markAsShared(self.state.albumSlug)
-      .then(function(response) {
-        if (response.status === 200) {
-          const newAlbum = Object.assign({}, self.state.album);
-          newAlbum.delivery_status = 'Shared';
-          self.setState({
-            album: newAlbum
-          });
-          self.updateSuccessState(self.state.album, response.data.message);
-        }
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
   }
   activateAlbum() {
     var self = this;
@@ -576,6 +524,7 @@ export default class AlbumDetails extends Component {
           )}
           {(this.state.shareAlbum || this.state.albumSelection) && (
             <ShareAlbum
+              albumSlug={albumSlug}
               albumId={album.id}
               shareAlbum={this.state.shareAlbum}
               closeShareAlbum={this.closeShareAlbum}
@@ -583,6 +532,7 @@ export default class AlbumDetails extends Component {
               shareAlbumObject={this.state.shareAlbumObject}
               albumSelection={this.state.albumSelection}
               selectionAlbumObject={selectionAlbumObject}
+              renderSelectedAlbum={this.renderSelectedAlbum}
             />
           )}
           {this.state.alreadySharedAlbum && (
@@ -661,7 +611,8 @@ export default class AlbumDetails extends Component {
                   View Album
                 </Link>
                 {(album.delivery_status === 'Submitted' ||
-                  album.delivery_status === 'Delivered') && (
+                  album.delivery_status === 'Delivered' ||
+                  album.delivery_status === 'Stoped_selection') && (
                   <Button
                     className="delete-selected btn-link"
                     onClick={() =>
@@ -920,121 +871,39 @@ export default class AlbumDetails extends Component {
                   <hr />
                 </Col>
                 <Col xs={12} className="p-none">
-                  <h4 className="album-delivery-details">selection process</h4>
-                  {album.delivery_status === 'Submitted' ||
-                  album.delivery_status === 'Delivered' ? (
-                    <Col>
-                      <span className="album-delivery-status text-yellow">
-                        {album.delivery_status === 'Delivered'
+                  <h4 className="album-delivery-details">
+                    Customer's Selection
+                  </h4>
+                  <div className="album-delivery-status text-yellow ">
+                    {(album.delivery_status === 'New' ||
+                      album.delivery_status === 'Shared') &&
+                    album.album_recipients &&
+                    (!isObjectEmpty(album.album_recipients) &&
+                      album.album_recipients.length > 0)
+                      ? 'Selection In Progress'
+                      : album.delivery_status === 'Stoped_selection' ||
+                        album.delivery_status === 'Submitted'
+                        ? 'Selection Done'
+                        : album.delivery_status === 'Delivered'
                           ? 'Album Delivered'
-                          : 'Selection Process Completed'}
-                      </span>
-                      <div className="already-shared-with minimum-photo-selection">
-                        Photos Selected:
-                        <button
-                          className="share-count minimum-photo-selection-count"
-                          onClick={() => this.getSelectedPhotos()}
-                        >
-                          {album.selected_photo_count}
-                        </button>
-                      </div>
-                      <div className="already-shared-with commented-photo-count-wrapper">
-                        Comments:
-                        {album.commented_photo_count > 0 ? (
-                          <button
-                            className="share-count minimum-photo-selection-count"
-                            onClick={() => this.getCommentedPhotos()}
-                          >
-                            {album.commented_photo_count}
-                          </button>
-                        ) : (
-                          <span className="share-count minimum-photo-selection-count">
-                            {album.commented_photo_count}
-                          </span>
-                        )}
-                      </div>
-                      {album.delivery_status === 'Submitted' && (
-                        <Button
-                          className="btn btn-orange share-album-btn album-deliverd-btn"
-                          onClick={() => this.deliveredAlbum()}
-                        >
-                          Album Deliverd
-                        </Button>
-                      )}
-                    </Col>
-                  ) : (
-                    <Col>
-                      <a
-                        className={
-                          album.delivery_status === 'Stoped_selection'
-                            ? 'album-delivery-status text-yellow photo-selection-count-with-progress stoped-selection-album'
-                            : 'album-delivery-status text-yellow selection-album-link'
-                        }
-                        onClick={() =>
-                          album.delivery_status !== 'Stoped_selection'
-                            ? this.getAdminAlbumRecipients(album)
-                            : ''}
-                      >
-                        {album.delivery_status === 'Stoped_selection'
-                          ? 'Client Selection Is Stopped'
-                          : album.album_recipients &&
-                            (!isObjectEmpty(album.album_recipients) &&
-                              album.album_recipients.length > 0)
-                            ? 'Client Selection In Progress'
-                            : 'Invite For Selection Album'}
-                      </a>
-                      <div className="already-shared-with minimum-photo-selection">
-                        Minimum Photo
-                        <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
-                          {' '}
-                          {album.album_recipients &&
-                          (!isObjectEmpty(album.album_recipients) &&
-                            album.album_recipients.length > 0 &&
-                            album.album_recipients[0] !== null)
-                            ? album.album_recipients[0].minimum_photo_selection
-                            : 0}{' '}
-                        </button>
-                      </div>
-                      <div className="already-shared-with">
-                        Comments Allowed:
-                        <span className="comment-allowed">
-                          {album.album_recipients &&
-                          (!isObjectEmpty(album.album_recipients) &&
-                            album.album_recipients.length > 0 &&
-                            album.album_recipients[0] !== null)
-                            ? album.album_recipients[0].allow_comments
-                              ? ' Yes'
-                              : ' No'
-                            : '     -'}
-                        </span>
-                      </div>
-                      {album.album_recipients &&
-                      (!isObjectEmpty(album.album_recipients) &&
-                        album.album_recipients.length > 0) ? (
-                        <Button
-                          className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
-                          onClick={event => this.showActionDialogueBox(event)}
-                        >
-                          Reset Selection
-                        </Button>
-                      ) : (
-                        ''
-                      )}
-                      {album.album_recipients &&
-                      (!isObjectEmpty(album.album_recipients) &&
-                        album.album_recipients.length > 0) ? (
-                        <Button
-                          className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
-                          onClick={event => this.showActionDialogueBox(event)}
-                        >
-                          {album.delivery_status === 'Stoped_selection'
-                            ? 'Re-Allow Photo Selection'
-                            : 'Stop Allowing Selection'}
-                        </Button>
-                      ) : (
-                        ''
-                      )}
-                    </Col>
+                          : ''}
+                  </div>
+                  <Button className="btn btn-orange share-album-btn album-deliverd-btn">
+                    <a
+                      className="album-delivery-status manage-selection-title"
+                      onClick={() => this.getAdminAlbumRecipients(album)}
+                    >
+                      Manage Selection
+                    </a>
+                  </Button>
+                  {(album.delivery_status === 'Stoped_selection' ||
+                    album.delivery_status === 'Submitted') && (
+                    <Button
+                      className="btn btn-orange share-album-btn album-deliverd-btn"
+                      onClick={event => this.showActionDialogueBox(event)}
+                    >
+                      Album Deliverd
+                    </Button>
                   )}
                 </Col>
                 <Col xs={12} className="p-none detail-separator">

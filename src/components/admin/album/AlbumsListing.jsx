@@ -13,11 +13,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { AlbumService } from '../../../services/Index';
 
 // Import helper
-import {
-  isObjectEmpty,
-  getStatusClass,
-  getAlbumStatusClass
-} from '../../Helper';
+import { isObjectEmpty, getAlbumStatusClass } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
