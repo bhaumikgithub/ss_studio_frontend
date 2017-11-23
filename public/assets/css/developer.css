@@ -798,6 +798,12 @@ div.filepicker {
 .add-photoes-btn {
   border-radius: 20px !important;
 }
+.private-album-text,
+.public-album-text {
+  padding: 5px 5px !important;
+  font-size: 12px !important;
+  margin-top: 8px !important;
+}
 .add-photoes-btn,
 .public-album,
 .private-album {
@@ -837,6 +843,17 @@ div.filepicker {
 }
 .share-album-align {
   text-align: center;
+}
+.view-activity-margin {
+  margin-top: 10px;
+}
+.view-activity-link,
+.view-activity-link:hover {
+  color: #0000ff;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-family: 'ralewaymedium';
 }
 /* end Share Album page */
 @media only screen and (max-width: 680px) {

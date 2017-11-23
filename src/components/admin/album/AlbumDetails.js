@@ -633,9 +633,13 @@ export default class AlbumDetails extends Component {
 
               <div className="detail-btn-wrap">
                 {album.is_private ? (
-                  <div className="private-album"> Private Album </div>
+                  <div className="private-album private-album-text">
+                    Private Album
+                  </div>
                 ) : (
-                  <div className="public-album"> Public Album </div>
+                  <div className="public-album public-album-text">
+                    Public Album
+                  </div>
                 )}
                 <Button
                   className="edit-album-detail"
@@ -888,14 +892,26 @@ export default class AlbumDetails extends Component {
                           ? 'Album Delivered'
                           : ''}
                   </div>
-                  <Button className="btn btn-orange share-album-btn album-deliverd-btn">
-                    <a
-                      className="album-delivery-status manage-selection-title"
-                      onClick={() => this.getAdminAlbumRecipients(album)}
-                    >
-                      Manage Selection
-                    </a>
-                  </Button>
+                  {album.delivery_status === 'Delivered' ? (
+                    <div className="view-activity-margin">
+                      <a
+                        className="view-activity-link"
+                        onClick={() => this.getAdminAlbumRecipients(album)}
+                      >
+                        View Activity
+                      </a>
+                    </div>
+                  ) : (
+                    <Button className="btn btn-orange share-album-btn album-deliverd-btn">
+                      <a
+                        className="album-delivery-status manage-selection-title"
+                        onClick={() => this.getAdminAlbumRecipients(album)}
+                      >
+                        Manage Selection
+                      </a>
+                    </Button>
+                  )}
+
                   {(album.delivery_status === 'Stoped_selection' ||
                     album.delivery_status === 'Submitted') && (
                     <Button
