@@ -3,7 +3,7 @@ import { Col, Tab, Tabs, Checkbox } from 'react-bootstrap';
 // Import component
 
 // Import services
-import { AboutService, WatermarkService } from '../../../services/Index';
+import { WatermarkService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
