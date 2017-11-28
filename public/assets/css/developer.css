@@ -826,6 +826,17 @@ div.filepicker {
   float: left;
   margin-right: 10px;
 }
+/* Dropdown Settings menu start  */
+.watermark-content-img {
+  border: 1px solid #cecece;
+}
+.dropdown-setting-menu {
+  padding: 0 !important;
+}
+.setting-menu-label {
+  border: 0px;
+}
+/* Dropdown Settings menu end  */
 /* start Share Album page */
 .manage-selection-title,
 .manage-selection-title:hover {

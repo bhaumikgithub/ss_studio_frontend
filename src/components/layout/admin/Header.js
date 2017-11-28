@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, Button, NavItem } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  Button,
+  NavItem,
+  ListGroupItem
+} from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { IndexLinkContainer } from 'react-router-bootstrap';
@@ -100,6 +108,11 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
+              <NavLink to="/settings" className="dropdown-setting-menu">
+                <ListGroupItem href="" className="setting-menu-label">
+                  Settings
+                </ListGroupItem>
+              </NavLink>
               <Button
                 className="edit-album-detail"
                 onClick={() =>
