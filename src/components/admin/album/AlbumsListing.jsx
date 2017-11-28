@@ -13,11 +13,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { AlbumService } from '../../../services/Index';
 
 // Import helper
-import {
-  isObjectEmpty,
-  getStatusClass,
-  getAlbumStatusClass
-} from '../../Helper';
+import { isObjectEmpty, getAlbumStatusClass } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
@@ -431,6 +427,7 @@ export default class AlbumsListing extends Component {
               </a>
             </h5>
             <Select
+              className="album-sorting-option"
               name="sorting"
               value={albumSortingOrder}
               options={options}

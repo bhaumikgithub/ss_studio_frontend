@@ -8,9 +8,10 @@ import {
   Checkbox
 } from 'react-bootstrap';
 import { Creatable } from 'react-select';
+import SweetAlert from 'sweetalert-react';
 
 // Import services
-import { AlbumRecipientService } from '../../../services/Index';
+import { AlbumRecipientService, AlbumService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/album/share-album/share-album.css';
@@ -36,8 +37,19 @@ export default class ShareAlbum extends Component {
       },
       emails_error: '',
       contacts: [],
+      albumObject: this.props.shareAlbumObject,
       albumId: this.props.albumId,
-      albumRecipientObject: this.props.selectionAlbumObject
+      albumSlug: this.props.albumSlug,
+      albumRecipientObject: this.props.selectionAlbumObject,
+      alert: {
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
 
     return initialState;
@@ -66,7 +78,89 @@ export default class ShareAlbum extends Component {
         console.log(error.response);
       });
   }
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+  showActionDialogueBox(event) {
+    this.setState({
+      alert: {
+        show: true,
+        title:
+          event.target.textContent === 'Reset Selection'
+            ? 'Are you sure you want to reset selection process?'
+            : event.target.textContent === 'Stop Allowing Selection'
+              ? 'Are you sure you want to stop allowing selection?'
+              : 'Are you sure you want to re allow photo selection?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes',
+        type: 'warning',
+        confirmAction:
+          event.target.textContent === 'Reset Selection'
+            ? () => this.resetPhotoSelection()
+            : event.target.textContent === 'Stop Selection'
+              ? () => this.stopAllowingSelection()
+              : () => this.reAllowingSelection(),
+        cancelBtn: true
+      }
+    });
+  }
 
+  resetPhotoSelection() {
+    var self = this;
+    AlbumRecipientService.resetAdminRecipients(self.state.albumId)
+      .then(function(response) {
+        if (response.status === 200) {
+          const newAlbum = Object.assign({}, self.state.albumObject);
+
+          newAlbum.album_recipients = {};
+          newAlbum.delivery_status = 'Shared';
+          newAlbum.photos = response.data.data.data.photos;
+          self.setState({ albumObject: newAlbum });
+
+          self.props.renderSelectedAlbum(newAlbum, response.data.message);
+          self.props.closeShareAlbum();
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  stopAllowingSelection() {
+    var self = this;
+    AlbumService.markAsStopedSelection(self.state.albumSlug)
+      .then(function(response) {
+        if (response.status === 200) {
+          const newAlbum = Object.assign({}, self.state.albumObject);
+          newAlbum.delivery_status = 'Stoped_selection';
+          self.setState({ albumObject: newAlbum });
+          self.props.renderSelectedAlbum(newAlbum, response.data.message);
+          self.props.closeShareAlbum();
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  reAllowingSelection() {
+    var self = this;
+    AlbumService.markAsShared(self.state.albumSlug)
+      .then(function(response) {
+        if (response.status === 200) {
+          const newAlbum = Object.assign({}, self.state.albumObject);
+          newAlbum.delivery_status = 'Shared';
+          self.setState({
+            albumObject: newAlbum
+          });
+          self.props.renderSelectedAlbum(newAlbum, response.data.message);
+          self.props.closeShareAlbum();
+        }
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
   editSharedAlbum(albumRecipients) {
     var self = this;
     const {
@@ -189,7 +283,7 @@ export default class ShareAlbum extends Component {
   }
 
   render() {
-    const { shareAlbumForm, emails_error } = this.state;
+    const { shareAlbumForm, emails_error, alert } = this.state;
     const album = this.props.shareAlbumObject;
     return (
       <Modal
@@ -215,6 +309,16 @@ export default class ShareAlbum extends Component {
           </span>
           <Col className="share-title-wrap p-none" sm={5}>
             <Col xs={12} className="p-none share-album-title-details">
+              <SweetAlert
+                show={alert.show || false}
+                title={alert.title || ''}
+                text={alert.text || ''}
+                type={alert.type || 'success'}
+                showCancelButton={alert.cancelBtn}
+                confirmButtonText={alert.btnText}
+                onConfirm={alert.confirmAction}
+                onCancel={() => this.hideDialogueBox()}
+              />
               <img
                 src={require('../../../assets/images/admin/album/share-album/share-album-icon.png')}
                 alt=""
@@ -254,69 +358,222 @@ export default class ShareAlbum extends Component {
                   )}
                 </div>
               )}
-            <form className="admin-side share-album-form custom-form">
-              <FormGroup className="custom-form-group">
-                <Creatable
-                  className="custom-form-control"
-                  placeholder="Enter a name or email address"
-                  name="contact_options"
-                  value={shareAlbumForm.contact_options}
-                  options={this.contactOptions()}
-                  multi={true}
-                  onChange={this.handleMultiSelectChange.bind(this)}
-                />
-                {emails_error && (
-                  <span className="input-error text-red">{emails_error}</span>
+
+            {this.props.albumSelection &&
+            (!isObjectEmpty(this.props.selectionAlbumObject) &&
+              this.props.selectionAlbumObject.length > 0) ? (
+              <form className="admin-side share-album-form custom-form">
+                {this.props.shareAlbumObject.delivery_status === 'Submitted' ||
+                this.props.shareAlbumObject.delivery_status === 'Delivered' ||
+                this.props.shareAlbumObject.delivery_status ===
+                  'Stoped_selection' ? (
+                  <Col>
+                    <div className="already-shared-with minimum-photo-selection">
+                      Minimum Photo
+                      <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
+                        {' '}
+                        {this.props.shareAlbumObject.album_recipients &&
+                        (!isObjectEmpty(album.album_recipients) &&
+                          this.props.shareAlbumObject.album_recipients.length >
+                            0 &&
+                          this.props.shareAlbumObject.album_recipients[0] !==
+                            null)
+                          ? this.props.shareAlbumObject.album_recipients[0]
+                              .minimum_photo_selection
+                          : 0}{' '}
+                      </button>
+                    </div>
+                    <div className="already-shared-with allowed-comment-margin">
+                      Comments Allowed:
+                      <span className="comment-allowed">
+                        {this.props.shareAlbumObject.album_recipients &&
+                        (!isObjectEmpty(
+                          this.props.shareAlbumObject.album_recipients
+                        ) &&
+                          this.props.shareAlbumObject.album_recipients.length >
+                            0 &&
+                          this.props.shareAlbumObject.album_recipients[0] !==
+                            null)
+                          ? this.props.shareAlbumObject.album_recipients[0]
+                              .allow_comments
+                            ? ' Yes'
+                            : ' No'
+                          : '     -'}
+                      </span>
+                    </div>
+                    <div className="already-shared-with minimum-photo-selection">
+                      Selected photos:
+                      <span className="share-count minimum-photo-selection-count">
+                        {this.props.shareAlbumObject.selected_photo_count}
+                      </span>
+                    </div>
+                    <div className="already-shared-with allowed-comment-margin">
+                      Comments:
+                      {this.props.shareAlbumObject.commented_photo_count > 0 ? (
+                        <span className="share-count minimum-photo-selection-count">
+                          {this.props.shareAlbumObject.commented_photo_count}
+                        </span>
+                      ) : (
+                        <span className="share-count minimum-photo-selection-count">
+                          {this.props.shareAlbumObject.commented_photo_count}
+                        </span>
+                      )}
+                    </div>
+                  </Col>
+                ) : (
+                  <Col>
+                    <div className="already-shared-with minimum-photo-selection">
+                      Minimum Photo
+                      <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
+                        {' '}
+                        {this.props.shareAlbumObject.album_recipients &&
+                        (!isObjectEmpty(album.album_recipients) &&
+                          this.props.shareAlbumObject.album_recipients.length >
+                            0 &&
+                          this.props.shareAlbumObject.album_recipients[0] !==
+                            null)
+                          ? this.props.shareAlbumObject.album_recipients[0]
+                              .minimum_photo_selection
+                          : 0}{' '}
+                      </button>
+                    </div>
+                    <div className="already-shared-with allowed-comment-margin">
+                      Comments Allowed:
+                      <span className="comment-allowed">
+                        {this.props.shareAlbumObject.album_recipients &&
+                        (!isObjectEmpty(
+                          this.props.shareAlbumObject.album_recipients
+                        ) &&
+                          this.props.shareAlbumObject.album_recipients.length >
+                            0 &&
+                          this.props.shareAlbumObject.album_recipients[0] !==
+                            null)
+                          ? this.props.shareAlbumObject.album_recipients[0]
+                              .allow_comments
+                            ? ' Yes'
+                            : ' No'
+                          : '     -'}
+                      </span>
+                    </div>
+                  </Col>
                 )}
-              </FormGroup>
-              <FormGroup className="custom-form-group">
-                <FormControl
-                  className="custom-form-control"
-                  componentClass="textarea"
-                  type="text"
-                  placeholder="Type a message (Optional)"
-                  name="custom_message"
-                  value={shareAlbumForm.custom_message}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </FormGroup>
-              {this.props.albumSelection && (
-                <Col>
-                  <FormGroup className="custom-form-group">
-                    <FormControl
-                      className="custom-form-control"
-                      value={shareAlbumForm.minimum_photo_selection}
-                      type="number"
-                      name="minimum_photo_selection"
-                      min="1"
-                      max={album.photo_count}
-                      onChange={this.handleChange.bind(this)}
-                    />
-                  </FormGroup>
-                  <FormGroup className="custom-form-group">
-                    <Checkbox
-                      className=""
-                      name="allow_comments"
-                      value={shareAlbumForm.allow_comments}
-                      onClick={this.handleChange.bind(this)}
-                      defaultChecked={shareAlbumForm.allow_comments}
+
+                {/* <Button
+                    className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
+                    onClick={event => this.showActionDialogueBox(event)}
+                  >
+                    Reset Selection
+                  </Button>
+                  <Button
+                    className="btn-orange share-album-btn album-deliverd-btn text-lowercase allow-selection-margin"
+                    onClick={event => this.showActionDialogueBox(event)}
+                  >
+                    {this.props.shareAlbumObject.delivery_status ===
+                      'Stoped_selection' ||
+                    this.props.shareAlbumObject.delivery_status ===
+                      'Submitted' ||
+                    this.props.shareAlbumObject.delivery_status === 'Delivered'
+                      ? 'Reallow Selection'
+                      : 'Stop Selection'}
+                  </Button> */}
+                {this.props.shareAlbumObject.delivery_status === 'Delivered' ? (
+                  <div className="share-album-align">
+                    <Button
+                      className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
+                      onClick={this.props.closeShareAlbum}
                     >
-                      {' '}
-                      Allow Comments
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
-                  </FormGroup>
-                </Col>
-              )}
-              <Button
-                className="btn btn-orange share-submit"
-                onClick={event => this.handleSubmit(event)}
-              >
-                Save
-              </Button>
-            </form>
+                      Ok
+                    </Button>
+                  </div>
+                ) : (
+                  <Col>
+                    <Button
+                      className="btn-orange share-album-btn album-deliverd-btn text-lowercase"
+                      onClick={event => this.showActionDialogueBox(event)}
+                    >
+                      Reset Selection
+                    </Button>
+                    <Button
+                      className="btn-orange share-album-btn album-deliverd-btn text-lowercase allow-selection-margin"
+                      onClick={event => this.showActionDialogueBox(event)}
+                    >
+                      {this.props.shareAlbumObject.delivery_status ===
+                        'Stoped_selection' ||
+                      this.props.shareAlbumObject.delivery_status ===
+                        'Submitted'
+                        ? 'Reallow Selection'
+                        : 'Stop Selection'}
+                    </Button>
+                  </Col>
+                )}
+              </form>
+            ) : (
+              <form className="admin-side share-album-form custom-form">
+                {this.props.albumSelection && (
+                  <Col>
+                    <FormGroup className="custom-form-group">
+                      <span>Minimum Photos </span>
+                      <FormControl
+                        className="custom-form-control min-selected-photo-width"
+                        value={shareAlbumForm.minimum_photo_selection}
+                        type="text"
+                        name="minimum_photo_selection"
+                        min="1"
+                        max={album.photo_count}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    </FormGroup>
+                    <FormGroup className="custom-form-group">
+                      <Checkbox
+                        className=""
+                        name="allow_comments"
+                        value={shareAlbumForm.allow_comments}
+                        onClick={this.handleChange.bind(this)}
+                        defaultChecked={shareAlbumForm.allow_comments}
+                      >
+                        {' '}
+                        <span>Allow Comments</span>
+                        <div className="check">
+                          <div className="inside" />
+                        </div>
+                      </Checkbox>
+                    </FormGroup>
+                  </Col>
+                )}
+                <FormGroup className="custom-form-group">
+                  <Creatable
+                    className="custom-form-control"
+                    placeholder="Enter a name or email address"
+                    name="contact_options"
+                    value={shareAlbumForm.contact_options}
+                    options={this.contactOptions()}
+                    multi={true}
+                    onChange={this.handleMultiSelectChange.bind(this)}
+                  />
+                  {emails_error && (
+                    <span className="input-error text-red">{emails_error}</span>
+                  )}
+                </FormGroup>
+                <FormGroup className="custom-form-group">
+                  <FormControl
+                    className="custom-form-control"
+                    componentClass="textarea"
+                    type="text"
+                    placeholder="Type a message (Optional)"
+                    name="custom_message"
+                    value={shareAlbumForm.custom_message}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </FormGroup>
+
+                <Button
+                  className="btn btn-orange share-submit"
+                  onClick={event => this.handleSubmit(event)}
+                >
+                  Save
+                </Button>
+              </form>
+            )}
           </Col>
         </Modal.Body>
       </Modal>

@@ -798,6 +798,12 @@ div.filepicker {
 .add-photoes-btn {
   border-radius: 20px !important;
 }
+.private-album-text,
+.public-album-text {
+  padding: 5px 5px !important;
+  font-size: 12px !important;
+  margin-top: 8px !important;
+}
 .add-photoes-btn,
 .public-album,
 .private-album {
@@ -814,7 +820,7 @@ div.filepicker {
 .custom-form-control {
   font-size: 14px !important;
 }
-.Select {
+.album-sorting-option {
   display: inline-block;
   min-width: 200px;
   float: left;
@@ -831,6 +837,36 @@ div.filepicker {
   border: 0px;
 }
 /* Dropdown Settings menu end  */
+/* start Share Album page */
+.manage-selection-title,
+.manage-selection-title:hover {
+  color: white;
+}
+.allowed-comment-margin {
+  margin-left: 15px;
+}
+.allow-selection-margin {
+  margin-left: 2px;
+}
+.min-selected-photo-width {
+  width: 62%;
+  display: unset;
+}
+.share-album-align {
+  text-align: center;
+}
+.view-activity-margin {
+  margin-top: 10px;
+}
+.view-activity-link,
+.view-activity-link:hover {
+  color: #0000ff;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-family: 'ralewaymedium';
+}
+/* end Share Album page */
 @media only screen and (max-width: 680px) {
   .private-album,
   .public-album,
