@@ -75,7 +75,7 @@ export default class HomePageGallery extends Component {
       <Col xs={12} className="homepage-gallery-page-wrap">
         <Row>
           <Col xs={12} className="homepage-gallery">
-            <Col xs={12} className="slider-images-wrap disable-horizontal">
+            <Col xs={12} className="slider-images-wrap disable-scrollbar">
               {active_photos.map((photo, index) => (
                 <Col
                   xs={6}
@@ -103,11 +103,7 @@ export default class HomePageGallery extends Component {
                       className="edit-slide"
                       onClick={event => this.handleImageChange(event, index)}
                     >
-                      <img
-                        className="img-responsive"
-                        alt=""
-                        src={require('../../../assets/images/admin/homepage_gallery/img-edit-icon.png')}
-                      />
+                      <i className="fa fa-pencil-square-o" aria-hidden="true" />
                       <input
                         type="file"
                         ref={'editHomeImage' + index}

@@ -238,11 +238,7 @@ export default class Contacts extends Component {
             className="pull-right btn btn-orange add-new-btn"
             onClick={() => this.setState({ CreateShow: true })}
           >
-            <i className="add-album-icon">
-              <img
-                src={require('../../../assets/images/admin/album/add-icon.png')}
-                alt=""
-              />
+            <i className="fa fa-plus add-album-icon">
             </i>Add New
           </Button>
           <GoogleLoginModule
@@ -315,7 +311,7 @@ export default class Contacts extends Component {
                               })}
                           >
                             <img
-                              src={require('../../../assets/images/admin/album/edit-icon.png')}
+                              src={require('../../../assets/images/admin/contact/edit-icon.png')}
                               alt=""
                             />
                           </Button>
@@ -329,7 +325,7 @@ export default class Contacts extends Component {
                             onClick={event => this.showDialogueBox(contact.id)}
                           >
                             <img
-                              src={require('../../../assets/images/admin/album/delete-icon.png')}
+                              src={require('../../../assets/images/admin/contact/delete-icon.png')}
                               alt=""
                             />
                           </Button>

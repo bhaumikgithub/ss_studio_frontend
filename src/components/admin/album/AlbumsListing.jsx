@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Button, Media } from 'react-bootstrap';
+import { Col, Button, Media, Checkbox } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
-
+import Select from 'react-select';
 // Import component
 import AlbumPopup from './AlbumPopup';
 import ShareAlbum from './ShareAlbum';
@@ -13,10 +13,11 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { AlbumService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, getStatusClass } from '../../Helper';
+import { isObjectEmpty, getAlbumStatusClass } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
+import '../../../assets/css/admin/album/album-details/album-details.css';
 
 export default class AlbumsListing extends Component {
   constructor(props) {
@@ -25,9 +26,14 @@ export default class AlbumsListing extends Component {
       editObject: {},
       shareAlbumObject: {},
       shareAlbumAction: {},
+      selectionAlbumObject: {},
       showCreatePopup: false,
       shareAlbum: false,
       sortingOrder: 'desc',
+      sortingField: 'updated_at',
+      albumSortingOrder: '',
+      activeCheckboxSelected: false,
+      deactiveCheckboxSelected: false,
       albums: [],
       meta: [],
       alert: {
@@ -44,13 +50,72 @@ export default class AlbumsListing extends Component {
   }
 
   componentWillMount() {
-    this.getAllAlbums();
+    var self = this;
+    var {
+      sortingField,
+      activeCheckboxSelected,
+      deactiveCheckboxSelected
+    } = self.state;
+    this.getAllAlbums(
+      sortingField,
+      activeCheckboxSelected,
+      deactiveCheckboxSelected,
+      undefined
+    );
   }
 
-  getAllAlbums(sortingOrder = this.state.sortingOrder, page = 1) {
+  handleAlbumSorting(sorting_order, sorting_field, eventKey = 1) {
+    var self = this;
+    var checked, status;
+    var { activeCheckboxSelected, deactiveCheckboxSelected } = self.state;
+
+    checked = activeCheckboxSelected || deactiveCheckboxSelected ? true : false;
+    status = activeCheckboxSelected ? 'active' : 'inactive';
+    if (
+      (deactiveCheckboxSelected === true && activeCheckboxSelected === true) ||
+      (deactiveCheckboxSelected === false && activeCheckboxSelected === false)
+    ) {
+      self.getAllAlbums(
+        sorting_field,
+        activeCheckboxSelected,
+        deactiveCheckboxSelected,
+        sorting_order,
+        eventKey
+      );
+    } else {
+      self.getSlectedAlbums(
+        status,
+        checked,
+        activeCheckboxSelected,
+        deactiveCheckboxSelected,
+        sorting_field,
+        sorting_order,
+        eventKey
+      );
+    }
+  }
+
+  handleSelectChange(e) {
+    if (e) {
+      this.setState({
+        sortingOrder: e.order,
+        sortingField: e.field,
+        albumSortingOrder: e.value
+      });
+      this.handleAlbumSorting(e.order, e.field);
+    }
+  }
+  getAllAlbums(
+    sortingField = this.state.sortingField,
+    activeCheckbox,
+    deactiveCheckbox,
+    sortingOrder = this.state.sortingOrder,
+    page = 1
+  ) {
     var self = this;
     AlbumService.getAlbums({
       sorting_order: sortingOrder,
+      sorting_field: sortingField,
       page: page,
       per_page: window.paginationPerPage
     })
@@ -59,7 +124,10 @@ export default class AlbumsListing extends Component {
         self.setState({
           albums: data.data.albums,
           meta: data.meta,
-          sortingOrder: sortingOrder
+          sortingOrder: sortingOrder,
+          sortingField: sortingField,
+          activeCheckboxSelected: activeCheckbox,
+          deactiveCheckboxSelected: deactiveCheckbox
         });
       })
       .catch(function(error) {
@@ -70,12 +138,16 @@ export default class AlbumsListing extends Component {
   handleSorting(e) {
     e.preventDefault();
     const sortingOrder = this.state.sortingOrder === 'desc' ? 'asc' : 'desc';
-    this.getAllAlbums(sortingOrder);
+    this.getAllAlbums(
+      undefined,
+      this.state.activeCheckboxSelected,
+      this.state.deactiveCheckboxSelected,
+      sortingOrder
+    );
   }
 
   handlePaginationClick = eventKey => {
-    if (eventKey !== this.state.meta.pagination.current_page)
-      this.getAllAlbums(undefined, eventKey);
+    this.handleAlbumSorting(undefined, this.state.sortingField, eventKey);
   };
 
   showDialogueBox(id) {
@@ -123,7 +195,11 @@ export default class AlbumsListing extends Component {
     pagination.total_count -= 1;
 
     if (albums.length === 0 && pagination.total_count > 0) {
-      this.getAllAlbums();
+      this.getAllAlbums(
+        undefined,
+        this.state.activeCheckboxSelected,
+        this.state.deactiveCheckboxSelected
+      );
     }
 
     self.setState({
@@ -191,8 +267,97 @@ export default class AlbumsListing extends Component {
     newAlbums.splice(newAlbums.indexOf(this.state.shareAlbumObject), 1, album);
   };
 
+  getSlectedAlbums(
+    status,
+    checked,
+    activeCheckbox,
+    deactiveCheckbox,
+    sortingField = this.state.sortingField,
+    sortingOrder = this.state.sortingOrder,
+    page = 1
+  ) {
+    var self = this;
+    AlbumService.getAlbumStatusWise({
+      sorting_field: sortingField,
+      sorting_order: sortingOrder,
+      page: page,
+      per_page: window.paginationPerPage,
+      status: status,
+      checked: checked
+    })
+      .then(function(response) {
+        var data = response.data;
+        self.setState({
+          albums: data.data.albums,
+          meta: data.meta,
+          sortingOrder: sortingOrder,
+          sortingField: sortingField,
+          activeCheckboxSelected: activeCheckbox,
+          deactiveCheckboxSelected: deactiveCheckbox
+        });
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  displayAlbumStatusWise(event, status) {
+    var { checked, deactiveCheckbox, activeCheckbox } = false;
+    deactiveCheckbox = document.getElementsByName('deactive-checkbox')[0]
+      .checked;
+    activeCheckbox = document.getElementsByName('active-checkbox')[0].checked;
+    if (event.target.checked) {
+      checked = true;
+    } else {
+      checked = false;
+    }
+    if (
+      (deactiveCheckbox === true && activeCheckbox === true) ||
+      (deactiveCheckbox === false && activeCheckbox === false)
+    ) {
+      this.getAllAlbums(undefined, activeCheckbox, deactiveCheckbox);
+    } else {
+      this.getSlectedAlbums(status, checked, activeCheckbox, deactiveCheckbox);
+    }
+  }
   render() {
-    const { albums, meta, alert, sortingOrder } = this.state;
+    const {
+      albums,
+      meta,
+      alert,
+      sortingOrder,
+      activeCheckboxSelected,
+      deactiveCheckboxSelected,
+      albumSortingOrder
+    } = this.state;
+    var options = [
+      {
+        order: 'desc',
+        field: 'updated_at',
+        value: 'recent_updated',
+        label: 'Most Recent Update'
+      },
+      {
+        order: 'asc',
+        field: 'updated_at',
+        value: 'oldest_updated',
+        label: 'Most Oldest Update'
+      },
+      {
+        order: 'desc',
+        field: 'created_at',
+        value: 'recent_created',
+        label: 'Most Recent Created'
+      },
+      {
+        order: 'asc',
+        field: 'created_at',
+        value: 'oldest_created',
+        label: 'Most Oldest Created'
+      },
+      { order: 'asc', field: 'album_name', value: 'a_z', label: 'A to Z' },
+      { order: 'desc', field: 'album_name', value: 'z_a', label: 'Z to A' }
+    ];
     return (
       <Col xs={12} className="albums-page-wrap">
         <SweetAlert
@@ -222,9 +387,10 @@ export default class AlbumsListing extends Component {
             shareAlbumObject={this.state.shareAlbumObject}
             renderShareAlbum={this.renderShareAlbum}
             shareAlbumAction={this.state.shareAlbumAction}
+            selectionAlbumObject={this.state.selectionAlbumObject}
           />
         )}
-        <Col xs={12} className="filter-wrap p-none">
+        <Col xs={12} className="filter-wrap p-none album-listing-title-wrap">
           <Col xs={12} className="p-none">
             <span className="total-album pull-left">
               Total :{' '}
@@ -238,26 +404,58 @@ export default class AlbumsListing extends Component {
               <a
                 href=""
                 title={
-                  sortingOrder === 'desc' ? (
-                    'Sort By Ascending'
-                  ) : (
-                    'Sort By Descending'
-                  )
+                  sortingOrder === 'desc'
+                    ? 'Sort By Ascending'
+                    : 'Sort By Descending'
                 }
                 onClick={event => this.handleSorting(event)}
               >
-                Sort By Latest Update :{' '}
+                {activeCheckboxSelected && deactiveCheckboxSelected
+                  ? 'Sort By Active And Deactive Albums'
+                  : activeCheckboxSelected
+                    ? 'Sort By Active Albums'
+                    : deactiveCheckboxSelected
+                      ? 'Sort By Deactive Albums'
+                      : 'Sort By '}
                 <span
                   className={
-                    sortingOrder === 'desc' ? (
-                      'fa fa-sort-asc'
-                    ) : (
-                      'fa fa-sort-desc'
-                    )
+                    sortingOrder === 'desc'
+                      ? 'fa fa-sort-asc'
+                      : 'fa fa-sort-desc'
                   }
                 />
               </a>
             </h5>
+            <Select
+              className="album-sorting-option"
+              name="sorting"
+              value={albumSortingOrder}
+              options={options}
+              placeholder={false}
+              onChange={this.handleSelectChange.bind(this)}
+            />
+            <Checkbox
+              name="active-checkbox"
+              className="all-selection-check album-status-checkboxes"
+              onClick={event => this.displayAlbumStatusWise(event, 'active')}
+            >
+              {' '}
+              Active
+              <div className="check">
+                <div className="inside" />
+              </div>
+            </Checkbox>
+            <Checkbox
+              name="deactive-checkbox"
+              className="all-selection-check deactive-checkbox album-status-checkboxes"
+              onClick={event => this.displayAlbumStatusWise(event, 'inactive')}
+            >
+              {' '}
+              Deactive
+              <div className="check">
+                <div className="inside" />
+              </div>
+            </Checkbox>
             <Button
               className="btn pull-right btn-orange create-album-btn"
               onClick={() => this.setState({ showCreatePopup: true })}
@@ -279,7 +477,13 @@ export default class AlbumsListing extends Component {
           >
             {albums.map(album => (
               <Col xs={12} className="albums-list-wrap p-none" key={album.id}>
-                <Col xs={12} className="album-wrap">
+                <Col
+                  xs={12}
+                  className={
+                    'album-wrap' +
+                    (album.status === 'inactive' ? ' inactive-album-wrap' : '')
+                  }
+                >
                   <Media>
                     <Media.Left align="top" className="album-img-wrap">
                       <Link to={'/albums/' + album.slug}>
@@ -306,11 +510,9 @@ export default class AlbumsListing extends Component {
 
                       <Link
                         to={
-                          album.is_private ? (
-                            '/shared_album_login/' + album.slug
-                          ) : (
-                            '/shared_album/' + album.slug
-                          )
+                          album.is_private
+                            ? '/shared_album_login/' + album.slug
+                            : '/shared_album/' + album.slug
                         }
                         target="_blank"
                         className="view-album-listing"
@@ -328,9 +530,9 @@ export default class AlbumsListing extends Component {
                         }}
                         className="add-photos-album-listing"
                       >
-                        <img
-                          src={require('../../../assets/images/admin/album/add-icon.png')}
-                          alt=""
+                        <i
+                          className="fa fa-plus-circle"
+                          aria-hidden="true"
                         />{' '}
                         Add Photos
                       </Link>
@@ -374,9 +576,13 @@ export default class AlbumsListing extends Component {
                         ))}
                       </Col>
 
-                      <Col xs={12} className="p-none updated-info">
+                      <Col xs={3} className="p-none updated-info">
                         <span className="fa fa-clock-o updated-icon" /> Last
                         updated on {album.updated_at}.
+                      </Col>
+                      <Col xs={9} className="p-none updated-info">
+                        <span className="fa fa-clock-o updated-icon" /> Created
+                        on {album.created_at}.
                       </Col>
                       <Col xs={12} className="p-none album-separator">
                         <hr />
@@ -415,10 +621,10 @@ export default class AlbumsListing extends Component {
                         <span
                           className={
                             'count-detail count-num ' +
-                            getStatusClass(album.delivery_status)
+                            getAlbumStatusClass(album.status)
                           }
                         >
-                          {album.delivery_status}
+                          {album.status}
                         </span>
                       </Col>
                       <Col
@@ -458,7 +664,7 @@ export default class AlbumsListing extends Component {
         </Col>
         <PaginationModule
           pagination={meta.pagination}
-          paginationClick={this.handlePaginationClick}
+          paginationClick={this.handlePaginationClick.bind(this)}
         />
       </Col>
     );

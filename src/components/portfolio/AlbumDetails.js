@@ -71,17 +71,19 @@ export default class Portfolio extends Component {
     return (
       <div className="page-wrap portfolio-wrap">
         <Grid>
-          <Col xs={12} className="p-none">
-            <Link to="/portfolio" className="back-link">
-              <i className="fa fa-arrow-left" />Back to Albums
-            </Link>
-            <Col className="photo-count-detail">
+        <PageHeader className="page-title page-main-title text-center portfolio-main-title">
+          <label>{album.album_name}</label>
+        </PageHeader>
+        <Row className="back-album-wrap">
+            <Col xs={6}>
+              <Link to="/portfolio" className="back-link">
+                <i className="fa fa-arrow-left" />Back to Albums
+              </Link>
+            </Col>
+            <Col xs={6} className="photo-count-detail">
               Total Photos: {album.photo_count}
             </Col>
-            <PageHeader className="page-title page-main-title text-center portfolio-main-title">
-              <label>{album.album_name}</label>
-            </PageHeader>
-          </Col>
+          </Row>
           <Col xs={12} className="p-none">
             <Row className="clearfix">
               <Col sm={12} className="portfolio-content">

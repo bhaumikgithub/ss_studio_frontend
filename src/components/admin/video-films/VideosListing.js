@@ -240,22 +240,18 @@ export default class VideoFilms extends Component {
               <a
                 href=""
                 title={
-                  sortingOrder === 'desc' ? (
-                    'Sort By Ascending'
-                  ) : (
-                    'Sort By Descending'
-                  )
+                  sortingOrder === 'desc'
+                    ? 'Sort By Ascending'
+                    : 'Sort By Descending'
                 }
                 onClick={event => this.handleSorting(event)}
               >
                 Sort By :{' '}
                 <span
                   className={
-                    sortingOrder === 'desc' ? (
-                      'fa fa-sort-asc'
-                    ) : (
-                      'fa fa-sort-desc'
-                    )
+                    sortingOrder === 'desc'
+                      ? 'fa fa-sort-asc'
+                      : 'fa fa-sort-desc'
                   }
                 />
               </a>
@@ -264,12 +260,7 @@ export default class VideoFilms extends Component {
               className="btn btn-orange pull-right add-video-btn"
               onClick={() => this.setState({ showPopup: true })}
             >
-              <i className="add-video-icon">
-                <img
-                  src={require('../../../assets/images/admin/album/add-icon.png')}
-                  alt=""
-                />
-              </i>Add New
+              <i className="fa fa-plus add-video-icon" />Add New
             </Button>
           </Col>
         </Col>
@@ -288,7 +279,10 @@ export default class VideoFilms extends Component {
               <Col xs={12} className="videos-list-wrap p-none" key={video.id}>
                 <Col xs={12} className="video-film-wrap">
                   <Media>
-                    <Media.Left align="top" className="video-thumb-wrap">
+                    <Media.Left
+                      align="top"
+                      className="video-thumb-wrap cursor-pointer"
+                    >
                       <a
                         onClick={() =>
                           this.setState({
@@ -310,7 +304,16 @@ export default class VideoFilms extends Component {
                     </Media.Left>
                     <Media.Body className="video-header-wrap">
                       <Media.Heading className="video-film-title">
-                        {video.title}
+                        <a
+                          onClick={() =>
+                            this.setState({
+                              showPlayVideo: true,
+                              editObject: video
+                            })}
+                          className="cursor-pointer"
+                        >
+                          <span>{video.title}</span>
+                        </a>
                       </Media.Heading>
 
                       <Button
@@ -321,6 +324,8 @@ export default class VideoFilms extends Component {
                             editObject: video
                           })}
                       >
+                        {/* <i className="fa fa-pencil-square-o" aria-hidden="true"></i> */}
+
                         <img
                           src={require('../../../assets/images/admin/album/edit-icon.png')}
                           alt=""

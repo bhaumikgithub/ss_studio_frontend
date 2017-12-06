@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PageHeader, Grid, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { SocialIcon } from 'react-social-icons';
 
 // Import css
 import '../../assets/css/contact/about-us.css';
@@ -12,7 +13,8 @@ export default class AboutUs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      aboutUs: []
+      aboutUs: [],
+      socialMedia: {}
     };
   }
 
@@ -20,13 +22,16 @@ export default class AboutUs extends Component {
     var self = this;
     AboutService.getAboutUs().then(function(response) {
       if (response.status === 200) {
-        self.setState({ aboutUs: response.data.data.about_us });
+        self.setState({
+          aboutUs: response.data.data.about_us,
+          socialMedia: response.data.data.about_us.social_links
+        });
       }
     });
   }
 
   render() {
-    const aboutUs = this.state.aboutUs;
+    const { aboutUs, socialMedia } = this.state;
     return (
       <div className="page-wrap about-page-wrap">
         <Grid>
@@ -50,26 +55,27 @@ export default class AboutUs extends Component {
             <Col xs={12} sm={8} className="text-grey">
               <Col xs={12} className="about-details-wrap">
                 <h3 className="about-title">{aboutUs.title_text}</h3>
-                <p className="p-wrap">{aboutUs.description}</p>
+                <p
+                  dangerouslySetInnerHTML={{ __html: aboutUs.description }}
+                  className="p-wrap"
+                />
               </Col>
-              {aboutUs.social_links && (
-                <Col className="media-icons" xs={12}>
-                  <a
-                    target="_blank"
-                    href={aboutUs.social_links.facebook_link}
-                    className="btn btn-grey btn-round media-link"
-                  >
-                    <span className="fa fa-facebook" />
-                  </a>
-                  {/* <a
-                    target="_blank"
-                    href={aboutUs.social_links.twitter_link}
-                    className="btn btn-grey btn-round media-link"
-                  >
-                    <span className="fa fa-tumblr" />
-                  </a> */}
-                </Col>
-              )}
+              <Col className="media-icons" xs={12}>
+                {socialMedia &&
+                  Object.keys(socialMedia).map(
+                    (social_link, index) =>
+                      socialMedia[social_link] !== '' ? (
+                        <SocialIcon
+                          url={socialMedia[social_link]}
+                          className="btn btn-round media-link"
+                          key={index}
+                        />
+                      ) : (
+                        ''
+                      )
+                  )}
+              </Col>
+
               <Col xs={12} className="hire-wrap">
                 <LinkContainer
                   to="/contact"

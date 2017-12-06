@@ -13,7 +13,7 @@ import { isObjectEmpty } from '../../Helper';
 
 //import css
 import '../../../assets/css/admin/category/categories.css';
-import '../../../assets/css/developer.css';
+//import '../../../assets/css/developer.css';
 
 export default class Categories extends Component {
   constructor(props) {

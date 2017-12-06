@@ -90,12 +90,17 @@
 .custom-pagination li.active a:active {
   background: #fff;
   color: #f9a11d !important;
+  outline: none !important;
 }
 .custom-pagination li:first-child a {
   border-top-left-radius: 2em;
   border-bottom-left-radius: 2em;
   font-size: 14px !important;
   padding: 0 5px 0 15px !important;
+}
+.custom-pagination li:first-child a:hover,
+.custom-pagination li:first-child a:focus {
+  outline: none !important;
 }
 .custom-pagination li:last-child a {
   border-top-right-radius: 2em;
@@ -127,20 +132,13 @@
 /* Album show page custom css end */
 
 /* Portfolio album page custom css start */
-.back-link {
-  position: absolute;
-  left: 15px;
-  top: 70px;
-  z-index: 1;
-  color: #555;
-  text-decoration: underline;
-}
-.back-link .fa {
-  margin-right: 5px;
-}
-.portfolio-album-thub-wrap {
+
+.portfolio-thumbs-wrap {
   margin-top: 30px;
 }
+/* .portfolio-album-thub-wrap {
+  margin-top: 30px;
+} */
 .portfolio-album-thub-wrap .overlay {
   cursor: zoom-in !important;
 }
@@ -282,6 +280,12 @@
 .custom-pic-selection label {
   background: #c8c8c8 !important;
 }
+.share-album-title-details {
+  top: calc(100% - 256px) !important;
+}
+.selected-photo-count {
+  text-align: left;
+}
 /* Share album page css end */
 
 /* Error page css start */
@@ -355,8 +359,8 @@ div.filepicker {
 .fb_btn {
   position: fixed;
   right: 0px;
-  top: 300px;
-  z-index: 9999999;
+  top: calc(50% - 100px);
+  z-index: 0;
 }
 .facebook-img {
   height: 100px;
@@ -364,15 +368,6 @@ div.filepicker {
 }
 
 /* start photo count in portfolio album detail */
-.photo-count-detail {
-  font-size: 16px;
-  position: absolute;
-  right: 15px;
-  top: 70px;
-  z-index: 1;
-  color: #666;
-  font-weight: bold;
-}
 
 .portfolio-main-title {
   margin-bottom: 0 !important;
@@ -381,10 +376,10 @@ div.filepicker {
 
 /* admin testimonial page css start */
 .edit-testimonial-btn {
-  right: 99px !important;
+  right: 70px !important;
 }
 .testimonial-delete-icon {
-  right: 48px !important;
+  right: 20px !important;
 }
 /* admin testimonial page css end */
 
@@ -462,26 +457,90 @@ div.filepicker {
   margin: 0;
   z-index: 1;
   cursor: pointer;
+  background: #f9a11d;
+  border-radius: 50%;
+  height: 26px;
+  width: 26px;
 }
 .admin-custom-view-comment-icon {
-  background: #f9a11d;
   text-align: center;
-  border-radius: 50%;
-  padding: 2px;
+  padding: 4px;
+  color: #fff;
+  font-size: 16px;
+}
+.selection-album-link:hover {
+  cursor: pointer;
+  color: #f9a11d;
+}
+.commented-photo-count-wrapper {
+  clear: left;
+}
+.album-deliverd-btn {
+  margin-top: 10px;
+}
+.selected-photo-wrap {
+  margin-bottom: 30px;
+}
+.photo-selection-count-with-progress {
+  cursor: text;
+}
+.stoped-selection-album:hover {
+  color: #f9a11d;
+}
+.album-image-wrap.selected-photo-name-wrapper:after {
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  background: rgba(249, 161, 29, 0.9);
+  color: #fff;
+  height: 30px;
+  width: calc(100% - 30px);
+  font-size: 14px;
+  line-height: 30px;
+  text-align: center;
+  font-family: 'ralewaysemibold';
+  letter-spacing: 1px;
+  z-index: 2;
+}
+.album-image-wrap.selected-photo-name-wrapper .set-cover-pic {
+  opacity: 1;
+  left: 0;
+}
+.text-lowercase {
+  text-transform: none;
+}
+.inactive-album-section {
+  background: red;
+  text-align: center;
+  height: 30px;
+  margin-top: 10px;
+}
+.inactive-album-heading {
+  color: #fff;
+}
+.activate-album-btn,
+.activate-album-btn:hover {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: medium none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: medium none;
+  color: rgb(255, 255, 255);
 }
 /* album detail page css end */
 
 /* admin header page css start */
 .navbar-fixed-top {
-  z-index: 1;
+  z-index: 11;
 }
 /* admin header page css end */
 
-/* start disable horizontal scroll in homepage gallery */
-.disable-horizontal {
-  overflow-x: hidden;
+/* start disable scroll in homepage gallery */
+.disable-scrollbar {
+  overflow: hidden;
 }
-/* end disable horizontal scroll in homepage gallery */
+/* end disable scroll in homepage gallery */
 
 /* start view album in admin album detail page */
 .view-album-detail,
@@ -490,16 +549,16 @@ div.filepicker {
   font-size: 15px;
   font-family: 'ralewaymedium';
   color: #666 !important;
-  line-height: 41px;
+  line-height: 34px;
   float: left;
   margin-left: 10px;
 }
 .edit-album-detail {
   color: #666;
-  float: right;
-  padding: 10px 20px;
+  padding: 10px 15px;
   font-family: 'ralewaymedium';
   border-color: transparent;
+  float: left !important;
 }
 .edit-album-detail img {
   margin-right: 3px;
@@ -515,23 +574,32 @@ div.filepicker {
 
 /* start pulic view album in Album Listing Page */
 .view-album-listing {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 75px;
+  right: 85px;
   position: absolute;
   top: 8px;
 }
-
+.view-album-listing:hover,
+.view-album-listing:focus {
+  color: #666;
+  outline: none !important;
+}
 .add-photos-album-listing {
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 195px;
+  right: 200px;
   position: absolute;
   top: 8px;
+}
+.add-photos-album-listing:hover,
+.add-photos-album-listing:focus {
+  color: #666;
+  outline: none !important;
 }
 .add-photos-album-listing img {
   background: #999;
@@ -547,11 +615,23 @@ div.filepicker {
   margin-top: 0px;
   padding-left: 20px;
 }
+.inactive-album-wrap {
+  background: #e2e2e2;
+}
+.deactive-checkbox {
+  margin-top: 10px !important;
+}
+.album-status-checkboxes label {
+  font-size: 14px;
+}
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */
 .sortBy-records {
   margin-right: 15px;
   margin-left: 20px;
+}
+.sortBy-records a {
+  color: #545454;
 }
 .total-records {
   font-size: 16px;
@@ -589,7 +669,7 @@ div.filepicker {
   z-index: 1;
 }
 .add-comment-title-wrap {
-  background: url('../../assets/images/admin/testimonial/sidebar.png');
+  background: url('../images/admin/testimonial/sidebar.png');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -662,3 +742,186 @@ div.filepicker {
   color: #fff;
 }
 /* Comment popup page css end */
+
+/* start social media page css */
+.social-media-margin {
+  margin-left: 43%;
+}
+.social-media-delete {
+  margin-top: 15%;
+}
+.social_media_custom-label {
+  text-transform: capitalize;
+  font-family: 'ralewaysemibold';
+  font-size: 12px;
+  width: 100%;
+}
+/* end social media page css */
+/* start cursor pointer */
+.cursor-pointer {
+  cursor: pointer;
+}
+/* end cursor pointer */
+/* start for about us detail title */
+.custom-form-control-label.required::after {
+  content: '*';
+  position: absolute;
+  top: -3px;
+  height: 0;
+  width: 0;
+  font-size: 30px;
+  color: #fd6257;
+  font-family: 'ralewaysemibold';
+}
+/* end for about us detail title */
+
+/* share album popup page css start */
+.view-album-url {
+  color: #777;
+  font-size: 12px;
+}
+
+/* share album popup page css end */
+
+/* start album detail page css  */
+.total-photo-count {
+  margin-top: 6px;
+  margin-right: 15px;
+}
+.total-photo-img {
+  margin-top: 9px;
+  margin-right: 8px;
+}
+.private-album {
+  background-color: #ff0000;
+}
+.public-album {
+  background-color: #1faf1f;
+}
+.add-photoes-btn {
+  border-radius: 20px !important;
+}
+.private-album-text,
+.public-album-text {
+  padding: 5px 5px !important;
+  font-size: 12px !important;
+  margin-top: 8px !important;
+}
+.add-photoes-btn,
+.public-album,
+.private-album {
+  padding: 10px 15px;
+  margin-top: 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  /* margin-top: 9px; */
+  float: left !important;
+}
+/* end album detail page css  */
+.custom-form-control {
+  font-size: 14px !important;
+}
+.album-sorting-option {
+  display: inline-block;
+  min-width: 200px;
+  float: left;
+  margin-right: 10px;
+}
+/* Dropdown Settings menu start  */
+.watermark-content-img {
+  border: 1px solid #cecece;
+}
+.dropdown-setting-menu {
+  padding: 0 !important;
+}
+.setting-menu-label {
+  border: 0px;
+}
+/* Dropdown Settings menu end  */
+/* start Share Album page */
+.manage-selection-title,
+.manage-selection-title:hover {
+  color: white;
+}
+.allowed-comment-margin {
+  margin-left: 15px;
+}
+.allow-selection-margin {
+  margin-left: 2px;
+}
+.min-selected-photo-width {
+  width: 62%;
+  display: unset;
+}
+.share-album-align {
+  text-align: center;
+}
+.view-activity-margin {
+  margin-top: 10px;
+}
+.view-activity-link,
+.view-activity-link:hover {
+  color: #0000ff;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-family: 'ralewaymedium';
+}
+/* end Share Album page */
+@media only screen and (max-width: 680px) {
+  .private-album,
+  .public-album,
+  .edit-album-detail {
+    margin: 5px 15px;
+  }
+}
+@media only screen and (max-width: 568px) {
+  .total-photo-count {
+    margin-top: 0px;
+  }
+  .view-album-detail {
+    margin-left: 5px !important;
+    margin-top: 9px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  /* album-listing page css starts*/
+
+  .Select {
+    display: block;
+    min-width: 200px;
+    float: none;
+    clear: both;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .album-listing-title-wrap .all-selection-check {
+    margin-top: 0px !important;
+  }
+  /* album-listing page css ends here*/
+  /* album-detail page css starts*/
+  .add-photoes-btn,
+  .public-album,
+  .private-album,
+  .edit-album-detail {
+    margin: 5px;
+  }
+  /*---------------------------*/
+}
+@media only screen and (max-width: 420px) {
+  .public-album,
+  .private-album {
+    width: fit-content;
+  }
+  .add-photoes-btn,
+  .public-album,
+  .private-album,
+  .edit-album-detail {
+    float: none !important;
+    clear: both;
+    display: block;
+    margin-bottom: 15px;
+  }
+}

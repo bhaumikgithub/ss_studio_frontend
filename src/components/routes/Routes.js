@@ -23,6 +23,7 @@ import {
   SiteContent,
   HomePageGalley,
   Testimonial,
+  Setting,
   Login,
   PasscodeLogin
 } from './Index';
@@ -101,6 +102,12 @@ const routes = () => (
       path="(/*)/testimonials"
       title="Testimonials"
       component={Testimonial}
+    />
+    <PrivateRoute
+      exact
+      path="(/*)/settings"
+      title="Settings"
+      component={Setting}
     />
     {/* After Login routes end */}
 

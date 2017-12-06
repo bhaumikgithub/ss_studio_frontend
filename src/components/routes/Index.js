@@ -95,6 +95,10 @@ const Testimonial = Loadable({
   loader: () => import('../admin/testimonial/Testimonials'),
   loading: Loading
 });
+const Setting = Loadable({
+  loader: () => import('../admin/setting/Setting'),
+  loading: Loading
+});
 
 // Import not found component
 const NotFound = Loadable({
@@ -145,6 +149,7 @@ export {
   SiteContent,
   HomePageGalley,
   Testimonial,
+  Setting,
   Login,
   PasscodeLogin
 };

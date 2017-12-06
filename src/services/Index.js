@@ -14,6 +14,7 @@ import * as TestimonialService from './Testimonial';
 import * as UserService from './User';
 import * as UserServiceService from './UserService';
 import * as VideoFilmService from './VideoFilms';
+import * as WatermarkService from './Watermark';
 
 export {
   AboutService,
@@ -31,5 +32,6 @@ export {
   TestimonialService,
   UserService,
   UserServiceService,
-  VideoFilmService
+  VideoFilmService,
+  WatermarkService
 };
