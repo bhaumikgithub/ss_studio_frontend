@@ -1,0 +1,6 @@
+REACT_APP_API_BASE_URL="API url"
+REACT_APP_BASE_PATH="Base path of app"
+REACT_APP_GOOGLE_CLIENT_ID="google client id for import google contacts"
+REACT_APP_GOOGLE_CLIENT_SECRET="google secret key for import google contacts"
+
+# Create .env.development for development mode and .env.production for production mode
