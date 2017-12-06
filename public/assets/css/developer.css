@@ -46,6 +46,9 @@
 .m-t-15 {
   margin-top: 15px;
 }
+.m-r-10 {
+  margin-right: 10px;
+}
 
 .page-animation-enter {
   opacity: 0.01;

@@ -12,6 +12,17 @@ export function getContacts(params) {
   return checkStatus(responsePromise);
 }
 
+export function importContacts(params) {
+  const responsePromise = axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'contacts/import',
+    {
+      params: params,
+      headers: apiCustomHeader()
+    }
+  );
+  return checkStatus(responsePromise);
+}
+
 export function deleteContact(id) {
   const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + id,
