@@ -12,10 +12,13 @@ export function getContacts(params) {
   return checkStatus(responsePromise);
 }
 
-export function importContacts(access_token) {
+export function importContacts(params) {
   const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'contacts/import',
-    { params: { access_token: access_token }, headers: apiCustomHeader() }
+    {
+      params: params,
+      headers: apiCustomHeader()
+    }
   );
   return checkStatus(responsePromise);
 }

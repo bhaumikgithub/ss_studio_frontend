@@ -23,7 +23,12 @@ export default class GoogleLoginModule extends Component {
 
   importGoogleContacts = access_token => {
     var self = this;
-    ContactService.importContacts(access_token)
+    var params = {
+      access_token: access_token,
+      page: 1,
+      per_page: window.paginationPerPage
+    };
+    ContactService.importContacts(params)
       .then(function(response) {
         self.props.afterResponse(response);
         self.disableButton(false);

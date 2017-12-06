@@ -77,7 +77,12 @@ export default class Contacts extends Component {
   };
 
   importGoogleContacts = response => {
-    console.log(response);
+    var data = response.data;
+    this.setState({
+      contacts: data.data.contacts,
+      meta: data.meta,
+      sortingOrder: this.state.sortingOrder
+    });
   };
 
   showDialogueBox(id) {
@@ -218,11 +223,9 @@ export default class Contacts extends Component {
             <a
               href=""
               title={
-                sortingOrder === 'desc' ? (
-                  'Sort By Ascending'
-                ) : (
-                  'Sort By Descending'
-                )
+                sortingOrder === 'desc'
+                  ? 'Sort By Ascending'
+                  : 'Sort By Descending'
               }
               onClick={event => this.handleSorting(event)}
             >
@@ -238,8 +241,7 @@ export default class Contacts extends Component {
             className="pull-right btn btn-orange add-new-btn"
             onClick={() => this.setState({ CreateShow: true })}
           >
-            <i className="fa fa-plus add-album-icon">
-            </i>Add New
+            <i className="fa fa-plus add-album-icon" />Add New
           </Button>
           <GoogleLoginModule
             buttonText="Import google contacts"
@@ -308,7 +310,8 @@ export default class Contacts extends Component {
                               this.setState({
                                 CreateShow: true,
                                 editObject: contact
-                              })}
+                              })
+                            }
                           >
                             <img
                               src={require('../../../assets/images/admin/contact/edit-icon.png')}

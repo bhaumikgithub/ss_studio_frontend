@@ -194,11 +194,9 @@ export default class AddContact extends Component {
               />
               <h4 className="add-contact-text text-white">
                 {/*Create New Contact*/}
-                {isObjectEmpty(this.props.editObject) ? (
-                  'Create New Contact'
-                ) : (
-                  'Edit Contact'
-                )}
+                {isObjectEmpty(this.props.editObject)
+                  ? 'Create New Contact'
+                  : 'Edit Contact'}
               </h4>
             </Col>
           </Col>
@@ -288,7 +286,7 @@ export default class AddContact extends Component {
                 <FormControl
                   className="custom-form-control contact-input"
                   type="text"
-                  placeholder="0987654321"
+                  placeholder="9999999999"
                   name="phone"
                   value={contactForm.phone}
                   onChange={this.handleChange.bind(this)}
