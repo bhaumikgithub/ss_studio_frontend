@@ -3,7 +3,7 @@ Sagar gadani
 
 <img src="http://104.251.216.241/sites/sagargadani/ss_studio_api/public/logo.png" align="right" title="Sagar gadani">
 
-Sagra Gadani is live at **[Sagar Gadani](http://www.sagargadani.com)**
+Sagar Gadani is live at **[Sagar Gadani](http://www.sagargadani.com)**
 
 #Versions
 
