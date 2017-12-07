@@ -1,9 +1,9 @@
 Sagar gadani
 =======
 
-# <img src="http://bhaumik.myprobill.com/assets/images/logo.png" align="right" title="Sagar gadani">
+<img src="http://104.251.216.241/sites/sagargadani/ss_studio_api/public/logo.png" align="right" title="Sagar gadani">
 
-Sagara Gadani is live at **[Sagar Gadani](http://www.sagargadani.com)**
+Sagra Gadani is live at **[Sagar Gadani](http://www.sagargadani.com)**
 
 #Versions
 
