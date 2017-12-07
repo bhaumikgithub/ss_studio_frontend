@@ -24,9 +24,10 @@ To install on your local machine
 * `cd ss_studio_frontend`
 * `npm install`
   This will install all dependencies.
-* Copy `..sample_env_file` and create `.env.development` and `.env.production` with all values
+* Copy `.sample_env_file` and create `.env.development` and `.env.production` with all values
 * `npm start`
 * Go to `localhost:3000`
+* But make sure API is running, for API please check `https://github.com/bhaumikgithub/ss_studio_api`
 
 To check admin side
 
