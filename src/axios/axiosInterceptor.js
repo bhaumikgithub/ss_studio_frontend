@@ -23,6 +23,9 @@ axiosInstance.interceptors.response.use(
   },
   function(error) {
     reactNprogress.done();
+    if (error.response.status === 401) {
+      localStorage.clear();
+    }
     return Promise.reject(error);
   }
 );

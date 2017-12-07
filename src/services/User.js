@@ -1,5 +1,5 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, currentUser, checkStatus } from '../components/Helper';
+import { apiHeader, currentUser } from '../components/Helper';
 
 export function getCurrentUser() {
   return axiosInstance.get(
@@ -17,5 +17,5 @@ export function changePassword(params) {
     params['changePasswordForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }

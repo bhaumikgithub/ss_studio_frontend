@@ -1,12 +1,12 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiCustomHeader, apiHeader, checkStatus } from '../components/Helper';
+import { apiCustomHeader, apiHeader } from '../components/Helper';
 
 export function deleteSelectedPhotos(params) {
   const responsePromise = axiosInstance.delete(
     process.env.REACT_APP_API_BASE_URL + 'photos/multi_delete',
     { data: params, headers: apiCustomHeader() }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function uploadPhoto(params, file, uploadProgress) {
@@ -23,7 +23,7 @@ export function uploadPhoto(params, file, uploadProgress) {
       }
     }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function setCoverPhoto(id) {
@@ -32,7 +32,7 @@ export function setCoverPhoto(id) {
     {},
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function selectPhoto(params) {

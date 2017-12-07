@@ -1,12 +1,12 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
+import { apiHeader, apiCustomHeader } from '../components/Helper';
 
 export function getAlbums(params) {
   const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'albums',
     { params: params, headers: apiCustomHeader() }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function createAlbum(params) {
@@ -15,7 +15,7 @@ export function createAlbum(params) {
     params,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function showAlbum(id, params) {
@@ -23,7 +23,7 @@ export function showAlbum(id, params) {
     process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
     { params: params }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function updateAlbum(params) {
@@ -32,7 +32,7 @@ export function updateAlbum(params) {
     params['albumForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function deleteAlbum(id) {
@@ -40,7 +40,7 @@ export function deleteAlbum(id) {
     process.env.REACT_APP_API_BASE_URL + 'albums/' + id,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getPortfolio(params) {
@@ -79,7 +79,7 @@ export function getSelectedPhotos(albumslug) {
       '/get_selected_photos',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getCommentedPhotos(albumslug) {
@@ -90,7 +90,7 @@ export function getCommentedPhotos(albumslug) {
       '/get_commented_photos',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function markAsDelivered(albumSlug) {
@@ -102,7 +102,7 @@ export function markAsDelivered(albumSlug) {
     {},
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function markAsStopedSelection(albumSlug) {
@@ -114,7 +114,7 @@ export function markAsStopedSelection(albumSlug) {
     {},
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function markAsShared(albumSlug) {
@@ -126,7 +126,7 @@ export function markAsShared(albumSlug) {
     {},
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function acivateAlbum(albumSlug) {
@@ -138,7 +138,7 @@ export function acivateAlbum(albumSlug) {
     {},
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getAlbumStatusWise(params) {
@@ -149,5 +149,5 @@ export function getAlbumStatusWise(params) {
       headers: apiCustomHeader()
     }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }

@@ -1,12 +1,12 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
+import { apiHeader, apiCustomHeader } from '../components/Helper';
 
 export function getVideoFilms(params) {
   const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'videos',
     { params: params, headers: apiCustomHeader() }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function createVideoFilm(params) {
@@ -15,7 +15,7 @@ export function createVideoFilm(params) {
     params,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function updateVideoFilm(params) {
@@ -24,7 +24,7 @@ export function updateVideoFilm(params) {
     params['videoForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function deleteVideoFilm(id) {
@@ -32,7 +32,7 @@ export function deleteVideoFilm(id) {
     process.env.REACT_APP_API_BASE_URL + 'videos/' + id,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getPublishVideos() {

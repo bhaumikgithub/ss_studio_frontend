@@ -1,12 +1,12 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
+import { apiHeader, apiCustomHeader } from '../components/Helper';
 
 export function getTestimonials(params) {
   const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'testimonials',
     { params: params, headers: apiCustomHeader() }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function createTestimonial(params) {
@@ -15,7 +15,7 @@ export function createTestimonial(params) {
     params,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function updateTestimonial(params) {
@@ -24,7 +24,7 @@ export function updateTestimonial(params) {
     params['testimonialForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function deleteTestimonial(id) {
@@ -32,7 +32,7 @@ export function deleteTestimonial(id) {
     process.env.REACT_APP_API_BASE_URL + 'testimonials/' + id,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getFeedbacks() {

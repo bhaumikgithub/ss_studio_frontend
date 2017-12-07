@@ -1,5 +1,5 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
+import { apiHeader, apiCustomHeader } from '../components/Helper';
 
 export function getContacts(params) {
   const responsePromise = axiosInstance.get(
@@ -9,7 +9,7 @@ export function getContacts(params) {
       headers: apiCustomHeader()
     }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function importContacts(params) {
@@ -20,7 +20,7 @@ export function importContacts(params) {
       headers: apiCustomHeader()
     }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function deleteContact(id) {
@@ -28,7 +28,7 @@ export function deleteContact(id) {
     process.env.REACT_APP_API_BASE_URL + 'contacts/' + id,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function createContact(params) {
@@ -37,7 +37,7 @@ export function createContact(params) {
     params,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function updateContact(params) {
@@ -46,5 +46,5 @@ export function updateContact(params) {
     params['contactForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }

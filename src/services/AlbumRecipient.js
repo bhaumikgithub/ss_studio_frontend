@@ -1,5 +1,5 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, checkStatus } from '../components/Helper';
+import { apiHeader } from '../components/Helper';
 
 export function createAlbumRecipient(params) {
   const responsePromise = axiosInstance.post(
@@ -10,7 +10,7 @@ export function createAlbumRecipient(params) {
     params,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getAlbumRecipients(albumId) {
@@ -21,7 +21,7 @@ export function getAlbumRecipients(albumId) {
       '/album_recipients',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function deleteAlbumRecipient(albumId, id) {
@@ -33,7 +33,7 @@ export function deleteAlbumRecipient(albumId, id) {
       id,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function resendAlbumToRecipient(albumId, id) {
@@ -47,7 +47,7 @@ export function resendAlbumToRecipient(albumId, id) {
     {},
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getNotInvitedContact(albumId) {
@@ -58,7 +58,7 @@ export function getNotInvitedContact(albumId) {
       '/album_recipients/not_invited_contacts',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getAdminAlbumRecipients(albumId) {
@@ -69,7 +69,7 @@ export function getAdminAlbumRecipients(albumId) {
       '/album_recipients/get_admin_album_recipients?type=1',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function resetAdminRecipients(albumId) {
@@ -80,5 +80,5 @@ export function resetAdminRecipients(albumId) {
       '/album_recipients/reset_admin_recipients',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }

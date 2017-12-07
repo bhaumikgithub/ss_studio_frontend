@@ -1,6 +1,6 @@
 import axiosInstance from '../axios/axiosInterceptor';
 
-import { apiHeader, checkStatus } from '../components/Helper';
+import { apiHeader } from '../components/Helper';
 
 export function getContactDetails() {
   return axiosInstance.get(
@@ -14,5 +14,5 @@ export function updateContactDetail(params) {
     params['EditContactForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }

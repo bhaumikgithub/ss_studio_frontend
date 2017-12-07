@@ -1,12 +1,12 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, apiCustomHeader, checkStatus } from '../components/Helper';
+import { apiHeader, apiCustomHeader } from '../components/Helper';
 
 export function getWatermark(params) {
   const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'watermarks',
     { params: params, headers: apiCustomHeader() }
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function updateWatermark(params) {
@@ -15,5 +15,5 @@ export function updateWatermark(params) {
     params['watermarks'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }

@@ -1,12 +1,12 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, checkStatus } from '../components/Helper';
+import { apiHeader } from '../components/Helper';
 
 export function getCategories() {
   const responsePromise = axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + 'categories',
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function getActiveCategories() {
@@ -20,7 +20,7 @@ export function deleteCategory(id) {
     process.env.REACT_APP_API_BASE_URL + 'categories/' + id,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function createCategory(params) {
@@ -29,7 +29,7 @@ export function createCategory(params) {
     params,
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
 
 export function updateCategory(params) {
@@ -38,5 +38,5 @@ export function updateCategory(params) {
     params['categoryForm'],
     apiHeader()
   );
-  return checkStatus(responsePromise);
+  return responsePromise;
 }
