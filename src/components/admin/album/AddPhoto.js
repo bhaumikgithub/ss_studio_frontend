@@ -22,7 +22,10 @@ export default class AlreadyShared extends Component {
       albumId: props.albumId,
       photos: [],
       id: '',
-      photoCount: props.photoCount
+      photoCount: props.photoCount,
+      isDisplay: false,
+      maxWidth: 1200,
+      maxHeight: 600
     };
     this.dropzone = null;
     this.componentConfig = {
@@ -40,7 +43,88 @@ export default class AlreadyShared extends Component {
     };
   }
 
+  base64ToFile(dataURI, origFile) {
+    var byteString, mimestring;
+    if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
+      byteString = atob(dataURI.split(',')[1]);
+    } else {
+      byteString = decodeURI(dataURI.split(',')[1]);
+    }
+    mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    var content = [];
+    for (var i = 0; i < byteString.length; i++) {
+      content[i] = byteString.charCodeAt(i);
+    }
+    var newFile = new File(
+      [new Uint8Array(content)], origFile.name, {type: mimestring}
+    );
+
+    // Copy props set by the dropzone in the original file
+    var origProps = [
+      "upload", "status", "previewElement", "previewTemplate", "accepted"
+    ];
+    origProps.map((object, index) => {
+      newFile[object] = origFile[object]
+      return newFile
+    })
+    return newFile;
+  }
+
+  resizeImage(event,file){
+    var self = this;
+    var width  = event.target.width;
+    var height = event.target.height;
+    // Don't resize if it's small enough
+    if (width <= self.state.maxWidth && height <= self.state.maxHeight) {
+      self.dropzone.enqueueFile(file);
+      return;
+    }
+    // Calc new dims otherwise
+    if(width > 1500){
+      if (width > height) {
+        if (width > self.state.maxWidth) {
+          height *= self.state.maxWidth / width;
+          width = self.state.maxWidth;
+        }
+      } else {
+        if (height > self.state.maxHeight) {
+          width *= self.state.maxHeight / height;
+          height = self.state.maxHeight;
+        }
+      }
+    }
+    return { width: width, height: height }
+  }
+
   handleUploadFile(file) {
+    var self = this
+    var reader = new FileReader();
+    reader.addEventListener("load", function(event) {
+      var origImg = new Image();
+      origImg.src = event.target.result;
+      origImg.addEventListener("load", function(event) {
+        var newImage = self.resizeImage(event,file)
+        // Resize
+        var canvas = document.createElement('canvas');
+        canvas.width = newImage.width;
+        canvas.height = newImage.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(origImg, 0, 0, newImage.width, newImage.height);
+        var resizedFile = self.base64ToFile(canvas.toDataURL(), file);
+
+        // Replace original with resized
+        var origFileIndex = self.dropzone.files.indexOf(file);
+        self.dropzone.files[origFileIndex] = resizedFile;
+        self.setState({isDisplay: true})
+        if(self.state.isDisplay === true){
+          self.uploadNewImage(resizedFile)
+        }
+      });
+    });
+    reader.readAsDataURL(file);
+  }
+
+  uploadNewImage(file){
     var self = this;
     let data = new FormData();
     var dropzoneOptions = this.dropzone.options;
