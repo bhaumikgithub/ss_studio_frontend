@@ -24,7 +24,7 @@ export default class AlreadyShared extends Component {
       id: '',
       photoCount: props.photoCount,
       isDisplay: false,
-      maxWidth: 1200,
+      maxWidth: 1500,
       maxHeight: 600
     };
     this.dropzone = null;
@@ -67,6 +67,8 @@ export default class AlreadyShared extends Component {
       newFile[object] = origFile[object]
       return newFile
     })
+    var fileSize = this.formatBytes(newFile.size)
+    newFile.previewElement.getElementsByClassName('dz-size')[0].textContent = fileSize
     return newFile;
   }
 
@@ -122,6 +124,11 @@ export default class AlreadyShared extends Component {
       });
     });
     reader.readAsDataURL(file);
+  }
+  formatBytes(bytes,decimals){
+    if(0===bytes)return"0 Bytes";
+    var c=1024,d=decimals||2,e=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],f=Math.floor(Math.log(bytes)/Math.log(c));
+    return parseFloat((bytes/Math.pow(c,f)).toFixed(d))+" "+e[f]
   }
 
   uploadNewImage(file){
