@@ -19,6 +19,7 @@
     "react-custom-scrollbars": "^4.1.2",
     "react-dom": "^15.6.2",
     "react-draft-wysiwyg": "^1.10.12",
+    "react-dragula": "^1.1.17",
     "react-dropzone-component": "^2.0.0",
     "react-google-login": "^2.9.3",
     "react-helmet": "^5.2.0",

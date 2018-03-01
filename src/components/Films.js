@@ -61,7 +61,7 @@ export default class Films extends Component {
                 </Col>
                 <Col className="embed-responsive embed-responsive-16by9">
                   <Iframe
-                    url={video.video_url + '?rel=0&amp;showinfo=0'}
+                    url={video.video_embed_url + '?rel=0&amp;showinfo=0'}
                     className="embed-responsive-item"
                     allowFullScreen
                   />

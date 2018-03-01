@@ -7,6 +7,7 @@ import VideoPopup from './VideoPopup';
 import PlayVideo from './PlayVideo';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Dragula from 'react-dragula';
 
 // Import services
 import { VideoFilmService } from '../../../services/Index';
@@ -45,6 +46,7 @@ export default class VideoFilms extends Component {
 
   componentWillMount() {
     this.getAllVideoFilms();
+    this.dragulaVideo.bind(this)
   }
 
   getAllVideoFilms(sortingOrder = this.state.sortingOrder, page = 1) {
@@ -197,6 +199,21 @@ export default class VideoFilms extends Component {
     this.setState({ showPlayVideo: false, editObject: {} });
   };
 
+
+  dragulaDecorator = (componentBackingInstance) => {
+    if (componentBackingInstance) {
+      let options = { };
+      const dragula = Dragula([componentBackingInstance], options);
+      dragula.on('drop', (el, target, source, sibling) => {
+        this.dragulaVideo
+      })
+    }
+  };
+
+  dragulaVideo () {
+    this.state
+  }
+  
   render() {
     const { videos, meta, alert, sortingOrder } = this.state;
     return (
@@ -228,7 +245,7 @@ export default class VideoFilms extends Component {
         )}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
-            <span className="total-records pull-left">
+            <span className="total-records remove-video-border pull-left">
               Total :{' '}
               <span>
                 {videos.length + '/'}
@@ -236,7 +253,7 @@ export default class VideoFilms extends Component {
               </span>{' '}
               videos
             </span>
-            <h5 className="pull-left sortBy-records">
+            {/* <h5 className="pull-left sortBy-records">
               <a
                 href=""
                 title={
@@ -255,7 +272,7 @@ export default class VideoFilms extends Component {
                   }
                 />
               </a>
-            </h5>
+            </h5> */}
             <Button
               className="btn btn-orange pull-right add-video-btn"
               onClick={() => this.setState({ showPopup: true })}
@@ -275,8 +292,10 @@ export default class VideoFilms extends Component {
             transitionEnterTimeout={500}
             transitionLeave={false}
           >
+          <div ref={this.dragulaDecorator} className="dragula dragula-vertical">
             {videos.map((video, index) => (
-              <Col xs={12} className="videos-list-wrap p-none" key={video.id}>
+              <Col xs={12} className="videos-list-wrap p-none" key={video.id} id={video.id}>
+              {index}
                 <Col xs={12} className="video-film-wrap">
                   <Media>
                     <Media.Left
@@ -411,7 +430,9 @@ export default class VideoFilms extends Component {
                 </Col>
               </Col>
             ))}
+           </div>
           </ReactCSSTransitionGroup>
+          
         </Col>
         <PaginationModule
           pagination={meta.pagination}
