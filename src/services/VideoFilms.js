@@ -40,3 +40,11 @@ export function getPublishVideos() {
     process.env.REACT_APP_API_BASE_URL + 'videos/publish'
   );
 }
+
+export function getUpdatePosition(params) {
+  return axiosInstance.patch(
+    process.env.REACT_APP_API_BASE_URL + 'videos/update_position',
+    params['videoPosition'],
+    apiHeader()
+  );
+}
