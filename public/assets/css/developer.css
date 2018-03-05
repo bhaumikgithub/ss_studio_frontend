@@ -828,6 +828,7 @@ div.filepicker {
   min-width: 200px;
   float: left;
   margin-right: 10px;
+  z-index: 999;
 }
 /* Dropdown Settings menu start  */
 .watermark-content-img {
