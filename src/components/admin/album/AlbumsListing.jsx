@@ -13,7 +13,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { AlbumService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, getAlbumStatusClass } from '../../Helper';
+import { isObjectEmpty, getAlbumStatusClass, toCapitalize } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/album/albums.css';
@@ -29,12 +29,12 @@ export default class AlbumsListing extends Component {
       selectionAlbumObject: {},
       showCreatePopup: false,
       shareAlbum: false,
-      sortingOrder: 'desc',
-      sortingField: 'updated_at',
       albumSortingOrder: '',
       activeCheckboxSelected: false,
       deactiveCheckboxSelected: false,
+      categoryId: '',
       albums: [],
+      categories: [],
       meta: [],
       alert: {
         objectId: '',
@@ -52,19 +52,19 @@ export default class AlbumsListing extends Component {
   componentWillMount() {
     var self = this;
     var {
-      sortingField,
+      categoryId,
       activeCheckboxSelected,
       deactiveCheckboxSelected
     } = self.state;
     this.getAllAlbums(
-      sortingField,
+      categoryId,
       activeCheckboxSelected,
       deactiveCheckboxSelected,
       undefined
     );
   }
 
-  handleAlbumSorting(sorting_order, sorting_field, eventKey = 1) {
+  handleAlbumSorting(categoryId, eventKey = 1) {
     var self = this;
     var checked, status;
     var { activeCheckboxSelected, deactiveCheckboxSelected } = self.state;
@@ -76,20 +76,18 @@ export default class AlbumsListing extends Component {
       (deactiveCheckboxSelected === false && activeCheckboxSelected === false)
     ) {
       self.getAllAlbums(
-        sorting_field,
+        categoryId,
         activeCheckboxSelected,
         deactiveCheckboxSelected,
-        sorting_order,
         eventKey
       );
     } else {
       self.getSlectedAlbums(
         status,
         checked,
+        categoryId,
         activeCheckboxSelected,
         deactiveCheckboxSelected,
-        sorting_field,
-        sorting_order,
         eventKey
       );
     }
@@ -98,24 +96,21 @@ export default class AlbumsListing extends Component {
   handleSelectChange(e) {
     if (e) {
       this.setState({
-        sortingOrder: e.order,
-        sortingField: e.field,
-        albumSortingOrder: e.value
+        albumSortingOrder: e.value,
+        categoryId: e.value,
       });
-      this.handleAlbumSorting(e.order, e.field);
+      this.handleAlbumSorting(e.value);
     }
   }
   getAllAlbums(
-    sortingField = this.state.sortingField,
+    categoryId,
     activeCheckbox,
     deactiveCheckbox,
-    sortingOrder = this.state.sortingOrder,
     page = 1
   ) {
     var self = this;
     AlbumService.getAlbums({
-      sorting_order: sortingOrder,
-      sorting_field: sortingField,
+      category_id: categoryId === undefined ? this.state.categoryId : categoryId,
       page: page,
       per_page: window.paginationPerPage
     })
@@ -124,10 +119,9 @@ export default class AlbumsListing extends Component {
         self.setState({
           albums: data.data.albums,
           meta: data.meta,
-          sortingOrder: sortingOrder,
-          sortingField: sortingField,
           activeCheckboxSelected: activeCheckbox,
-          deactiveCheckboxSelected: deactiveCheckbox
+          deactiveCheckboxSelected: deactiveCheckbox,
+          categories: data.data.categories
         });
       })
       .catch(function(error) {
@@ -135,19 +129,8 @@ export default class AlbumsListing extends Component {
       });
   }
 
-  handleSorting(e) {
-    e.preventDefault();
-    const sortingOrder = this.state.sortingOrder === 'desc' ? 'asc' : 'desc';
-    this.getAllAlbums(
-      undefined,
-      this.state.activeCheckboxSelected,
-      this.state.deactiveCheckboxSelected,
-      sortingOrder
-    );
-  }
-
   handlePaginationClick = eventKey => {
-    this.handleAlbumSorting(undefined, this.state.sortingField, eventKey);
+    this.handleAlbumSorting(undefined, eventKey);
   };
 
   showDialogueBox(id) {
@@ -270,30 +253,26 @@ export default class AlbumsListing extends Component {
   getSlectedAlbums(
     status,
     checked,
+    categoryId,
     activeCheckbox,
     deactiveCheckbox,
-    sortingField = this.state.sortingField,
-    sortingOrder = this.state.sortingOrder,
     page = 1
   ) {
     var self = this;
     AlbumService.getAlbumStatusWise({
-      sorting_field: sortingField,
-      sorting_order: sortingOrder,
       page: page,
       per_page: window.paginationPerPage,
       status: status,
-      checked: checked
+      checked: checked,
+      category_id: categoryId === undefined ? this.state.categoryId : categoryId,
     })
       .then(function(response) {
         var data = response.data;
         self.setState({
           albums: data.data.albums,
           meta: data.meta,
-          sortingOrder: sortingOrder,
-          sortingField: sortingField,
           activeCheckboxSelected: activeCheckbox,
-          deactiveCheckboxSelected: deactiveCheckbox
+          deactiveCheckboxSelected: deactiveCheckbox,
         });
       })
       .catch(function(error) {
@@ -317,7 +296,20 @@ export default class AlbumsListing extends Component {
     ) {
       this.getAllAlbums(undefined, activeCheckbox, deactiveCheckbox);
     } else {
-      this.getSlectedAlbums(status, checked, activeCheckbox, deactiveCheckbox);
+      this.getSlectedAlbums(status, checked, this.state.categoryId, activeCheckbox, deactiveCheckbox);
+    }
+  }
+
+  categoryOptions(categories = this.state.categories.categories) {
+    var options = [];
+    if(categories !== undefined && categories.length > 0){
+      categories.map(category => {
+        return options.push({
+          value: category.id,
+          label: toCapitalize(category.category_name)
+        });
+      });
+      return options;
     }
   }
   render() {
@@ -325,39 +317,8 @@ export default class AlbumsListing extends Component {
       albums,
       meta,
       alert,
-      sortingOrder,
-      activeCheckboxSelected,
-      deactiveCheckboxSelected,
-      albumSortingOrder
+      albumSortingOrder,
     } = this.state;
-    var options = [
-      {
-        order: 'desc',
-        field: 'updated_at',
-        value: 'recent_updated',
-        label: 'Most Recent Update'
-      },
-      {
-        order: 'asc',
-        field: 'updated_at',
-        value: 'oldest_updated',
-        label: 'Most Oldest Update'
-      },
-      {
-        order: 'desc',
-        field: 'created_at',
-        value: 'recent_created',
-        label: 'Most Recent Created'
-      },
-      {
-        order: 'asc',
-        field: 'created_at',
-        value: 'oldest_created',
-        label: 'Most Oldest Created'
-      },
-      { order: 'asc', field: 'album_name', value: 'a_z', label: 'A to Z' },
-      { order: 'desc', field: 'album_name', value: 'z_a', label: 'Z to A' }
-    ];
     return (
       <Col xs={12} className="albums-page-wrap">
         <SweetAlert
@@ -400,37 +361,11 @@ export default class AlbumsListing extends Component {
               </span>{' '}
               albums
             </span>
-            <h5 className="pull-left sortBy">
-              <a
-                href=""
-                title={
-                  sortingOrder === 'desc'
-                    ? 'Sort By Ascending'
-                    : 'Sort By Descending'
-                }
-                onClick={event => this.handleSorting(event)}
-              >
-                {activeCheckboxSelected && deactiveCheckboxSelected
-                  ? 'Sort By Active And Deactive Albums'
-                  : activeCheckboxSelected
-                    ? 'Sort By Active Albums'
-                    : deactiveCheckboxSelected
-                      ? 'Sort By Deactive Albums'
-                      : 'Sort By '}
-                <span
-                  className={
-                    sortingOrder === 'desc'
-                      ? 'fa fa-sort-asc'
-                      : 'fa fa-sort-desc'
-                  }
-                />
-              </a>
-            </h5>
             <Select
               className="album-sorting-option"
               name="sorting"
               value={albumSortingOrder}
-              options={options}
+              options={this.categoryOptions()}
               placeholder={false}
               onChange={this.handleSelectChange.bind(this)}
             />

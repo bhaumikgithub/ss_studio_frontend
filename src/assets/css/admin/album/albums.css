@@ -6,7 +6,7 @@
   line-height: 18px;
   margin-top: 8px;
   padding-right: 20px;
-  border-right: 1px solid #ccc;
+  /* border-right: 1px solid #ccc; */
 }
 .sortBy {
   margin-right: 15px;

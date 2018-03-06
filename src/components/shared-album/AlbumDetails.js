@@ -80,7 +80,7 @@ export default class AlbumDetails extends Component {
 
   handlePaginationClick = eventKey => {
     if (eventKey !== this.state.album.photo_pagination.current_page)
-      this.showAlbum(eventKey);
+      this.showAlbum(this.state.token, eventKey);
   };
 
   showDialogueBox() {

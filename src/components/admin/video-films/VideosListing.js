@@ -32,6 +32,7 @@ export default class VideoFilms extends Component {
       meta: [],
       showPopup: false,
       showPlayVideo: false,
+      current_page: '',
       alert: {
         objectId: '',
         show: false,
@@ -48,9 +49,6 @@ export default class VideoFilms extends Component {
   componentWillMount() {
     this.getAllVideoFilms();
     this.dragulaDecorator = this.dragulaDecorator.bind(this);
-  }
-  componentDidMount() {
-    // const drake = Dragula(this.containers, { revertOnSpill: true });
   }
   getAllVideoFilms(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
@@ -161,9 +159,11 @@ export default class VideoFilms extends Component {
   }
 
   renderVideo = (video, action) => {
-    const { videos, editObject } = this.state;
+    const self = this
+    const { videos, editObject, meta } = self.state;
     const newVideos = videos.slice();
-    var totalCount = this.state.meta.pagination.total_count;
+    var totalCount = self.state.meta.pagination.total_count;
+    let pagination = self.state.meta.pagination
 
     if (action === 'insert') {
       newVideos.splice(0, 0, video);
@@ -171,9 +171,11 @@ export default class VideoFilms extends Component {
     } else if (action === 'replace' && !isObjectEmpty(editObject)) {
       newVideos.splice(newVideos.indexOf(editObject), 1, video);
     }
-    this.setState({
+    pagination.total_count = totalCount
+    self.setState({
       videos: newVideos,
-      meta: { pagination: { total_count: totalCount } }
+      current_page: meta.pagination.current_page,
+      meta: { pagination: pagination }
     });
   };
 
@@ -208,32 +210,38 @@ export default class VideoFilms extends Component {
       let options = {};
       const dragula = Dragula([componentBackingInstance], options);
       dragula.on('drop', (el, target, source, sibling) => {
-        // self.setState({ sortingOrder: 'desc' });
-        // this.containers.push(componentBackingInstance);
-        // -------------------------------------------------
         var video_position = [];
-        var demohash = {};
         var nodeList = target.childNodes;
         var nodes = Array.prototype.slice.call(nodeList, 0);
+        var current_page = self.state.meta.pagination.current_page === undefined ? self.state.current_page : self.state.meta.pagination.current_page
+        var cur_index = (current_page - 1) * 10
         nodes.forEach(function(node, index) {
-          console.log(node.id, index + 1);
-          // video_position.push([{ ['id']: node.id }, { ['index']: index }]);
-          // var demohash = { [node.id]: index + 1 };
-          // demohash.merge({ [node.id]: index + 1 });
-          video_position.push({ [node.id]: index + 1 });
+          video_position.push( [node.id, (cur_index+index + 1) ]);
         });
         var editParams = {
-          videoPosition: video_position
+          video_position: video_position,
+          page:  current_page ,
+          per_page: window.paginationPerPage
         };
-        console.log(editParams);
-        VideoFilmService.getUpdatePosition(editParams);
-
-        // -------------------------------------------------
+        VideoFilmService.getUpdatePosition(editParams)
+          .then(function(response) {
+            var responseData = response.data;
+            if (response.status === 201) {
+              self.setState({
+                videos: responseData.data.videos
+              });
+            } else {
+              console.log(responseData.errors);
+            }
+          })
+          .catch(function(error) {
+            console.log(error.response);
+          });
       });
     }
   };
   render() {
-    const { videos, meta, alert, sortingOrder } = this.state;
+    const { videos, meta, alert } = this.state;
     return (
       <Col xs={12} className="video-films-page-wrap">
         <SweetAlert
@@ -271,26 +279,6 @@ export default class VideoFilms extends Component {
               </span>{' '}
               videos
             </span>
-            {/* <h5 className="pull-left sortBy-records">
-              <a
-                href=""
-                title={
-                  sortingOrder === 'desc'
-                    ? 'Sort By Ascending'
-                    : 'Sort By Descending'
-                }
-                onClick={event => this.handleSorting(event)}
-              >
-                Sort By :{' '}
-                <span
-                  className={
-                    sortingOrder === 'desc'
-                      ? 'fa fa-sort-asc'
-                      : 'fa fa-sort-desc'
-                  }
-                />
-              </a>
-            </h5> */}
             <Button
               className="btn btn-orange pull-right add-video-btn"
               onClick={() => this.setState({ showPopup: true })}
