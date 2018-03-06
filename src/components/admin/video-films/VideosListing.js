@@ -7,6 +7,7 @@ import VideoPopup from './VideoPopup';
 import PlayVideo from './PlayVideo';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Dragula from 'react-dragula';
 
 // Import services
 import { VideoFilmService } from '../../../services/Index';
@@ -23,6 +24,7 @@ var youtubeThumbnail = require('youtube-thumbnail');
 export default class VideoFilms extends Component {
   constructor(props) {
     super(props);
+    this.containers = [];
     this.state = {
       editObject: {},
       sortingOrder: 'desc',
@@ -30,6 +32,7 @@ export default class VideoFilms extends Component {
       meta: [],
       showPopup: false,
       showPlayVideo: false,
+      current_page: '',
       alert: {
         objectId: '',
         show: false,
@@ -45,8 +48,8 @@ export default class VideoFilms extends Component {
 
   componentWillMount() {
     this.getAllVideoFilms();
+    this.dragulaDecorator = this.dragulaDecorator.bind(this);
   }
-
   getAllVideoFilms(sortingOrder = this.state.sortingOrder, page = 1) {
     var self = this;
     VideoFilmService.getVideoFilms({
@@ -156,9 +159,11 @@ export default class VideoFilms extends Component {
   }
 
   renderVideo = (video, action) => {
-    const { videos, editObject } = this.state;
+    const self = this
+    const { videos, editObject, meta } = self.state;
     const newVideos = videos.slice();
-    var totalCount = this.state.meta.pagination.total_count;
+    var totalCount = self.state.meta.pagination.total_count;
+    let pagination = self.state.meta.pagination
 
     if (action === 'insert') {
       newVideos.splice(0, 0, video);
@@ -166,9 +171,11 @@ export default class VideoFilms extends Component {
     } else if (action === 'replace' && !isObjectEmpty(editObject)) {
       newVideos.splice(newVideos.indexOf(editObject), 1, video);
     }
-    this.setState({
+    pagination.total_count = totalCount
+    self.setState({
       videos: newVideos,
-      meta: { pagination: { total_count: totalCount } }
+      current_page: meta.pagination.current_page,
+      meta: { pagination: pagination }
     });
   };
 
@@ -197,8 +204,44 @@ export default class VideoFilms extends Component {
     this.setState({ showPlayVideo: false, editObject: {} });
   };
 
+  dragulaDecorator = componentBackingInstance => {
+    var self = this;
+    if (componentBackingInstance) {
+      let options = {};
+      const dragula = Dragula([componentBackingInstance], options);
+      dragula.on('drop', (el, target, source, sibling) => {
+        var video_position = [];
+        var nodeList = target.childNodes;
+        var nodes = Array.prototype.slice.call(nodeList, 0);
+        var current_page = self.state.meta.pagination.current_page === undefined ? self.state.current_page : self.state.meta.pagination.current_page
+        var cur_index = (current_page - 1) * 10
+        nodes.forEach(function(node, index) {
+          video_position.push( [node.id, (cur_index+index + 1) ]);
+        });
+        var editParams = {
+          video_position: video_position,
+          page:  current_page ,
+          per_page: window.paginationPerPage
+        };
+        VideoFilmService.getUpdatePosition(editParams)
+          .then(function(response) {
+            var responseData = response.data;
+            if (response.status === 201) {
+              self.setState({
+                videos: responseData.data.videos
+              });
+            } else {
+              console.log(responseData.errors);
+            }
+          })
+          .catch(function(error) {
+            console.log(error.response);
+          });
+      });
+    }
+  };
   render() {
-    const { videos, meta, alert, sortingOrder } = this.state;
+    const { videos, meta, alert } = this.state;
     return (
       <Col xs={12} className="video-films-page-wrap">
         <SweetAlert
@@ -228,7 +271,7 @@ export default class VideoFilms extends Component {
         )}
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
-            <span className="total-records pull-left">
+            <span className="total-records remove-video-border pull-left">
               Total :{' '}
               <span>
                 {videos.length + '/'}
@@ -236,26 +279,6 @@ export default class VideoFilms extends Component {
               </span>{' '}
               videos
             </span>
-            <h5 className="pull-left sortBy-records">
-              <a
-                href=""
-                title={
-                  sortingOrder === 'desc'
-                    ? 'Sort By Ascending'
-                    : 'Sort By Descending'
-                }
-                onClick={event => this.handleSorting(event)}
-              >
-                Sort By :{' '}
-                <span
-                  className={
-                    sortingOrder === 'desc'
-                      ? 'fa fa-sort-asc'
-                      : 'fa fa-sort-desc'
-                  }
-                />
-              </a>
-            </h5>
             <Button
               className="btn btn-orange pull-right add-video-btn"
               onClick={() => this.setState({ showPopup: true })}
@@ -275,142 +298,159 @@ export default class VideoFilms extends Component {
             transitionEnterTimeout={500}
             transitionLeave={false}
           >
-            {videos.map((video, index) => (
-              <Col xs={12} className="videos-list-wrap p-none" key={video.id}>
-                <Col xs={12} className="video-film-wrap">
-                  <Media>
-                    <Media.Left
-                      align="top"
-                      className="video-thumb-wrap cursor-pointer"
-                    >
-                      <a
-                        onClick={() =>
-                          this.setState({
-                            showPlayVideo: true,
-                            editObject: video
-                          })}
+            <div
+              ref={this.dragulaDecorator}
+              className="dragula dragula-vertical container"
+              id="0"
+            >
+              {videos.map((video, index) => (
+                <Col
+                  xs={12}
+                  className="videos-list-wrap p-none"
+                  key={video.id}
+                  id={video.id}
+                >
+                  {index}
+                  <Col xs={12} className="video-film-wrap">
+                    <Media>
+                      <Media.Left
+                        align="top"
+                        className="video-thumb-wrap cursor-pointer"
                       >
-                        <img
-                          className="video-thumb"
-                          src={youtubeThumbnail(video.video_url).default.url}
-                          alt="Video thumb"
-                        />
-                        <img
-                          className="video-thumb-icon"
-                          src={require('../../../assets/images/admin/video-films/video-icon.png')}
-                          alt="Video icon"
-                        />
-                      </a>
-                    </Media.Left>
-                    <Media.Body className="video-header-wrap">
-                      <Media.Heading className="video-film-title">
                         <a
                           onClick={() =>
                             this.setState({
                               showPlayVideo: true,
                               editObject: video
-                            })}
-                          className="cursor-pointer"
+                            })
+                          }
                         >
-                          <span>{video.title}</span>
+                          <img
+                            className="video-thumb"
+                            src={youtubeThumbnail(video.video_url).default.url}
+                            alt="Video thumb"
+                          />
+                          <img
+                            className="video-thumb-icon"
+                            src={require('../../../assets/images/admin/video-films/video-icon.png')}
+                            alt="Video icon"
+                          />
                         </a>
-                      </Media.Heading>
+                      </Media.Left>
+                      <Media.Body className="video-header-wrap">
+                        <Media.Heading className="video-film-title">
+                          <a
+                            onClick={() =>
+                              this.setState({
+                                showPlayVideo: true,
+                                editObject: video
+                              })
+                            }
+                            className="cursor-pointer"
+                          >
+                            <span>{video.title}</span>
+                          </a>
+                        </Media.Heading>
 
-                      <Button
-                        className="btn-link p-none video-action-btn video-edit-btn"
-                        onClick={() =>
-                          this.setState({
-                            showPopup: true,
-                            editObject: video
-                          })}
-                      >
-                        {/* <i className="fa fa-pencil-square-o" aria-hidden="true"></i> */}
+                        <Button
+                          className="btn-link p-none video-action-btn video-edit-btn"
+                          onClick={() =>
+                            this.setState({
+                              showPopup: true,
+                              editObject: video
+                            })
+                          }
+                        >
+                          {/* <i className="fa fa-pencil-square-o" aria-hidden="true"></i> */}
 
-                        <img
-                          src={require('../../../assets/images/admin/album/edit-icon.png')}
-                          alt=""
-                        />
-                      </Button>
-                      {/*<Button className="btn-link p-none video-action-btn video-share-btn">
+                          <img
+                            src={require('../../../assets/images/admin/album/edit-icon.png')}
+                            alt=""
+                          />
+                        </Button>
+                        {/*<Button className="btn-link p-none video-action-btn video-share-btn">
                       <img
                         src={require('../../../assets/images/admin/album/share-icon.png')}
                         alt=""
                       />
                     </Button>*/}
 
-                      <Col xs={12} className="p-none updated-info">
-                        <span className="fa fa-clock-o updated-icon" /> Last
-                        updated on {video.updated_at}
-                      </Col>
-                      <Col xs={12} className="p-none video-separator">
-                        <hr />
-                      </Col>
-                    </Media.Body>
-                  </Media>
-                  <Col xs={12} className="p-none video-count-main-wrap">
-                    <Col xs={12} className="p-none">
-                      <Col
-                        lg={4}
-                        sm={6}
-                        xs={12}
-                        className="video-detail-wrap type-wrap"
-                      >
-                        <span className="video-detail video-detail-title">
-                          video Type
-                        </span>
-                        <span className="video-detail count-num">
-                          <i className="video-type-icon">
-                            <img
-                              src={this.getVideoIcon(video.video_type)}
-                              alt="video Type"
-                            />
-                          </i>
-                          {video.video_type}
-                        </span>
-                      </Col>
-                      <Col
-                        lg={3}
-                        sm={6}
-                        xs={12}
-                        className="video-detail-wrap video-count-wrap"
-                      >
-                        <span className="video-detail video-detail-title">
-                          View Counts
-                        </span>
-                        <span className="video-detail video-count-num">0</span>
-                      </Col>
-                      <Col
-                        lg={3}
-                        sm={6}
-                        xs={12}
-                        className="video-detail-wrap video-status-wrap"
-                      >
-                        <span className="video-detail video-detail-title">
-                          Status
-                        </span>
-                        <span
-                          className={
-                            'video-detail count-num ' +
-                            this.getStatusClass(video.status)
-                          }
+                        <Col xs={12} className="p-none updated-info">
+                          <span className="fa fa-clock-o updated-icon" /> Last
+                          updated on {video.updated_at}
+                        </Col>
+                        <Col xs={12} className="p-none video-separator">
+                          <hr />
+                        </Col>
+                      </Media.Body>
+                    </Media>
+                    <Col xs={12} className="p-none video-count-main-wrap">
+                      <Col xs={12} className="p-none">
+                        <Col
+                          lg={4}
+                          sm={6}
+                          xs={12}
+                          className="video-detail-wrap type-wrap"
                         >
-                          {video.status}
-                        </span>
+                          <span className="video-detail video-detail-title">
+                            video Type
+                          </span>
+                          <span className="video-detail count-num">
+                            <i className="video-type-icon">
+                              <img
+                                src={this.getVideoIcon(video.video_type)}
+                                alt="video Type"
+                              />
+                            </i>
+                            {video.video_type}
+                          </span>
+                        </Col>
+                        <Col
+                          lg={3}
+                          sm={6}
+                          xs={12}
+                          className="video-detail-wrap video-count-wrap"
+                        >
+                          <span className="video-detail video-detail-title">
+                            View Counts
+                          </span>
+                          <span className="video-detail video-count-num">
+                            0
+                          </span>
+                        </Col>
+                        <Col
+                          lg={3}
+                          sm={6}
+                          xs={12}
+                          className="video-detail-wrap video-status-wrap"
+                        >
+                          <span className="video-detail video-detail-title">
+                            Status
+                          </span>
+                          <span
+                            className={
+                              'video-detail count-num ' +
+                              this.getStatusClass(video.status)
+                            }
+                          >
+                            {video.status}
+                          </span>
+                        </Col>
                       </Col>
+                      <Button
+                        className="btn-link p-none video-action-btn video-delete-btn"
+                        onClick={() => this.showDialogueBox(video.id)}
+                      >
+                        <img
+                          src={require('../../../assets/images/admin/album/delete-icon.png')}
+                          alt=""
+                        />
+                      </Button>
                     </Col>
-                    <Button
-                      className="btn-link p-none video-action-btn video-delete-btn"
-                      onClick={() => this.showDialogueBox(video.id)}
-                    >
-                      <img
-                        src={require('../../../assets/images/admin/album/delete-icon.png')}
-                        alt=""
-                      />
-                    </Button>
                   </Col>
                 </Col>
-              </Col>
-            ))}
+              ))}
+            </div>
           </ReactCSSTransitionGroup>
         </Col>
         <PaginationModule
