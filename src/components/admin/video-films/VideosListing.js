@@ -310,7 +310,6 @@ export default class VideoFilms extends Component {
                   key={video.id}
                   id={video.id}
                 >
-                  {index}
                   <Col xs={12} className="video-film-wrap">
                     <Media>
                       <Media.Left
