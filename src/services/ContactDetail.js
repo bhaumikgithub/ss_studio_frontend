@@ -4,7 +4,8 @@ import { apiHeader, checkStatus } from '../components/Helper';
 
 export function getContactDetails() {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'contact_details'
+    process.env.REACT_APP_API_BASE_URL + 'contact_details',
+    apiHeader()
   );
 }
 
@@ -15,4 +16,11 @@ export function updateContactDetail(params) {
     apiHeader()
   );
   return checkStatus(responsePromise);
+}
+
+export function getContactDetail(params) {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'contact_detail',
+    {params}
+  );
 }

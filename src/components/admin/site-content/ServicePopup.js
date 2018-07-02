@@ -22,7 +22,7 @@ import 'react-select/dist/react-select.min.css';
 import '../../../assets/css/admin/site-content/add-service.css';
 
 // Import services
-import { UserService, ServiceIconService } from '../../../services/Index';
+import { UserServiceService, ServiceIconService } from '../../../services/Index';
 
 // Import helper
 import { str2bool, isObjectEmpty } from '../../Helper';
@@ -109,13 +109,13 @@ export default class ServicePopup extends Component {
 
     if (isObjectEmpty(self.props.editObject)) {
       var createParams = { service: self.state.ServiceForm };
-      callServiceApi = UserService.createService(createParams);
+      callServiceApi = UserServiceService.createService(createParams);
     } else {
       var editParams = {
         id: self.props.editObject.id,
         ServiceForm: { service: self.state.ServiceForm }
       };
-      callServiceApi = UserService.updateService(editParams);
+      callServiceApi = UserServiceService.updateService(editParams);
     }
 
     callServiceApi

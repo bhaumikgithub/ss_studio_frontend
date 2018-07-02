@@ -15,8 +15,8 @@ class Home extends Component {
 
   componentDidMount() {
     var self = this;
-
-    HomePageGalleryService.getActiveHomepagePhotos().then(function(response) {
+    var user = this.props.match.params.user
+    HomePageGalleryService.getActiveHomepagePhotos({user: user}).then(function(response) {
       if (response.status === 200) {
         self.setState({ photos: response.data.data.active_photos });
       }

@@ -30,26 +30,6 @@ import {
 
 const routes = () => (
   <Switch>
-    {/* Before Login routes start */}
-    <BeforeLoginLayout exact path="/" component={Home} />
-    <BeforeLoginLayout exact path="(/*)/portfolio" component={Portfolio} />
-    <BeforeLoginLayout
-      exact
-      path="(/*)/portfolio(/*)/:slug"
-      component={PortfolioAlbumDetails}
-    />
-    <BeforeLoginLayout
-      exact
-      path="(/*)/shared_album(/*)/:slug"
-      component={ShareAlbumDetails}
-    />
-    <BeforeLoginLayout exact path="(/*)/films" component={Films} />
-    <BeforeLoginLayout exact path="(/*)/feedback" component={Feedback} />
-    <BeforeLoginLayout exact path="(/*)/contact" component={GetInTouch} />
-    <BeforeLoginLayout exact path="(/*)/about_us" component={AboutUs} />
-    <BeforeLoginLayout exact path="(/*)/services" component={Services} />
-    {/* Before Login routes end */}
-
     {/* Auth routes start */}
     <LoginLayout exact path="(/*)/admin" component={Login} />
     <LoginLayout
@@ -110,6 +90,26 @@ const routes = () => (
       component={Setting}
     />
     {/* After Login routes end */}
+
+    {/* Before Login routes start */}
+    <BeforeLoginLayout exact path="/:user" component={Home} />
+    <BeforeLoginLayout exact path="(/*)/:user/portfolio" component={Portfolio} />
+    <BeforeLoginLayout
+      exact
+      path="(/*)/:user/portfolio(/*)/:slug"
+      component={PortfolioAlbumDetails}
+    />
+    <BeforeLoginLayout
+      exact
+      path="(/*)/shared_album(/*)/:slug"
+      component={ShareAlbumDetails}
+    />
+    <BeforeLoginLayout exact path="(/*)/:user/films" component={Films} />
+    <BeforeLoginLayout exact path="(/*)/:user/feedback" component={Feedback} />
+    <BeforeLoginLayout exact path="(/*)/:user/contact" component={GetInTouch} />
+    <BeforeLoginLayout exact path="(/*)/:user/about_us" component={AboutUs} />
+    <BeforeLoginLayout exact path="(/*)/:user/services" component={Services} />
+    {/* Before Login routes end */}
 
     <Route component={NotFound} />
   </Switch>

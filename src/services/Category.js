@@ -9,9 +9,10 @@ export function getCategories() {
   return checkStatus(responsePromise);
 }
 
-export function getActiveCategories() {
+export function getActiveCategories(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'categories/active'
+    process.env.REACT_APP_API_BASE_URL + 'categories/active',
+    { params }
   );
 }
 
