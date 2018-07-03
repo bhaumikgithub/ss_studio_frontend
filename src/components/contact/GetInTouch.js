@@ -74,8 +74,8 @@ export default class GetInTouch extends Component {
 
   handleClick(event) {
     var self = this;
-
-    ContactMessageService.createContactMessage(self.state.contactForm)
+    var user = self.props.match.params.user;
+    ContactMessageService.createContactMessage(self.state.contactForm, user)
       .then(function(response) {
         console.log(response);
         self.handelResponse(response);

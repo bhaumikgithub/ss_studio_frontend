@@ -84,11 +84,11 @@ export default class Login extends Component {
         <Grid className="page-inner-wrap">
           <Row>
             <Col xs={10} sm={6} className="login-form">
-              <img
+              {/* <img
                 src={require('../../assets/images/admin/login/login-logo.png')}
                 alt="Logo"
                 className="img-responsive login-logo"
-              />
+              /> */}
               <form
                 className="admin-login-side"
                 onKeyDown={e => {

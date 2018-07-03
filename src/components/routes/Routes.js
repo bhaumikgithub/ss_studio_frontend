@@ -34,7 +34,7 @@ const routes = () => (
     <LoginLayout exact path="(/*)/admin" component={Login} />
     <LoginLayout
       exact
-      path="(/*)/shared_album_login(/*)/:slug"
+      path="(/*)/:user/shared_album_login(/*)/:slug"
       component={PasscodeLogin}
     />
     {/* Auth routes end */}
@@ -101,7 +101,7 @@ const routes = () => (
     />
     <BeforeLoginLayout
       exact
-      path="(/*)/shared_album(/*)/:slug"
+      path="(/*)/:user/shared_album(/*)/:slug"
       component={ShareAlbumDetails}
     />
     <BeforeLoginLayout exact path="(/*)/:user/films" component={Films} />

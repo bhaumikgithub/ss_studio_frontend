@@ -83,7 +83,7 @@ export default class PasscodeLogin extends Component {
         <Redirect
           push
           to={{
-            pathname: `/shared_album/${passcodeLoginForm.albumSlug}`,
+            pathname: '/'+this.props.match.params.user+`/shared_album/${passcodeLoginForm.albumSlug}`,
             search: `?token=${token}`,
             state: true
           }}
@@ -95,11 +95,11 @@ export default class PasscodeLogin extends Component {
         <Grid className="page-inner-wrap">
           <Row>
             <Col xs={10} sm={6} className="login-form">
-              <img
+              {/* <img
                 src={require('../../assets/images/admin/login/login-logo.png')}
                 alt="Logo"
                 className="img-responsive login-logo"
-              />
+              /> */}
               <Col xs={12} sm={10} md={8} className="login-details-block">
                 <FormGroup className="custom-fromgrp">
                   <FormControl

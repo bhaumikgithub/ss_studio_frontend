@@ -2,15 +2,32 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { UserService } from '../../services/Index';
+
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.match.params.user
+      user: this.props.match.params.user,
+      userLogo: []
     }
   }
+  componentWillMount() {
+    var self = this
+    UserService.getLogo({user: this.state.user}).then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          userLogo: response.data.data.user_logo,
+        });
+      }
+    });;
+  }
   render() {
+    const {
+      userLogo,
+      user
+    } = this.state;
     return (
       <Navbar
         inverse
@@ -20,12 +37,14 @@ class Header extends Component {
       >
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
-            <Link to="/">
+            <Link to={"/"+user}>
+            {userLogo && userLogo.image &&
               <img
-                src={require('../../assets/images/logo.png')}
-                alt=""
-                className="img-responsive"
-              />
+              src={userLogo.image}
+              alt=""
+              className="img-responsive"
+            />
+            }
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />

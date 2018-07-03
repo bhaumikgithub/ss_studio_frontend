@@ -3,7 +3,7 @@ import { Col, Tab, Tabs, Checkbox } from 'react-bootstrap';
 // Import component
 
 // Import services
-import { WatermarkService } from '../../../services/Index';
+import { WatermarkService,UserService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
@@ -14,9 +14,11 @@ export default class SiteContent extends Component {
     super(props);
     this.state = {
       watermarks: [],
+      userLogo: [],
       tab: 'watermark'
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
   }
 
   componentWillMount() {
@@ -25,6 +27,14 @@ export default class SiteContent extends Component {
       if (response.status === 200) {
         self.setState({
           watermarks: response.data.data.watermarks
+        });
+      }
+    });
+
+    UserService.getCurrentUser().then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          userLogo: response.data.data.user.user_logo
         });
       }
     });
@@ -57,8 +67,52 @@ export default class SiteContent extends Component {
         console.log(error.response);
       });
   }
+
+  handleUploadFile = e => {
+    e.preventDefault();
+
+    var self = this;
+    let file = e.target.files[0];
+    let data = new FormData();
+    data.append('user_logo[photo_attributes][image]', file);
+    if (self.state.userLogo == null){
+      UserService.createUserLogo(data)
+      .then(function(response) {
+        self.handleSuccessResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+    }
+    else{
+      UserService.updateUserLogo(data,self.state.userLogo.id)
+        .then(function(response) {
+          self.handleSuccessResponse(response);
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+    }
+  };
+
+  handleSuccessResponse(response) {
+    if (response.status === 201) {
+      this.handlePhotoRendering(response);
+    }
+  }
+
+  handlePhotoRendering(response) {
+    var UpdatePhoto = response.data.data.user_logo;
+    this.setState({ userLogo: UpdatePhoto });
+  };
+
+  handleEditClick(e) {
+    var inputField = this.refs.fileField;
+    inputField.click();
+  }
+
   render() {
-    const { tab, watermarks } = this.state;
+    const { tab, watermarks, userLogo } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
         <Tabs
@@ -105,6 +159,36 @@ export default class SiteContent extends Component {
                   </Col>
                 </Col>
               ))}
+          </Tab>
+          <Tab
+            eventKey="logo"
+            title="Logo"
+            className="about-site-content"
+          >
+            <Col xs={12} className="p-none">
+              <Col className="content-about-img-wrap">
+                {userLogo && userLogo.image && (
+                  <img
+                    className="img-responsive content-user-image"
+                    src={userLogo.image}
+                    alt="user"
+                  />
+                )}
+
+                <a className="img-edit-btn" onClick={this.handleEditClick}>
+                  <img
+                    src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                    alt=""
+                  />
+                  <input
+                    id="about_photo_edit"
+                    ref="fileField"
+                    type="file"
+                    onChange={e => this.handleUploadFile(e)}
+                  />
+                </a>
+              </Col>
+            </Col>
           </Tab>
         </Tabs>
       </Col>

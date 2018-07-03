@@ -598,8 +598,8 @@ export default class AlbumDetails extends Component {
                 <Link
                   to={
                     album.is_private
-                      ? '/shared_album_login/' + albumSlug
-                      : '/shared_album/' + albumSlug
+                      ? '/'+ this.props.album.user_name +'/shared_album_login/' + albumSlug
+                      : '/'+ this.props.album.user_name +'/shared_album/' + albumSlug
                   }
                   target="_blank"
                   className="view-album-detail"
