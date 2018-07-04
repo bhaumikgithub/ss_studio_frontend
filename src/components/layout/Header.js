@@ -2,9 +2,32 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { UserService } from '../../services/Index';
+
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.match.params.user,
+      userLogo: []
+    }
+  }
+  componentWillMount() {
+    var self = this
+    UserService.getLogo({user: this.state.user}).then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          userLogo: response.data.data.user_logo,
+        });
+      }
+    });;
+  }
   render() {
+    const {
+      userLogo,
+      user
+    } = this.state;
     return (
       <Navbar
         inverse
@@ -14,37 +37,39 @@ class Header extends Component {
       >
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
-            <Link to="/">
+            <Link to={"/"+user}>
+            {userLogo && userLogo.image &&
               <img
-                src={require('../../assets/images/logo.png')}
-                alt=""
-                className="img-responsive"
-              />
+              src={userLogo.image}
+              alt=""
+              className="img-responsive"
+            />
+            }
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullRight className="menu-links">
-            <IndexLinkContainer to="/">
+            <IndexLinkContainer to={"/"+this.state.user}>
               <NavItem eventKey={1}>Home</NavItem>
             </IndexLinkContainer>
-            <LinkContainer to="/portfolio">
+            <LinkContainer to={"/"+this.state.user+"/portfolio"}>
               <NavItem eventKey={2}>Portfolio</NavItem>
             </LinkContainer>
-            <LinkContainer to="/films">
+            <LinkContainer to={"/"+this.state.user+"/films"}>
               <NavItem eventKey={3}>Films</NavItem>
             </LinkContainer>
-            <LinkContainer to="/services">
+            <LinkContainer to={"/"+this.state.user+"/services"}>
               <NavItem eventKey={4}>Services</NavItem>
             </LinkContainer>
-            <LinkContainer to="/feedback">
+            <LinkContainer to={"/"+this.state.user+"/feedback"}>
               <NavItem eventKey={5}>Testimonials</NavItem>
             </LinkContainer>
-            <LinkContainer to="/about_us">
+            <LinkContainer to={"/"+this.state.user+"/about_us"}>
               <NavItem eventKey={6}>About us</NavItem>
             </LinkContainer>
-            <LinkContainer to="/contact">
+            <LinkContainer to={"/"+this.state.user+"/contact"}>
               <NavItem eventKey={7}>Contact</NavItem>
             </LinkContainer>
             {/*<li>

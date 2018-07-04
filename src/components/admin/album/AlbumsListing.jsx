@@ -446,8 +446,8 @@ export default class AlbumsListing extends Component {
                       <Link
                         to={
                           album.is_private
-                            ? '/shared_album_login/' + album.slug
-                            : '/shared_album/' + album.slug
+                            ? '/'+ album.user_name +'/shared_album_login/' + album.slug
+                            : '/'+ album.user_name +'/shared_album/' + album.slug
                         }
                         target="_blank"
                         className="view-album-listing"

@@ -20,8 +20,8 @@ export default class Services extends Component {
 
   componentDidMount() {
     var self = this;
-
-    UserServiceService.getActiveServices().then(function(response) {
+    var user = this.props.match.params.user;
+    UserServiceService.getServiceDetails({user: user}).then(function(response) {
       if (response.status === 200) {
         self.setState({ services: response.data.data.active_services });
       }

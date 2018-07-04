@@ -18,8 +18,9 @@ export function updateHomepagePhoto(params, id) {
   return checkStatus(responsePromise);
 }
 
-export function getActiveHomepagePhotos() {
+export function getActiveHomepagePhotos(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'homepage_photos/active'
+    process.env.REACT_APP_API_BASE_URL + 'homepage_photos/active',
+    {params}
   );
 }

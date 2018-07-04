@@ -34,10 +34,11 @@ export default class Portfolio extends Component {
 
   showAlbum(page = 1) {
     var self = this;
-
+    var user = this.props.match.params.user;
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
-      per_page: paginationPerPage
+      per_page: paginationPerPage,
+      user: user
     })
       .then(function(response) {
         var data = response.data;
@@ -76,7 +77,7 @@ export default class Portfolio extends Component {
         </PageHeader>
         <Row className="back-album-wrap">
             <Col xs={6}>
-              <Link to="/portfolio" className="back-link">
+              <Link to={"/"+this.props.match.params.user+"/portfolio"} className="back-link">
                 <i className="fa fa-arrow-left" />Back to Albums
               </Link>
             </Col>

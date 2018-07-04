@@ -36,7 +36,8 @@ export default class Portfolio extends Component {
 
   fetchPortfolio(category) {
     var self = this;
-    AlbumService.getPortfolio({ category: category })
+    var user = self.props.match.params.user;
+    AlbumService.getPortfolio({ category: category, user: user })
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {
@@ -50,7 +51,8 @@ export default class Portfolio extends Component {
 
   fetchCategories() {
     var self = this;
-    CategoryService.getActiveCategories()
+    var user = self.props.match.params.user;
+    CategoryService.getActiveCategories({user: user})
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {
@@ -83,7 +85,7 @@ export default class Portfolio extends Component {
                 <Col sm={12}>
                   <Nav bsStyle="tabs" className="portfolio-custom-tabs">
                     <IndexLinkContainer
-                      to="/portfolio?tab=all"
+                      to= {"/"+ this.props.match.params.user+ "/portfolio?tab=all"}
                       className="portfolio-links"
                       eventKey="all"
                     >
@@ -92,7 +94,7 @@ export default class Portfolio extends Component {
                     {categories.map(category => (
                       <LinkContainer
                         className="portfolio-links"
-                        to={'/portfolio?tab=' + category.category_name}
+                        to={'/'+this.props.match.params.user+'/portfolio?tab=' + category.category_name}
                         eventKey={category.category_name}
                         key={category.id}
                       >
@@ -121,7 +123,7 @@ export default class Portfolio extends Component {
                             <Col xs={12} className="portfolio-thumbs p-none">
                               <img alt="icon" src={album.cover_photo.image} />
                               <Link
-                                to={'/portfolio/' + album.slug}
+                                to={"/"+ this.props.match.params.user+ '/portfolio/' + album.slug}
                                 className="overlay"
                               >
                                 <img
@@ -134,7 +136,7 @@ export default class Portfolio extends Component {
                                 {album.photo_count} Photos
                               </span>
                             </Col>
-                            <Link to={'/portfolio/' + album.slug}>
+                            <Link to={"/"+ this.props.match.params.user+ '/portfolio/' + album.slug}>
                               <h4 className="portfolio-title">
                                 {album.album_name}{' '}
                                 {/* <small>({album.photo_count} Photos)</small> */}

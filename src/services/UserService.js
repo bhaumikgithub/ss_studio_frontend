@@ -3,7 +3,8 @@ import { apiHeader, checkStatus } from '../components/Helper';
 
 export function getActiveServices() {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'services/active_services'
+    process.env.REACT_APP_API_BASE_URL + 'services/active_services',
+    apiHeader()
   );
 }
 
@@ -23,4 +24,11 @@ export function createService(params) {
     apiHeader()
   );
   return checkStatus(responsePromise);
+}
+
+export function getServiceDetails(params) {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'services/service_details',
+    {params}
+  );
 }

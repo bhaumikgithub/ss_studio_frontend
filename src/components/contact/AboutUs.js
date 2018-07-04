@@ -20,7 +20,8 @@ export default class AboutUs extends Component {
 
   componentWillMount() {
     var self = this;
-    AboutService.getAboutUs().then(function(response) {
+    var user = self.props.match.params.user;
+    AboutService.getAboutUsDetail({user: user}).then(function(response) {
       if (response.status === 200) {
         self.setState({
           aboutUs: response.data.data.about_us,
@@ -78,7 +79,7 @@ export default class AboutUs extends Component {
 
               <Col xs={12} className="hire-wrap">
                 <LinkContainer
-                  to="/contact"
+                  to={"/"+this.props.match.params.user+"/contact"}
                   className="btn btn-orange hire-btn"
                 >
                   <span>hire me</span>

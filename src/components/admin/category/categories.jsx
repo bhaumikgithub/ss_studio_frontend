@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Table } from 'react-bootstrap';
+import { Col, Table, Button } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
 // Import component
@@ -180,11 +180,11 @@ export default class Categories extends Component {
 
         <Col xs={12} className="filter-wrap p-none">
           <Col xs={12} className="p-none">
-            {/* <Button className="btn pull-right btn-orange add-new-btn" onClick={()=>this.setState({ CreateShow: true })}> 
+            <Button className="btn pull-right btn-orange add-new-btn" onClick={()=>this.setState({ CreateShow: true })}>
                     <i className="add-icon">
                         <img src={require('../../../assets/images/admin/album/add-icon.png')} alt=""/>       
                     </i>Add New
-                </Button> */}
+                </Button>
           </Col>
         </Col>
         <Col xs={12} className="p-none">

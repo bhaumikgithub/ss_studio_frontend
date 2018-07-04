@@ -19,7 +19,8 @@ export default class Films extends Component {
 
   componentWillMount() {
     var self = this;
-    VideoFilmService.getPublishVideos()
+    var user = self.props.match.params.user;
+    VideoFilmService.getPublishVideos({user: user})
       .then(function(response) {
         var data = response.data;
         self.setState({ videos: data.data.videos });

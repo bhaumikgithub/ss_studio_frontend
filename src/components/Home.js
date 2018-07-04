@@ -15,8 +15,8 @@ class Home extends Component {
 
   componentDidMount() {
     var self = this;
-
-    HomePageGalleryService.getActiveHomepagePhotos().then(function(response) {
+    var user = this.props.match.params.user
+    HomePageGalleryService.getActiveHomepagePhotos({user: user}).then(function(response) {
       if (response.status === 200) {
         self.setState({ photos: response.data.data.active_photos });
       }
@@ -47,7 +47,7 @@ class Home extends Component {
                       We Capture <span>Memories..</span>
                     </p>
                     <NavLink
-                      to="/portfolio"
+                      to={"/"+this.props.match.params.user+"/portfolio"}
                       className="btn btn-default outline-btn slider-btn"
                     >
                       view our work

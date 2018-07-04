@@ -61,10 +61,12 @@ export default class AlbumDetails extends Component {
 
   showAlbum(token, page = 1) {
     var self = this;
+    var user = self.props.match.params.user
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage,
-      token: token
+      token: token,
+      user: user
       // token: token
     })
       .then(function(response) {
@@ -270,7 +272,7 @@ export default class AlbumDetails extends Component {
     const photos = album.photos;
     if (album.is_private && passcodeLoginState === undefined) {
       return (
-        <Redirect to={`/shared_album_login/${albumSlug}?token=${token}`} />
+        <Redirect to={'/'+this.props.match.params.user+`/shared_album_login/${albumSlug}?token=${token}`} />
       );
     }
     return (

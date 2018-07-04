@@ -9,7 +9,7 @@ const BeforeLoginLayout = ({ component: Component, ...rest }) => {
       {...rest}
       render={matchProps => (
         <div className="app-wrap">
-          <Header />
+          <Header {...matchProps} />
           <Component {...matchProps} />
           <Footer />
         </div>

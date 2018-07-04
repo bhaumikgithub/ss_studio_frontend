@@ -55,8 +55,8 @@ export default class GetInTouch extends Component {
 
   componentDidMount() {
     var self = this;
-
-    ContactDetailService.getContactDetails().then(function(response) {
+    var user = self.props.match.params.user;
+    ContactDetailService.getContactDetail({user: user}).then(function(response) {
       if (response.status === 200) {
         self.setState({ contactDetails: response.data.data.contact_detail });
       }
@@ -74,8 +74,8 @@ export default class GetInTouch extends Component {
 
   handleClick(event) {
     var self = this;
-
-    ContactMessageService.createContactMessage(self.state.contactForm)
+    var user = self.props.match.params.user;
+    ContactMessageService.createContactMessage(self.state.contactForm, user)
       .then(function(response) {
         console.log(response);
         self.handelResponse(response);
@@ -122,6 +122,7 @@ export default class GetInTouch extends Component {
                 <span className="text-white">Contact</span>
               </label>
             </PageHeader>
+            {contactDetails &&
             <Col sm={7}>
               <div className="contact-detail-wrap">
                 <img
@@ -174,7 +175,8 @@ export default class GetInTouch extends Component {
                
               </div>
             </Col>
-
+            }
+            {contactDetails &&
             <Col sm={5}>
               <div className="contact-form-wrap">
                 <form className="contact-form">
@@ -244,6 +246,7 @@ export default class GetInTouch extends Component {
                 </form>
               </div>
             </Col>
+            }
           </Row>
         </Grid>
       </div>

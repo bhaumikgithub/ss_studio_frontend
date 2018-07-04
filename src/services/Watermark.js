@@ -9,10 +9,19 @@ export function getWatermark(params) {
   return checkStatus(responsePromise);
 }
 
-export function updateWatermark(params) {
+export function updateWatermark(params, id) {
   const responsePromise = axiosInstance.patch(
-    process.env.REACT_APP_API_BASE_URL + 'watermarks/' + params['id'],
-    params['watermarks'],
+    process.env.REACT_APP_API_BASE_URL + 'watermarks/' + id,
+    params,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function createWatermark(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'watermarks',
+    params,
     apiHeader()
   );
   return checkStatus(responsePromise);
