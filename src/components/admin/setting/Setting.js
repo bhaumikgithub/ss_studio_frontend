@@ -55,9 +55,9 @@ export default class SiteContent extends Component {
 
     var editParams = {
       id: id,
-      watermarks: { status: status }
+      watermark: { status: status }
     };
-    WatermarkService.updateWatermark(editParams)
+    WatermarkService.updateWatermark(editParams, id)
       .then(function(response) {
         var responseData = response.data;
         if (response.status === 201) {
