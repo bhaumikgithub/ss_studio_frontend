@@ -16,3 +16,12 @@ export function updateAboutUs(params) {
   );
   return checkStatus(responsePromise);
 }
+
+export function createAboutUs(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'abouts',
+    params,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}

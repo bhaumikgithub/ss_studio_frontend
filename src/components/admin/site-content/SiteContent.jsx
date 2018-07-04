@@ -28,7 +28,7 @@ export default class SiteContent extends Component {
     super(props);
     this.state = {
       editObject: {},
-      aboutUs: [],
+      aboutUs: {},
       services: [],
       socialMedia: {},
       contactDetail: {},
@@ -303,7 +303,8 @@ export default class SiteContent extends Component {
             className="about-site-content"
           >
             <Col xs={12} className="site-content-filter p-none">
-              <Button
+              {(aboutUs && aboutUs.title_text !== undefined) ? 
+                <Button
                 className="btn btn-orange pull-right edit-album-content"
                 onClick={() =>
                   this.setState({
@@ -318,19 +319,29 @@ export default class SiteContent extends Component {
                   />
                 </i>
                 Edit Details
+              </Button> : <Button
+                className="btn btn-orange pull-right edit-album-content"
+                onClick={() =>
+                  this.setState({
+                    EditAboutShow: true,
+                  })}
+              >
+                <i className="fa fa-plus add-service-icon"/>
+                Add Details
               </Button>
+              }
             </Col>
             <Col xs={12} className="p-none">
               <Col className="content-about-img-wrap">
-                {aboutUs.photo && (
+                {aboutUs && aboutUs.photo && (
                   <img
                     className="img-responsive content-user-image"
                     src={aboutUs.photo.image}
                     alt="user"
                   />
                 )}
-
-                <a className="img-edit-btn" onClick={this.handleEditClick}>
+                {aboutUs && aboutUs.title_text !== undefined &&
+                  <a className="img-edit-btn" onClick={this.handleEditClick}>
                   <img
                     src={require('../../../assets/images/admin/site-content/edit-icon.png')}
                     alt=""
@@ -342,33 +353,36 @@ export default class SiteContent extends Component {
                     onChange={e => this.handleUploadFile(e)}
                   />
                 </a>
+                }
               </Col>
-              <Col className="right-content-wrap text-grey">
-                <Col xs={12} className="about-content-wrap">
-                  <h3 className="about-content-title">{aboutUs.title_text}</h3>
-                  <p
-                    dangerouslySetInnerHTML={{ __html: aboutUs.description }}
-                  />
-                </Col>
-                {aboutUs.facebook_link && (
-                  <Col className="about-solcial-icons" xs={12}>
-                    <a
-                      target="_blank"
-                      href={aboutUs.facebook_link}
-                      className="btn btn-grey btn-round  social-link"
-                    >
-                      <span className="fa fa-facebook" />
-                    </a>
-                    {/* <a
-                      target="_blank"
-                      href={aboutUs.social_links.twitter_link}
-                      className="btn btn-grey btn-round  social-link"
-                    >
-                      <span className="fa fa-tumblr" />
-                    </a> */}
+              {aboutUs &&
+                <Col className="right-content-wrap text-grey">
+                  <Col xs={12} className="about-content-wrap">
+                    <h3 className="about-content-title">{aboutUs.title_text}</h3>
+                    <p
+                      dangerouslySetInnerHTML={{ __html: aboutUs.description }}
+                    />
                   </Col>
-                )}
-              </Col>
+                  {aboutUs.facebook_link && (
+                    <Col className="about-solcial-icons" xs={12}>
+                      <a
+                        target="_blank"
+                        href={aboutUs.facebook_link}
+                        className="btn btn-grey btn-round  social-link"
+                      >
+                        <span className="fa fa-facebook" />
+                      </a>
+                      {/* <a
+                        target="_blank"
+                        href={aboutUs.social_links.twitter_link}
+                        className="btn btn-grey btn-round  social-link"
+                      >
+                        <span className="fa fa-tumblr" />
+                      </a> */}
+                    </Col>
+                  )}
+                </Col>
+              }
             </Col>
           </Tab>
           <Tab eventKey="services" title="Services">
@@ -404,7 +418,8 @@ export default class SiteContent extends Component {
                 </i>Edit Details
               </Button>
             </Col>
-            <Col xs={12} className="contact-tab-content">
+            {contactDetail &&
+              <Col xs={12} className="contact-tab-content">
               <Col className="admin-contact-block">
                 <Col md={1} xs={2} className="contact-icon-wrap">
                   <img
@@ -448,6 +463,7 @@ export default class SiteContent extends Component {
                 </Col>
               </Col>
             </Col>
+            }
           </Tab>
           <Tab eventKey="social_media" title="Social Media">
             <Col xs={12} className="site-content-filter p-none">

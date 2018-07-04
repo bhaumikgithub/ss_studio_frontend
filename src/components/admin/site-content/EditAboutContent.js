@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import EditTitle from '../../../assets/images/admin/site-content/about-site-content-icon.png';
+import AddTitle from '../../../assets/images/admin/site-content/add-service-icon.png';
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -112,18 +113,35 @@ export default class EditAboutContent extends Component {
     var editParams = {
       about: self.state.editAboutForm
     };
-    AboutService.updateAboutUs(editParams)
-      .then(function(response) {
-        self.handelResponse(response);
-      })
-      .catch(function(error) {
-        const errors = error.response.data.errors;
-        if (errors.length > 0) {
-          self.setState({ errors: validationHandler(errors) });
-        } else {
-          console.log(error.response);
-        }
-      });
+    if(isObjectEmpty(self.props.editObject))
+    {
+      AboutService.createAboutUs(editParams)
+        .then(function(response) {
+          self.handelResponse(response);
+        })
+        .catch(function(error) {
+          const errors = error.response.data.errors;
+          if (errors.length > 0) {
+            self.setState({ errors: validationHandler(errors) });
+          } else {
+            console.log(error.response);
+          }
+        });
+    }
+    else{
+      AboutService.updateAboutUs(editParams)
+        .then(function(response) {
+          self.handelResponse(response);
+        })
+        .catch(function(error) {
+          const errors = error.response.data.errors;
+          if (errors.length > 0) {
+            self.setState({ errors: validationHandler(errors) });
+          } else {
+            console.log(error.response);
+          }
+        });
+    }
   }
 
   handelResponse(response) {
@@ -167,7 +185,7 @@ export default class EditAboutContent extends Component {
           <Col className="edit-about-title-wrap p-none" sm={4}>
             <Col xs={12} className="p-none edit-about-title-details">
               <img
-                src={EditTitle}
+                src={isObjectEmpty(this.props.editObject) ? AddTitle : EditTitle}
                 alt=""
                 className="edit-about-icon img-responsive"
               />
