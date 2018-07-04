@@ -402,21 +402,32 @@ export default class SiteContent extends Component {
           </Tab>
           <Tab eventKey="contact_us" title="Contact Us">
             <Col xs={12} className="site-content-filter p-none">
-              <Button
-                className="btn btn-orange pull-right edit-contact-detail"
-                onClick={() =>
-                  this.setState({
-                    EditContactShow: true,
-                    editObject: contactDetail
-                  })}
-              >
-                <i className="edit-contact-detail-icon">
-                  <img
-                    src={require('../../../assets/images/admin/site-content/edit-icon.png')}
-                    alt=""
-                  />
-                </i>Edit Details
-              </Button>
+              {(contactDetail && contactDetail.email !== undefined) ?
+                <Button
+                  className="btn btn-orange pull-right edit-contact-detail"
+                  onClick={() =>
+                    this.setState({
+                      EditContactShow: true,
+                      editObject: contactDetail
+                    })}
+                >
+                  <i className="edit-contact-detail-icon">
+                    <img
+                      src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                      alt=""
+                    />
+                  </i>Edit Details
+                </Button> : <Button
+                  className="btn btn-orange pull-right edit-contact-detail"
+                  onClick={() =>
+                    this.setState({
+                      EditContactShow: true,
+                    })}
+                >
+                  <i className="fa fa-plus add-service-icon"/>
+                  Add Details
+                </Button>
+              }
             </Col>
             {contactDetail &&
               <Col xs={12} className="contact-tab-content">

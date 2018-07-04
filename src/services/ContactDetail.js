@@ -24,3 +24,12 @@ export function getContactDetail(params) {
     {params}
   );
 }
+
+export function createContactDetail(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'contact_details',
+    params['EditContactForm'],
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
