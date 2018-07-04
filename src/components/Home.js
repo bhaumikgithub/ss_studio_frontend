@@ -47,7 +47,7 @@ class Home extends Component {
                       We Capture <span>Memories..</span>
                     </p>
                     <NavLink
-                      to="/portfolio"
+                      to={"/"+this.props.match.params.user+"/portfolio"}
                       className="btn btn-default outline-btn slider-btn"
                     >
                       view our work

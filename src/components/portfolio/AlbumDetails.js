@@ -77,7 +77,7 @@ export default class Portfolio extends Component {
         </PageHeader>
         <Row className="back-album-wrap">
             <Col xs={6}>
-              <Link to="/portfolio" className="back-link">
+              <Link to={"/"+this.props.match.params.user+"/portfolio"} className="back-link">
                 <i className="fa fa-arrow-left" />Back to Albums
               </Link>
             </Col>

@@ -123,7 +123,7 @@ export default class Portfolio extends Component {
                             <Col xs={12} className="portfolio-thumbs p-none">
                               <img alt="icon" src={album.cover_photo.image} />
                               <Link
-                                to={'/portfolio/' + album.slug}
+                                to={"/"+ this.props.match.params.user+ '/portfolio/' + album.slug}
                                 className="overlay"
                               >
                                 <img
@@ -136,7 +136,7 @@ export default class Portfolio extends Component {
                                 {album.photo_count} Photos
                               </span>
                             </Col>
-                            <Link to={'/portfolio/' + album.slug}>
+                            <Link to={"/"+ this.props.match.params.user+ '/portfolio/' + album.slug}>
                               <h4 className="portfolio-title">
                                 {album.album_name}{' '}
                                 {/* <small>({album.photo_count} Photos)</small> */}
