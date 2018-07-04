@@ -19,6 +19,7 @@ export default class SiteContent extends Component {
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
+    this.handleEditWatermarkClick = this.handleEditWatermarkClick.bind(this)
   }
 
   componentWillMount() {
@@ -95,9 +96,42 @@ export default class SiteContent extends Component {
     }
   };
 
+  handleWatermarkUpload (e, id) {
+    e.preventDefault();
+    var self = this;
+    let file = e.target.files[0];
+    let data = new FormData();
+    data.append('watermark[photo_attributes][image]', file);
+    if (self.state.watermarks.length === 0){
+      WatermarkService.createWatermark(data)
+      .then(function(response) {
+        self.handleWatermarkSuccessResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+    }
+    else{
+      WatermarkService.updateWatermark(data,id)
+        .then(function(response) {
+          self.handleWatermarkSuccessResponse(response);
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+    }
+  }
+
   handleSuccessResponse(response) {
     if (response.status === 201) {
       this.handlePhotoRendering(response);
+    }
+  }
+
+  handleWatermarkSuccessResponse(response){
+    if (response.status === 201) {
+      var watermark = [response.data.data.watermark];
+      this.setState({watermarks: watermark})
     }
   }
 
@@ -108,6 +142,11 @@ export default class SiteContent extends Component {
 
   handleEditClick(e) {
     var inputField = this.refs.fileField;
+    inputField.click();
+  }
+
+  handleEditWatermarkClick(e){
+    var inputField = document.getElementById("watermark_photo_edit")
     inputField.click();
   }
 
@@ -127,6 +166,22 @@ export default class SiteContent extends Component {
             className="about-site-content"
           >
             <Col xs={12} className="site-content-filter p-none" />
+            {watermarks.length === 0 &&
+              <Col className="content-about-img-wrap watermark-content-img">
+              <a className="img-edit-btn" onClick={this.handleEditWatermarkClick}>
+                <img
+                  src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                  alt=""
+                />
+                <input
+                  id="watermark_photo_edit"
+                  ref="fileField"
+                  type="file"
+                  onChange={e => this.handleWatermarkUpload(e,'')}
+                />
+              </a>
+            </Col>
+            }
             {watermarks &&
               watermarks.map((watermark, index) => (
                 <Col xs={12} className="p-none" key={index}>
@@ -138,6 +193,18 @@ export default class SiteContent extends Component {
                         alt="user"
                       />
                     )}
+                    <a className="img-edit-btn" onClick={this.handleEditClick}>
+                      <img
+                        src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                        alt=""
+                      />
+                      <input
+                        id="watermark_photo_edit"
+                        ref="fileField"
+                        type="file"
+                        onChange={e => this.handleWatermarkUpload(e, watermark.id)}
+                      />
+                    </a>
                   </Col>
                   <Col className="right-content-wrap text-grey">
                     <Col xs={12} className="about-content-wrap">
