@@ -122,6 +122,7 @@ export default class GetInTouch extends Component {
                 <span className="text-white">Contact</span>
               </label>
             </PageHeader>
+            {contactDetails &&
             <Col sm={7}>
               <div className="contact-detail-wrap">
                 <img
@@ -174,7 +175,8 @@ export default class GetInTouch extends Component {
                
               </div>
             </Col>
-
+            }
+            {contactDetails &&
             <Col sm={5}>
               <div className="contact-form-wrap">
                 <form className="contact-form">
@@ -244,6 +246,7 @@ export default class GetInTouch extends Component {
                 </form>
               </div>
             </Col>
+            }
           </Row>
         </Grid>
       </div>

@@ -141,7 +141,7 @@ export default class SiteContent extends Component {
   };
 
   handleEditClick(e) {
-    var inputField = this.refs.fileField;
+    var inputField = document.getElementById("about_photo_edit")
     inputField.click();
   }
 
@@ -193,7 +193,7 @@ export default class SiteContent extends Component {
                         alt="user"
                       />
                     )}
-                    <a className="img-edit-btn" onClick={this.handleEditClick}>
+                    <a className="img-edit-btn" onClick={this.handleEditWatermarkClick}>
                       <img
                         src={require('../../../assets/images/admin/site-content/edit-icon.png')}
                         alt=""
