@@ -125,11 +125,11 @@ export default class GetInTouch extends Component {
             {contactDetails &&
             <Col sm={7}>
               <div className="contact-detail-wrap">
-                <img
+                {/* <img
                   src={require('../../assets/images/logo.png')}
                   alt="Logo"
                   className="img-responsive contact-logo"
-                />
+                /> */}
                 <Col xs={12} className="contact-details-block">
                   <Col md={1} xs={2} className="p-none">
                     <img
