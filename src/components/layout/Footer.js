@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { Grid, Col } from 'react-bootstrap';
 
 class Footer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.match.params.user
+    }
+  }
   render() {
     return (
       <Col xs={12} className="custom-footer">
