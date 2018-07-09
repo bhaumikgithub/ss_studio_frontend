@@ -8,7 +8,7 @@ export default class LoginFooter extends Component {
         <Grid>
           <Row>
             <Col xs={12} sm={6} className="copyright">
-              © Copyright 2017 - Sagar Gadani , All rights reserved
+              © Copyright 2017 - SS Studio , All rights reserved
             </Col>
             <Col xs={12} sm={6} className="design-by">
               Designed By Techplus Software Pvt. Ltd.

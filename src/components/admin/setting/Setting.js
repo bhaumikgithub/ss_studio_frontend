@@ -189,7 +189,7 @@ export default class SiteContent extends Component {
                     {watermark.photo && (
                       <img
                         className="img-responsive content-user-image"
-                        src={watermark.photo.image}
+                        src={watermark.photo.original_image}
                         alt="user"
                       />
                     )}

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
-import { UserService } from '../../services/Index';
+import { UserService, WebsiteDetailService } from '../../services/Index';
+import Helmet from 'react-helmet';
 
 
 class Header extends Component {
@@ -10,7 +11,8 @@ class Header extends Component {
     super(props);
     this.state = {
       user: this.props.match.params.user,
-      userLogo: []
+      userLogo: [],
+      websiteDetail: {}
     }
   }
   componentWillMount() {
@@ -21,12 +23,20 @@ class Header extends Component {
           userLogo: response.data.data.user_logo,
         });
       }
-    });;
+    });
+    WebsiteDetailService.getWebsiteDetails({user: self.state.user}).then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          websiteDetail: response.data.data.website_detail
+        });
+      }
+    });
   }
   render() {
     const {
       userLogo,
-      user
+      user,
+      websiteDetail
     } = this.state;
     return (
       <Navbar
@@ -35,6 +45,7 @@ class Header extends Component {
         collapseOnSelect
         className="header custom-navbar"
       >
+        <Helmet title= {websiteDetail ? websiteDetail.title : "SS Studio"} />
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
             <Link to={"/"+user}>

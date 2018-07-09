@@ -300,7 +300,7 @@ export default class VideoFilms extends Component {
           >
             <div
               ref={this.dragulaDecorator}
-              className="dragula dragula-vertical container"
+              className="dragula dragula-vertical container col-xs-12"
               id="0"
             >
               {videos.map((video, index) => (
@@ -404,7 +404,7 @@ export default class VideoFilms extends Component {
                             {video.video_type}
                           </span>
                         </Col>
-                        <Col
+                        {/* <Col
                           lg={3}
                           sm={6}
                           xs={12}
@@ -416,7 +416,7 @@ export default class VideoFilms extends Component {
                           <span className="video-detail video-count-num">
                             0
                           </span>
-                        </Col>
+                        </Col> */}
                         <Col
                           lg={3}
                           sm={6}

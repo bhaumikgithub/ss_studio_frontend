@@ -55,7 +55,7 @@ export default class Header extends Component {
 
     return (
       <Navbar inverse fixedTop className="header">
-        <Helmet title={'Sagar Gadani :: ' + this.props.title} />
+        <Helmet title={'SS Studio :: ' + this.props.title} />
         <Navbar.Header>
           <Button className="side-toggle-btn" onClick={this.props.handler}>
             <i className="fa fa-bars" />
