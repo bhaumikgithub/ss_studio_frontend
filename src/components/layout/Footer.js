@@ -1,13 +1,41 @@
 import React, { Component } from 'react';
 import { Grid, Col } from 'react-bootstrap';
 
+// Import services
+import { AboutService, WebsiteDetailService } from '../../services/Index';
+
 class Footer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.match.params.user,
+      socialMedia: {},
+      websiteDetail: {}
+    }
+  }
+  componentWillMount() {
+    var self = this
+    AboutService.getAboutUsDetail({user: self.state.user}).then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          socialMedia: response.data.data.about_us.social_links.facebook_link
+        });
+      }
+    });
+    WebsiteDetailService.getWebsiteDetails({user: self.state.user}).then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          websiteDetail: response.data.data.website_detail
+        });
+      }
+    });
+  }
   render() {
     return (
       <Col xs={12} className="custom-footer">
         <Grid className="custom-container">
           <Col sm={6} className="content">
-            © Copyright 2017 - Sagar Gadani , All rights reserved
+            {this.state.websiteDetail ? this.state.websiteDetail.copyright_text : "© Copyright 2017 - SS Studio , All rights reserved"}
           </Col>
 
           <Col sm={6} className="content">
@@ -24,7 +52,7 @@ class Footer extends Component {
           </Col>
           <div className="fb_btn">
             <a
-              href="https://www.facebook.com/sagarphotocam"
+              href={this.state.socialMedia ? this.state.socialMedia : "https://www.facebook.com/"}
               target="_blank"
               rel="noopener noreferrer"
             >

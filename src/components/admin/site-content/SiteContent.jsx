@@ -8,12 +8,14 @@ import ServicePopup from './ServicePopup';
 import EditContactDetail from './EditContactDetail';
 import ServiceModule from '../../common/ServiceModule';
 import SocialMediaPopup from './SocialMediaPopup';
+import EditWebsiteDetail from './EditWebsiteDetail';
 
 // Import services
 import {
   AboutService,
   ContactDetailService,
-  UserServiceService
+  UserServiceService,
+  WebsiteDetailService
 } from '../../../services/Index';
 
 // Import helper
@@ -32,6 +34,7 @@ export default class SiteContent extends Component {
       services: [],
       socialMedia: {},
       contactDetail: {},
+      websiteDetail: {},
       tab: 'about_us',
       admin_service: true,
       alert: {
@@ -74,6 +77,12 @@ export default class SiteContent extends Component {
         self.setState({ contactDetail: response.data.data.contact_detail });
       }
     });
+
+    WebsiteDetailService.getWebsiteDetail().then(function(response){
+      if (response.status === 200) {
+        self.setState({ websiteDetail: response.data.data.website_detail });
+      }
+    })
   }
 
   ServiceCloseModal = () => {
@@ -118,6 +127,19 @@ export default class SiteContent extends Component {
       contactDetail: editContactDetail
     });
   };
+
+  EditWebsiteClose = () => {
+    this.setState({ EditWebsiteDetailShow: false, editObject: {} });
+  };
+
+  renderWebsiteDetail = websiteDetail => {
+    const editWebsiteDetail = websiteDetail;
+
+    this.setState({
+      websiteDetail: editWebsiteDetail
+    });
+  };
+
 
   EditAboutClose = () => {
     this.setState({ EditAboutShow: false, editObject: {} });
@@ -244,7 +266,7 @@ export default class SiteContent extends Component {
     }
   }
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia, alert, websiteDetail } = this.state;
     var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
@@ -288,6 +310,14 @@ export default class SiteContent extends Component {
             SocialMediaCloseModal={this.SocialMediaCloseModal}
             editObject={this.state.editObject}
             renderSocialMedia={this.renderSocialMedia}
+          />
+        )}
+        {this.state.EditWebsiteDetailShow && (
+          <EditWebsiteDetail
+            EditWebsiteDetailShow={this.state.EditWebsiteDetailShow}
+            EditWebsiteClose={this.EditWebsiteClose}
+            renderWebsiteDetail={this.renderWebsiteDetail}
+            editObject={this.state.editObject}
           />
         )}
 
@@ -560,6 +590,65 @@ export default class SiteContent extends Component {
                     )
                 )}
             </div>
+          </Tab>
+          <Tab eventKey="website_detail" title="Website Details">
+            <Col xs={12} className="site-content-filter p-none">
+              {(websiteDetail && websiteDetail.title !== undefined) ?
+                <Button
+                  className="btn btn-orange pull-right edit-contact-detail"
+                  onClick={() =>
+                    this.setState({
+                      EditWebsiteDetailShow: true,
+                      editObject: websiteDetail
+                    })}
+                >
+                  <i className="edit-contact-detail-icon">
+                    <img
+                      src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                      alt=""
+                    />
+                  </i>Edit Details
+                </Button> : <Button
+                  className="btn btn-orange pull-right edit-contact-detail"
+                  onClick={() =>
+                    this.setState({
+                      EditWebsiteDetailShow: true,
+                    })}
+                >
+                  <i className="fa fa-plus add-service-icon"/>
+                  Add Details
+                </Button>
+              }
+            </Col>
+            {websiteDetail &&
+              <Col xs={12} className="contact-tab-content">
+              <Col className="admin-contact-block">
+                <Col md={1} xs={2} className="contact-icon-wrap">
+                  <img
+                    src={require('../../../assets/images/admin/site-content/home-icon.png')}
+                    alt="Home"
+                    className="icon-img"
+                  />
+                </Col>
+                <Col md={11} xs={10} className="contact-content-wrap">
+                  {websiteDetail.title}
+                </Col>
+              </Col>
+
+              <Col className="admin-contact-block">
+                <Col xs={2} md={1} className="contact-icon-wrap">
+                  <img
+                    src={require('../../../assets/images/admin/site-content/message-icon.png')}
+                    alt="Mail"
+                    className="icon-img"
+                  />
+                </Col>
+                <Col xs={10} md={11} className="contact-content-wrap">
+                  {websiteDetail.copyright_text}
+                </Col>
+              </Col>
+            </Col>
+            }
           </Tab>
         </Tabs>
       </Col>

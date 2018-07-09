@@ -11,7 +11,7 @@ const BeforeLoginLayout = ({ component: Component, ...rest }) => {
         <div className="app-wrap">
           <Header {...matchProps} />
           <Component {...matchProps} />
-          <Footer />
+          <Footer {...matchProps} />
         </div>
       )}
     />

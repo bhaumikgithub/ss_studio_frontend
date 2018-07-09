@@ -230,7 +230,7 @@ export default class ServicePopup extends Component {
                     id="modalServicedesc"
                     className="custom-form-control custom-textarea"
                     componentClass="textarea"
-                    placeholder="It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged"
+                    // placeholder="It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged"
                     name="description"
                     value={ServiceForm.description}
                     onChange={this.handleChange.bind(this)}
