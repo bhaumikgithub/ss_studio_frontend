@@ -77,10 +77,10 @@ export default class AlreadyShared extends Component {
     var width  = event.target.width;
     var height = event.target.height;
     // Don't resize if it's small enough
-    if (width <= self.state.maxWidth && height <= self.state.maxHeight) {
-      self.dropzone.enqueueFile(file);
-      return;
-    }
+    // if (width <= self.state.maxWidth && height <= self.state.maxHeight) {
+    //   self.dropzone.enqueueFile(file);
+    //   return;
+    // }
     // Calc new dims otherwise
     if(width > 1500){
       if (width > height) {
