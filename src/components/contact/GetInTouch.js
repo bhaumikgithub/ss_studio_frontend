@@ -33,7 +33,8 @@ export default class GetInTouch extends Component {
         name: '',
         email: '',
         phone: '',
-        message: ''
+        message: '',
+        captcha: ''
       },
       alert: {
         show: false,
@@ -231,6 +232,20 @@ export default class GetInTouch extends Component {
                   {errors['message'] && (
                     <span className="input-error text-yellow">
                       {errors['message']}
+                    </span>
+                  )}
+                  <FormControl
+                    className="contact-control"
+                    type="number"
+                    label="captcha"
+                    placeholder="What is answer of 4x7?"
+                    name="captcha"
+                    value={contactForm.captcha}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['captcha'] && (
+                    <span className="input-error text-yellow">
+                      {errors['captcha']}
                     </span>
                   )}
                   <Col xs={12} className="text-center">
