@@ -209,7 +209,7 @@ export default class AddContact extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  placeholder="First name"
+                  placeholder="F name"
                   name="first_name"
                   value={contactForm.first_name}
                   onChange={this.handleChange.bind(this)}
