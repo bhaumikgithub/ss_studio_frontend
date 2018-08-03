@@ -240,7 +240,7 @@ export default class GetInTouch extends Component {
                     className="contact-control"
                     type="number"
                     label="captcha"
-                    placeholder="4x7="
+                    placeholder="What is answer of 4x7?"
                     name="captcha"
                     value={contactForm.captcha}
                     onChange={this.handleChange.bind(this)}
