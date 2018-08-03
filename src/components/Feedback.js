@@ -46,7 +46,7 @@ export default class Feedback extends Component {
                   <Col xs={12} sm={4} className="feedback-img-wrap">
                     <img
                       className="feedback-img img-responsive"
-                      src={feedback.photo.image}
+                      src={feedback.photo && feedback.photo.image}
                       alt="user"
                     />
                   </Col>
