@@ -33,3 +33,9 @@ export function createContactDetail(params) {
   );
   return checkStatus(responsePromise);
 }
+
+export function getLanding(){
+  axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'contact_detail'
+  );
+}

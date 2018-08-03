@@ -19,6 +19,10 @@ const Home = Loadable({
   loader: () => import('../Home'),
   loading: Loading
 });
+const Landing = Loadable({
+  loader: () => import('../Landing'),
+  loading: Loading
+});
 const Portfolio = Loadable({
   loader: () => import('../portfolio/Portfolio'),
   loading: Loading
@@ -132,6 +136,7 @@ export {
   LoginLayout,
   AfterLoginLayout,
   Home,
+  Landing,
   Portfolio,
   PortfolioAlbumDetails,
   Films,
