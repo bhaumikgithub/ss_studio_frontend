@@ -6,6 +6,7 @@ import {
   BeforeLoginLayout,
   LoginLayout,
   Home,
+  Landing,
   Portfolio,
   PortfolioAlbumDetails,
   Films,
@@ -92,7 +93,9 @@ const routes = () => (
     {/* After Login routes end */}
 
     {/* Before Login routes start */}
+
     <BeforeLoginLayout exact path="/:user" component={Home} />
+    <BeforeLoginLayout exact path="/" component={Landing} />
     <BeforeLoginLayout exact path="(/*)/:user/portfolio" component={Portfolio} />
     <BeforeLoginLayout
       exact
