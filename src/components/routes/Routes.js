@@ -26,13 +26,15 @@ import {
   Testimonial,
   Setting,
   Login,
-  PasscodeLogin
+  PasscodeLogin,
+  Signup
 } from './Index';
 
 const routes = () => (
   <Switch>
     {/* Auth routes start */}
     <LoginLayout exact path="(/*)/admin" component={Login} />
+    <LoginLayout exact path="(/*)/signup" component={Signup} />
     <LoginLayout
       exact
       path="(/*)/:user/shared_album_login(/*)/:slug"

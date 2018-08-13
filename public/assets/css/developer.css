@@ -874,6 +874,37 @@ div.filepicker {
   font-family: 'ralewaymedium';
 }
 /* end Share Album page */
+
+/* signup page css start */
+.country_select .Select-placeholder {
+  background-color: #efefef;
+  border-bottom: 1px solid #e7e7e7 !important;
+}
+.country_select .Select-placeholder:hover {
+  background-color: #e1e1e1;
+  border-bottom: 1px solid #ccc !important;
+}
+.country_select{
+  border-bottom: none;
+}
+.signup-form .input-error{
+  margin: 0% !important;
+  bottom: -18px;
+  top: auto;
+  position: absolute;
+  font-size: 12px;
+}
+.signup-wrap{
+  height: auto;
+}
+.signup-wrap .page-inner-wrap{
+  padding-top: 0;
+}
+.admin-login-btn, .admin-login-btn:hover{
+  color: #fff;
+}
+/* signup page css end */
+
 @media only screen and (max-width: 680px) {
   .private-album,
   .public-album,

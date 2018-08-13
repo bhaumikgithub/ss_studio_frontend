@@ -65,6 +65,10 @@ const Login = Loadable({
   loader: () => import('../admin/Login'),
   loading: Loading
 });
+const Signup = Loadable({
+  loader: () => import('../Signup'),
+  loading: Loading
+});
 
 // Import after login component
 const AlbumListing = Loadable({
@@ -156,5 +160,6 @@ export {
   Testimonial,
   Setting,
   Login,
-  PasscodeLogin
+  PasscodeLogin,
+  Signup
 };

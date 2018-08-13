@@ -45,3 +45,17 @@ export function getLogo(params) {
     {params}
   );
 }
+
+export function getCountries() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_countries',
+  );
+}
+
+export function createUser(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'users',
+    params,
+  );
+  return checkStatus(responsePromise);
+}
