@@ -903,7 +903,27 @@ div.filepicker {
 .admin-login-btn, .admin-login-btn:hover{
   color: #fff;
 }
+.country_select span .Select-clear{
+  display: none;
+}
+.signup-login-btn{
+  float: right;
+  margin-right: 25px;
+}
+.signup-footer{
+  position: relative;
+  bottom: 30px;
+}
+.super-admin-name{
+  margin-bottom: 25px;
+}
 /* signup page css end */
+
+/* after super admin login user page css start */
+.user-delete-icon{
+  margin-left: 10px;
+}
+/* after super admin login user page css end */
 
 @media only screen and (max-width: 680px) {
   .private-album,

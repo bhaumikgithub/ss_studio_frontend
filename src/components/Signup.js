@@ -272,7 +272,7 @@ export default class Login extends Component {
                     )}
                   </FormGroup>
                 </Col>
-                <Button className="btn-orange text-center">
+                <Button className="btn-orange text-center signup-login-btn">
                   <Link
                     to={
                       'admin'

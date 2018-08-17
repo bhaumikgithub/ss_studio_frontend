@@ -10,7 +10,7 @@ import {
 import { Redirect } from 'react-router-dom';
 
 // Import helper
-import { isLoggedIn } from '../Helper';
+import { isLoggedIn, currentUserRole } from '../Helper';
 
 // Import css
 import '../../assets/css/admin/login.css';
@@ -32,6 +32,7 @@ export default class Login extends Component {
         grant_type: 'password'
       },
       login_error: '',
+      role: '',
       redirectToReferrer: false
     };
 
@@ -66,7 +67,11 @@ export default class Login extends Component {
         'CURRENT_USER',
         JSON.stringify(response.data.data.user)
       );
-      this.setState({ redirectToReferrer: true });
+      localStorage.setItem(
+        'ROLE',
+        JSON.stringify(response.data.data.role)
+      );
+      this.setState({ redirectToReferrer: true, role: response.data.data.role });
     } else {
       console.log('Invalid email and password');
       alert('Invalid email and password');
@@ -74,9 +79,14 @@ export default class Login extends Component {
   }
 
   render() {
-    const { login_error } = this.state;
+    const { login_error,role } = this.state;
     if (isLoggedIn() || this.state.redirectToReferrer) {
-      return <Redirect push to="/albums" />;
+      if(role === "super_admin" || currentUserRole === "super_admin"){
+        return <Redirect push to="/users" />;
+      }
+      else{
+        return <Redirect push to="/albums" />;
+      }
     }
 
     return (
