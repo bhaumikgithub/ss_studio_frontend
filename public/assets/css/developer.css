@@ -917,6 +917,12 @@ div.filepicker {
 .super-admin-name{
   margin-bottom: 25px;
 }
+.country_select .Select-value{
+  background-color: #efefef;
+}
+.country_select .Select-value-label{
+  color: #777 !important;
+}
 /* signup page css end */
 
 /* after super admin login user page css start */

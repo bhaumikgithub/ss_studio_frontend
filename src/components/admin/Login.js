@@ -7,7 +7,7 @@ import {
   Row,
   FormGroup
 } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 // Import helper
 import { isLoggedIn, currentUserRole } from '../Helper';
@@ -81,7 +81,7 @@ export default class Login extends Component {
   render() {
     const { login_error,role } = this.state;
     if (isLoggedIn() || this.state.redirectToReferrer) {
-      if(role === "super_admin" || currentUserRole === "super_admin"){
+      if(role === "super_admin" || currentUserRole() === "super_admin"){
         return <Redirect push to="/users" />;
       }
       else{
@@ -137,6 +137,16 @@ export default class Login extends Component {
                     <span className="input-error text-red">{login_error}</span>
                   )}
                 </Col>
+                <Button className="btn-orange text-center signup-login-btn">
+                  <Link
+                    to={
+                      'signup'
+                    }
+                    className="admin-login-btn"
+                  >
+                    Signup
+                  </Link>
+                </Button>
                 <Button
                   type="submit"
                   className="btn-orange login-btn text-center"

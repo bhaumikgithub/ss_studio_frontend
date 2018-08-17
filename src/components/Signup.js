@@ -11,7 +11,7 @@ import Select from 'react-select';
 import { Redirect, Link } from 'react-router-dom';
 
 // Import helper
-import { toCapitalize, isLoggedIn } from './Helper';
+import { toCapitalize, isLoggedIn, currentUserRole } from './Helper';
 import validationHandler from './common/ValidationHandler';
 
 // Import css
@@ -119,7 +119,12 @@ export default class Login extends Component {
   render() {
     const { signup_error } = this.state;
     if (isLoggedIn()) {
-      return <Redirect push to="/albums" />;
+      if(currentUserRole() === "super_admin"){
+        return <Redirect push to="/users" />;
+      }
+      else{
+        return <Redirect push to="/albums" />;
+      }
     }
     return (
       <div className="login-wrap signup-wrap">
