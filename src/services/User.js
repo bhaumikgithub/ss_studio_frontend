@@ -1,5 +1,5 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, currentUser, checkStatus } from '../components/Helper';
+import { apiHeader, currentUser, checkStatus, apiCustomHeader } from '../components/Helper';
 
 export function getCurrentUser() {
   return axiosInstance.get(
@@ -44,4 +44,63 @@ export function getLogo(params) {
     process.env.REACT_APP_API_BASE_URL + 'get_logo',
     {params}
   );
+}
+
+export function getCountries() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_countries',
+  );
+}
+
+export function getRoles() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_roles',
+    apiHeader()
+  );
+}
+
+export function getPackages() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_packages',
+    apiHeader()
+  );
+}
+
+export function getStatuses() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_statuses',
+    apiHeader()
+  );
+}
+
+export function createUser(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'users',
+    params,
+  );
+  return checkStatus(responsePromise);
+}
+
+export function getUsers(params) {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/',
+    { params: params, headers: apiCustomHeader() }
+  );
+}
+
+export function deleteUser(id) {
+  const responsePromise = axiosInstance.delete(
+    process.env.REACT_APP_API_BASE_URL + 'users/' + id,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
+export function editUser(params) {
+  const responsePromise = axiosInstance.patch(
+    process.env.REACT_APP_API_BASE_URL + 'users/' + params['id'],
+    params['userForm'],
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
 }

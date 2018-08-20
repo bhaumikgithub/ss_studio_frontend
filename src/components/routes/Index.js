@@ -10,8 +10,12 @@ const BeforeLoginLayout = asyncComponent(() =>
   import('../layout/BeforeLoginLayout')
 );
 const LoginLayout = asyncComponent(() => import('../layout/admin/LoginLayout'));
+const SignupLayout = asyncComponent(() => import('../layout/admin/SignupLayout'));
 const AfterLoginLayout = asyncComponent(() =>
   import('../layout/admin/AfterLoginLayout')
+);
+const AfterSuperAdminLoginLayout = asyncComponent(() =>
+  import('../layout/super-admin/AfterSuperAdminLoginLayout')
 );
 
 // Import before login component
@@ -65,6 +69,10 @@ const Login = Loadable({
   loader: () => import('../admin/Login'),
   loading: Loading
 });
+const Signup = Loadable({
+  loader: () => import('../Signup'),
+  loading: Loading
+});
 
 // Import after login component
 const AlbumListing = Loadable({
@@ -104,6 +112,12 @@ const Setting = Loadable({
   loading: Loading
 });
 
+// Import after super admin login component
+const UserListing = Loadable({
+  loader: () => import('../super-admin/user/UserListing.jsx'),
+  loading: Loading
+});
+
 // Import not found component
 const NotFound = Loadable({
   loader: () => import('../NotFound'),
@@ -130,10 +144,31 @@ const PrivateRoute = ({ component: Component, title, ...rest }) => (
   />
 );
 
+const SuperAdminRoute = ({ component: Component, title, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isLoggedIn() ? (
+        <AfterSuperAdminLoginLayout title={title}>
+          <Component {...props} />
+        </AfterSuperAdminLoginLayout>
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/admin',
+            state: { from: props.location }
+          }}
+        />
+      )}
+  />
+);
+
 export {
   PrivateRoute,
+  SuperAdminRoute,
   BeforeLoginLayout,
   LoginLayout,
+  SignupLayout,
   AfterLoginLayout,
   Home,
   Landing,
@@ -156,5 +191,7 @@ export {
   Testimonial,
   Setting,
   Login,
-  PasscodeLogin
+  PasscodeLogin,
+  Signup,
+  UserListing
 };
