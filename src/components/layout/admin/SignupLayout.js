@@ -9,7 +9,7 @@ const SignupLayout = ({ component: Component, ...rest }) => {
       render={matchProps =>
         <div className="app-wrap">
           <Component {...matchProps} />
-          <SignupFooter />
+          {/* <SignupFooter /> */}
         </div>}
     />
   );

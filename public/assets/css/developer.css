@@ -896,6 +896,18 @@ div.filepicker {
 }
 .signup-wrap{
   height: auto;
+  position: relative;
+  min-height: 100vh;
+}
+.login-form{
+  position: absolute!important;
+  right: 0px;
+  top: -40px;
+  left: 0px;
+  bottom: 0px;
+  max-height: max-content;
+  margin: auto;
+
 }
 .signup-wrap .page-inner-wrap{
   padding-top: 0;
@@ -909,10 +921,6 @@ div.filepicker {
 .signup-login-btn{
   float: right;
   margin-right: 25px;
-}
-.signup-footer{
-  position: relative;
-  bottom: 30px;
 }
 .super-admin-name{
   margin-bottom: 25px;
