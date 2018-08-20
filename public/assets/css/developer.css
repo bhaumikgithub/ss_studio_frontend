@@ -895,9 +895,9 @@ div.filepicker {
   font-size: 12px;
 }
 .signup-wrap{
-  height: auto;
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 850px;
 }
 .login-form{
   position: absolute!important;
