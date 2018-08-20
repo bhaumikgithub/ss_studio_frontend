@@ -3,8 +3,10 @@ import { Route, Switch } from 'react-router-dom';
 
 import {
   PrivateRoute,
+  SuperAdminRoute,
   BeforeLoginLayout,
   LoginLayout,
+  SignupLayout,
   Home,
   Landing,
   Portfolio,
@@ -27,19 +29,20 @@ import {
   Setting,
   Login,
   PasscodeLogin,
-  Signup
+  Signup,
+  UserListing
 } from './Index';
 
 const routes = () => (
   <Switch>
     {/* Auth routes start */}
     <LoginLayout exact path="(/*)/admin" component={Login} />
-    <LoginLayout exact path="(/*)/signup" component={Signup} />
     <LoginLayout
       exact
       path="(/*)/:user/shared_album_login(/*)/:slug"
       component={PasscodeLogin}
     />
+    <SignupLayout exact path="(/*)/signup" component={Signup} />
     {/* Auth routes end */}
 
     {/* After Login routes start */}
@@ -93,6 +96,16 @@ const routes = () => (
       component={Setting}
     />
     {/* After Login routes end */}
+
+    {/* After Super Admin Login routes start */}
+    <SuperAdminRoute
+      exact
+      path="/users"
+      title="Users"
+      component={UserListing}
+    />
+
+    {/* After Super Admin Login routes start */}
 
     {/* Before Login routes start */}
 
