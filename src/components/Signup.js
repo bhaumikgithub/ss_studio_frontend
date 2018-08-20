@@ -112,7 +112,7 @@ export default class Login extends Component {
   handelResponse(response) {
     if (response.status === 200) {
       console.log('success');
-      this.props.history.push('admin')
+      this.props.history.push({pathname: 'admin', state: 'You have to confirm your email address before continue.' })
     }
   }
 

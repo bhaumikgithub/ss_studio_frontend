@@ -31,7 +31,7 @@ export default class Login extends Component {
         password: '',
         grant_type: 'password'
       },
-      login_error: '',
+      login_error: this.props.location.state,
       redirectToReferrer: false
     };
 
