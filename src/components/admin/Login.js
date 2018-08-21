@@ -133,7 +133,7 @@ export default class Login extends Component {
                     />
                     <span className="custom-addon">*</span>
                   </FormGroup>
-                  {login_error && (
+                  {(login_error !== undefined && login_error && login_error.from === undefined) && (
                     <span className="input-error text-red">{login_error}</span>
                   )}
                 </Col>
