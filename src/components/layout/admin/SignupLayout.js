@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import SignupFooter from './SignupFooter';
+// import SignupFooter from './SignupFooter';
 
 const SignupLayout = ({ component: Component, ...rest }) => {
   return (
