@@ -8,6 +8,7 @@ class Landing extends Component {
   }
 
   getInitialState(){
+    console.log('in landing component');
     window.location.href = process.env.REACT_APP_LANDING_URL
   }
   
