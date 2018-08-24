@@ -110,7 +110,7 @@ const routes = () => (
     {/* Before Login routes start */}
 
     <BeforeLoginLayout exact path="/:user" component={Home} />
-    <BeforeLoginLayout exact path="/" component={Landing} />
+    <BeforeLoginLayout exact path="/photographer" component={Landing} />
     <BeforeLoginLayout exact path="(/*)/:user/portfolio" component={Portfolio} />
     <BeforeLoginLayout
       exact
