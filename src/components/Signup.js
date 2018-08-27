@@ -152,7 +152,12 @@ export default class Login extends Component {
                       name="first_name"
                       onChange={this.handleChange.bind(this)}
                     />
-                    
+                    <span className="custom-addon">*</span>
+                    {signup_error['first_name'] && (
+                      <span className="input-error text-red">
+                        {signup_error['first_name']}
+                      </span>
+                    )}
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
@@ -163,6 +168,12 @@ export default class Login extends Component {
                       name="last_name"
                       onChange={this.handleChange.bind(this)}
                     />
+                    <span className="custom-addon">*</span>
+                    {signup_error['last_name'] && (
+                      <span className="input-error text-red">
+                        {signup_error['last_name']}
+                      </span>
+                    )}
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
@@ -305,10 +316,7 @@ export default class Login extends Component {
           <Grid>
             <Row>
               <Col xs={12} sm={6} className="copyright">
-                © Copyright 2017 - SS Studio , All rights reserved
-              </Col>
-              <Col xs={12} sm={6} className="design-by">
-                Designed By Techplus Software Pvt. Ltd.
+                © Copyright 2018 - AfterClix , All rights reserved
               </Col>
             </Row>
           </Grid>
