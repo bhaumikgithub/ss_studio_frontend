@@ -224,9 +224,9 @@ export default class UserListing extends Component {
               <thead>
                 <tr>
                   <th>Email</th>
+                  <th>Alias</th>
                   <th>Name</th>
                   <th>Phone</th>
-                  <th>Role</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -235,9 +235,9 @@ export default class UserListing extends Component {
                 {users.map(user => (
                   <tr key={user.id}>
                     <td>{user.email}</td>
+                    <td>{user.alias}</td>
                     <td>{fullName(user)}</td>
                     <td>{user.phone}</td>
-                    <td>{user.role ? user.role.name : '-'}</td>
                     <td className={this.getStatusClass(user.status)}>
                       {user.status}
                     </td>

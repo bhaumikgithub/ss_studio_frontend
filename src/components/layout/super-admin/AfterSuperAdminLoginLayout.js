@@ -4,7 +4,7 @@ import { Grid } from 'react-bootstrap';
 // Import component
 import Sidebar from './Sidebar';
 import Header from './Header';
-import Footer from '../admin/Footer';
+import Footer from './Footer';
 
 // Import css
 import '../../../assets/css/admin/admin.css';
