@@ -29,8 +29,8 @@ export function currentUserRole(){
   return JSON.parse(localStorage.getItem('ROLE'));
 }
 
-export function fullName() {
-  const user = currentUser();
+export function fullName(user) {
+  // const user = currentUser();
   return user.first_name + ' ' + user.last_name;
 }
 
