@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import { Col, Table } from 'react-bootstrap';
+import { Col, Table, Button } from 'react-bootstrap';
 
 // Import component
 import SweetAlert from 'sweetalert-react';
 import PaginationModule from '../../common/PaginationModule';
 import UserPopup from './UserPopup';
+import CreateUserPopup from './CreateUserPopup';
 // Import services
 import { UserService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, currentUserRole } from '../../Helper';
+import { isObjectEmpty, currentUserRole, fullName } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/category/categories.css';
@@ -22,6 +23,7 @@ export default class UserListing extends Component {
       open: false,
       activePage: 3,
       CreateShow: false,
+      createPopup: false,
       users: [],
       meta: [],
       current_page: '',
@@ -148,6 +150,13 @@ export default class UserListing extends Component {
         user
       );
     }
+    else if(action === 'insert'){
+      newUsers.splice(
+        0,
+        0,
+        user
+      );
+    }
 
     this.setState({
       users: newUsers
@@ -157,6 +166,8 @@ export default class UserListing extends Component {
   renderUpdateCategory = category => {};
 
   CreateClose = () => this.setState({ CreateShow: false, editObject: {} });
+
+  closeCreatePopup = () => this.setState({ createPopup: false })
 
   handleSelect(eventKey, e) {
     this.setState({
@@ -190,7 +201,22 @@ export default class UserListing extends Component {
             renderUser={this.renderUser}
           />
         )}
+        {this.state.createPopup && (
+          <CreateUserPopup
+            createPopup={this.state.createPopup}
+            closeOn={this.closeCreatePopup}
+            renderUser={this.renderUser}
+          />
+        )}
         <Col xs={12} className="filter-wrap p-none">
+          <Button
+            className="btn pull-right btn-orange add-new-btn"
+            onClick={() => this.setState({ createPopup: true })}
+          >
+            <i className="add-icon">
+              <img src={require('../../../assets/images/admin/album/add-icon.png')} alt=""/>
+            </i>Add New
+          </Button>
         </Col>
         <Col xs={12} className="p-none">
           <div className="categories-table-wrap">
@@ -210,7 +236,7 @@ export default class UserListing extends Component {
                   <tr key={user.id}>
                     <td>{user.email}</td>
                     <td>{user.alias}</td>
-                    <td>{user.full_name}</td>
+                    <td>{fullName(user)}</td>
                     <td>{user.phone}</td>
                     <td className={this.getStatusClass(user.status)}>
                       {user.status}
