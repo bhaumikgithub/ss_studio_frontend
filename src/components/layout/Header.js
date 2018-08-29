@@ -45,7 +45,7 @@ class Header extends Component {
         collapseOnSelect
         className="header custom-navbar"
       >
-        <Helmet title= {websiteDetail ? websiteDetail.title : "SS Studio"} />
+        <Helmet title= {websiteDetail ? websiteDetail.title : "AfterClix"} />
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
             <Link to={"/"+user}>

@@ -199,6 +199,10 @@ export default class AlreadyShared extends Component {
     this.props.closeOn();
   }
 
+  closeOn(){
+    this.props.closeOn();
+  }
+
   render() {
     const eventHandlers = {
       init: dz => (this.dropzone = dz),
@@ -227,7 +231,14 @@ export default class AlreadyShared extends Component {
                 onClick={() => this.handleOk()}
                 className="btn btn-orange create-album-submit add-photo"
               >
-                Ok
+                Done
+              </Button>
+              <Button
+                type="button"
+                onClick={()=>this.closeOn()}
+                className="btn btn-grey create-album-submit add-photo cancel-dropzone-btn"
+              >
+                Cancel
               </Button>
             </Col>
           </Col>

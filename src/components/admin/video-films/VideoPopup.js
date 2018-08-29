@@ -213,6 +213,7 @@ export default class VideoPopup extends Component {
                     name="video_url"
                     className="custom-form-control"
                     type="text"
+                    placeholder="Enter Youtube URL"
                     value={videoForm.video_url}
                     onChange={this.handleChange.bind(this)}
                   />
