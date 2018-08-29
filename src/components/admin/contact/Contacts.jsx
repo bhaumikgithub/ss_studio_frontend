@@ -6,7 +6,7 @@ import SweetAlert from 'sweetalert-react';
 import ContactPopup from './ContactPopup';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import GoogleLoginModule from '../../common/GoogleLoginModule';
+// import GoogleLoginModule from '../../common/GoogleLoginModule';
 
 // Import services
 import { ContactService } from '../../../services/Index';
@@ -243,10 +243,10 @@ export default class Contacts extends Component {
           >
             <i className="fa fa-plus add-album-icon" />Add New
           </Button>
-          <GoogleLoginModule
+          {/* <GoogleLoginModule
             buttonText="Import google contacts"
             afterResponse={this.importGoogleContacts}
-          />
+          /> */}
         </Col>
         <div className="contact-list-wrap">
           {contacts.length === 0 && (

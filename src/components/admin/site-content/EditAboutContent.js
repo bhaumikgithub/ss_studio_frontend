@@ -201,7 +201,7 @@ export default class EditAboutContent extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  placeholder="A young photographer taking lovely shots."
+                  placeholder="Enter Title"
                   name="title_text"
                   value={editAboutForm.title_text}
                   onChange={this.handleChange.bind(this)}
@@ -221,6 +221,13 @@ export default class EditAboutContent extends Component {
                   wrapperClassName="demo-wrapper"
                   editorClassName="demo-editor"
                   onEditorStateChange={this.onEditorStateChange}
+                  toolbar={{ options: ['inline', 'list', 'textAlign', 'link', 'remove'],
+                  inline: {
+                    options: ['bold', 'italic', 'underline', 'strikethrough'],
+                  },
+                  link: {
+                    options: ['link']
+                  },}}
                 />
                 <Scrollbars style={{ height: '40px' }}>
                   <FormControl

@@ -537,6 +537,10 @@ div.filepicker {
 .navbar-fixed-top {
   z-index: 11;
 }
+.view-my-website-btn, .view-my-website-btn:hover{
+  background: #1faf1f;
+  margin-left: 20px;
+}
 /* admin header page css end */
 
 /* start disable scroll in homepage gallery */
@@ -626,6 +630,12 @@ div.filepicker {
 }
 .album-status-checkboxes label {
   font-size: 14px;
+}
+.cancel-dropzone-btn{
+  margin-left: 20px;
+}
+.cancel-dropzone-btn:hover{
+  background: #666;
 }
 /* end pulic view album in Album Listing Page */
 /* start video Listing page */

@@ -18,7 +18,7 @@ import validationHandler from '../../common/ValidationHandler';
 import { ContactDetailService } from '../../../services/Index';
 
 // Import helper
-import { str2bool, isObjectEmpty } from '../../Helper';
+import { str2bool, isObjectEmpty, currentUser } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/site-content/edit-about-content.css';
@@ -32,8 +32,8 @@ export default class EditContactDetail extends Component {
   getInitialState() {
     const initialState = {
       EditContactForm: {
-        email: '',
-        phone: '',
+        email: currentUser().email,
+        phone: currentUser().phone,
         address: ''
       },
       errors: {}
@@ -175,7 +175,7 @@ export default class EditContactDetail extends Component {
                   <FormControl
                     className="custom-form-control"
                     type="text"
-                    placeholder="johndoe@gmail.com"
+                    placeholder="Enter email"
                     name="email"
                     value={EditContactForm.email}
                     onChange={this.handleChange.bind(this)}
@@ -192,7 +192,7 @@ export default class EditContactDetail extends Component {
                 <FormControl
                   className="custom-form-control num-input"
                   type="text"
-                  placeholder="+91-9876543210"
+                  placeholder="Enter phone"
                   name="phone"
                   value={EditContactForm.phone}
                   onChange={this.handleChange.bind(this)}
@@ -212,7 +212,7 @@ export default class EditContactDetail extends Component {
                     id="modalAboutDesc"
                     className="custom-form-control editabouttxtarea"
                     componentClass="textarea"
-                    placeholder="2nd Floor, Tulsi Complex, Nr Azad Society, Behind Sahajanand College, Ambavadi, Ahmedabad - 380 015, Gujarat, India. "
+                    placeholder="Enter Address"
                     name="address"
                     value={EditContactForm.address}
                     onChange={this.handleChange.bind(this)}

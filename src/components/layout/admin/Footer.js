@@ -8,10 +8,10 @@ export default class AppFooter extends Component {
         <Grid>
           <Row>
             <Col xs={6} className="copyright">
-              © Copyright 2017 - SS Studio , All rights reserved
+              © Copyright 2018 - AfterClix , All rights reserved
             </Col>
             <Col xs={6} className="design-by">
-              Designed By Techplus Software Pvt. Ltd.
+              {/* Designed By Techplus Software Pvt. Ltd. */}
             </Col>
           </Row>
         </Grid>

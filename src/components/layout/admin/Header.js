@@ -6,13 +6,13 @@ import {
   Button,
   NavItem
 } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 // Import component
 import ChangePasswordPopup from '../../admin/ChangePasswordPopup';
 // Import helper
-import { authToken } from '../../Helper';
+import { authToken, currentUser } from '../../Helper';
 
 // Import services
 import { AuthService } from '../../../services/Index';
@@ -55,7 +55,7 @@ export default class Header extends Component {
 
     return (
       <Navbar inverse fixedTop className="header">
-        <Helmet title={'SS Studio :: ' + this.props.title} />
+        <Helmet title={'AfterClix :: ' + this.props.title} />
         <Navbar.Header>
           <Button className="side-toggle-btn" onClick={this.props.handler}>
             <i className="fa fa-bars" />
@@ -63,6 +63,17 @@ export default class Header extends Component {
           <label className="admin-page-title text-capitalize">
             {this.props.title}
           </label>
+          <Button className="logout-btn btn btn-orange view-my-website-btn">
+            <Link
+              to={
+                currentUser().alias
+              }
+              target="_blank"
+              className="admin-login-btn"
+            >
+              View My Website
+            </Link>
+          </Button>
           <Navbar.Toggle />
         </Navbar.Header>
         {this.state.showChangePasswordPopup && (
