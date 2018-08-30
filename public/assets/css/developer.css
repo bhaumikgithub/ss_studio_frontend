@@ -769,6 +769,11 @@ div.filepicker {
   font-size: 12px;
   width: 100%;
 }
+.delete-social-media{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
 /* end social media page css */
 /* start cursor pointer */
 .cursor-pointer {
@@ -946,6 +951,14 @@ div.filepicker {
 /* after super admin login user page css start */
 .user-delete-icon{
   margin-left: 10px;
+}
+.user-flash-message{
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  padding: 15px 256px;
+  border: 1px solid transparent;
+  border-radius: 4px;
 }
 /* after super admin login user page css end */
 

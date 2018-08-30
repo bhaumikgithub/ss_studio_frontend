@@ -6,6 +6,7 @@ import SweetAlert from 'sweetalert-react';
 import PaginationModule from '../../common/PaginationModule';
 import UserPopup from './UserPopup';
 import CreateUserPopup from './CreateUserPopup';
+import FlashMassage from 'react-flash-message';
 // Import services
 import { UserService } from '../../../services/Index';
 
@@ -24,6 +25,7 @@ export default class UserListing extends Component {
       activePage: 3,
       CreateShow: false,
       createPopup: false,
+      showFlashMessage: false,
       users: [],
       meta: [],
       current_page: '',
@@ -156,6 +158,7 @@ export default class UserListing extends Component {
         0,
         user
       );
+      this.setState({showFlashMessage: true})
     }
 
     this.setState({
@@ -209,6 +212,13 @@ export default class UserListing extends Component {
           />
         )}
         <Col xs={12} className="filter-wrap p-none">
+          {this.state.showFlashMessage &&
+            <span className="pull-left">
+            <FlashMassage duration={5000} persistOnHover={true}>
+              <p className="user-flash-message">Successfully Photographer account created.</p>
+            </FlashMassage>
+            </span>
+          }
           <Button
             className="btn pull-right btn-orange add-new-btn"
             onClick={() => this.setState({ createPopup: true })}

@@ -40,29 +40,30 @@ class Footer extends Component {
 
           <Col sm={6} className="content">
             <Col className="text-right">
-              Designed By{' '}
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="http://techplussoftware.com/"
+                href="http://www.afterclix.com/"
               >
-                Techplus Software Pvt. Ltd.
+                Powered by AfterClix
               </a>
             </Col>
           </Col>
-          <div className="fb_btn">
-            <a
-              href={this.state.socialMedia ? this.state.socialMedia : "https://www.facebook.com/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={require('../../assets/images/fb_btn.png')}
-                alt=""
-                className="facebook-img"
-              />
-            </a>
-          </div>    
+          {this.state.socialMedia && 
+            <div className="fb_btn">
+              <a
+                href={'http://'+this.state.socialMedia}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src={require('../../assets/images/fb_btn.png')}
+                  alt=""
+                  className="facebook-img"
+                />
+              </a>
+            </div>
+          }
         </Grid>
       </Col>
     );
