@@ -12,6 +12,7 @@ import LightBoxModule from '../../common/LightBoxModule';
 import PaginationModule from '../../common/PaginationModule';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import CommentPopup from '../../shared-album/CommentPopup';
+import Header from '../../layout/admin/Header';
 
 // Import services
 import {
@@ -493,6 +494,11 @@ export default class AlbumDetails extends Component {
     const photos = album.photos;
     return (
       <div>
+        <Header
+          handler={this.handler}
+          title={album.album_name}
+          isAlbumDetail={true}
+        />
         <Col xs={12} className="album-details-main-wrap">
           <SweetAlert
             show={alert.show || false}

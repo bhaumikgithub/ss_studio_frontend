@@ -545,7 +545,7 @@ export default class SiteContent extends Component {
                             </h4>
                             <Col className="p-none service-description">
                               <a
-                                href={socialMedia[social_link]}
+                                href={'http://'+socialMedia[social_link]}
                                 target="_blank"
                               >
                                 {socialMedia[social_link]}
@@ -573,7 +573,7 @@ export default class SiteContent extends Component {
                           </a>
                           <a className="edit-service-thumb custom-service-thumb social-media-delete">
                             <Button
-                              className="btn-link p-none video-action-btn video-delete-btn"
+                              className="btn-link p-none video-action-btn video-delete-btn delete-social-media"
                               onClick={() => this.showDialogueBox(social_link)}
                             >
                               <img
