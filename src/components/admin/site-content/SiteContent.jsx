@@ -545,7 +545,7 @@ export default class SiteContent extends Component {
                             </h4>
                             <Col className="p-none service-description">
                               <a
-                                href={'http://'+socialMedia[social_link]}
+                                href={!isObjectEmpty(socialMedia) && !isObjectEmpty(socialMedia[social_link]) && socialMedia[social_link].includes('http') ? socialMedia[social_link] : 'http://'+socialMedia[social_link]}
                                 target="_blank"
                               >
                                 {socialMedia[social_link]}

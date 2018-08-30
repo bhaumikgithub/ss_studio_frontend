@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Col } from 'react-bootstrap';
+import { isObjectEmpty } from '../Helper'
 
 // Import services
 import { AboutService, WebsiteDetailService } from '../../services/Index';
@@ -52,7 +53,7 @@ class Footer extends Component {
           {this.state.socialMedia && 
             <div className="fb_btn">
               <a
-                href={'http://'+this.state.socialMedia}
+                href={!isObjectEmpty(this.state.socialMedia) && this.state.socialMedia.includes("http") ? this.state.socialMedia : 'http://'+this.state.socialMedia}
                 target="_blank"
                 rel="noopener noreferrer"
               >
