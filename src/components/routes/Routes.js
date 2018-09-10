@@ -27,6 +27,7 @@ import {
   HomePageGalley,
   Testimonial,
   Setting,
+  Dashboard,
   Login,
   PasscodeLogin,
   Signup,
@@ -94,6 +95,12 @@ const routes = () => (
       path="(/*)/settings"
       title="Settings"
       component={Setting}
+    />
+    <PrivateRoute
+      exact
+      path="(/*)/dashboard"
+      title="Dashboard"
+      component={Dashboard}
     />
     {/* After Login routes end */}
 

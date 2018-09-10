@@ -57,13 +57,15 @@ export default class Sidebar extends Component {
         </Col>
         <Col xs={12} className="link-wrap">
           <ListGroup className="sidebar-nav-links">
-            <ListGroupItem href="">
-              <img
-                src={require('../../../assets/images/admin/album/home-icon.png')}
-                className="link-icons"
-                alt=""
-              />Dashboard
-            </ListGroupItem>
+            <NavLink to="/dashboard">
+              <ListGroupItem href="">
+                <img
+                  src={require('../../../assets/images/admin/album/home-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />Dashboard
+              </ListGroupItem>
+              </NavLink>
             <NavLink to="/albums">
               <ListGroupItem>
                 <img

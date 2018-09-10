@@ -111,6 +111,10 @@ const Setting = Loadable({
   loader: () => import('../admin/setting/Setting'),
   loading: Loading
 });
+const Dashboard = Loadable({
+  loader: () => import('../admin/dashboard/Dashboard'),
+  loading: Loading
+})
 
 // Import after super admin login component
 const UserListing = Loadable({
@@ -190,6 +194,7 @@ export {
   HomePageGalley,
   Testimonial,
   Setting,
+  Dashboard,
   Login,
   PasscodeLogin,
   Signup,
