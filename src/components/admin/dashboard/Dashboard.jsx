@@ -38,25 +38,31 @@ export default class Dashboard extends Component {
 
         <Col xs={12} className="p-none">
           <div className="categories-table-wrap">
-            Profile Completeness  <b>80%</b><br></br>
+            Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b><br></br>
             <p></p>
-            <p>Next Task:</p>
-            <p>Site Content > Add 1 Service
-              <Button className="btn-orange lets-do-btn">
-                <Link
-                  to={
-                    'albums'
-                  }
-                  className="admin-login-btn"
-                >
-                  Lets Do
-                </Link>
-              </Button>
-            </p>
+            { profileCompleteness && profileCompleteness.parent_accessor && (
+              <div>
+                <p>Next Task:</p>
+                <p>{profileCompleteness && profileCompleteness.parent_accessor} > {profileCompleteness && profileCompleteness.next_task_name}
+                  <Button className="btn-orange lets-do-btn">
+                    <Link
+                      to={
+                        'albums'
+                      }
+                      className="admin-login-btn"
+                    >
+                      Lets Do
+                    </Link>
+                  </Button>
+                </p>
+              </div>
+            )}
             <div className="round">
               <Checkbox
                 name="active-checkbox"
                 className="rounded-checkbox"
+                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.album_management ? 'checked' : ''}
+                disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.album_management ? true : false}
               >
                 <span className="checkbox-heading">Album Management</span>
                 <div className="check">
@@ -100,6 +106,8 @@ export default class Dashboard extends Component {
               <Checkbox
                 name="active-checkbox"
                 className="all-selection-check album-status-checkboxes rounded-checkbox"
+                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.site_content ? 'checked' : ''}
+                disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.site_content ? true : false}
               >
                 <span className="checkbox-heading">Site Content</span>
                 <div className="check">
@@ -151,6 +159,8 @@ export default class Dashboard extends Component {
               <Checkbox
                 name="active-checkbox"
                 className="all-selection-check album-status-checkboxes rounded-checkbox"
+                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.homepage_gallery ? 'checked' : ''}
+                disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.homepage_gallery ? true : false}
               >
                 <span className="checkbox-heading">Homepage Gallery</span>
                 <div className="check">
@@ -170,6 +180,8 @@ export default class Dashboard extends Component {
               <Checkbox
                 name="active-checkbox"
                 className="all-selection-check album-status-checkboxes rounded-checkbox"
+                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.video_portfolio ? 'checked' : ''}
+                disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.video_portfolio ? true : false}
               >
                 <span className="checkbox-heading">Video Portfolio </span>
                 <div className="check">
@@ -189,6 +201,8 @@ export default class Dashboard extends Component {
               <Checkbox
                 name="active-checkbox"
                 className="all-selection-check album-status-checkboxes rounded-checkbox"
+                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.testimonial ? 'checked' : ''}
+                disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.testimonial ? true : false}
               >
                 <span className="checkbox-heading">Testimonial </span>
                 <div className="check">
@@ -208,6 +222,8 @@ export default class Dashboard extends Component {
               <Checkbox
                 name="active-checkbox"
                 className="all-selection-check album-status-checkboxes rounded-checkbox"
+                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.contacts ? 'checked' : ''}
+                disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.contacts ? true : false}
               >
                 <span className="checkbox-heading">Contacts </span>
                 <div className="check">
