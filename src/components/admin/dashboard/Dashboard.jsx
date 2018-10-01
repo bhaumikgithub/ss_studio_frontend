@@ -92,7 +92,7 @@ export default class Dashboard extends Component {
             
               <Link
                 to={
-                  'albums'
+                  '/albums'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "public_album" ? "album-management-completeness text-red" : (profileCompleteness.album_management && profileCompleteness.album_management.public_album ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -100,7 +100,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'albums'
+                  '/albums'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "private_album" ? "album-management-completeness text-red" : (profileCompleteness.album_management && profileCompleteness.album_management.private_album ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -108,7 +108,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'settings'
+                  '/settings'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "watermark" ? "album-management-completeness text-red" : (profileCompleteness.album_management && profileCompleteness.album_management.watermark ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -116,7 +116,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'albums'
+                  '/albums'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "photo" ? "album-management-completeness text-red" : (profileCompleteness.album_management && profileCompleteness.album_management.photo ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -138,7 +138,7 @@ export default class Dashboard extends Component {
             
               <Link
                 to={
-                  'site_contents'
+                  '/site_contents'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "about_us" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.about_us ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -146,7 +146,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'site_contents'
+                  '/site_contents'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "service" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.service ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -154,7 +154,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'site_contents'
+                  '/site_contents'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "contact_us" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.contact_us ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -162,7 +162,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'site_contents'
+                  '/site_contents'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "social_media_link" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.social_media_link ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -170,7 +170,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  'site_contents'
+                  '/site_contents'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "website_detail" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.website_detail ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -192,7 +192,7 @@ export default class Dashboard extends Component {
             
               <Link
                 to={
-                  'homepage_gallery'
+                  '/homepage_gallery'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "homepage_gallery_photo" ? "album-management-completeness text-red" : (profileCompleteness.homepage_gallery && profileCompleteness.homepage_gallery.homepage_gallery_photo ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -214,7 +214,7 @@ export default class Dashboard extends Component {
             
               <Link
                 to={
-                  'video_films'
+                  '/video_films'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "youtube_video" ? "album-management-completeness text-red" : (profileCompleteness.video_portfolio && profileCompleteness.video_portfolio.youtube_video ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -236,7 +236,7 @@ export default class Dashboard extends Component {
             
               <Link
                 to={
-                  'testimonials'
+                  '/testimonials'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "add_testimonial" ? "album-management-completeness text-red" : (profileCompleteness.testimonial && profileCompleteness.testimonial.add_testimonial ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -258,7 +258,7 @@ export default class Dashboard extends Component {
             
               <Link
                 to={
-                  'contacts'
+                  '/contacts'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "contact_details" ? "album-management-completeness text-red" : (profileCompleteness.contacts &&profileCompleteness.contacts.contact_details ? "album-management-completeness text-green" : "album-management-completeness")}
               >
