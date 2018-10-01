@@ -16,6 +16,7 @@ import * as UserServiceService from './UserService';
 import * as VideoFilmService from './VideoFilms';
 import * as WatermarkService from './Watermark';
 import * as WebsiteDetailService from './WebsiteDetail';
+import * as ProfileCompletenessService from './ProfileCompleteness'
 
 export {
   AboutService,
@@ -35,5 +36,6 @@ export {
   UserServiceService,
   VideoFilmService,
   WatermarkService,
-  WebsiteDetailService
+  WebsiteDetailService,
+  ProfileCompletenessService
 };
