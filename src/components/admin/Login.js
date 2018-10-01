@@ -85,7 +85,7 @@ export default class Login extends Component {
         return <Redirect push to="/users" />;
       }
       else{
-        return <Redirect push to="/albums" />;
+        return <Redirect push to="/dashboard" />;
       }
     }
 
