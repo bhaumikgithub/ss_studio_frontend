@@ -234,16 +234,18 @@ export default class AlbumsListing extends Component {
   closeShareAlbum = () => this.setState({ shareAlbum: false });
 
   renderAlbum = (album, action) => {
-    const newAlbums = this.state.albums.slice();
-    var totalCount = this.state.meta.pagination.total_count;
+    var self = this;
+    const newAlbums = self.state.albums.slice();
+    var totalCount = self.state.meta.pagination.total_count;
     if (action === 'insert') {
       newAlbums.splice(0, 0, album);
       totalCount = totalCount + 1;
-    } else if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
-      newAlbums.splice(newAlbums.indexOf(this.state.editObject), 1, album);
+      self.props.history.push('/albums/' + album.slug);
+    } else if (action === 'replace' && !isObjectEmpty(self.state.editObject)) {
+      newAlbums.splice(newAlbums.indexOf(self.state.editObject), 1, album);
     }
 
-    this.setState({
+    self.setState({
       albums: newAlbums,
       meta: { pagination: { total_count: totalCount } }
     });
