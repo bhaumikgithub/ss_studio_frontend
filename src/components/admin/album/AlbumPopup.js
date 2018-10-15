@@ -204,8 +204,8 @@ export default class AlbumPopup extends Component {
           </Col>
           <Col className="create-content-wrap" sm={8}>
             <form className="admin-side create-album-form custom-form">
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-form-control-label">
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label required">
                   album name
                 </ControlLabel>
                 <FormControl
@@ -292,8 +292,8 @@ export default class AlbumPopup extends Component {
                 </span>
               </FormGroup>
 
-              <FormGroup controlId="formControlsSelect">
-                <ControlLabel className="custom-form-control-label">
+              <FormGroup controlId="formControlsSelect" className="custom-form-group">
+                <ControlLabel className="custom-form-control-label required">
                   Categories
                 </ControlLabel>
                 <Select
@@ -301,8 +301,8 @@ export default class AlbumPopup extends Component {
                   name="category_options"
                   value={albumForm.category_options}
                   options={this.categoryOptions()}
+                  placeholder="Select categories"
                   multi={true}
-                  placeholder={false}
                   onChange={this.handleMultiSelectChange.bind(this)}
                 />
                 {errors['category_ids'] && (
