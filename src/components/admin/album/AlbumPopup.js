@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Col,
   Button,
@@ -310,6 +311,11 @@ export default class AlbumPopup extends Component {
                     {errors['category_ids']}
                   </span>
                 )}
+              </FormGroup>
+              <FormGroup className="custom-form-group">
+                <Link to={'/categories'}>
+                    {'Click here to add More Categories'}
+                </Link>
               </FormGroup>
               {!albumForm.is_private && (
                 <FormGroup className="custom-form-group">
