@@ -101,6 +101,13 @@ export default class AlbumsListing extends Component {
       });
       this.handleAlbumSorting(e.value);
     }
+    else if (e === null){
+      this.setState({
+        albumSortingOrder: e,
+        categoryId: e,
+      });
+      this.handleAlbumSorting(e);
+    }
   }
   getAllAlbums(
     categoryId,
