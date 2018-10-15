@@ -994,6 +994,11 @@ div.filepicker {
 .album-management-completeness{
   margin-left: 38px;
 }
+.profile-completeness-instruction-bar{
+  background: orange;
+  color: #fff;
+  padding: 10px;
+}
 
 /* dashboard page css end */
 
