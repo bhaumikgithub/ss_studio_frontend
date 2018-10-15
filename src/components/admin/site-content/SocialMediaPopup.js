@@ -5,7 +5,8 @@ import {
   Modal,
   ControlLabel,
   FormGroup,
-  FormControl
+  FormControl,
+  InputGroup
 } from 'react-bootstrap';
 // import Select from 'react-select';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -71,7 +72,8 @@ export default class SocialMediaPopup extends Component {
     self.setState({
       SocialMediaForm: {
         soical_media_title: soical_media_title,
-        social_link: social_link
+        social_link: social_link.includes("http://www.") ? social_link.split("http://www.").pop()
+        : social_link
       }
     });
   }
@@ -97,7 +99,7 @@ export default class SocialMediaPopup extends Component {
         ? SocialMediaForm['soical_media_title']
         : 'social_link';
     SocialMediaForm[key] = str2bool(e.target.value);
-    SocialMediaForm[social_link_name] = SocialMediaForm[key];
+    SocialMediaForm[social_link_name] = "http://www." + SocialMediaForm[key]
     this.setState({
       SocialMediaForm
     });
@@ -249,14 +251,17 @@ export default class SocialMediaPopup extends Component {
                 </ControlLabel>
 
                 <Scrollbars style={{ height: '40px' }}>
-                  <FormControl
-                    className="custom-form-control"
-                    type="text"
-                    placeholder="Url"
-                    name="social_link"
-                    value={SocialMediaForm.social_link}
-                    onChange={this.handleChange.bind(this)}
-                  />
+                  <InputGroup>
+                    <InputGroup.Addon>http://www.</InputGroup.Addon>
+                    <FormControl
+                      className=""
+                      type="text"
+                      placeholder="Url"
+                      name="social_link"
+                      value={SocialMediaForm.social_link}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                  </InputGroup>
                 </Scrollbars>
                 {social_link_error && (
                   <span className="input-error text-red">

@@ -775,6 +775,9 @@ div.filepicker {
   bottom: 10px;
   right: 10px;
 }
+.Select.custom-form-control.social_media_custom-label.Select--single.is-clearable.is-searchable{
+  z-index: 999999 !important;
+}
 /* end social media page css */
 /* start cursor pointer */
 .cursor-pointer {
