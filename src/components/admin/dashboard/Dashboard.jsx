@@ -59,7 +59,13 @@ export default class Dashboard extends Component {
         </Col>
 
         <Col xs={12} className="p-none">
-          <div className="categories-table-wrap">
+          <div className="categories-table-wrap col-xs-12">
+            {profileCompleteness && profileCompleteness.percentage < 80 &&
+                <h5 className="profile-completeness-instruction-bar">
+                  Please complete all steps of profile.
+                </h5>
+              }
+            <div className="pull-right">
             Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b><br></br>
             <p></p>
               <div>
@@ -265,6 +271,7 @@ export default class Dashboard extends Component {
                 Add contact details
               </Link>
             </div><br></br>
+            </div>
           </div>
         </Col>
       </Col>
