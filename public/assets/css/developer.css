@@ -594,12 +594,26 @@ div.filepicker {
   color: #666;
   outline: none !important;
 }
+.view-photo-listing {
+  font-size: 14px;
+  font-family: 'ralewaymedium';
+  color: #666;
+  line-height: 41px;
+  right: 198px;
+  position: absolute;
+  top: 8px;
+}
+.view-photo-listing:hover,
+.view-photo-listing:focus {
+  color: #666;
+  outline: none !important;
+}
 .add-photos-album-listing {
   font-size: 14px;
   font-family: 'ralewaymedium';
   color: #666;
   line-height: 41px;
-  right: 200px;
+  right: 310px;
   position: absolute;
   top: 8px;
 }

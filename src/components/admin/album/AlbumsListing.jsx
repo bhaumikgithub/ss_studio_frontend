@@ -453,6 +453,17 @@ export default class AlbumsListing extends Component {
                       </Link>
 
                       <Link
+                        to={'/albums/' + album.slug}
+                        target="_blank"
+                        className="view-photo-listing"
+                      >
+                        <img
+                          src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                          alt=""
+                        />{' '}
+                        View Photos
+                      </Link>
+                      <Link
                         to={
                           album.is_private
                             ? '/'+ album.user_name +'/shared_album_login/' + album.slug
