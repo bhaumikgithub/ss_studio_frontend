@@ -237,6 +237,9 @@ export default class UserListing extends Component {
                   <th>Alias</th>
                   <th>Name</th>
                   <th>Phone</th>
+                  <th>Plan</th>
+                  <th>Start date</th>
+                  <th>End date</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -248,6 +251,10 @@ export default class UserListing extends Component {
                     <td>{user.alias}</td>
                     <td>{fullName(user)}</td>
                     <td>{user.phone}</td>
+                    <td>{user.subscription_package && user.subscription_package.name}</td>
+                    <td>{user.start_plan_date}</td>
+                    <td>{user.end_plan_date}
+                    </td>
                     <td className={this.getStatusClass(user.status)}>
                       {user.status}
                     </td>
