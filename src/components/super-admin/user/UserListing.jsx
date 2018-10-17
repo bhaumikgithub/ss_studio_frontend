@@ -256,7 +256,7 @@ export default class UserListing extends Component {
                     <td>{user.end_plan_date}
                     </td>
                     <td className={this.getStatusClass(user.status)}>
-                      {user.status}
+                      {user.status === 'subscription_expire' ? 'expired' : user.status }
                     </td>
                     <td>
                       <a
