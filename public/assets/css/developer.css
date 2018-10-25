@@ -815,6 +815,7 @@ div.filepicker {
 .view-album-url {
   color: #777;
   font-size: 12px;
+  word-break: break-all;
 }
 
 /* share album popup page css end */
@@ -1016,8 +1017,23 @@ div.filepicker {
 
 /* dashboard page css end */
 
+.font-size-12{
+  font-size: 12px;
+}
 
+.font-size-16{
+  font-size: 16px;
+}
 
+/* Start selection in progress text css  */
+.selection-progress-label{
+  background-color: #eef91d;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 10px;
+  text-align: center;
+}
+/* end selection in progress text css  */
 /* ============================================== */
 .gu-mirror {
   position: fixed !important;

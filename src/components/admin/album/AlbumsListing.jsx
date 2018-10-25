@@ -454,7 +454,6 @@ export default class AlbumsListing extends Component {
 
                       <Link
                         to={'/albums/' + album.slug}
-                        target="_blank"
                         className="view-photo-listing"
                       >
                         <img
@@ -535,10 +534,21 @@ export default class AlbumsListing extends Component {
                         <span className="fa fa-clock-o updated-icon" /> Last
                         updated on {album.updated_at}.
                       </Col>
-                      <Col xs={9} className="p-none updated-info">
+                      <Col xs={7} className="p-none updated-info">
                         <span className="fa fa-clock-o updated-icon" /> Created
                         on {album.created_at}.
                       </Col>
+                      {(album.delivery_status === 'New' ||
+                      album.delivery_status === 'Shared') &&
+                      album.album_recipients &&
+                      (!isObjectEmpty(album.album_recipients) &&
+                      album.album_recipients.length > 0)
+                        ?
+                        <Col xs={2} className="p-none updated-info selection-progress-label">
+                          Selection in Progress.
+                        </Col>
+                            : ''
+                      }
                       <Col xs={12} className="p-none album-separator">
                         <hr />
                       </Col>

@@ -276,7 +276,11 @@ export default class ShareAlbum extends Component {
         responseData.data.album_recipients[0].admin_album_recipients,
         this.props.albumSelection ? responseData.data.album_recipients : ''
       );
-      this.props.closeShareAlbum();
+      if(this.props.isOpen){
+        this.props.closeShareAlbum(true);
+      }else{
+        this.props.closeShareAlbum();
+      }
     } else {
       console.log(responseData.errors);
     }
@@ -324,7 +328,12 @@ export default class ShareAlbum extends Component {
                 alt=""
                 className="share-album-icon img-responsive"
               />
-              <h4 className="create-album-text text-white">Share Album</h4>
+              {this.props.albumSelection
+              ?
+                <h4 className="create-album-text text-white font-size-16">Share this album with your Customer to choose photos from this album</h4>
+              :
+                <h4 className="create-album-text text-white font-size-16">Share Album</h4>
+               }
             </Col>
           </Col>
           <Col className="modal-share-content-wrap" sm={7}>
@@ -342,7 +351,7 @@ export default class ShareAlbum extends Component {
               </div>
             </div>
             {this.props.albumSelection &&
-              !isObjectEmpty(this.state.albumRecipientObject) && (
+              (!isObjectEmpty(this.state.albumRecipientObject) || !isObjectEmpty(this.props.selectionAlbumObject))&& (
                 <div>
                   {this.props.selectionAlbumObject.map(albumRecipient => (
                     <span key={albumRecipient.id} className="view-album-url">

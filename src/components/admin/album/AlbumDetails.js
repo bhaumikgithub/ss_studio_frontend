@@ -322,6 +322,8 @@ export default class AlbumDetails extends Component {
     });
     if (albumReceipientObject === '') {
       this.renderRecipientsCount('add', count);
+    }else{
+      this.getAdminAlbumRecipients(this.state.album);
     }
   };
 
@@ -355,11 +357,22 @@ export default class AlbumDetails extends Component {
   closeAddPhoto = () => {
     this.setState({ addPhoto: false });
   };
-  closeShareAlbum = () =>
+  closeShareAlbum = isOpen => {
+    var self = this
+      if (isOpen===true){
+        self.closeSaveShareAlbum.bind(self)
+      }else{
+        self.setState({
+          shareAlbum: false,
+          albumSelection: false
+        });
+      }
+  };
+  closeSaveShareAlbum = () =>
     this.setState({
       shareAlbum: false,
-      albumSelection: false
-    });
+      albumSelection: true
+  });
   closeAlreadySharedAlbum = () => this.setState({ alreadySharedAlbum: false });
 
   closeLightBox = () => {
@@ -532,6 +545,7 @@ export default class AlbumDetails extends Component {
             <ShareAlbum
               albumSlug={albumSlug}
               albumId={album.id}
+              isOpen={this.state.albumSelection ? true : false}
               shareAlbum={this.state.shareAlbum}
               closeShareAlbum={this.closeShareAlbum}
               renderShareAlbum={this.renderShareAlbum}
@@ -840,26 +854,6 @@ export default class AlbumDetails extends Component {
                       : 'Hidden in portfolio'}
                   </span>
                 </label>
-                <label className="album-info-label">
-                  <img
-                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
-                    className="info-icon"
-                    alt=""
-                  />
-                  <span className="information">
-                    {album.updated_at} (Last Update)
-                  </span>
-                </label>
-                <label className="album-info-label">
-                  <img
-                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
-                    className="info-icon"
-                    alt=""
-                  />
-                  <span className="information">
-                    {album.created_at} (Created On)
-                  </span>
-                </label>
                 {album.is_private && (
                   <label className="album-info-label">
                     <img
@@ -974,7 +968,29 @@ export default class AlbumDetails extends Component {
                 <Col xs={12} className="p-none detail-separator">
                   <hr />
                 </Col>
-
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">
+                    {album.updated_at} (Last Update)
+                  </span>
+                </label>
+                <label className="album-info-label">
+                  <img
+                    src={require('../../../assets/images/admin/album/album-details/calandar-icon.png')}
+                    className="info-icon"
+                    alt=""
+                  />
+                  <span className="information">
+                    {album.created_at} (Created On)
+                  </span>
+                </label>
+                <Col xs={12} className="p-none detail-separator">
+                  <hr />
+                </Col>
                 {isOpenLightbox &&
                   photos &&
                   album.cover_photo && (
