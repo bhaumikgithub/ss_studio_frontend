@@ -312,7 +312,7 @@ export default class AlbumPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-              <FormGroup className="custom-form-group">
+              <FormGroup className="custom-form-group font-size-12">
                 <Link to={'/categories'}>
                     {'Click here to add More Categories'}
                 </Link>
