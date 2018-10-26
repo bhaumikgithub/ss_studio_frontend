@@ -27,6 +27,7 @@ import {
   HomePageGalley,
   Testimonial,
   Setting,
+  Help,
   Dashboard,
   Login,
   PasscodeLogin,
@@ -95,6 +96,12 @@ const routes = () => (
       path="(/*)/settings"
       title="Settings"
       component={Setting}
+    />
+    <PrivateRoute
+      exact
+      path="(/*)/help"
+      title="Help"
+      component={Help}
     />
     <PrivateRoute
       exact

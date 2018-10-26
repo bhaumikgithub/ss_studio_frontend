@@ -1020,9 +1020,30 @@ div.filepicker {
 .font-size-12{
   font-size: 12px;
 }
-
 .font-size-16{
   font-size: 16px;
+}
+.help-wrap{
+  margin-top: 30px;
+}
+.black-font{
+  color: #000
+}
+.help-content-wrap:after{
+  content:'';
+  height: 3px;
+  width: 150px;
+  background: #f9a11d;
+  display: block;
+  bottom: -5px;
+  left: 15px;
+  margin-top: 30px;
+}
+.font-rale-mid{
+  font-family: 'ralewaymedium';
+}
+.mb-20{
+  margin-bottom: 20px;
 }
 
 /* Start selection in progress text css  */

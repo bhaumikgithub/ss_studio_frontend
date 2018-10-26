@@ -111,6 +111,10 @@ const Setting = Loadable({
   loader: () => import('../admin/setting/Setting'),
   loading: Loading
 });
+const Help = Loadable({
+  loader: () => import('../admin/help/Help'),
+  loading: Loading
+});
 const Dashboard = Loadable({
   loader: () => import('../admin/dashboard/Dashboard'),
   loading: Loading
@@ -194,6 +198,7 @@ export {
   HomePageGalley,
   Testimonial,
   Setting,
+  Help,
   Dashboard,
   Login,
   PasscodeLogin,
