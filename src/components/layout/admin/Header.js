@@ -6,7 +6,7 @@ import {
   Button,
   NavItem
 } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, NavLink } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 // Import component
@@ -139,6 +139,9 @@ export default class Header extends Component {
               {/* <MenuItem eventKey={5.4}>Pricing</MenuItem> */}
             </NavDropdown>
           </Nav>
+          <NavLink to="/help" className="logout-btn help-wrap setting-label">
+            Help
+          </NavLink>
         </Navbar.Collapse>
       </Navbar>
     );
