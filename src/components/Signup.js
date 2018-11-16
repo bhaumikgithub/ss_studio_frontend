@@ -129,6 +129,11 @@ export default class Login extends Component {
     return (
       <div className="login-wrap signup-wrap">
         <Grid className="page-inner-wrap">
+            <img
+              src={require('../assets/images/afterclix.png')}
+              alt=""
+              className="img-responsive afterclix-logo"
+            />
             <Row>
             <Col xs={10} sm={6} className="login-form">
               <form
@@ -141,8 +146,9 @@ export default class Login extends Component {
                 onSubmit={event => {
                   this.handleSignup(event);
                 }}
-              >
+                >
                 <Col xs={12} sm={10} md={8} className="login-details-block">
+                <h4 className="share-album-align">Registration</h4>
                 <FormGroup className="custom-fromgrp">
                     <FormControl
                       className="login-control"
@@ -241,7 +247,7 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control alias-input"
                       type="text"
                       placeholder="Alias"
                       label="Alias"
@@ -254,6 +260,7 @@ export default class Login extends Component {
                         {signup_error['alias']}
                       </span>
                     )}
+                    <span className="alias-example-text">{"http://www.afterclix.com/photographer/<your alias>"}</span>
                   </FormGroup>
                   <FormGroup className="custom-fromgrp" controlId="formControlsSelect">
                     <Select
@@ -288,16 +295,6 @@ export default class Login extends Component {
                     )}
                   </FormGroup>
                 </Col>
-                <Button className="btn-orange text-center signup-login-btn">
-                  <Link
-                    to={
-                      'admin'
-                    }
-                    className="admin-login-btn"
-                  >
-                    Login
-                  </Link>
-                </Button>
                 <Button
                   type="submit"
                   className="btn-orange login-btn text-center"
@@ -313,6 +310,16 @@ export default class Login extends Component {
             </Row>
         </Grid>
           <div className="login-footer signup-footer">
+            <div className="login-link">
+              <Link
+                to={
+                  'admin'
+                }
+                className="admin-login-btn"
+              >
+                Login
+              </Link>
+            </div>
           <Grid>
             <Row>
               <Col xs={12} sm={6} className="copyright">
