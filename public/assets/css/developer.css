@@ -965,6 +965,23 @@ div.filepicker {
 .country_select .Select-value-label{
   color: #777 !important;
 }
+.afterclix-logo{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+}
+.alias-input{
+  margin-bottom: 0px !important;
+}
+.alias-example-text{
+  font-size: 12px;
+}
+.login-footer{
+  width: 100%;
+}
+.login-link{
+  margin-bottom: 30px;
+}
 /* signup page css end */
 
 /* after super admin login user page css start */
