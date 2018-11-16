@@ -68,7 +68,7 @@ export default class AlbumDetails extends Component {
     var self = this;
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
-      per_page: 16
+      per_page: 32
     })
       .then(function(response) {
         var data = response.data;

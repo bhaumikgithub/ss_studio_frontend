@@ -12,7 +12,7 @@ import { AlbumService } from '../../../services/Index';
 // Import css
 import '../../../assets/css/admin/admin.css';
 
-const paginationPerPage = 16;
+const paginationPerPage = 32;
 
 export default class AfterLoginLayout extends Component {
   constructor(props) {
