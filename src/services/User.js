@@ -104,3 +104,19 @@ export function editUser(params) {
   );
   return checkStatus(responsePromise);
 }
+
+export function userForgotPassword(params) {
+  const responsePromise = axiosInstance.post(
+    process.env.REACT_APP_API_BASE_URL + 'users/password',
+    params,
+  );
+  return checkStatus(responsePromise);
+}
+
+export function userChangePassword(params) {
+  const responsePromise = axiosInstance.patch(
+    process.env.REACT_APP_API_BASE_URL + 'users/password',
+    params,
+  );
+  return checkStatus(responsePromise);
+}

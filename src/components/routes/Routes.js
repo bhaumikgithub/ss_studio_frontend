@@ -32,7 +32,9 @@ import {
   Login,
   PasscodeLogin,
   Signup,
-  UserListing
+  UserListing,
+  ForgotPassword,
+  ChangePassword
 } from './Index';
 
 const routes = () => (
@@ -45,6 +47,8 @@ const routes = () => (
       component={PasscodeLogin}
     />
     <SignupLayout exact path="(/*)/signup" component={Signup} />
+    <LoginLayout exact path="(/*)/forgot_password" component={ForgotPassword} />
+    <LoginLayout exact path="(/*)/change_password" component={ChangePassword} />
     {/* Auth routes end */}
 
     {/* After Login routes start */}

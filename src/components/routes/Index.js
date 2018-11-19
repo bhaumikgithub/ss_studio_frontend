@@ -73,6 +73,14 @@ const Signup = Loadable({
   loader: () => import('../Signup'),
   loading: Loading
 });
+const ForgotPassword = Loadable({
+  loader: () => import('../ForgotPassword'),
+  loading: Loading
+});
+const ChangePassword = Loadable({
+  loader: () => import('../ChangePassword'),
+  loading: Loading
+});
 
 // Import after login component
 const AlbumListing = Loadable({
@@ -203,5 +211,7 @@ export {
   Login,
   PasscodeLogin,
   Signup,
-  UserListing
+  UserListing,
+  ForgotPassword,
+  ChangePassword
 };

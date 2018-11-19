@@ -7,16 +7,17 @@ import {
   Row,
   FormGroup
 } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
-
 // Import helper
-import { isLoggedIn, currentUserRole } from '../Helper';
+import { isLoggedIn, currentUserRole } from './Helper';
+import { Redirect, Link } from 'react-router-dom';
+import validationHandler from './common/ValidationHandler';
+
 
 // Import css
-import '../../assets/css/admin/login.css';
+import '../assets/css/admin/login.css';
 
 // Import services
-import { AuthService } from '../../services/Index';
+import { UserService } from '../services/Index';
 
 export default class Login extends Component {
   constructor(props) {
@@ -26,13 +27,10 @@ export default class Login extends Component {
 
   getInitialState() {
     const initialState = {
-      loginForm: {
+      forgotPasswordForm: {
         email: '',
-        password: '',
-        grant_type: 'password'
       },
-      login_error: this.props.location.state,
-      role: '',
+      forgot_password_error: "",
       redirectToReferrer: false
     };
 
@@ -40,46 +38,40 @@ export default class Login extends Component {
   }
 
   handleChange(e) {
-    const loginForm = this.state.loginForm;
+    const forgotPasswordForm = this.state.forgotPasswordForm;
     var key = e.target.name;
-    loginForm[key] = e.target.value;
+    forgotPasswordForm[key] = e.target.value;
     this.setState({
-      loginForm
+      forgotPasswordForm
     });
   }
 
-  handleLogin(event) {
+  handleSubmit(event){
     var self = this;
     event.preventDefault();
-    AuthService.LoginService(self.state.loginForm)
+    UserService.userForgotPassword({user: self.state.forgotPasswordForm})
       .then(function(response) {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        self.setState({ login_error: error.response.data.error });
+        const errors = error.response.data.errors;
+        console.log(errors)
+        if (errors.length > 0) {
+          self.setState({ forgot_password_error: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
   handelResponse(response) {
     if (response.status === 200) {
-      localStorage.setItem('AUTH_TOKEN', response.data.data.token.access_token);
-      localStorage.setItem(
-        'CURRENT_USER',
-        JSON.stringify(response.data.data.user)
-      );
-      localStorage.setItem(
-        'ROLE',
-        JSON.stringify(response.data.data.role)
-      );
-      this.setState({ redirectToReferrer: true, role: response.data.data.role });
-    } else {
-      console.log('Invalid email and password');
-      alert('Invalid email and password');
+      this.props.history.push({pathname: 'admin', state: 'You will receive an email with instructions on how to reset your password in a few minutes.' })
     }
   }
 
   render() {
-    const { login_error,role } = this.state;
+    const { forgot_password_error,role } = this.state;
     if (isLoggedIn() || this.state.redirectToReferrer) {
       if(role === "super_admin" || currentUserRole() === "super_admin"){
         return <Redirect push to="/users" />;
@@ -93,30 +85,25 @@ export default class Login extends Component {
       <div className="login-wrap">
         <Grid className="page-inner-wrap">
           <img
-            src={require('../../assets/images/afterclix.png')}
+            src={require('../assets/images/afterclix.png')}
             alt=""
             className="img-responsive afterclix-logo"
           />
           <Row>
             <Col xs={10} sm={6} className="login-form">
-              {/* <img
-                src={require('../../assets/images/admin/login/login-logo.png')}
-                alt="Logo"
-                className="img-responsive login-logo"
-              /> */}
               <form
                 className="admin-login-side"
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
-                    this.handleLogin(e);
+                    this.handleSubmit(e);
                   }
                 }}
                 onSubmit={event => {
-                  this.handleLogin(event);
+                  this.handleSubmit(event);
                 }}
               >
                 <Col xs={12} sm={10} md={8} className="login-details-block">
-                <h4 className="share-album-align">Sign In</h4>
+                <h4 className="share-album-align">Forgot Password</h4>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
                       className="login-control"
@@ -128,35 +115,16 @@ export default class Login extends Component {
                     />
                     <span className="custom-addon">*</span>
                   </FormGroup>
-                  <FormGroup className="custom-fromgrp">
-                    <FormControl
-                      className="login-control"
-                      type="password"
-                      placeholder="Password"
-                      label="password"
-                      name="password"
-                      onChange={this.handleChange.bind(this)}
-                    />
-                    <span className="custom-addon">*</span>
-                  </FormGroup>
-                <Link
-                    to={
-                      'forgot_password'
-                    }
-                    className=""
-                  >
-                    Forgot Password?
-                  </Link>
-                  {(login_error !== undefined && login_error && login_error.from === undefined) && (
-                    <span className="input-error text-red"><br/><br/>{login_error}</span>
+                  {(forgot_password_error !== undefined && forgot_password_error && forgot_password_error.from === undefined) && (
+                    <span className="input-error text-red">{forgot_password_error.email}</span>
                   )}
                 </Col>
                 <Button
                   type="submit"
                   className="btn-orange login-btn text-center"
                 >
-                  LOGIN<img
-                    src={require('../../assets/images/admin/login/next-icon.png')}
+                  Submit<img
+                    src={require('../assets/images/admin/login/next-icon.png')}
                     alt="Logo"
                     className="img-responsive arrow-icon"
                   />
@@ -168,11 +136,11 @@ export default class Login extends Component {
         <div className="login-link">
           <Link
             to={
-              'signup'
+              'admin'
             }
             className="admin-login-btn"
           >
-            Signup
+            Sign In
           </Link>
         </div>
       </div>
