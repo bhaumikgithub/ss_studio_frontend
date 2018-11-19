@@ -7,16 +7,17 @@ import {
   Row,
   FormGroup
 } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
-
 // Import helper
-import { isLoggedIn, currentUserRole } from '../Helper';
+import { isLoggedIn, currentUserRole } from './Helper';
+import { Redirect } from 'react-router-dom';
+import validationHandler from './common/ValidationHandler';
+
 
 // Import css
-import '../../assets/css/admin/login.css';
+import '../assets/css/admin/login.css';
 
 // Import services
-import { AuthService } from '../../services/Index';
+import { UserService } from '../services/Index';
 
 export default class Login extends Component {
   constructor(props) {
@@ -26,60 +27,62 @@ export default class Login extends Component {
 
   getInitialState() {
     const initialState = {
-      loginForm: {
-        email: '',
+      changePasswordForm: {
+        password_confirmation: '',
         password: '',
-        grant_type: 'password'
+        reset_password_token: ""
       },
-      login_error: this.props.location.state,
-      role: '',
+      change_password_error: "",
       redirectToReferrer: false
     };
 
     return initialState;
   }
 
+  componentWillMount(){
+    const { search } = this.props.location;
+    const params = new URLSearchParams(search);
+    const token = params.get('reset_password_token');
+    const newChangePasswordForm = this.state.changePasswordForm
+    newChangePasswordForm.reset_password_token = token
+    this.setState({newChangePasswordForm})
+  }
+
   handleChange(e) {
-    const loginForm = this.state.loginForm;
+    const changePasswordForm = this.state.changePasswordForm;
     var key = e.target.name;
-    loginForm[key] = e.target.value;
+    changePasswordForm[key] = e.target.value;
     this.setState({
-      loginForm
+      changePasswordForm
     });
   }
 
-  handleLogin(event) {
+  handleSubmit(event){
     var self = this;
     event.preventDefault();
-    AuthService.LoginService(self.state.loginForm)
+    UserService.userChangePassword({user: self.state.changePasswordForm})
       .then(function(response) {
         self.handelResponse(response);
       })
       .catch(function(error) {
-        self.setState({ login_error: error.response.data.error });
+        const errors = error.response.data.errors;
+        console.log(errors)
+        if (errors.length > 0) {
+          self.setState({ change_password_error: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
       });
   }
 
   handelResponse(response) {
     if (response.status === 200) {
-      localStorage.setItem('AUTH_TOKEN', response.data.data.token.access_token);
-      localStorage.setItem(
-        'CURRENT_USER',
-        JSON.stringify(response.data.data.user)
-      );
-      localStorage.setItem(
-        'ROLE',
-        JSON.stringify(response.data.data.role)
-      );
-      this.setState({ redirectToReferrer: true, role: response.data.data.role });
-    } else {
-      console.log('Invalid email and password');
-      alert('Invalid email and password');
+      this.props.history.push({pathname: 'admin'})
     }
   }
 
   render() {
-    const { login_error,role } = this.state;
+    const { change_password_error,role } = this.state;
     if (isLoggedIn() || this.state.redirectToReferrer) {
       if(role === "super_admin" || currentUserRole() === "super_admin"){
         return <Redirect push to="/users" />;
@@ -93,70 +96,54 @@ export default class Login extends Component {
       <div className="login-wrap">
         <Grid className="page-inner-wrap">
           <img
-            src={require('../../assets/images/afterclix.png')}
+            src={require('../assets/images/afterclix.png')}
             alt=""
             className="img-responsive afterclix-logo"
           />
           <Row>
             <Col xs={10} sm={6} className="login-form">
-              {/* <img
-                src={require('../../assets/images/admin/login/login-logo.png')}
-                alt="Logo"
-                className="img-responsive login-logo"
-              /> */}
               <form
                 className="admin-login-side"
                 onKeyDown={e => {
                   if (e.key === 'Enter') {
-                    this.handleLogin(e);
+                    this.handleSubmit(e);
                   }
                 }}
                 onSubmit={event => {
-                  this.handleLogin(event);
+                  this.handleSubmit(event);
                 }}
               >
                 <Col xs={12} sm={10} md={8} className="login-details-block">
-                <h4 className="share-album-align">Sign In</h4>
+                <h4 className="share-album-align">Change Password</h4>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
                       className="login-control"
-                      type="email"
-                      placeholder="Email"
-                      label="email"
-                      name="email"
+                      type="password"
+                      placeholder="New Password"
+                      name="password"
                       onChange={this.handleChange.bind(this)}
                     />
                     <span className="custom-addon">*</span>
+                    <span className="input-error text-red">{change_password_error.password}</span>
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
                       className="login-control"
                       type="password"
-                      placeholder="Password"
-                      label="password"
-                      name="password"
+                      placeholder="Confirm Password"
+                      name="password_confirmation"
                       onChange={this.handleChange.bind(this)}
                     />
                     <span className="custom-addon">*</span>
+                    <span className="input-error text-red">{change_password_error.password_confirmation}</span>
                   </FormGroup>
-                <Link
-                    to={
-                      'forgot_password'
-                    }
-                    className=""
-                  >
-                    Forgot Password?
-                  </Link>
-                  {(login_error !== undefined && login_error && login_error.from === undefined) && (
-                    <span className="input-error text-red"><br/><br/>{login_error}</span>
-                  )}
                 </Col>
                 <Button
                   type="submit"
                   className="btn-orange login-btn text-center"
                 >
-                  LOGIN<img
-                    src={require('../../assets/images/admin/login/next-icon.png')}
+                  Submit<img
+                    src={require('../assets/images/admin/login/next-icon.png')}
                     alt="Logo"
                     className="img-responsive arrow-icon"
                   />
@@ -165,16 +152,6 @@ export default class Login extends Component {
             </Col>
           </Row>
         </Grid>
-        <div className="login-link">
-          <Link
-            to={
-              'signup'
-            }
-            className="admin-login-btn"
-          >
-            Signup
-          </Link>
-        </div>
       </div>
     );
   }
