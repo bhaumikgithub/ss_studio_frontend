@@ -15,6 +15,9 @@ import { AlbumService } from '../../services/Index';
 // Import css
 import '../../assets/css/portfolio.css';
 
+// Import helper
+import { isObjectEmpty } from '../Helper';
+
 const paginationPerPage = 24;
 
 export default class Portfolio extends Component {
@@ -75,6 +78,16 @@ export default class Portfolio extends Component {
         <PageHeader className="page-title page-main-title text-center portfolio-main-title">
           <label>{album.album_name}</label>
         </PageHeader>
+        <div className="text-center">
+          {!isObjectEmpty(album) && album.categories.map(category => (
+            <span
+              className="album-badge"
+              key={category.category_name}
+            >
+              {album.categories[album.categories.length-1] === category ? ' '+category.category_name  : ' '+category.category_name + ','}
+            </span>
+          ))}
+        </div>
         <Row className="back-album-wrap">
             <Col xs={6}>
               <Link to={"/"+this.props.match.params.user+"/portfolio"} className="back-link">
