@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
@@ -45,14 +45,21 @@ export default class Sidebar extends Component {
     return (
       <Col className="sidebar">
         <Col xs={12} className="user-wrap">
-          <h5 className="user-name">{user.full_name}</h5>
           <Col xs={6} className="text-center">
+          <Link to={'/albums'}
+            className="text-white"
+          >
             <h4 className="album-num">{user.album_count}</h4>
             <label className="album-name">Albums</label>
+          </Link>
           </Col>
           <Col xs={6} className="text-center">
+          <Link to={'/albums'}
+            className="text-white"
+          >
             <h4 className="album-num">{user.photo_count}</h4>
             <label className="album-name">Photos</label>
+            </Link>
           </Col>
         </Col>
         <Col xs={12} className="link-wrap">
