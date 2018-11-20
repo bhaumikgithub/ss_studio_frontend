@@ -96,10 +96,12 @@ export default class AlbumPopup extends Component {
   categoryOptions(categories = this.state.categories) {
     var options = [];
     categories.map(category => {
-      return options.push({
-        value: category.id,
-        label: toCapitalize(category.category_name)
-      });
+      if(category.status === "active"){
+        return options.push({
+          value: category.id,
+          label: toCapitalize(category.category_name)
+        });
+      }
     });
     return options;
   }
