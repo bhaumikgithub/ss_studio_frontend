@@ -350,7 +350,7 @@ export default class ShareAlbum extends Component {
                 <p>{album.photo_count} photos</p>
               </div>
             </div>
-            {this.props.albumSelection &&
+            {this.props.albumSelection ?
               (!isObjectEmpty(this.state.albumRecipientObject) || !isObjectEmpty(this.props.selectionAlbumObject))&& (
                 <div>
                   {this.props.selectionAlbumObject.map(albumRecipient => (
@@ -366,7 +366,23 @@ export default class ShareAlbum extends Component {
                     </span>
                   )}
                 </div>
-              )}
+              ) :
+              <div>
+               <span className="view-album-url">
+                Url : {
+                  album.is_private
+                  ? album.show_album_url
+                  : album.show_album_url
+                }
+                <hr />
+                </span>
+                {album.is_private && (
+                  <span className="view-album-url">
+                    Password: {album.passcode} <hr />
+                  </span>
+                )}
+              </div>
+            }
 
             {this.props.albumSelection &&
             (!isObjectEmpty(this.props.selectionAlbumObject) &&
