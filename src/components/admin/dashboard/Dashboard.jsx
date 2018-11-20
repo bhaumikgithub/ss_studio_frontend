@@ -95,7 +95,6 @@ export default class Dashboard extends Component {
                   <Link to={'/'+currentUser().alias} target="_blank">
                     <h5 className="profile-completeness-instruction-bar">
                         Your Public Url is: {window.location.protocol + '//' + window.location.host + process.env.REACT_APP_BASE_PATH + "/" +currentUser().alias}
-                        <span className="pull-right fa fa-link"></span>
                     </h5>
                   </Link>
                 }
