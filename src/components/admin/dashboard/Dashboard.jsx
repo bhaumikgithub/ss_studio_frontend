@@ -8,6 +8,9 @@ import '../../../assets/css/admin/category/categories.css';
 // Import services
 import { ProfileCompletenessService } from '../../../services/Index';
 
+// Import helper
+import { currentUser } from '../../Helper';
+
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -59,16 +62,55 @@ export default class Dashboard extends Component {
         </Col>
 
         <Col xs={12} className="p-none">
-          <div className="categories-table-wrap col-xs-12">
-            {profileCompleteness && profileCompleteness.percentage < 80 &&
-                <h5 className="profile-completeness-instruction-bar">
-                  Please complete all steps of profile.
-                </h5>
-              }
-            <div className="pull-right">
+          <div className="categories-table-wrap custom-pad row">
+            <div className="col-md-6">
+              <div className="count-box-par d-flex justify-content-center align-items-center text-center">
+                <div className="count-box">
+                  <Link to={'/albums'}>
+                    <div className="content">
+                      <h2 className="count-no">{profileCompleteness.public_album}</h2>
+                      <label className="title">Public Albums</label>
+                    </div>
+                  </Link>
+                </div>
+                <div className="count-box">
+                  <Link to={'/albums'}>
+                    <div className="content">
+                      <h2 className="count-no">{profileCompleteness.private_album}</h2>
+                      <label className="title">Private Albums</label>
+                    </div>
+                  </Link>
+                </div>
+                <div className="count-box">
+                  <Link to={'/albums'}>
+                    <div className="content">
+                      <h2 className="count-no">{profileCompleteness.total_album}</h2>
+                      <label className="title">Total Albums</label>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+              <div className="public-url-strip">
+                {window !== undefined &&
+                  <Link to={'/'+currentUser().alias} target="_blank">
+                    <h5 className="profile-completeness-instruction-bar">
+                        Your Public Url is: {window.location.protocol + '//' + window.location.host + process.env.REACT_APP_BASE_PATH + "/" +currentUser().alias}
+                        <span className="pull-right fa fa-link"></span>
+                    </h5>
+                  </Link>
+                }
+              </div>
+            </div>
+            <div className="col-md-6">
+                {profileCompleteness && profileCompleteness.percentage < 80 &&
+                      <h5 className="profile-completeness-instruction-bar">
+                        Please complete all steps of profile.
+                      </h5>
+                  }
+              <div className="w-100">
             Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b><br></br>
             <p></p>
-              <div>
+            <div>
                 <p>Next Task:</p>
                 <p>{parentOfNextTask} > {nextTaskName}
                   <Button className="btn-orange lets-do-btn">
@@ -273,6 +315,7 @@ export default class Dashboard extends Component {
             </div><br></br>
             </div>
           </div>
+        </div>
         </Col>
       </Col>
     );

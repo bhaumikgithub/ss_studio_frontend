@@ -305,21 +305,21 @@ export default class Login extends Component {
                     className="img-responsive arrow-icon"
                   />
                 </Button>
+                <div className="login-link">
+                  <Link
+                    to={
+                      'admin'
+                    }
+                    className="admin-login-btn"
+                  >
+                    Login
+                  </Link>
+                </div>
               </form>
             </Col>
             </Row>
         </Grid>
           <div className="login-footer signup-footer">
-            <div className="login-link">
-              <Link
-                to={
-                  'admin'
-                }
-                className="admin-login-btn"
-              >
-                Login
-              </Link>
-            </div>
           <Grid>
             <Row>
               <Col xs={12} sm={6} className="copyright">
