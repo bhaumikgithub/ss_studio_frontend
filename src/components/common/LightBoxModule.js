@@ -16,11 +16,8 @@ export default class LightBoxModule extends Component {
     return (
       <Lightbox
         mainSrc={photos[photoIndex].original_image}
-        nextSrc={photos[(photoIndex + 1) % photos.length].original_image}
-        prevSrc={
-          photos[(photoIndex + photos.length - 1) % photos.length]
-            .original_image
-        }
+        nextSrc={" "}
+        prevSrc={" "}
         onCloseRequest={this.props.closeLightBox}
         onMovePrevRequest={() =>
           this.setState({
