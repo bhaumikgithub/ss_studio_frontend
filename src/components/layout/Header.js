@@ -60,6 +60,7 @@ class Header extends Component {
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
+      {this.props.location.pathname.includes("shared_album") === false &&
         <Navbar.Collapse>
           <Nav pullRight className="menu-links">
             <IndexLinkContainer to={"/"+this.state.user}>
@@ -94,7 +95,8 @@ class Header extends Component {
             </li>*/}
           </Nav>
         </Navbar.Collapse>
-      </Navbar>
+      }
+    </Navbar>
     );
   }
 }
