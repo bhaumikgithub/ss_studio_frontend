@@ -1058,12 +1058,11 @@ div.filepicker {
   width: calc(100% / 3 + 25px);
 }
 .categories-table-wrap .count-box .content{
-  background: blue;
   border-radius: 3px;
-  box-shadow: 2px 2px 12px 0px rgba(0,0,0,0.1);
   padding: 20px;
   transition: all .5s ease-out;
   height: 100%;
+  border: 1px solid #ffa500;
 }
 .categories-table-wrap .count-box .content:hover{
   box-shadow: none;
@@ -1109,6 +1108,13 @@ div.filepicker {
 }
 .mb-20{
   margin-bottom: 20px;
+}
+.public-url-bar{
+  background: #ccc
+}
+.album-count{
+  font-weight: normal;
+  color: #ffa500 !important;
 }
 
 /* Start selection in progress text css  */

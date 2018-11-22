@@ -68,24 +68,24 @@ export default class Dashboard extends Component {
                 <div className="count-box">
                   <Link to={'/albums'}>
                     <div className="content">
-                      <h2 className="count-no">{profileCompleteness.public_album}</h2>
-                      <label className="title">Public Albums</label>
+                      <h2 className="count-no album-count">{profileCompleteness.public_album}</h2>
+                      <label className="title album-count">Public Albums</label>
                     </div>
                   </Link>
                 </div>
                 <div className="count-box">
                   <Link to={'/albums'}>
                     <div className="content">
-                      <h2 className="count-no">{profileCompleteness.private_album}</h2>
-                      <label className="title">Private Albums</label>
+                      <h2 className="count-no album-count">{profileCompleteness.private_album}</h2>
+                      <label className="title album-count">Private Albums</label>
                     </div>
                   </Link>
                 </div>
                 <div className="count-box">
                   <Link to={'/albums'}>
                     <div className="content">
-                      <h2 className="count-no">{profileCompleteness.total_album}</h2>
-                      <label className="title">Total Albums</label>
+                      <h2 className="count-no album-count">{profileCompleteness.total_album}</h2>
+                      <label className="title album-count">Total Albums</label>
                     </div>
                   </Link>
                 </div>
@@ -93,7 +93,7 @@ export default class Dashboard extends Component {
               <div className="public-url-strip">
                 {window !== undefined &&
                   <Link to={'/'+currentUser().alias} target="_blank">
-                    <h5 className="profile-completeness-instruction-bar">
+                    <h5 className="profile-completeness-instruction-bar public-url-bar">
                         Your Public Url is: {window.location.protocol + '//' + window.location.host + process.env.REACT_APP_BASE_PATH + "/" +currentUser().alias}
                     </h5>
                   </Link>
