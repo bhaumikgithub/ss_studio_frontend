@@ -148,6 +148,12 @@
 .portfolio-album-thub-wrap .fa-search-plus {
   color: #f9a11d;
 }
+.portfolio-album-title h1{
+  margin-bottom: 0px;
+}
+.portfolio-album-title{
+  padding-bottom: 0px;
+}
 /* Portfolio album page custom css end */
 
 /* Album set cover page hover start */

@@ -75,13 +75,13 @@ export default class Portfolio extends Component {
     return (
       <div className="page-wrap portfolio-wrap">
         <Grid>
-        <PageHeader className="page-title page-main-title text-center portfolio-main-title">
+        <PageHeader className="page-title page-main-title text-center portfolio-main-title portfolio-album-title">
           <label>{album.album_name}</label>
         </PageHeader>
         <div className="text-center">
           {!isObjectEmpty(album) && album.categories.map(category => (
             <span
-              className="album-badge"
+              className="album-badge"portfolio-title
               key={category.category_name}
             >
               {album.categories[album.categories.length-1] === category ? ' '+category.category_name  : ' '+category.category_name + ','}
