@@ -117,16 +117,11 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
-              <IndexLinkContainer to="/settings" className="dropdown-setting-menu">
+              <IndexLinkContainer to="/plan_profile" className="dropdown-setting-menu">
                 <NavItem className="setting-menu-label">
-                Settings
+                  My profile & plans
                 </NavItem>
               </IndexLinkContainer>
-              {/* <NavLink to="/settings" className="dropdown-setting-menu">
-                <ListGroupItem href="" className="setting-menu-label">
-                  Settings
-                </ListGroupItem>
-              </NavLink> */}
               <Button
                 className="edit-album-detail"
                 onClick={() =>

@@ -143,6 +143,16 @@ export default class Sidebar extends Component {
                 Categories
               </ListGroupItem>
             </NavLink>
+            <NavLink to="/settings">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/categories-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Settings
+              </ListGroupItem>
+            </NavLink>
           </ListGroup>
         </Col>
       </Col>

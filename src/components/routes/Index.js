@@ -127,6 +127,10 @@ const Dashboard = Loadable({
   loader: () => import('../admin/dashboard/Dashboard'),
   loading: Loading
 })
+const PlanProfile = Loadable({
+  loader: () => import('../admin/plan-profile/ProfilePlan'),
+  loading: Loading
+});
 
 // Import after super admin login component
 const UserListing = Loadable({
@@ -213,5 +217,6 @@ export {
   Signup,
   UserListing,
   ForgotPassword,
-  ChangePassword
+  ChangePassword,
+  PlanProfile
 };

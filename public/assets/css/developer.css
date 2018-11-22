@@ -1143,6 +1143,11 @@ div.filepicker {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+.profile-form-group{
+  position: relative;
+  float: left;
+  width: 100%;
+}
 
 @media only screen and (max-width: 680px) {
   .private-album,

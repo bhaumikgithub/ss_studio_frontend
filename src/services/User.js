@@ -120,3 +120,10 @@ export function userChangePassword(params) {
   );
   return checkStatus(responsePromise);
 }
+
+export function getUserPackages() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_user_packages',
+    apiHeader()
+  );
+}
