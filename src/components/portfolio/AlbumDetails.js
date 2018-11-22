@@ -40,7 +40,7 @@ export default class Portfolio extends Component {
     var user = this.props.match.params.user;
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
-      per_page: paginationPerPage,
+      per_page: 32,
       user: user
     })
       .then(function(response) {
