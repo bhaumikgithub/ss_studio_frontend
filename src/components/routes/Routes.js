@@ -34,7 +34,8 @@ import {
   Signup,
   UserListing,
   ForgotPassword,
-  ChangePassword
+  ChangePassword,
+  PlanProfile
 } from './Index';
 
 const routes = () => (
@@ -112,6 +113,12 @@ const routes = () => (
       path="(/*)/dashboard"
       title="Dashboard"
       component={Dashboard}
+    />
+    <PrivateRoute
+      exact
+      path="(/*)/plan_profile"
+      title="My profile and Plans"
+      component={PlanProfile}
     />
     {/* After Login routes end */}
 
