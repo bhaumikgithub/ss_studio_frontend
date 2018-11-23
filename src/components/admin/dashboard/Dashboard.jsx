@@ -110,8 +110,8 @@ export default class Dashboard extends Component {
             Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b><br></br>
             <p></p>
             <div>
-                <p>Next Task:</p>
-                <p>{parentOfNextTask} > {nextTaskName}
+                <p>Next Task:
+                {" " + parentOfNextTask} > {nextTaskName}
                   <Button className="btn-orange lets-do-btn">
                     <Link
                       to={
