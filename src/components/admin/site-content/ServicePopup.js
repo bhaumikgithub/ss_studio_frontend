@@ -201,8 +201,8 @@ export default class ServicePopup extends Component {
           </Col>
           <Col className="add-content-wrap" sm={8}>
             <form className="admin-side create-album-form custom-form">
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-form-control-label">
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label required">
                   Service name
                 </ControlLabel>
                 <FormControl
@@ -220,8 +220,8 @@ export default class ServicePopup extends Component {
                 )}
               </FormGroup>
 
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-form-control-label">
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label required">
                   Description
                 </ControlLabel>
 
