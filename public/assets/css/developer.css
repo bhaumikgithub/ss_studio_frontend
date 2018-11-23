@@ -35,7 +35,7 @@
   color: #f9a11d;
 }
 .text-red {
-  color: #e22122;
+  color: #e22122 !important;
 }
 .text-green {
   color: #00991a;
