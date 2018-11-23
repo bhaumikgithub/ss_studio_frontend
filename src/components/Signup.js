@@ -129,13 +129,13 @@ export default class Login extends Component {
     return (
       <div className="login-wrap signup-wrap">
         <Grid className="page-inner-wrap">
-            <img
-              src={require('../assets/images/afterclix.png')}
-              alt=""
-              className="img-responsive afterclix-logo"
-            />
-            <Row>
+          <Row>
             <Col xs={10} sm={6} className="login-form">
+              <img
+                src={require('../assets/images/afterclix.png')}
+                alt=""
+                className="img-responsive login-logo"
+              />
               <form
                 className="admin-login-side signup-form"
                 onKeyDown={e => {
