@@ -314,6 +314,7 @@ export default class AlbumsListing extends Component {
     if(categories !== undefined && categories.length > 0){
       categories.map(category => {
         return options.push({
+          className: category.status === "inactive" ? "text-red" : "",
           value: category.id,
           label: toCapitalize(category.category_name)
         });
