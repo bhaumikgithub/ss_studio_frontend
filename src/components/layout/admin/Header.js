@@ -84,7 +84,7 @@ export default class Header extends Component {
         )}
         <Navbar.Collapse>
           <Button
-            className="logout-btn btn btn-orange"
+            className="logout-btn btn btn-orange header-logout-btn"
             onClick={event => this.handleLogout(event)}
           >
             <i className="fa fa-logout" /> Logout

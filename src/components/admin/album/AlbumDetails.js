@@ -676,7 +676,7 @@ export default class AlbumDetails extends Component {
                   Edit Album
                 </Button>
                 <Button
-                  className="add-photoes-btn btn btn-orange"
+                  className="add-photoes-btn btn btn-green"
                   onClick={event => {
                     this.setState({ addPhoto: true });
                     this.checkboxCheckUncheck(false);

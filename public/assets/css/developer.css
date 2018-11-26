@@ -550,6 +550,28 @@ div.filepicker {
   background: #1faf1f;
   margin-left: 20px;
 }
+.btn-green {
+  border-radius: 20px;
+  background: #1faf1f;
+  color: #fff;
+  border: 0;
+}
+.btn-green:hover,
+.btn-green:focus{
+  background:#1faf1f;
+  color: #fff;
+  outline: none !important;
+  box-shadow: none;
+  border:none;
+}
+
+.header-logout-btn,
+.header-logout-btn:hover,
+.header-logout-btn:focus
+{
+  background: #f0f0f0;
+  color: #555;
+}
 /* admin header page css end */
 
 /* start disable scroll in homepage gallery */
@@ -842,7 +864,7 @@ div.filepicker {
   background-color: #ff0000;
 }
 .public-album {
-  background-color: #1faf1f;
+  background-color: #1f96af;
 }
 .add-photoes-btn {
   border-radius: 20px !important;

@@ -402,7 +402,7 @@ export default class AlbumsListing extends Component {
               </div>
             </Checkbox>
             <Button
-              className="btn pull-right btn-orange create-album-btn"
+              className="btn pull-right btn-green create-album-btn"
               onClick={() => this.setState({ showCreatePopup: true })}
             >
               <i className="fa fa-plus add-icon" />Create album
