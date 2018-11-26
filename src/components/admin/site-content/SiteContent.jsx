@@ -57,6 +57,10 @@ export default class SiteContent extends Component {
 
   componentWillMount() {
     var self = this;
+    var tab_name = window.location.hash.replace('#','')
+    if (tab_name !== "") {
+      self.setState({tab: tab_name})
+    }
     AboutService.getAboutUs().then(function(response) {
       if (response.status === 200) {
         self.setState({

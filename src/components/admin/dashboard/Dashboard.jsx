@@ -109,7 +109,8 @@ export default class Dashboard extends Component {
               <div className="w-100">
             Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b><br></br>
             <p></p>
-            <div>
+            {profileCompleteness && profileCompleteness.percentage < 100 &&
+              <div>
                 <p>Next Task:
                 {" " + parentOfNextTask} > {nextTaskName}
                   <Button className="btn-orange lets-do-btn">
@@ -124,6 +125,7 @@ export default class Dashboard extends Component {
                   </Button>
                 </p>
               </div>
+              }
             <div className="round">
               <Checkbox
                 name="active-checkbox"
@@ -193,7 +195,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  '/site_contents'
+                  '/site_contents#services'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "service" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.service ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -201,7 +203,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  '/site_contents'
+                  '/site_contents#contact_us'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "contact_us" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.contact_us ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -209,7 +211,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  '/site_contents'
+                  '/site_contents#social_media'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "social_media_link" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.social_media_link ? "album-management-completeness text-green" : "album-management-completeness")}
               >
@@ -217,7 +219,7 @@ export default class Dashboard extends Component {
               </Link><br></br>
               <Link
                 to={
-                  '/site_contents'
+                  '/site_contents#website_detail'
                 }
                 className={profileCompleteness && profileCompleteness.next_task === "website_detail" ? "album-management-completeness text-red" : (profileCompleteness.site_content && profileCompleteness.site_content.website_detail ? "album-management-completeness text-green" : "album-management-completeness")}
               >
