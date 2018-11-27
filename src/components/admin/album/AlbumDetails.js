@@ -840,7 +840,7 @@ export default class AlbumDetails extends Component {
                     className="info-icon"
                     alt=""
                   />
-                  <span className="information">0 Views</span>
+                  <span className="information">{album.album_view_count + "Views, " + ( album.user_view_count === 1 ? album.user_view_count + "User" : album.user_view_count + "Users")} </span>
                 </label>
                 <label className="album-info-label">
                   <img
