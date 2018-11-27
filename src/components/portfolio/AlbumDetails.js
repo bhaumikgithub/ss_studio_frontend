@@ -16,7 +16,7 @@ import { AlbumService } from '../../services/Index';
 import '../../assets/css/portfolio.css';
 
 // Import helper
-import { isObjectEmpty } from '../Helper';
+import { isObjectEmpty, currentUser } from '../Helper';
 
 const paginationPerPage = 24;
 
@@ -38,10 +38,13 @@ export default class Portfolio extends Component {
   showAlbum(page = 1) {
     var self = this;
     var user = this.props.match.params.user;
+    var userId = currentUser() === null ? "" : currentUser().id
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: 32,
-      user: user
+      user: user,
+      is_track: true,
+      user_id: userId
     })
       .then(function(response) {
         var data = response.data;

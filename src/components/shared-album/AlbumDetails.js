@@ -13,7 +13,7 @@ import CommentPopup from './CommentPopup';
 import { AlbumService, PhotoService } from '../../services/Index';
 
 // Import helper
-import { getIndexUsingLodash } from '../Helper';
+import { getIndexUsingLodash, currentUser } from '../Helper';
 
 // Import css
 import '../../assets/css/portfolio.css';
@@ -62,11 +62,14 @@ export default class AlbumDetails extends Component {
   showAlbum(token, page = 1) {
     var self = this;
     var user = self.props.match.params.user
+    var userId = currentUser() === null ? "" : currentUser().id
     AlbumService.showAlbum(self.state.albumSlug, {
       page: page,
       per_page: paginationPerPage,
       token: token,
-      user: user
+      user: user,
+      is_track: true,
+      user_id: userId
       // token: token
     })
       .then(function(response) {
