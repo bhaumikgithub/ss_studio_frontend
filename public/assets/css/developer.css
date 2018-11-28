@@ -942,12 +942,13 @@ div.filepicker {
 
 /* signup page css start */
 .country_select .Select-placeholder {
-  background-color: #efefef;
-  border-bottom: 1px solid #e7e7e7 !important;
+  margin-top: 7px;
+  /* background-color: #efefef;
+  border-bottom: 1px solid #e7e7e7 !important; */
 }
 .country_select .Select-placeholder:hover {
-  background-color: #e1e1e1;
-  border-bottom: 1px solid #ccc !important;
+  /* background-color: #e1e1e1;
+  border-bottom: 1px solid #ccc !important; */
 }
 .country_select{
   border-bottom: none;
@@ -962,7 +963,7 @@ div.filepicker {
 .signup-wrap{
   position: relative;
   height: 100vh;
-  min-height: 850px;
+  min-height: 1010px;
 }
 .login-form{
   position: absolute!important;
@@ -972,6 +973,7 @@ div.filepicker {
   bottom: 0px;
   max-height: max-content;
   margin: auto;
+  border-radius: 20px;
 
 }
 .signup-wrap .page-inner-wrap{
@@ -991,10 +993,11 @@ div.filepicker {
   margin-bottom: 25px;
 }
 .country_select .Select-value{
-  background-color: #efefef;
+  margin-top: 15px;
+  /* background-color: #efefef; */
 }
 .country_select .Select-value-label{
-  color: #777 !important;
+  /* color: #777 !important; */
 }
 .afterclix-logo{
   margin-left: auto;
@@ -1022,6 +1025,31 @@ div.filepicker {
 .login-link a{
   text-transform: uppercase;
   margin-right: 10px;
+}
+.login-textbox{
+  border-radius: 5px;
+  background-color: #fff !important;
+  border: 1px solid #c1c1c1;
+  color: #000 !important;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.login-addon{
+  top: 13px;
+}
+.country .Select-input{
+  border-radius: 5px;
+  background-color: #fff !important;
+  border: 1px solid #c1c1c1;
+  color: #000 !important;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  width: 112%;
+}
+.country .Select-control:hover,
+.country .Select-control:focus{
+  border-color: #b1b1b1;
+  box-shadow: 0 0 2px 1px rgb(167,167,167);
 }
 /* signup page css end */
 

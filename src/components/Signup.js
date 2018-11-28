@@ -151,14 +151,14 @@ export default class Login extends Component {
                 <h4 className="share-album-align">Registration</h4>
                 <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="text"
                       placeholder="First Name"
                       label="First name"
                       name="first_name"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['first_name'] && (
                       <span className="input-error text-red">
                         {signup_error['first_name']}
@@ -167,14 +167,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="text"
                       placeholder="Last Name"
                       label="Last name"
                       name="last_name"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['last_name'] && (
                       <span className="input-error text-red">
                         {signup_error['last_name']}
@@ -183,14 +183,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="email"
                       placeholder="Email"
                       label="email"
                       name="email"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['email'] && (
                       <span className="input-error text-red">
                         {signup_error['email']}
@@ -199,14 +199,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="password"
                       placeholder="Password"
                       label="password"
                       name="password"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['password'] && (
                       <span className="input-error text-red">
                         {signup_error['password']}
@@ -215,14 +215,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="password"
                       placeholder="Password Confirmation"
                       label="Password Confirmation"
                       name="password_confirmation"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['password_confirmation'] && (
                       <span className="input-error text-red">
                         {signup_error['password_confirmation']}
@@ -231,14 +231,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="number"
                       placeholder="Phone"
                       label="Phone"
                       name="phone"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['phone'] && (
                       <span className="input-error text-red">
                         {signup_error['phone']}
@@ -247,14 +247,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control alias-input"
+                      className="login-control alias-input login-textbox"
                       type="text"
                       placeholder="Alias"
                       label="Alias"
                       name="alias"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['alias'] && (
                       <span className="input-error text-red">
                         {signup_error['alias']}
@@ -264,14 +264,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp" controlId="formControlsSelect">
                     <Select
-                    className="custom-form-control country_select"
+                    className="custom-form-control country_select country"
                     name="country_option"
                     value={this.state.signupForm.country_option}
                     options={this.countryOptions()}
                     placeholder="Country"
                     onChange={this.handleSelectChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['country_id'] && (
                       <span className="input-error text-red">
                         {signup_error['country_id']}
@@ -280,14 +280,14 @@ export default class Login extends Component {
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                        className="login-control"
+                        className="login-control login-textbox"
                         type="number"
                         label="captcha"
                         placeholder="What is answer of 4x7?"
                         name="captcha"
                         onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     {signup_error['captcha'] && (
                       <span className="input-error text-red">
                         {signup_error['captcha']}
