@@ -94,6 +94,7 @@ export default class Login extends Component {
   handleSignup(event) {
     var self = this;
     event.preventDefault();
+    document.getElementsByClassName('login-btn')[0].disabled = true
     UserService.createUser({user: self.state.signupForm})
       .then(function(response) {
         self.handelResponse(response);
@@ -102,6 +103,7 @@ export default class Login extends Component {
         const errors = error.response.data.errors;
         console.log(errors)
         if (errors.length > 0) {
+          document.getElementsByClassName('login-btn')[0].disabled = false
           self.setState({ signup_error: validationHandler(errors) });
         } else {
           console.log(error.response);
