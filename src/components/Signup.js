@@ -322,7 +322,7 @@ export default class Login extends Component {
           <div className="login-footer signup-footer">
           <Grid>
             <Row>
-              <Col xs={12} sm={6} className="copyright">
+              <Col xs={12} sm={12} className="copyright">
                 © Copyright 2018 - AfterClix , All rights reserved
               </Col>
             </Row>
