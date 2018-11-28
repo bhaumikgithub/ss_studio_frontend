@@ -12,6 +12,7 @@ import * as PhotoService from './Photo';
 import * as ServiceIconService from './ServiceIcon';
 import * as TestimonialService from './Testimonial';
 import * as UserService from './User';
+import * as PackageService from './Package';
 import * as UserServiceService from './UserService';
 import * as VideoFilmService from './VideoFilms';
 import * as WatermarkService from './Watermark';
@@ -33,6 +34,7 @@ export {
   ServiceIconService,
   TestimonialService,
   UserService,
+  PackageService,
   UserServiceService,
   VideoFilmService,
   WatermarkService,

@@ -59,6 +59,16 @@ export default class Sidebar extends Component {
                 Users
               </ListGroupItem>
             </NavLink>
+            <NavLink to="/subscription_plans">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Subscription Plans
+              </ListGroupItem>
+            </NavLink>
           </ListGroup>
         </Col>
       </Col>
