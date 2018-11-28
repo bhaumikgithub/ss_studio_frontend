@@ -65,7 +65,8 @@
   background-color: #e1e1e1;
   border-bottom: 1px solid #ccc;
   outline: none;
-  box-shadow: none;
+  border-color: #b1b1b1;
+  box-shadow: 0 0 2px 1px rgb(167,167,167)
 }
 .custom-addon {
   position: absolute;

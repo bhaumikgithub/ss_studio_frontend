@@ -95,13 +95,13 @@ export default class Login extends Component {
     return (
       <div className="login-wrap">
         <Grid className="page-inner-wrap">
-          <img
-            src={require('../assets/images/afterclix.png')}
-            alt=""
-            className="img-responsive afterclix-logo"
-          />
           <Row>
             <Col xs={10} sm={6} className="login-form">
+              <img
+                src={require('../assets/images/afterclix.png')}
+                alt=""
+                className="img-responsive login-logo"
+              />
               <form
                 className="admin-login-side"
                 onKeyDown={e => {
@@ -117,24 +117,24 @@ export default class Login extends Component {
                 <h4 className="share-album-align">Change Password</h4>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="password"
                       placeholder="New Password"
                       name="password"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     <span className="input-error text-red">{change_password_error.password}</span>
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="password"
                       placeholder="Confirm Password"
                       name="password_confirmation"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                     <span className="input-error text-red">{change_password_error.password_confirmation}</span>
                   </FormGroup>
                 </Col>

@@ -106,14 +106,14 @@ export default class Login extends Component {
                 <h4 className="share-album-align">Forgot Password</h4>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="email"
                       placeholder="Email"
                       label="email"
                       name="email"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                   </FormGroup>
                   {(forgot_password_error !== undefined && forgot_password_error && forgot_password_error.from === undefined) && (
                     <span className="input-error text-red">{forgot_password_error.email}</span>

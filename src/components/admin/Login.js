@@ -119,25 +119,25 @@ export default class Login extends Component {
                 <h4 className="share-album-align">Sign In</h4>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="email"
                       placeholder="Email"
                       label="email"
                       name="email"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                   </FormGroup>
                   <FormGroup className="custom-fromgrp">
                     <FormControl
-                      className="login-control"
+                      className="login-control login-textbox"
                       type="password"
                       placeholder="Password"
                       label="password"
                       name="password"
                       onChange={this.handleChange.bind(this)}
                     />
-                    <span className="custom-addon">*</span>
+                    <span className="custom-addon login-addon">*</span>
                   </FormGroup>
                 <Link
                     to={
