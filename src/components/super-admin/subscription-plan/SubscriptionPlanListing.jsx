@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Table, Button } from 'react-bootstrap';
-
+import { Redirect } from 'react-router-dom';
 // Import component
 import SweetAlert from 'sweetalert-react';
 import PaginationModule from '../../common/PaginationModule';
@@ -11,7 +11,7 @@ import FlashMassage from 'react-flash-message';
 import { PackageService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty } from '../../Helper';
+import { isObjectEmpty, isLoggedIn, currentUserRole } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/category/categories.css';
@@ -183,6 +183,11 @@ export default class UserListing extends Component {
   };
   render() {
     const { packages, meta, alert } = this.state;
+    if (isLoggedIn()) {
+      if(currentUserRole() !== "super_admin"){
+        return <Redirect push to="/albums" />;
+      }
+    }
     return (
       <Col xs={12} className="categories-page-wrap">
         <SweetAlert
