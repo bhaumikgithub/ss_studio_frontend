@@ -33,6 +33,7 @@ import {
   PasscodeLogin,
   Signup,
   UserListing,
+  SubscriptionPlanListing,
   ForgotPassword,
   ChangePassword,
   PlanProfile
@@ -128,6 +129,12 @@ const routes = () => (
       path="/users"
       title="Users"
       component={UserListing}
+    />
+    <SuperAdminRoute
+      exact
+      path="/subscription_plans"
+      title="Subscription Plans"
+      component={SubscriptionPlanListing}
     />
 
     {/* After Super Admin Login routes start */}

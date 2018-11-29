@@ -138,6 +138,10 @@ const UserListing = Loadable({
   loading: Loading
 });
 
+const SubscriptionPlanListing = Loadable({
+  loader: () => import('../super-admin/subscription-plan/SubscriptionPlanListing.jsx'),
+  loading: Loading
+});
 // Import not found component
 const NotFound = Loadable({
   loader: () => import('../NotFound'),
@@ -216,6 +220,7 @@ export {
   PasscodeLogin,
   Signup,
   UserListing,
+  SubscriptionPlanListing,
   ForgotPassword,
   ChangePassword,
   PlanProfile
