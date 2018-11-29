@@ -18,10 +18,10 @@ import 'react-select/dist/react-select.min.css';
 import '../../../assets/css/admin/video-films/add-video/add-video.css';
 
 // Import services
-import { UserService, PackageService } from '../../../services/Index';
+import { PackageService } from '../../../services/Index';
 
 // Import helper
-import { toCapitalize, isObjectEmpty } from '../../Helper';
+import { toCapitalize, str2bool, isObjectEmpty } from '../../Helper';
 
 export default class UserPopup extends Component {
   constructor(props) {
@@ -61,7 +61,6 @@ export default class UserPopup extends Component {
 
   editPackage(pkg) {
     var self = this;
-    console.log(pkg,'..................pkg')
     const {
       name,
       duration,
@@ -147,7 +146,7 @@ export default class UserPopup extends Component {
   handleChange(e) {
     const packageForm = this.state.packageForm;
     var key = e.target.name;
-    packageForm[key] = e.target.value;
+    packageForm[key] = str2bool(e.target.value);
     this.setState({
       packageForm
     });
@@ -185,12 +184,11 @@ export default class UserPopup extends Component {
 
   handelResponse(response) {
     var responseData = response.data;
-    debugger;
     if (response.status === 201) {
       this.resetuserForm()
       this.props.renderPackage(
         responseData.data.package,
-        'insert'
+        isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
       );
       this.props.closeOn();
     } else {
@@ -276,9 +274,9 @@ export default class UserPopup extends Component {
                   options={this.packageOptions()}
                   onChange={this.handlePackageSelectChange.bind(this)}
                 />
-                {errors['duration_id'] && (
+                {errors['duration'] && (
                   <span className="input-error text-red">
-                    {errors['duration_id']}
+                    {errors['duration']}
                   </span>
                 )}
               </FormGroup>

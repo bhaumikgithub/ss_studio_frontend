@@ -8,10 +8,10 @@ import PaginationModule from '../../common/PaginationModule';
 import CreateSubscriptionPopup from './CreateSubscriptionPopup';
 import FlashMassage from 'react-flash-message';
 // Import services
-import { UserService, PackageService } from '../../../services/Index';
+import { PackageService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, currentUserRole, fullName } from '../../Helper';
+import { isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/category/categories.css';
@@ -60,28 +60,10 @@ export default class UserListing extends Component {
       console.log(error.response);
       if (error.response.status === 401)
       {
-        self.props.history.push('albums')
+        self.props.history.push('packages')
       }
     });
   }
-    getAllUsers(page = 1){
-      var self = this;
-      UserService.getUsers({
-        page: page,
-        per_page: window.paginationPerPage,
-        role: currentUserRole()
-      }).then(function(response) {
-          var data = response.data;
-          self.setState({ users: data.data.users, meta: data.meta });
-        })
-        .catch(function(error) {
-          console.log(error.response);
-          if (error.response.status === 401)
-          {
-            self.props.history.push('albums')
-          }
-        });
-    }
 
   showDialogueBox(id) {
     this.setState({
@@ -163,7 +145,6 @@ export default class UserListing extends Component {
   }
 
   renderPackage = (pkg, action) => {
-    debugger;
     const newPackages = this.state.packages.slice();
    if (action === 'replace' && !isObjectEmpty(this.state.editObject)) {
       newPackages.splice(
@@ -186,8 +167,6 @@ export default class UserListing extends Component {
     });
   };
 
-  renderUpdateCategory = category => {};
-
   CreateClose = () => this.setState({ CreateShow: false, editObject: {} });
 
   closeCreatePopup = () => this.setState({ createPopup: false, editObject: {} })
@@ -200,10 +179,10 @@ export default class UserListing extends Component {
 
   handlePaginationClick = eventKey => {
     if (eventKey !== this.state.meta.pagination.current_page)
-      this.getAllUsers(eventKey);
+      this.getAllPackages(eventKey);
   };
   render() {
-    const { users, packages, meta, alert } = this.state;
+    const { packages, meta, alert } = this.state;
     return (
       <Col xs={12} className="categories-page-wrap">
         <SweetAlert

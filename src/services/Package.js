@@ -1,5 +1,5 @@
 import axiosInstance from '../axios/axiosInterceptor';
-import { apiHeader, currentUser, checkStatus, apiCustomHeader } from '../components/Helper';
+import { apiHeader, checkStatus, apiCustomHeader } from '../components/Helper';
 
 export function getPackages(params) {
   return axiosInstance.get(
