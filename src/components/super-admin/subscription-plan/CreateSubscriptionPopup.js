@@ -9,6 +9,7 @@ import {
     FormControl
   } from 'react-bootstrap';
 import Select from 'react-select';
+import addTitle from '../../../assets/images/admin/contact/admin-add-contact/add-contact-icon.png';
 import editTitle from '../../../assets/images/admin/contact/admin-add-contact/edit-contact-icon.png';
 
 // Import components
@@ -219,11 +220,19 @@ export default class UserPopup extends Component {
           <Col className="add-videofilms-title-wrap p-none" sm={5}>
             <Col xs={12} className="p-none add-videofilms-title-details">
               <img
-                src={editTitle}
+                src={
+                  isObjectEmpty(this.props.editObject)
+                    ? addTitle
+                    : editTitle
+                }
                 alt=""
                 className="add-videofilms-icon img-responsive"
               />
-              <h4 className="add-videofilms-text text-white">Add User</h4>
+              <h4 className="add-videofilms-text text-white">
+              {isObjectEmpty(this.props.editObject)
+                  ? 'Add Plan'
+                  : 'Edit Plan'}
+              </h4>
             </Col>
           </Col>
           <Col className="add-videofilms-content-wrap" sm={7}>
