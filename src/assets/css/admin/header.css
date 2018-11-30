@@ -90,7 +90,7 @@
 
 .header .menu-links li.active a:before {
   content: '';
-  background-image: url(../../images/header-active.png);
+  /* background-image: url(../../images/header-active.png); */
   height: 20px;
   width: 20px;
   left: 0px;
@@ -104,7 +104,7 @@
 }
 .header .menu-links li.active a:after {
   content: '';
-  background-image: url(../../images/header-active.png);
+  /* background-image: url(../../images/header-active.png); */
   height: 20px;
   width: 20px;
   right: 0px;

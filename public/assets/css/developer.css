@@ -1213,6 +1213,17 @@ div.filepicker {
   float: left;
   width: 100%;
 }
+.my-profile-plan-menu a{
+  padding: 15px 17px !important;
+}
+.user-icon{
+  height: 25px;
+  width: 25px;
+}
+.setting-new-icon{
+  width: 22px;
+  height: 22px;
+}
 
 @media only screen and (max-width: 680px) {
   .private-album,
