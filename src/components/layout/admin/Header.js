@@ -105,8 +105,8 @@ export default class Header extends Component {
               title={
                 <span className="setting-dropdown-wrap">
                   <img
-                    src={require('../../../assets/images/admin/album/settings-icon.png')}
-                    className="link-icons"
+                    src={require('../../../assets/images/admin/album/already-shared/user-thumb.png')}
+                    className="link-icons user-icon"
                     alt=""
                   />{' '}
                   <span className="visible-xs setting-label">
@@ -117,7 +117,7 @@ export default class Header extends Component {
               id="basic-nav-dropdown"
               className="admin-setting contact-header-links"
             >
-              <IndexLinkContainer to="/plan_profile" className="dropdown-setting-menu">
+              <IndexLinkContainer to="/plan_profile" className="dropdown-setting-menu my-profile-plan-menu">
                 <NavItem className="setting-menu-label">
                   My profile & plans
                 </NavItem>
