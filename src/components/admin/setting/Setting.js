@@ -46,6 +46,7 @@ export default class SiteContent extends Component {
   }
 
   handleWatermarkModel(event, id) {
+    var self = this;
     var status = 'active';
     if (event.target.checked) {
       status = 'active';
@@ -61,7 +62,8 @@ export default class SiteContent extends Component {
       .then(function(response) {
         var responseData = response.data;
         if (response.status === 201) {
-          console.log(responseData);
+          var watermark = [responseData.data.watermark];
+          self.setState({watermarks: watermark})
         }
       })
       .catch(function(error) {
@@ -223,6 +225,11 @@ export default class SiteContent extends Component {
                         </div>
                       </Checkbox>
                     </Col>
+                    <img
+                      alt=""
+                      src={watermark.status === 'active' ? watermark.dummy_image : "https://www.crystalclear-systems.com/wp-content/uploads/2016/12/dummy-image.jpg"}
+                      className="dummy-image"
+                    />
                   </Col>
                 </Col>
               ))}
