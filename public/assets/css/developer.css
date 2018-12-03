@@ -908,6 +908,10 @@ div.filepicker {
 .setting-menu-label {
   border: 0px;
 }
+.dummy-image{
+  margin-top: 30px;
+  margin-left: 15px;
+}
 /* Dropdown Settings menu end  */
 /* start Share Album page */
 .manage-selection-title,
