@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Col, Modal, Button } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import DropzoneComponent from 'react-dropzone-component';
+import SweetAlert from 'sweetalert-react';
 
 // Import service
 import { PhotoService } from '../../../services/Index';
@@ -25,7 +26,16 @@ export default class AlreadyShared extends Component {
       photoCount: props.photoCount,
       isDisplay: false,
       maxWidth: 1500,
-      maxHeight: 600
+      maxHeight: 600,
+      alert: {
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
     this.dropzone = null;
     this.componentConfig = {
@@ -194,9 +204,38 @@ export default class AlreadyShared extends Component {
     }
   }
 
+  showDialogueBox() {
+    this.setState({
+      alert: {
+        show: true,
+        title: 'Are you sure?',
+        text: "Photo upload is going on, are you sure you want to cancel uploading?",
+        btnText: 'Yes, cancel it!',
+        type: 'warning',
+        confirmAction: () => this.handleOk(),
+        cancelBtn: true
+      }
+    });
+  }
+
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+    this.props.closeOn()
+  }
+
   handleOk() {
+    this.setState({
+      alert: {
+        show: true,
+        title: 'Success',
+        text: 'Success Text',
+        type: 'success',
+        confirmAction: () => this.hideDialogueBox()
+      }
+    });
     this.props.renderNewPhotos(this.state.photos);
-    this.props.closeOn();
+    // this.props.closeOn();
+
   }
 
   closeOn(){
@@ -209,6 +248,9 @@ export default class AlreadyShared extends Component {
       addedfile: this.handleUploadFile.bind(this),
       removedfile: this.handleRemoveFile.bind(this)
     };
+    const {
+      alert,
+    } = this.state;
     return (
       <Modal
         show={this.props.addPhoto}
@@ -216,6 +258,16 @@ export default class AlreadyShared extends Component {
         aria-labelledby="contained-modal-title-lg"
         bsSize="large"
       >
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
+        />
         <Modal.Body className="shared-album-body p-none">
           <Col className="shared-content-wrap" sm={12}>
             <Scrollbars style={{ height: '450px' }}>
@@ -228,7 +280,8 @@ export default class AlreadyShared extends Component {
             <Col className="text-center p-none" sm={12}>
               <Button
                 type="button"
-                onClick={() => this.handleOk()}
+                // onClick={() => this.handleOk()}
+                onClick={event => this.showDialogueBox()}
                 className="btn btn-orange create-album-submit add-photo"
               >
                 Done
