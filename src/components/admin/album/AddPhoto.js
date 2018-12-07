@@ -27,6 +27,7 @@ export default class AlreadyShared extends Component {
       isDisplay: false,
       maxWidth: 1500,
       maxHeight: 600,
+      cancelUpload: false,
       alert: {
         show: false,
         cancelBtn: true,
@@ -153,21 +154,22 @@ export default class AlreadyShared extends Component {
     if (photoCount === 0) {
       data.append('photo[][is_cover_photo]', true);
     }
-
-    PhotoService.uploadPhoto(data, file, this.uploadProgress)
-      .then(function(response) {
-        self.handleSuccessResponse(response, file);
-      })
-      .catch(function(error) {
-        const response = error.response;
-        if (response && response.data.errors.length > 0) {
-          file.previewElement.classList.add('dz-complete');
-          dropzoneOptions.error(
-            file,
-            'Image ' + response.data.errors[1].detail
-          );
-        }
-      });
+    if(this.state.cancelUpload === false){
+      PhotoService.uploadPhoto(data, file, this.uploadProgress)
+        .then(function(response) {
+          self.handleSuccessResponse(response, file);
+        })
+        .catch(function(error) {
+          const response = error.response;
+          if (response && response.data.errors.length > 0) {
+            file.previewElement.classList.add('dz-complete');
+            dropzoneOptions.error(
+              file,
+              'Image ' + response.data.errors[1].detail
+            );
+          }
+        });
+    }
   }
 
   uploadProgress = (file, progress) => {
@@ -220,7 +222,11 @@ export default class AlreadyShared extends Component {
 
   hideDialogueBox() {
     this.setState({ alert: { show: false } });
-    this.props.closeOn()
+    this.props.closeOn();
+    this.props.renderNewPhotos(this.state.photos);
+  }
+  hideCancelDialogueBox(){
+    this.setState({ alert: { show: false } });
   }
 
   handleOk() {
@@ -231,14 +237,13 @@ export default class AlreadyShared extends Component {
         text: 'Success Text',
         type: 'success',
         confirmAction: () => this.hideDialogueBox()
-      }
+      },
+      cancelUpload: true
     });
-    this.props.renderNewPhotos(this.state.photos);
-    // this.props.closeOn();
-
   }
 
   closeOn(){
+    this.props.renderNewPhotos(this.state.photos);
     this.props.closeOn();
   }
 
@@ -266,7 +271,7 @@ export default class AlreadyShared extends Component {
           showCancelButton={alert.cancelBtn}
           confirmButtonText={alert.btnText}
           onConfirm={alert.confirmAction}
-          onCancel={() => this.hideDialogueBox()}
+          onCancel={() => this.hideCancelDialogueBox()}
         />
         <Modal.Body className="shared-album-body p-none">
           <Col className="shared-content-wrap" sm={12}>
@@ -280,15 +285,14 @@ export default class AlreadyShared extends Component {
             <Col className="text-center p-none" sm={12}>
               <Button
                 type="button"
-                // onClick={() => this.handleOk()}
-                onClick={event => this.showDialogueBox()}
+                onClick={event => this.dropzone.files.length === this.state.photoCount ? this.closeOn() : this.showDialogueBox()}
                 className="btn btn-orange create-album-submit add-photo"
               >
                 Done
               </Button>
               <Button
                 type="button"
-                onClick={()=>this.closeOn()}
+                onClick={event => this.dropzone.files.length === this.state.photoCount ? this.closeOn() : this.showDialogueBox()}
                 className="btn btn-grey create-album-submit add-photo cancel-dropzone-btn"
               >
                 Cancel
