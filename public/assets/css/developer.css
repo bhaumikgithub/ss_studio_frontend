@@ -909,8 +909,10 @@ div.filepicker {
   border: 0px;
 }
 .dummy-image{
-  margin-top: 30px;
   margin-left: 15px;
+}
+.preview-text{
+  margin-top: 25px;
 }
 /* Dropdown Settings menu end  */
 /* start Share Album page */
