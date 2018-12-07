@@ -225,6 +225,7 @@ export default class SiteContent extends Component {
                         </div>
                       </Checkbox>
                     </Col>
+                    <h4 className="col-sm-6 preview-text">Preview</h4>
                     <img
                       alt=""
                       src={watermark.status === 'active' ? watermark.dummy_image : "https://www.crystalclear-systems.com/wp-content/uploads/2016/12/dummy-image.jpg"}
