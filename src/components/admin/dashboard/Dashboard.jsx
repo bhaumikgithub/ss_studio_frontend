@@ -106,6 +106,18 @@ export default class Dashboard extends Component {
                   </Link>
                 }
               </div>
+              <div className="create-new-album-btn">
+                <Button className="btn btn-orange view-my-website-btn">
+                  <Link
+                    to={
+                      '/albums'
+                    }
+                    className="admin-login-btn"
+                  >
+                    Create New Album
+                  </Link>
+              </Button>
+            </div>
             </div>
             <div className="col-md-6">
                 {profileCompleteness && profileCompleteness.percentage < 80 &&

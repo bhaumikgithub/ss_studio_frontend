@@ -1154,6 +1154,12 @@ div.filepicker {
   padding-top: 10px;
   padding-bottom: 10px;
  }
+ .create-new-album-btn{
+  text-align: center;
+ }
+ .create-new-album-btn .view-my-website-btn{
+   margin-left: 0px;
+ }
 /* dashboard page css end */
 .d-flex{
   display: flex;
