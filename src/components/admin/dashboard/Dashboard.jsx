@@ -58,7 +58,14 @@ export default class Dashboard extends Component {
     return (
       <Col xs={12} className="categories-page-wrap">
         <Col xs={12} className="filter-wrap p-none">
-          <Col xs={12} className="p-none"></Col>
+        {profileCompleteness.user_subscription_expire &&
+          <Col xs={12} className="subscription-expired-message">{"Your subscription is expired on " + profileCompleteness.user_subscription_expire_date + ". Please manage subscription by clicking here."} <Link to={'/plan_profile'}>Manage Subscription</Link>
+          </Col>
+        }
+        {profileCompleteness.user_subscription_future_expired_date &&
+          <Col xs={12} className="subscription-will-be-expired-message">{"Subscription will be ended on " + profileCompleteness.user_subscription_future_expired_date + ". Please manage subscription by clicking here."} <Link to={'/plan_profile'}>Manage</Link>
+          </Col>
+        }
         </Col>
 
         <Col xs={12} className="p-none">
