@@ -1142,6 +1142,18 @@ div.filepicker {
   margin: 0px;
   color: #fff;
  }
+.subscription-expired-message{
+  background-color: #fb5617;
+  color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+ }
+ .subscription-will-be-expired-message{
+  background-color: #fbca17;
+  color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+ }
 /* dashboard page css end */
 .d-flex{
   display: flex;
