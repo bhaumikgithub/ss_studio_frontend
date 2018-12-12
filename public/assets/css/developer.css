@@ -1248,6 +1248,12 @@ div.filepicker {
   width: 22px;
   height: 22px;
 }
+.cancel-plan-btn, .cancel-plan-btn:hover, .cancel-plan-btn:focus{
+  background-color: #8c8c8c;
+}
+.renew-plan-btn{
+  margin-right: 10px;
+}
 
 @media only screen and (max-width: 680px) {
   .private-album,
