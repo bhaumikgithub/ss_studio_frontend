@@ -1087,22 +1087,42 @@ div.filepicker {
 .rounded-checkbox input[type="checkbox"]{
   width: 1.3em;
   height: 1.3em;
-  background-color: white;
+  background-color: #bbbbbb;
   border-radius: 50%;
+  width: 20px;
+  height: 20px;
   vertical-align: middle;
-  border: 1px solid #ddd;
   -webkit-appearance: none;
   outline: none;
   cursor: pointer;
 }
+.rounded-checkbox label{  
+  position: relative;
+}
+.rounded-checkbox label::after{
+  font-family: 'FontAwesome';
+  content: '\f00c';
+  position: absolute;
+  right: 4px;
+  top: 7px;
+  display: block;
+  color:#fff;
+  font-size: 12px;
+}
 .rounded-checkbox input[type="checkbox"]:checked{
-  background-color: gray;
+  /* background-color: gray; */
+  background:#1faf1f;
+  width: 20px;
+  height: 20px;
 }
 .rounded-checkbox .checkbox-heading{
-  margin-left: 20px;
+  margin-left: 10px;
+  font-weight: 600;
+  color: #434752;
 }
 .album-management-completeness{
-  margin-left: 38px;
+  /* margin-left: 38px; */
+  margin-left: 10px;
 }
 .profile-completeness-instruction-bar{
   background: orange;
@@ -1253,6 +1273,70 @@ div.filepicker {
 }
 .renew-plan-btn{
   margin-right: 10px;
+}
+
+/* dashboard page collapse css */
+.Collapsible {
+  background-color: white;
+}
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px solid #ebebeb;
+  border-top: 0;
+}
+.Collapsible__contentInner p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px; }
+  .Collapsible__contentInner p:last-child {
+    margin-bottom: 0;
+}
+.Collapsible__trigger {
+  display: block;
+  font-weight: 400;
+  text-decoration: none;
+  color: #333333;
+  position: relative;
+  border: 1px solid #9fbbff;
+  padding: 10px;
+  background: #e7eeff;
+  color: black;
+  margin-top: 5px;
+}
+.Collapsible__trigger .checkbox{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.Collapsible__trigger label{
+  width:100%;
+  padding-left: 0px;
+}
+.Collapsible__trigger label [name="active-checkbox"]{
+  float: right;
+  position: relative;
+}
+.Collapsible__trigger.is-disabled {
+  opacity: 0.5;
+  background-color: grey;
+}
+.CustomTriggerCSS {
+  background-color: lightcoral;
+  transition: background-color 200ms ease;
+}
+.CustomTriggerCSS--open {
+  background-color: darkslateblue;
+}
+.Collapsible__custom-sibling {
+  padding: 5px;
+  font-size: 12px;
+  background-color: #CBB700;
+  color: black;
+}
+.Collapsible__contentInner{
+    border-top: 0;
+    border: 1px solid #9fbbff;
+    background: #fff;
+    border-top:0px; 
 }
 
 @media only screen and (max-width: 680px) {

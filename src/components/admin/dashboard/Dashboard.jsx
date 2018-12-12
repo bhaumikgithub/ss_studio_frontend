@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Button, Checkbox } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import Collapsible from 'react-collapsible';
 //import css
 import '../../../assets/css/admin/category/categories.css';
 
@@ -49,7 +49,7 @@ export default class Dashboard extends Component {
   }
   letsDoLink(){
     var next_task_info = document.getElementsByClassName('text-red')[0]
-    var parent_name = next_task_info.parentNode.getElementsByClassName('checkbox-heading')[0].textContent
+    var parent_name = next_task_info.parentElement.parentElement.parentElement.getElementsByClassName('checkbox-heading')[0].textContent
     var link = next_task_info.href.substring(next_task_info.href.lastIndexOf("/"))
     this.setState({letsDoLink: link, nextTaskName: next_task_info.text, parentOfNextTask: parent_name})
   }
@@ -145,7 +145,7 @@ export default class Dashboard extends Component {
                 </p>
               </div>
               }
-            <div className="round">
+            <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
                 className="rounded-checkbox"
@@ -157,7 +157,7 @@ export default class Dashboard extends Component {
                   <div className="inside" />
                 </div>
               </Checkbox>
-            
+            } open={(profileCompleteness.next_task === "public_album" || profileCompleteness.next_task === "private_album" || profileCompleteness.next_task === "watermark" || profileCompleteness.next_task === "photo") ? true : false}>
               <Link
                 to={
                   '/albums'
@@ -190,8 +190,8 @@ export default class Dashboard extends Component {
               >
                 Upload 1 photo
               </Link>
-            </div><br></br>
-            <div className="round">
+            </Collapsible>
+            <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
                 className="album-status-checkboxes rounded-checkbox"
@@ -203,7 +203,9 @@ export default class Dashboard extends Component {
                   <div className="inside" />
                 </div>
               </Checkbox>
-            
+            }
+            open={(profileCompleteness.next_task === "about_us" || profileCompleteness.next_task === "service" || profileCompleteness.next_task === "contact_us" || profileCompleteness.next_task === "social_media_link" || profileCompleteness.next_task === "website_detail") ? true : false}
+            >
               <Link
                 to={
                   '/site_contents'
@@ -244,8 +246,8 @@ export default class Dashboard extends Component {
               >
                 Add copyright and site details
               </Link>
-            </div><br></br>
-            <div className="round">
+            </Collapsible>
+            <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
                 className="album-status-checkboxes rounded-checkbox"
@@ -257,7 +259,7 @@ export default class Dashboard extends Component {
                   <div className="inside" />
                 </div>
               </Checkbox>
-            
+            }open={profileCompleteness.next_task === "homepage_gallery_photo" ? true : false}>
               <Link
                 to={
                   '/homepage_gallery'
@@ -266,8 +268,8 @@ export default class Dashboard extends Component {
               >
                 Upload 1 photo on homepage gallery
               </Link>
-            </div> <br></br>
-            <div className="round">
+            </Collapsible>
+            <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
                 className="album-status-checkboxes rounded-checkbox"
@@ -279,7 +281,7 @@ export default class Dashboard extends Component {
                   <div className="inside" />
                 </div>
               </Checkbox>
-            
+            }open={profileCompleteness.next_task === "youtube_video" ? true : false}>
               <Link
                 to={
                   '/video_films'
@@ -288,20 +290,20 @@ export default class Dashboard extends Component {
               >
                 Upload youtube video
               </Link>
-            </div><br></br>
-            <div className="round">
+            </Collapsible>
+            <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
                 className="album-status-checkboxes rounded-checkbox"
-                checked={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.testimonial ? 'checked' : ''}
+                checked={profileCompleteness && profileCompleteness.completeness_status &&      profileCompleteness.completeness_status.testimonial ? 'checked' : ''}
                 disabled={profileCompleteness && profileCompleteness.completeness_status && profileCompleteness.completeness_status.testimonial ? true : false}
-              >
+                >
                 <span className="checkbox-heading">Testimonial </span>
                 <div className="check">
                   <div className="inside" />
                 </div>
               </Checkbox>
-            
+            }open={profileCompleteness.next_task === "add_testimonial" ? true : false}>
               <Link
                 to={
                   '/testimonials'
@@ -310,8 +312,8 @@ export default class Dashboard extends Component {
               >
                 Add 1 testimonial
               </Link>
-            </div><br></br>
-            <div className="round">
+            </Collapsible>
+            <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
                 className="album-status-checkboxes rounded-checkbox"
@@ -323,7 +325,7 @@ export default class Dashboard extends Component {
                   <div className="inside" />
                 </div>
               </Checkbox>
-            
+            }open={profileCompleteness.next_task === "contact_details" ? true : false}>
               <Link
                 to={
                   '/contacts'
@@ -332,7 +334,7 @@ export default class Dashboard extends Component {
               >
                 Add contact details
               </Link>
-            </div><br></br>
+            </Collapsible>
             </div>
           </div>
         </div>
