@@ -281,8 +281,10 @@ export default class ProfilePlan extends Component {
                       <th>Membership Plan</th>
                       <th>Started Date</th>
                       <th>End Date</th>
+                      <th>Transaction Date</th>
                       <th>Amount Paid</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -291,10 +293,29 @@ export default class ProfilePlan extends Component {
                         <td>{toCapitalize(userPackage.plan)}</td>
                         <td>{userPackage.package_start_date}</td>
                         <td>{userPackage.package_end_date}</td>
+                        <td className="text-center">{userPackage.transaction_date === null ? "-" : userPackage.transaction_date}</td>
                         <td>{userPackage.amount + " Rs"}</td>
                         <td
                           className={userPackage.package_status === "active" ? "text-green" : "text-red"}
                         >{toCapitalize(userPackage.package_status)}</td>
+                        {userPackage.package_status === "active" ?
+                          <td>
+                            <Button
+                              className="btn btn-green create-video-submit renew-plan-btn"
+                              href="#"
+                            >
+                              Renew
+                            </Button>
+                            <Button
+                              className="btn btn-orange create-video-submit cancel-plan-btn"
+                              href="#"
+                            >
+                              cancel
+                            </Button>
+                          </td>
+                          :
+                          <td>-</td>
+                        }
                       </tr>
                     ))}
                   </tbody>
