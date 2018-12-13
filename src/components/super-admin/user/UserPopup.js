@@ -33,16 +33,17 @@ export default class UserPopup extends Component {
       userForm: {
         first_name: '',
         last_name: '',
+        email: '',
         status: '',
         phone: '',
         alias: '',
         country_option: '',
-        role_option: '',
+        // role_option: '',
         package_option: '',
         status_option: ''
       },
       countries: [],
-      roles: [],
+      // roles: [],
       packages: [],
       statuses: [],
       errors: {}
@@ -117,23 +118,25 @@ export default class UserPopup extends Component {
     const {
       first_name,
       last_name,
+      email,
       status,
       phone,
       alias,
       country,
-      role,
+      // role,
       subscription_package
     } = user;
     self.setState({
       userForm: {
         first_name: first_name,
         last_name: last_name,
+        email: email,
         status: status,
         phone: phone,
         alias: alias,
         status_option: self.statusOptions(status === null ? [] : [{name: status}]),
         country_option: self.countryOptions((country === null || country === undefined) ? [] : [country]),
-        role_option: self.roleOptions(role === null ? [] : [role]),
+        // role_option: self.roleOptions(role === null ? [] : [role]),
         package_option: self.packageOptions((subscription_package === null || subscription_package === undefined) ? [] : [subscription_package])
       }
     });
@@ -325,6 +328,19 @@ export default class UserPopup extends Component {
               </FormGroup>
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
+                  Email
+                </ControlLabel>
+                <FormControl
+                  className="custom-form-control"
+                  type="email"
+                  name="email"
+                  value={userForm.email}
+                  disabled={true}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </FormGroup>
+              <FormGroup className="custom-form-group required">
+                <ControlLabel className="custom-form-control-label">
                   Phone
                 </ControlLabel>
                 <FormControl
@@ -374,7 +390,7 @@ export default class UserPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-              <FormGroup controlId="formControlsSelect">
+              {/* <FormGroup controlId="formControlsSelect">
                 <ControlLabel className="custom-form-control-label">
                   Role
                 </ControlLabel>
@@ -390,7 +406,7 @@ export default class UserPopup extends Component {
                     {errors['role_id']}
                   </span>
                 )}
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup controlId="formControlsSelect">
                 <ControlLabel className="custom-form-control-label">
                   Package
