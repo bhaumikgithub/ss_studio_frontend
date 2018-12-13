@@ -184,6 +184,8 @@ export default class UserListing extends Component {
   };
   render() {
     const { users, meta, alert } = this.state;
+    console.log(users,'.........................index')
+    debugger
     return (
       <Col xs={12} className="categories-page-wrap">
         <SweetAlert
@@ -236,8 +238,10 @@ export default class UserListing extends Component {
                   <th>Email</th>
                   <th>Alias</th>
                   <th>Name</th>
+                  <th>User Type</th>
                   <th>Phone</th>
                   <th>Plan</th>
+                  <th>Signup Date</th>
                   <th>Start date</th>
                   <th>End date</th>
                   <th>Status</th>
@@ -250,8 +254,10 @@ export default class UserListing extends Component {
                     <td>{user.email}</td>
                     <td>{user.alias}</td>
                     <td>{fullName(user)}</td>
+                    <td>{user.user_type}</td>
                     <td>{user.phone}</td>
-                    <td>{user.subscription_package && user.subscription_package.name}</td>
+                    <td>{user.active_plan}</td>
+                    <td>{user.created_at}</td>
                     <td>{user.start_plan_date}</td>
                     <td>{user.end_plan_date}
                     </td>

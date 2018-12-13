@@ -39,7 +39,10 @@ export default class UserPopup extends Component {
         country_option: '',
         role_option: '',
         package_option: '',
-        status_option: ''
+        user_type_option: '',
+        status_option: '',
+        user_type_id: '',
+        user_type: ''
       },
       countries: [],
       roles: [],
@@ -122,7 +125,8 @@ export default class UserPopup extends Component {
       alias,
       country,
       role,
-      subscription_package
+      subscription_package,
+      user_type
     } = user;
     self.setState({
       userForm: {
@@ -134,7 +138,8 @@ export default class UserPopup extends Component {
         status_option: self.statusOptions(status === null ? [] : [{name: status}]),
         country_option: self.countryOptions((country === null || country === undefined) ? [] : [country]),
         role_option: self.roleOptions(role === null ? [] : [role]),
-        package_option: self.packageOptions((subscription_package === null || subscription_package === undefined) ? [] : [subscription_package])
+        package_option: self.packageOptions((subscription_package === null || subscription_package === undefined) ? [] : [subscription_package]),
+        user_type_option: self.userTypeOptions(user_type === null ? [] : [{id: user_type === "Regular User" ? 0 :  user_type === "Premium User" ? 1 : 2,value: toCapitalize(user_type)}])
       }
     });
   }
@@ -170,6 +175,38 @@ export default class UserPopup extends Component {
       });
     });
     return options;
+  }
+
+  userTypeOptions(user_type = []) {
+    var options = [];
+    var user_type_options = [];
+    debugger;
+    if(user_type.length === 0){
+      user_type_options = [{id: 0,value: 'Regular User'},{id: 1, value: 'Premium User'},{id: 2, value: 'Test User'}];
+    }
+    else{
+      user_type_options = user_type
+    }
+    user_type_options.map(status => {
+      return options.push({
+        value: status.id,
+        label: status.value
+      });
+    });
+    return options;
+  }
+
+  handleUserTypeSelectChange(value) {
+    const userForm = this.state.userForm;
+    debugger;
+    if (value !== null) {
+      userForm['user_type'] = value.value
+      userForm['user_type_option'] = value;
+      userForm['user_type_id'] = value.value;
+    }
+    this.setState({
+      userForm
+    });
   }
 
   statusOptions(statuses = this.state.statuses) {
@@ -371,6 +408,23 @@ export default class UserPopup extends Component {
                 {errors['country_id'] && (
                   <span className="input-error text-red">
                     {errors['country_id']}
+                  </span>
+                )}
+              </FormGroup>
+              <FormGroup controlId="formControlsSelect">
+                <ControlLabel className="custom-form-control-label">
+                  User Type
+                </ControlLabel>
+                <Select
+                  className="custom-form-control"
+                  name="user_type"
+                  value={userForm.user_type_option.length > 0 ? userForm.user_type_option[0] : userForm.user_type_option}
+                  options={this.userTypeOptions()}
+                  onChange={this.handleUserTypeSelectChange.bind(this)}
+                />
+                {errors['user_type'] && (
+                  <span className="input-error text-red">
+                    {errors['user_type']}
                   </span>
                 )}
               </FormGroup>
