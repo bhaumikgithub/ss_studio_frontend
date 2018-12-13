@@ -28,6 +28,7 @@ export default class AlreadyShared extends Component {
       maxWidth: 1500,
       maxHeight: 600,
       cancelUpload: false,
+      fileCount: 0,
       alert: {
         show: false,
         cancelBtn: true,
@@ -185,7 +186,7 @@ export default class AlreadyShared extends Component {
 
   handlePhotoRendering(file, action, response = undefined) {
     var { photos } = this.state;
-
+    var count = this.state.fileCount + 1
     if (action === 'insert') {
       var newPhoto = response.data.data.photos[0];
       file.id = newPhoto.id;
@@ -194,7 +195,7 @@ export default class AlreadyShared extends Component {
       var photoIndex = getIndex(file.id, photos, 'id');
       photos.splice(photoIndex, 1);
     }
-    this.setState({ photos: photos });
+    this.setState({ photos: photos, fileCount: count });
   }
 
   handleSuccessResponse(response, file) {
@@ -254,7 +255,7 @@ export default class AlreadyShared extends Component {
       removedfile: this.handleRemoveFile.bind(this)
     };
     const {
-      alert,
+      alert,fileCount
     } = this.state;
     return (
       <Modal
@@ -285,14 +286,14 @@ export default class AlreadyShared extends Component {
             <Col className="text-center p-none" sm={12}>
               <Button
                 type="button"
-                onClick={event => this.dropzone.files.length === this.state.photoCount ? this.closeOn() : this.showDialogueBox()}
+                onClick={() => this.dropzone.files.length === fileCount ? this.closeOn() : this.showDialogueBox()}
                 className="btn btn-orange create-album-submit add-photo"
               >
                 Done
               </Button>
               <Button
                 type="button"
-                onClick={event => this.dropzone.files.length === this.state.photoCount ? this.closeOn() : this.showDialogueBox()}
+                onClick={event => this.dropzone.files.length === fileCount ? this.closeOn() : this.showDialogueBox()}
                 className="btn btn-grey create-album-submit add-photo cancel-dropzone-btn"
               >
                 Cancel
