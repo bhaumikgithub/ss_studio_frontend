@@ -33,11 +33,12 @@ export default class UserPopup extends Component {
       userForm: {
         first_name: '',
         last_name: '',
+        email: '',
         status: '',
         phone: '',
         alias: '',
         country_option: '',
-        role_option: '',
+        // role_option: '',
         package_option: '',
         user_type_option: '',
         status_option: '',
@@ -45,7 +46,7 @@ export default class UserPopup extends Component {
         user_type: ''
       },
       countries: [],
-      roles: [],
+      // roles: [],
       packages: [],
       statuses: [],
       errors: {}
@@ -120,25 +121,27 @@ export default class UserPopup extends Component {
     const {
       first_name,
       last_name,
+      email,
       status,
       phone,
       alias,
       country,
-      role,
-      subscription_package,
+      active_plan,
+      // role,
       user_type
     } = user;
     self.setState({
       userForm: {
         first_name: first_name,
         last_name: last_name,
+        email: email,
         status: status,
         phone: phone,
         alias: alias,
         status_option: self.statusOptions(status === null ? [] : [{name: status}]),
         country_option: self.countryOptions((country === null || country === undefined) ? [] : [country]),
-        role_option: self.roleOptions(role === null ? [] : [role]),
-        package_option: self.packageOptions((subscription_package === null || subscription_package === undefined) ? [] : [subscription_package]),
+        // role_option: self.roleOptions(role === null ? [] : [role]),
+        package_option: self.packageOptions((active_plan === null || active_plan === undefined) ? [] : [{id: active_plan, name: toCapitalize(active_plan)}]),
         user_type_option: self.userTypeOptions(user_type === null ? [] : [{id: user_type === "Regular User" ? 0 :  user_type === "Premium User" ? 1 : 2,value: toCapitalize(user_type)}])
       }
     });
@@ -360,6 +363,19 @@ export default class UserPopup extends Component {
               </FormGroup>
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
+                  Email
+                </ControlLabel>
+                <FormControl
+                  className="custom-form-control"
+                  type="email"
+                  name="email"
+                  value={userForm.email}
+                  disabled={true}
+                  onChange={this.handleChange.bind(this)}
+                />
+              </FormGroup>
+              <FormGroup className="custom-form-group required">
+                <ControlLabel className="custom-form-control-label">
                   Phone
                 </ControlLabel>
                 <FormControl
@@ -409,7 +425,7 @@ export default class UserPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-              <FormGroup controlId="formControlsSelect">
+              {/* <FormGroup controlId="formControlsSelect">
                 <ControlLabel className="custom-form-control-label">
                   User Type
                 </ControlLabel>
@@ -442,7 +458,7 @@ export default class UserPopup extends Component {
                     {errors['role_id']}
                   </span>
                 )}
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup controlId="formControlsSelect">
                 <ControlLabel className="custom-form-control-label">
                   Package

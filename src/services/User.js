@@ -134,3 +134,10 @@ export function getUserType() {
     apiHeader()
   );
 }
+
+export function getFilteredUser(params) {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/filter_user',
+    { params: params, headers: apiCustomHeader() }
+  );
+}

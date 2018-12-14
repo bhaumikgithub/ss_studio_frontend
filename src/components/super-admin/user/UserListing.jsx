@@ -31,9 +31,11 @@ export default class UserListing extends Component {
       meta: [],
       statuses: [],
       userTypes: [],
+      packages: [],
       current_page: '',
-      status: '',
-      userType: '',
+      status: null,
+      userType: null,
+      plan: null,
       alert: {
         objectId: '',
         show: false,
@@ -50,6 +52,7 @@ export default class UserListing extends Component {
     this.getAllUsers();
     this.getStatuses();
     this.getUserType();
+    this.getPackages();
   }
     getAllUsers(page = 1){
       var self = this;
@@ -88,6 +91,18 @@ export default class UserListing extends Component {
         .then(function(response) {
           var data = response.data;
           self.setState({ userTypes: data.data.user_types });
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+    }
+
+    getPackages(){
+      var self = this;
+      UserService.getPackages()
+        .then(function(response) {
+          var data = response.data;
+          self.setState({ packages: data.data.packages });
         })
         .catch(function(error) {
           console.log(error.response);
@@ -235,6 +250,17 @@ export default class UserListing extends Component {
     return options;
   }
 
+  packageOptions(packages = this.state.packages) {
+    var options = [];
+    packages.map(plan => {
+      return options.push({
+        value: plan.id,
+        label: toCapitalize(plan.name)
+      });
+    });
+    return options;
+  }
+
   handleStatusChange(value) {
     if (value) {
       this.setState({
@@ -249,6 +275,32 @@ export default class UserListing extends Component {
         userType: value.value,
       });
     }
+  }
+
+  handlePackageChange(value){
+    if (value) {
+      this.setState({
+        plan: value.value,
+      });
+    }
+  }
+
+  doFilter(page = 1){
+    var self = this;
+    UserService.getFilteredUser({
+      status: self.state.status,
+      plan: self.state.plan,
+      user_type: self.state.userType,
+      page: page,
+      per_page: window.paginationPerPage,
+    })
+    .then(function(response) {
+      var data = response.data;
+      self.setState({ users: data.data.users, meta: data.meta });
+    })
+    .catch(function(error) {
+      console.log(error.response);
+    });
   }
 
   render() {
@@ -297,6 +349,20 @@ export default class UserListing extends Component {
             placeholder={false}
             onChange={this.handleUserTypeChange.bind(this)}
           />
+          <Select
+            className="album-sorting-option"
+            name="sorting"
+            value={this.state.plan}
+            options={this.packageOptions()}
+            placeholder={false}
+            onChange={this.handlePackageChange.bind(this)}
+          />
+          <Button
+            className="btn btn-orange view-my-website-btn filter-btn"
+            onClick={() => this.doFilter()}
+          >
+            Filter
+          </Button>
           {this.state.showFlashMessage &&
             <span className="pull-left">
             <FlashMassage duration={5000} persistOnHover={true}>
@@ -373,6 +439,13 @@ export default class UserListing extends Component {
                     </td>
                   </tr>
                 ))}
+                {users.length === 0 &&
+                  <tr>
+                    <td colSpan="11">
+                      <h4 className="text-center">No data avilable.</h4>
+                    </td>
+                  </tr>  
+                }
               </tbody>
             </Table>
           </div>
