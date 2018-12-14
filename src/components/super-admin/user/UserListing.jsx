@@ -7,11 +7,12 @@ import PaginationModule from '../../common/PaginationModule';
 import UserPopup from './UserPopup';
 import CreateUserPopup from './CreateUserPopup';
 import FlashMassage from 'react-flash-message';
+import Select from 'react-select';
 // Import services
 import { UserService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, currentUserRole, fullName } from '../../Helper';
+import { isObjectEmpty, currentUserRole, fullName, toCapitalize } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/category/categories.css';
@@ -28,7 +29,13 @@ export default class UserListing extends Component {
       showFlashMessage: false,
       users: [],
       meta: [],
+      statuses: [],
+      userTypes: [],
+      packages: [],
       current_page: '',
+      status: null,
+      userType: null,
+      plan: null,
       alert: {
         objectId: '',
         show: false,
@@ -43,6 +50,9 @@ export default class UserListing extends Component {
   }
   componentWillMount() {
     this.getAllUsers();
+    this.getStatuses();
+    this.getUserType();
+    this.getPackages();
   }
     getAllUsers(page = 1){
       var self = this;
@@ -60,6 +70,42 @@ export default class UserListing extends Component {
           {
             self.props.history.push('albums')
           }
+        });
+    }
+
+    getStatuses(){
+      var self = this;
+      UserService.getStatuses()
+        .then(function(response) {
+          var data = response.data;
+          self.setState({ statuses: data.data.statuses });
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+    }
+
+    getUserType(){
+      var self = this;
+      UserService.getUserType()
+        .then(function(response) {
+          var data = response.data;
+          self.setState({ userTypes: data.data.user_types });
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+    }
+
+    getPackages(){
+      var self = this;
+      UserService.getPackages()
+        .then(function(response) {
+          var data = response.data;
+          self.setState({ packages: data.data.packages });
+        })
+        .catch(function(error) {
+          console.log(error.response);
         });
     }
 
@@ -182,6 +228,81 @@ export default class UserListing extends Component {
     if (eventKey !== this.state.meta.pagination.current_page)
       this.getAllUsers(eventKey);
   };
+  statusOptions(statuses = this.state.statuses) {
+    var options = [];
+    statuses.map(status => {
+      return options.push({
+        value: status.name,
+        label: toCapitalize(status.name)
+      });
+    });
+    return options;
+  }
+
+  userTypeOptions(userTypes = this.state.userTypes) {
+    var options = [];
+    userTypes.map(user_type => {
+      return options.push({
+        value: user_type.name,
+        label: toCapitalize(user_type.name)
+      });
+    });
+    return options;
+  }
+
+  packageOptions(packages = this.state.packages) {
+    var options = [];
+    packages.map(plan => {
+      return options.push({
+        value: plan.id,
+        label: toCapitalize(plan.name)
+      });
+    });
+    return options;
+  }
+
+  handleStatusChange(value) {
+    if (value) {
+      this.setState({
+        status: value.value,
+      });
+    }
+  }
+
+  handleUserTypeChange(value){
+    if (value) {
+      this.setState({
+        userType: value.value,
+      });
+    }
+  }
+
+  handlePackageChange(value){
+    if (value) {
+      this.setState({
+        plan: value.value,
+      });
+    }
+  }
+
+  doFilter(page = 1){
+    var self = this;
+    UserService.getFilteredUser({
+      status: self.state.status,
+      plan: self.state.plan,
+      user_type: self.state.userType,
+      page: page,
+      per_page: window.paginationPerPage,
+    })
+    .then(function(response) {
+      var data = response.data;
+      self.setState({ users: data.data.users, meta: data.meta });
+    })
+    .catch(function(error) {
+      console.log(error.response);
+    });
+  }
+
   render() {
     const { users, meta, alert } = this.state;
     return (
@@ -212,6 +333,36 @@ export default class UserListing extends Component {
           />
         )}
         <Col xs={12} className="filter-wrap p-none">
+          <Select
+            className="album-sorting-option"
+            name="sorting"
+            value={this.state.status}
+            options={this.statusOptions()}
+            placeholder={false}
+            onChange={this.handleStatusChange.bind(this)}
+          />
+          <Select
+            className="album-sorting-option"
+            name="sorting"
+            value={this.state.userType}
+            options={this.userTypeOptions()}
+            placeholder={false}
+            onChange={this.handleUserTypeChange.bind(this)}
+          />
+          <Select
+            className="album-sorting-option"
+            name="sorting"
+            value={this.state.plan}
+            options={this.packageOptions()}
+            placeholder={false}
+            onChange={this.handlePackageChange.bind(this)}
+          />
+          <Button
+            className="btn btn-orange view-my-website-btn filter-btn"
+            onClick={() => this.doFilter()}
+          >
+            Filter
+          </Button>
           {this.state.showFlashMessage &&
             <span className="pull-left">
             <FlashMassage duration={5000} persistOnHover={true}>
@@ -236,8 +387,10 @@ export default class UserListing extends Component {
                   <th>Email</th>
                   <th>Alias</th>
                   <th>Name</th>
+                  <th>User Type</th>
                   <th>Phone</th>
                   <th>Plan</th>
+                  <th>Signup Date</th>
                   <th>Start date</th>
                   <th>End date</th>
                   <th>Status</th>
@@ -250,8 +403,10 @@ export default class UserListing extends Component {
                     <td>{user.email}</td>
                     <td>{user.alias}</td>
                     <td>{fullName(user)}</td>
+                    <td>{user.user_type}</td>
                     <td>{user.phone}</td>
-                    <td>{user.subscription_package && user.subscription_package.name}</td>
+                    <td>{user.active_plan}</td>
+                    <td>{user.created_at}</td>
                     <td>{user.start_plan_date}</td>
                     <td>{user.end_plan_date}
                     </td>
@@ -284,6 +439,13 @@ export default class UserListing extends Component {
                     </td>
                   </tr>
                 ))}
+                {users.length === 0 &&
+                  <tr>
+                    <td colSpan="11">
+                      <h4 className="text-center">No data avilable.</h4>
+                    </td>
+                  </tr>  
+                }
               </tbody>
             </Table>
           </div>

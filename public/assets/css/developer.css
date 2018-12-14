@@ -1074,6 +1074,9 @@ div.filepicker {
   border: 1px solid transparent;
   border-radius: 4px;
 }
+.filter-btn:hover, .filter-btn:focus{
+  background: #1faf1f
+}
 /* after super admin login user page css end */
 
 /* dashboard page css start */
