@@ -40,8 +40,13 @@ export default class UserPopup extends Component {
         alias: '',
         country_id: '',
         country_option: '',
-        created_by: 'super_admin'
+        created_by: 'super_admin',
+        package_option: '',
+        user_type_option: '',
+        user_type_id: '',
+        user_type: ''
       },
+      packages: [],
       countries: [],
       errors: {}
     };
@@ -56,6 +61,7 @@ export default class UserPopup extends Component {
   componentWillMount() {
     var self = this;
     self.getCountries();
+    self.getPackages();
   }
 
   getCountries(){
@@ -69,6 +75,19 @@ export default class UserPopup extends Component {
         console.log(error.response);
       });
   }
+
+  getPackages(){
+    var self = this;
+    UserService.getPackages()
+      .then(function(response) {
+        var data = response.data;
+        self.setState({ packages: data.data.packages });
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+  
   countryOptions(countries = this.state.countries) {
     var options = [];
     countries.map(country => {
@@ -80,10 +99,62 @@ export default class UserPopup extends Component {
     return options;
   }
 
+  userTypeOptions(user_type = []) {
+    var options = [];
+    var user_type_options = [];
+    if(user_type.length === 0){
+      user_type_options = [{id: 0,value: 'Regular User'},{id: 1, value: 'Premium User'},{id: 2, value: 'Test User'}];
+    }
+    else{
+      user_type_options = user_type
+    }
+    user_type_options.map(status => {
+      return options.push({
+        value: status.id,
+        label: toCapitalize(status.value)
+      });
+    });
+    return options;
+  }
+
+  packageOptions(packages = this.state.packages) {
+    var options = [];
+    packages.map(subscription_package => {
+      return options.push({
+        value: subscription_package.id,
+        label: toCapitalize(subscription_package.name)
+      });
+    });
+    return options;
+  }
+
   handleCountrySelectChange(value) {
     const userForm = this.state.userForm;
     userForm['country_option'] = value;
     userForm['country_id'] = value.value;
+    this.setState({
+      userForm
+    });
+  }
+
+  handleUserTypeSelectChange(value) {
+    const userForm = this.state.userForm;
+    if (value !== null) {
+      userForm['user_type'] = value.value
+      userForm['user_type_option'] = value;
+      userForm['user_type_id'] = value.value;
+    }
+    this.setState({
+      userForm
+    });
+  }
+
+  handlePackageSelectChange(value) {
+    const userForm = this.state.userForm;
+    if (value !== null) {
+      userForm['package_option'] = value;
+      userForm['package_id'] = value.value;
+    }
     this.setState({
       userForm
     });
@@ -291,6 +362,40 @@ export default class UserPopup extends Component {
                 {errors['country_id'] && (
                   <span className="input-error text-red">
                     {errors['country_id']}
+                  </span>
+                )}
+              </FormGroup>
+              <FormGroup controlId="formControlsSelect">
+                <ControlLabel className="custom-form-control-label">
+                  User Type
+                </ControlLabel>
+                <Select
+                  className="custom-form-control"
+                  name="user_type"
+                  value={userForm.user_type_option.length > 0 ? userForm.user_type_option[0] : userForm.user_type_option}
+                  options={this.userTypeOptions()}
+                  onChange={this.handleUserTypeSelectChange.bind(this)}
+                />
+                {errors['user_type'] && (
+                  <span className="input-error text-red">
+                    {errors['user_type']}
+                  </span>
+                )}
+              </FormGroup>
+              <FormGroup controlId="formControlsSelect">
+                <ControlLabel className="custom-form-control-label">
+                  Package
+                </ControlLabel>
+                <Select
+                  className="custom-form-control"
+                  name="package_option"
+                  value={userForm.package_option}
+                  options={this.packageOptions()}
+                  onChange={this.handlePackageSelectChange.bind(this)}
+                />
+                {errors['package_id'] && (
+                  <span className="input-error text-red">
+                    {errors['package_id']}
                   </span>
                 )}
               </FormGroup>
