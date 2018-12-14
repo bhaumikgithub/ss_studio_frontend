@@ -127,3 +127,10 @@ export function getUserPackages() {
     apiHeader()
   );
 }
+
+export function getUserType() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'users/get_user_type',
+    apiHeader()
+  );
+}

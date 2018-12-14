@@ -7,11 +7,12 @@ import PaginationModule from '../../common/PaginationModule';
 import UserPopup from './UserPopup';
 import CreateUserPopup from './CreateUserPopup';
 import FlashMassage from 'react-flash-message';
+import Select from 'react-select';
 // Import services
 import { UserService } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty, currentUserRole, fullName } from '../../Helper';
+import { isObjectEmpty, currentUserRole, fullName, toCapitalize } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/category/categories.css';
@@ -28,7 +29,11 @@ export default class UserListing extends Component {
       showFlashMessage: false,
       users: [],
       meta: [],
+      statuses: [],
+      userTypes: [],
       current_page: '',
+      status: '',
+      userType: '',
       alert: {
         objectId: '',
         show: false,
@@ -43,6 +48,8 @@ export default class UserListing extends Component {
   }
   componentWillMount() {
     this.getAllUsers();
+    this.getStatuses();
+    this.getUserType();
   }
     getAllUsers(page = 1){
       var self = this;
@@ -60,6 +67,30 @@ export default class UserListing extends Component {
           {
             self.props.history.push('albums')
           }
+        });
+    }
+
+    getStatuses(){
+      var self = this;
+      UserService.getStatuses()
+        .then(function(response) {
+          var data = response.data;
+          self.setState({ statuses: data.data.statuses });
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+    }
+
+    getUserType(){
+      var self = this;
+      UserService.getUserType()
+        .then(function(response) {
+          var data = response.data;
+          self.setState({ userTypes: data.data.user_types });
+        })
+        .catch(function(error) {
+          console.log(error.response);
         });
     }
 
@@ -182,10 +213,46 @@ export default class UserListing extends Component {
     if (eventKey !== this.state.meta.pagination.current_page)
       this.getAllUsers(eventKey);
   };
+  statusOptions(statuses = this.state.statuses) {
+    var options = [];
+    statuses.map(status => {
+      return options.push({
+        value: status.name,
+        label: toCapitalize(status.name)
+      });
+    });
+    return options;
+  }
+
+  userTypeOptions(userTypes = this.state.userTypes) {
+    var options = [];
+    userTypes.map(user_type => {
+      return options.push({
+        value: user_type.name,
+        label: toCapitalize(user_type.name)
+      });
+    });
+    return options;
+  }
+
+  handleStatusChange(value) {
+    if (value) {
+      this.setState({
+        status: value.value,
+      });
+    }
+  }
+
+  handleUserTypeChange(value){
+    if (value) {
+      this.setState({
+        userType: value.value,
+      });
+    }
+  }
+
   render() {
     const { users, meta, alert } = this.state;
-    console.log(users,'.........................index')
-    debugger
     return (
       <Col xs={12} className="categories-page-wrap">
         <SweetAlert
@@ -214,6 +281,22 @@ export default class UserListing extends Component {
           />
         )}
         <Col xs={12} className="filter-wrap p-none">
+          <Select
+            className="album-sorting-option"
+            name="sorting"
+            value={this.state.status}
+            options={this.statusOptions()}
+            placeholder={false}
+            onChange={this.handleStatusChange.bind(this)}
+          />
+          <Select
+            className="album-sorting-option"
+            name="sorting"
+            value={this.state.userType}
+            options={this.userTypeOptions()}
+            placeholder={false}
+            onChange={this.handleUserTypeChange.bind(this)}
+          />
           {this.state.showFlashMessage &&
             <span className="pull-left">
             <FlashMassage duration={5000} persistOnHover={true}>

@@ -180,7 +180,6 @@ export default class UserPopup extends Component {
   userTypeOptions(user_type = []) {
     var options = [];
     var user_type_options = [];
-    debugger;
     if(user_type.length === 0){
       user_type_options = [{id: 0,value: 'Regular User'},{id: 1, value: 'Premium User'},{id: 2, value: 'Test User'}];
     }
@@ -198,7 +197,6 @@ export default class UserPopup extends Component {
 
   handleUserTypeSelectChange(value) {
     const userForm = this.state.userForm;
-    debugger;
     if (value !== null) {
       userForm['user_type'] = value.value
       userForm['user_type_option'] = value;
