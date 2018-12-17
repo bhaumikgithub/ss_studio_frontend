@@ -424,7 +424,7 @@ export default class UserPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-              {/* <FormGroup controlId="formControlsSelect">
+              <FormGroup controlId="formControlsSelect">
                 <ControlLabel className="custom-form-control-label">
                   User Type
                 </ControlLabel>
@@ -441,7 +441,7 @@ export default class UserPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-              <FormGroup controlId="formControlsSelect">
+              {/* <FormGroup controlId="formControlsSelect">
                 <ControlLabel className="custom-form-control-label">
                   Role
                 </ControlLabel>
