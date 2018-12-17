@@ -248,6 +248,20 @@ export default class AlreadyShared extends Component {
     this.props.closeOn();
   }
 
+  componentDidMount() {
+    window.addEventListener("beforeunload", (ev) =>
+    {
+      ev.preventDefault();
+      ev.returnValue = false;
+      if (ev.returnValue === true){
+        return ev.returnValue = this.handleOk()
+      }
+      else{
+        return ev.returnValue;
+      }
+    });
+  }
+
   render() {
     const eventHandlers = {
       init: dz => (this.dropzone = dz),
