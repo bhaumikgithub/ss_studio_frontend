@@ -125,7 +125,7 @@ export default class UserPopup extends Component {
       alias,
       country,
       role,
-      subscription_package,
+      sub_package,
       user_type
     } = user;
     self.setState({
@@ -138,7 +138,7 @@ export default class UserPopup extends Component {
         status_option: self.statusOptions(status === null ? [] : [{name: status}]),
         country_option: self.countryOptions((country === null || country === undefined) ? [] : [country]),
         role_option: self.roleOptions(role === null ? [] : [role]),
-        package_option: self.packageOptions((subscription_package === null || subscription_package === undefined) ? [] : [subscription_package]),
+        package_option: self.packageOptions((sub_package === null || sub_package === undefined) ? [] : [sub_package]),
         user_type_option: self.userTypeOptions(user_type === null ? [] : [{id: user_type === "Regular User" ? 0 :  user_type === "Premium User" ? 1 : 2,value: toCapitalize(user_type)}])
       }
     });

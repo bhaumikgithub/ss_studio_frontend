@@ -44,7 +44,8 @@ export default class UserPopup extends Component {
         package_option: '',
         user_type_option: '',
         user_type_id: '',
-        user_type: ''
+        user_type: '',
+        captcha: '28'
       },
       packages: [],
       countries: [],
@@ -399,7 +400,7 @@ export default class UserPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-              <FormGroup className="custom-form-group required">
+              {/* <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                     Captcha
                 </ControlLabel>
@@ -415,7 +416,7 @@ export default class UserPopup extends Component {
                     {errors['captcha']}
                   </span>
                 )}
-              </FormGroup>
+              </FormGroup> */}
              
               <Button
                 type="submit"
