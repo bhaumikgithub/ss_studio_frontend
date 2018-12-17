@@ -299,15 +299,15 @@ export default class ProfilePlan extends Component {
                           className={userPackage.package_status === "active" ? "text-green" : "text-red"}
                         >{toCapitalize(userPackage.package_status)}</td>
                         {userPackage.package_status === "active" ?
-                          <td>
+                          <td className="package-btn">
                             <Button
-                              className="btn btn-green create-video-submit renew-plan-btn"
+                              className="btn-sm btn-green create-video-submit renew-plan-btn"
                               href="#"
                             >
                               Renew
                             </Button>
                             <Button
-                              className="btn btn-orange create-video-submit cancel-plan-btn"
+                              className="btn-sm btn-orange create-video-submit cancel-plan-btn"
                               href="#"
                             >
                               cancel

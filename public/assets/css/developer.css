@@ -1277,6 +1277,9 @@ div.filepicker {
 .renew-plan-btn{
   margin-right: 10px;
 }
+.package-btn{
+  width: 100%;
+}
 
 /* dashboard page collapse css */
 .Collapsible {
