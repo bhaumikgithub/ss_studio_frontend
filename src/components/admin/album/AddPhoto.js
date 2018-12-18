@@ -249,15 +249,18 @@ export default class AlreadyShared extends Component {
   }
 
   componentDidMount() {
+    var self=this;
     window.addEventListener("beforeunload", (ev) =>
     {
-      ev.preventDefault();
-      ev.returnValue = false;
-      if (ev.returnValue === true){
-        return ev.returnValue = this.handleOk()
-      }
-      else{
-        return ev.returnValue;
+      if(self.dropzone.files.length !== self.state.fileCount){
+        ev.preventDefault();
+        ev.returnValue = false;
+        if (ev.returnValue === true){
+          return ev.returnValue = this.handleOk()
+        }
+        else{
+          return ev.returnValue;
+        }
       }
     });
   }
