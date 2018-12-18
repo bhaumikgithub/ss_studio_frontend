@@ -285,15 +285,16 @@ export default class AlbumDetails extends Component {
 
   renderNewPhotos = createdPhotos => {
     var self = this;
-    const newAlbum = Object.assign({}, self.state.album);
-    const photos = newAlbum.photos;
-    const newPhotos = photos.slice();
-    newAlbum.photo_count += createdPhotos.length;
-    createdPhotos.map(createdPhoto => {
-      return newPhotos.splice(0, 0, createdPhoto);
-    });
-    newAlbum.photos = newPhotos;
-    self.setState({ album: newAlbum });
+    // const newAlbum = Object.assign({}, self.state.album);
+    // const photos = newAlbum.photos;
+    // const newPhotos = photos.slice();
+    // newAlbum.photo_count += createdPhotos.length;
+    // createdPhotos.map(createdPhoto => {
+    //   return newPhotos.splice(0, 0, createdPhoto);
+    // });
+    // newAlbum.photos = newPhotos;
+    // self.setState({ album: newAlbum });
+    self.showAlbum()
   };
 
   renderRecipientsCount = (action, count = 1) => {

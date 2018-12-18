@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Col, Modal, Button } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars';
 import DropzoneComponent from 'react-dropzone-component';
+import SweetAlert from 'sweetalert-react';
 
 // Import service
 import { PhotoService } from '../../../services/Index';
@@ -25,7 +26,18 @@ export default class AlreadyShared extends Component {
       photoCount: props.photoCount,
       isDisplay: false,
       maxWidth: 1500,
-      maxHeight: 600
+      maxHeight: 600,
+      cancelUpload: false,
+      fileCount: 0,
+      alert: {
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
     this.dropzone = null;
     this.componentConfig = {
@@ -143,21 +155,22 @@ export default class AlreadyShared extends Component {
     if (photoCount === 0) {
       data.append('photo[][is_cover_photo]', true);
     }
-
-    PhotoService.uploadPhoto(data, file, this.uploadProgress)
-      .then(function(response) {
-        self.handleSuccessResponse(response, file);
-      })
-      .catch(function(error) {
-        const response = error.response;
-        if (response && response.data.errors.length > 0) {
-          file.previewElement.classList.add('dz-complete');
-          dropzoneOptions.error(
-            file,
-            'Image ' + response.data.errors[1].detail
-          );
-        }
-      });
+    if(this.state.cancelUpload === false){
+      PhotoService.uploadPhoto(data, file, this.uploadProgress)
+        .then(function(response) {
+          self.handleSuccessResponse(response, file);
+        })
+        .catch(function(error) {
+          const response = error.response;
+          if (response && response.data.errors.length > 0) {
+            file.previewElement.classList.add('dz-complete');
+            dropzoneOptions.error(
+              file,
+              'Image ' + response.data.errors[1].detail
+            );
+          }
+        });
+    }
   }
 
   uploadProgress = (file, progress) => {
@@ -173,7 +186,7 @@ export default class AlreadyShared extends Component {
 
   handlePhotoRendering(file, action, response = undefined) {
     var { photos } = this.state;
-
+    var count = this.state.fileCount + 1
     if (action === 'insert') {
       var newPhoto = response.data.data.photos[0];
       file.id = newPhoto.id;
@@ -182,7 +195,7 @@ export default class AlreadyShared extends Component {
       var photoIndex = getIndex(file.id, photos, 'id');
       photos.splice(photoIndex, 1);
     }
-    this.setState({ photos: photos });
+    this.setState({ photos: photos, fileCount: count });
   }
 
   handleSuccessResponse(response, file) {
@@ -194,13 +207,62 @@ export default class AlreadyShared extends Component {
     }
   }
 
+  showDialogueBox() {
+    this.setState({
+      alert: {
+        show: true,
+        title: 'Are you sure?',
+        text: "Photo upload is going on, are you sure you want to cancel uploading?",
+        btnText: 'Yes, cancel it!',
+        type: 'warning',
+        confirmAction: () => this.handleOk(),
+        cancelBtn: true
+      }
+    });
+  }
+
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+    this.props.closeOn();
+    this.props.renderNewPhotos(this.state.photos);
+  }
+  hideCancelDialogueBox(){
+    this.setState({ alert: { show: false } });
+  }
+
   handleOk() {
+    this.setState({
+      alert: {
+        show: true,
+        title: 'Success',
+        text: 'Success Text',
+        type: 'success',
+        confirmAction: () => this.hideDialogueBox()
+      },
+      cancelUpload: true
+    });
+  }
+
+  closeOn(){
     this.props.renderNewPhotos(this.state.photos);
     this.props.closeOn();
   }
 
-  closeOn(){
-    this.props.closeOn();
+  componentDidMount() {
+    var self=this;
+    window.addEventListener("beforeunload", (ev) =>
+    {
+      if(self.dropzone.files.length !== self.state.fileCount){
+        ev.preventDefault();
+        ev.returnValue = false;
+        if (ev.returnValue === true){
+          return ev.returnValue = this.handleOk()
+        }
+        else{
+          return ev.returnValue;
+        }
+      }
+    });
   }
 
   render() {
@@ -209,6 +271,9 @@ export default class AlreadyShared extends Component {
       addedfile: this.handleUploadFile.bind(this),
       removedfile: this.handleRemoveFile.bind(this)
     };
+    const {
+      alert,fileCount
+    } = this.state;
     return (
       <Modal
         show={this.props.addPhoto}
@@ -216,6 +281,16 @@ export default class AlreadyShared extends Component {
         aria-labelledby="contained-modal-title-lg"
         bsSize="large"
       >
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideCancelDialogueBox()}
+        />
         <Modal.Body className="shared-album-body p-none">
           <Col className="shared-content-wrap" sm={12}>
             <Scrollbars style={{ height: '450px' }}>
@@ -228,14 +303,14 @@ export default class AlreadyShared extends Component {
             <Col className="text-center p-none" sm={12}>
               <Button
                 type="button"
-                onClick={() => this.handleOk()}
+                onClick={() => this.dropzone.files.length === fileCount ? this.closeOn() : this.showDialogueBox()}
                 className="btn btn-orange create-album-submit add-photo"
               >
                 Done
               </Button>
               <Button
                 type="button"
-                onClick={()=>this.closeOn()}
+                onClick={event => this.dropzone.files.length === fileCount ? this.closeOn() : this.showDialogueBox()}
                 className="btn btn-grey create-album-submit add-photo cancel-dropzone-btn"
               >
                 Cancel
