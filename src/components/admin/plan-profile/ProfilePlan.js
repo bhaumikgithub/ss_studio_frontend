@@ -27,7 +27,8 @@ export default class ProfilePlan extends Component {
         alias: '',
         phone: '',
         country_id: '',
-        country_option: ''
+        country_option: '',
+        isExpired: false,
       },
       countries: [],
       userPackages: [],
@@ -77,7 +78,7 @@ export default class ProfilePlan extends Component {
       .then(function(response) {
         if (response.status === 200) {
           var data = response.data
-          self.setState({userPackages: data.data.users})
+          self.setState({userPackages: data.data.users, isExpired: data.data.is_expired})
         }
       })
       .catch(function(error) {
@@ -156,7 +157,7 @@ export default class ProfilePlan extends Component {
   }
 
   render() {
-    const { user, userForm, userPackages } = this.state;
+    const { user, userForm, userPackages, isExpired } = this.state;
     return (
       <Col xs={12} className="albums-page-wrap">
         <Col xs={12} className="filter-wrap p-none album-listing-title-wrap">
@@ -288,12 +289,12 @@ export default class ProfilePlan extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {userPackages.map(userPackage => (
+                    {userPackages.map((userPackage, index) => (
                       <tr key={userPackage.id}>
                         <td>{toCapitalize(userPackage.plan)}</td>
                         <td>{userPackage.package_start_date}</td>
                         <td>{userPackage.package_end_date}</td>
-                        <td className="text-center">{userPackage.transaction_date === null ? "-" : userPackage.transaction_date}</td>
+                        <td>{userPackage.transaction_date === null ? "-" : userPackage.transaction_date}</td>
                         <td>{userPackage.amount + " Rs"}</td>
                         <td
                           className={userPackage.package_status === "active" ? "text-green" : "text-red"}
@@ -313,8 +314,15 @@ export default class ProfilePlan extends Component {
                               cancel
                             </Button>
                           </td>
-                          :
-                          <td>-</td>
+                          :( isExpired && userPackages.length -1 === index ?
+                            <td><Button
+                              className="btn-sm btn-green create-video-submit renew-plan-btn"
+                              href="#"
+                            >
+                              Renew
+                            </Button></td>
+                            :<td>-</td>
+                            )
                         }
                       </tr>
                     ))}
