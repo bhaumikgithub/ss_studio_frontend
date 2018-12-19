@@ -267,6 +267,11 @@ export default class UserListing extends Component {
         status: value.value,
       });
     }
+    else if (value === null) {
+      this.setState({
+        status: value,
+      });
+    }
   }
 
   handleUserTypeChange(value){
@@ -275,12 +280,22 @@ export default class UserListing extends Component {
         userType: value.value,
       });
     }
+    else if (value === null) {
+      this.setState({
+        userType: value,
+      });
+    }
   }
 
   handlePackageChange(value){
     if (value) {
       this.setState({
         plan: value.value,
+      });
+    }
+    else if (value === null) {
+      this.setState({
+        plan: value,
       });
     }
   }
