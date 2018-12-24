@@ -232,15 +232,9 @@ export default class AlreadyShared extends Component {
 
   handleOk() {
     this.setState({
-      alert: {
-        show: true,
-        title: 'Success',
-        text: 'Success Text',
-        type: 'success',
-        confirmAction: () => this.hideDialogueBox()
-      },
       cancelUpload: true
     });
+    this.hideDialogueBox()
   }
 
   closeOn(){
@@ -289,6 +283,7 @@ export default class AlreadyShared extends Component {
           showCancelButton={alert.cancelBtn}
           confirmButtonText={alert.btnText}
           onConfirm={alert.confirmAction}
+          cancelButtonText={"Stay Here"}
           onCancel={() => this.hideCancelDialogueBox()}
         />
         <Modal.Body className="shared-album-body p-none">
