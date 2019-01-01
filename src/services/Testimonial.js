@@ -37,7 +37,7 @@ export function deleteTestimonial(id) {
 
 export function getFeedbacks(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'testimonials/active',
+    process.env.REACT_APP_API_BASE_URL + '/' + params.user + '/feedback',
     {params}
   );
 }

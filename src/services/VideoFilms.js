@@ -37,7 +37,7 @@ export function deleteVideoFilm(id) {
 
 export function getPublishVideos(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'videos/publish',
+    process.env.REACT_APP_API_BASE_URL + '/' + params.user +'/films',
     { params: params }
   );
 }
