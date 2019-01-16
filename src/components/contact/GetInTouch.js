@@ -43,7 +43,8 @@ export default class GetInTouch extends Component {
         type: ''
       },
       errors: {},
-      contactDetails: {}
+      contactDetails: {},
+      userDetails: {}
     };
 
     return initialState;
@@ -59,7 +60,8 @@ export default class GetInTouch extends Component {
     var user = self.props.match.params.user;
     ContactDetailService.getContactDetail({user: user}).then(function(response) {
       if (response.status === 200) {
-        self.setState({ contactDetails: response.data.data.contact_detail });
+        var response_data = response.data
+        self.setState({ contactDetails: (response_data.data.contact_detail === null ? {} : response_data.data.contact_detail), userDetails: (response_data.data.user === null ? {} : response_data.data.user) });
       }
     });
   }
@@ -106,7 +108,7 @@ export default class GetInTouch extends Component {
   }
 
   render() {
-    const { contactForm, contactDetails, alert, errors } = this.state;
+    const { contactForm, contactDetails, userDetails, alert, errors } = this.state;
     return (
       <div className="get-in-touch-wrap page-wrap">
         <SweetAlert
@@ -123,7 +125,7 @@ export default class GetInTouch extends Component {
                 <span className="text-white">Contact</span>
               </label>
             </PageHeader>
-            {contactDetails &&
+            {userDetails && ((userDetails.alias) || (contactDetails && contactDetails.length > 0)) &&
             <Col sm={7}>
               <div className="contact-detail-wrap">
                 {/* <img
@@ -140,7 +142,7 @@ export default class GetInTouch extends Component {
                     />
                   </Col>
                   <Col md={11} xs={10} className="p-none text-white p-wrap">
-                    {contactDetails.address}
+                    {contactDetails && contactDetails.address}
                   </Col>
                 </Col>
 
@@ -153,7 +155,7 @@ export default class GetInTouch extends Component {
                     />
                   </Col>
                   <Col xs={10} md={11} className="p-none text-white">
-                    {contactDetails.email}
+                    {contactDetails && contactDetails.email}
                   </Col>
                 </Col>
               
@@ -170,14 +172,14 @@ export default class GetInTouch extends Component {
                       md={11}
                       className="col-xs-10 col-md-11 p-none text-white"
                     >
-                      {contactDetails.phone}
+                      {contactDetails && contactDetails.phone}
                     </Col>
                   </Col>
                
               </div>
             </Col>
             }
-            {contactDetails &&
+            {userDetails && ((userDetails.alias) || (contactDetails && contactDetails.length > 0)) &&
             <Col sm={5}>
               <div className="contact-form-wrap">
                 <form className="contact-form">

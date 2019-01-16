@@ -42,6 +42,7 @@ export default class Films extends Component {
               </label>
             </PageHeader>
           </Col>
+          {videos.length > 0 ? 
           <Col xs={12} className="p-none">
             {videos.map((video, index) => (
               <Col
@@ -70,6 +71,9 @@ export default class Films extends Component {
               </Col>
             ))}
           </Col>
+          :
+          <h4 className="text-center">Video is not uploaded at this time</h4>
+          }
         </Grid>
       </div>
     );
