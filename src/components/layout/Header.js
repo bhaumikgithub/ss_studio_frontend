@@ -49,7 +49,7 @@ class Header extends Component {
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
             <Link to={"/"+user}>
-            {userLogo && userLogo.image &&
+            {userLogo != null && userLogo.length > 0 && userLogo.image &&
               <img
               src={userLogo.image}
               alt=""

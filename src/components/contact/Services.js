@@ -37,10 +37,14 @@ export default class Services extends Component {
                 <span className="text-grey">CREATIVE & BEST </span> SERVICES
               </label>
             </PageHeader>
+            {this.state.services.length > 0 ? 
             <ServiceModule
               services={this.state.services}
               showEditPopup={this.showEditPopup}
             />
+            :
+              <h4 className="text-center">No Services available at this Time</h4>
+            }
           </Col>
         </Grid>
       </div>

@@ -40,6 +40,7 @@ export default class Feedback extends Component {
             </PageHeader>
           </Col>
           <Col xs={12}>
+          {feedbacks.length > 0 ? 
             <Carousel className="feedback-carousel">
               {feedbacks.map(feedback => (
                 <Carousel.Item className="feedback-item" key={feedback.id}>
@@ -69,6 +70,9 @@ export default class Feedback extends Component {
                 </Carousel.Item>
               ))}
             </Carousel>
+            :
+            <h4 className="text-center text-white">No Testimonials available at this Time</h4>
+            }
           </Col>
         </Grid>
       </div>
