@@ -45,7 +45,7 @@ export function deleteAlbum(id) {
 
 export function getPortfolio(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'albums/portfolio',
+    process.env.REACT_APP_API_BASE_URL + '/' + params.user +'/portfolio',
     {
       params
     }

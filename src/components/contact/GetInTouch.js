@@ -58,7 +58,7 @@ export default class GetInTouch extends Component {
   componentDidMount() {
     var self = this;
     var user = self.props.match.params.user;
-    ContactDetailService.getContactDetail({user: user}).then(function(response) {
+    ContactDetailService.getContactDetail({user: user, onlyAPI: true}).then(function(response) {
       if (response.status === 200) {
         var response_data = response.data
         self.setState({ contactDetails: (response_data.data.contact_detail === null ? {} : response_data.data.contact_detail), userDetails: (response_data.data.user === null ? {} : response_data.data.user) });
