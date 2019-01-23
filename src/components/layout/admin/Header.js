@@ -64,15 +64,15 @@ export default class Header extends Component {
             {this.props.title}
           </label>
           <Button className="logout-btn btn btn-orange view-my-website-btn">
-            <Link
-              to={
-                process.env.REACT_APP_API_BASE_URL + currentUser().alias
+            <a
+              href={
+                "http://www.afterclix.com/sites/" + currentUser().alias
               }
               target="_blank"
               className="admin-login-btn"
             >
               View My Website
-            </Link>
+            </a>
           </Button>
           <Navbar.Toggle />
         </Navbar.Header>
