@@ -21,7 +21,7 @@ export default class AboutUs extends Component {
   componentWillMount() {
     var self = this;
     var user = self.props.match.params.user;
-    AboutService.getAboutUsDetail({user: user}).then(function(response) {
+    AboutService.getAboutUsDetail({user: user, onlyAPI: true}).then(function(response) {
       if (response.status === 200) {
         self.setState({
           aboutUs: response.data.data.about_us,

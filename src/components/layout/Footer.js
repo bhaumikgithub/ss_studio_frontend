@@ -16,7 +16,7 @@ class Footer extends Component {
   }
   componentWillMount() {
     var self = this
-    AboutService.getAboutUsDetail({user: self.state.user}).then(function(response) {
+    AboutService.getAboutUsDetail({user: self.state.user, onlyAPI: true}).then(function(response) {
       if (response.status === 200) {
         self.setState({
           socialMedia: response.data.data.about_us.social_links.facebook_link

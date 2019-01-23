@@ -28,7 +28,7 @@ export function createService(params) {
 
 export function getServiceDetails(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'services/service_details',
+    process.env.REACT_APP_API_BASE_URL + '/' + params.user +'/services',
     {params}
   );
 }

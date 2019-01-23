@@ -37,7 +37,7 @@ export default class Portfolio extends Component {
   fetchPortfolio(category) {
     var self = this;
     var user = self.props.match.params.user;
-    AlbumService.getPortfolio({ category: category, user: user })
+    AlbumService.getPortfolio({ category: category, user: user, onlyAPI: true })
       .then(function(response) {
         var data = response.data;
         if (response.status === 200) {

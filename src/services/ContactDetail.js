@@ -20,7 +20,7 @@ export function updateContactDetail(params) {
 
 export function getContactDetail(params) {
   return axiosInstance.get(
-    process.env.REACT_APP_API_BASE_URL + 'contact_detail',
+    process.env.REACT_APP_API_BASE_URL + '/' + params.user + '/contact',
     {params}
   );
 }
