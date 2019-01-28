@@ -540,6 +540,10 @@ div.filepicker {
   outline: medium none;
   color: rgb(255, 255, 255);
 }
+.custom-album-image{
+  height: 150px;
+  width: 150px;
+}
 /* album detail page css end */
 
 /* admin header page css start */

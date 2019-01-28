@@ -753,7 +753,7 @@ export default class AlbumDetails extends Component {
                       >
                         <Col xs={12} className="album-photo-thumbs p-none">
                           <img
-                            className="img-responsive album-image"
+                            className="img-responsive album-image custom-album-image"
                             src={photo.image}
                             alt={photo.image_file_name}
                           />

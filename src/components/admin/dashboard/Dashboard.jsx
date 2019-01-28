@@ -101,7 +101,7 @@ export default class Dashboard extends Component {
                 {window !== undefined &&
                   <Link to={'/'+currentUser().alias} target="_blank">
                     <h5 className="profile-completeness-instruction-bar public-url-bar">
-                        Your Public Url is: {window.location.protocol + '//' + window.location.host + process.env.REACT_APP_BASE_PATH + "/" +currentUser().alias}
+                        Your Public Url is: {window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + currentUser().alias}
                     </h5>
                   </Link>
                 }
