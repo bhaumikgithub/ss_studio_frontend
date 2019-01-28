@@ -99,11 +99,11 @@ export default class Dashboard extends Component {
               </div>
               <div className="public-url-strip">
                 {window !== undefined &&
-                  <Link to={'/'+currentUser().alias} target="_blank">
+                  <a href={window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + currentUser().alias} target="_blank">
                     <h5 className="profile-completeness-instruction-bar public-url-bar">
                         Your Public Url is: {window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + currentUser().alias}
                     </h5>
-                  </Link>
+                  </a>
                 }
               </div>
               <div className="create-new-album-btn">
