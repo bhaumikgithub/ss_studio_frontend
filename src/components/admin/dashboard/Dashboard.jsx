@@ -143,8 +143,7 @@ export default class Dashboard extends Component {
                     </Link>
                   </Button>
                 </p>
-              </div>
-              }
+              
             <Collapsible trigger={
               <Checkbox
                 name="active-checkbox"
@@ -157,7 +156,7 @@ export default class Dashboard extends Component {
                   <div className="inside" />
                 </div>
               </Checkbox>
-            } open={(profileCompleteness.next_task === "public_album" || profileCompleteness.next_task === "private_album" || profileCompleteness.next_task === "watermark" || profileCompleteness.next_task === "photo") ? true : false}>
+              } open={(profileCompleteness.next_task === "public_album" || profileCompleteness.next_task === "private_album" || profileCompleteness.next_task === "watermark" || profileCompleteness.next_task === "photo") ? true : false}>
               <Link
                 to={
                   '/albums'
@@ -335,6 +334,8 @@ export default class Dashboard extends Component {
                 Add contact details
               </Link>
             </Collapsible>
+            </div>
+           }
             </div>
           </div>
         </div>
