@@ -299,7 +299,8 @@ export default class AlreadyShared extends Component {
               <Button
                 type="button"
                 onClick={() => this.dropzone.files.length === fileCount ? this.closeOn() : this.showDialogueBox()}
-                className="btn btn-orange create-album-submit add-photo"
+                className="btn btn-orange create-album-submit add-photo done-btn"
+                disabled={this.dropzone !== null && this.dropzone.files.length !== fileCount ? true : false}
               >
                 Done
               </Button>

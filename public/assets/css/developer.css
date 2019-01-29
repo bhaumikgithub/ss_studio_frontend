@@ -891,6 +891,9 @@ div.filepicker {
   /* margin-top: 9px; */
   float: left !important;
 }
+.done-btn:hover{
+  background: orange !important;
+}
 /* end album detail page css  */
 .custom-form-control {
   font-size: 14px !important;
