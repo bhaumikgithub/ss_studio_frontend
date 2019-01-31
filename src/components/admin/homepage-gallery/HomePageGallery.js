@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
-
+import HomepagePopup from './HomepagePopup';
 // Import services
 import { HomePageGalleryService } from '../../../services/Index';
 
@@ -15,7 +15,8 @@ export default class HomePageGallery extends Component {
     super(props);
     this.state = {
       active_photos: [],
-      homepage_photo: {}
+      homepage_photo: {},
+      showPopup: false
     };
     this.handleImageChange = this.handleImageChange.bind(this);
   }
@@ -69,10 +70,21 @@ export default class HomePageGallery extends Component {
     this.setState({ active_photos: activePhotos });
   }
 
+  closePopup = () => {
+    this.setState({ showPopup: false, editObject: {} });
+  };
+
   render() {
     const { active_photos } = this.state;
     return (
       <Col xs={12} className="homepage-gallery-page-wrap">
+        {this.state.showPopup && (
+          <HomepagePopup
+            showPopup={this.state.showPopup}
+            closePopup={this.closePopup}
+            editObject={this.state.editObject}
+          />
+        )}
         <Row>
           <Col xs={12} className="homepage-gallery">
             <Col xs={12} className="slider-images-wrap disable-scrollbar">
@@ -102,6 +114,24 @@ export default class HomePageGallery extends Component {
                     <a
                       className="edit-slide"
                       onClick={event => this.handleImageChange(event, index)}
+                    >
+                      <i className="fa fa-pencil-square-o" aria-hidden="true" />
+                      <input
+                        type="file"
+                        ref={'editHomeImage' + index}
+                        className="custom-photo-edit"
+                        onChange={e =>
+                          this.handleUploadFile(e, index, photo.id)}
+                      />
+                    </a>
+                    <a
+                      className="edit-slide edit-slide-margin"
+                      onClick={() =>
+                        this.setState({
+                          showPopup: true,
+                          editObject: {active_photos}
+                        })
+                      }
                     >
                       <i className="fa fa-pencil-square-o" aria-hidden="true" />
                       <input
