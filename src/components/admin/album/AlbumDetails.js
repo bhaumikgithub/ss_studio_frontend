@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Col, Button, Checkbox } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 
@@ -616,21 +616,39 @@ export default class AlbumDetails extends Component {
                   />{' '}
                   Delete Selected
                 </Button>
-                <Link
-                  to={
-                    album.is_private
-                      ? '/'+ this.props.album.user_name +'/shared_album_login/' + albumSlug
-                      : '/'+ this.props.album.user_name +'/shared_album/' + albumSlug
-                  }
-                  target="_blank"
-                  className="view-album-detail"
-                >
-                  <img
-                    src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
-                    alt=""
-                  />{' '}
-                  View Album
-                </Link>
+                {process.env.NODE_ENV === 'development' ? 
+                  <a
+                    href={
+                      album.is_private
+                        ? process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album_login/' + albumSlug
+                        : process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album/' + albumSlug
+                    }
+                    target="_blank"
+                    className="view-album-detail"
+                  >
+                    <img
+                      src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                      alt=""
+                    />{' '}
+                    View Album
+                  </a>
+                :
+                  <a
+                    href={
+                      album.is_private
+                        ? window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album_login/' + albumSlug
+                        : window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album/' + albumSlug
+                    }
+                    target="_blank"
+                    className="view-album-detail"
+                  >
+                    <img
+                      src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                      alt=""
+                    />{' '}
+                    View Album
+                  </a>
+                }
                 {(album.delivery_status === 'Submitted' ||
                   album.delivery_status === 'Delivered' ||
                   album.delivery_status === 'Stoped_selection') && (

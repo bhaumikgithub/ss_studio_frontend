@@ -6,7 +6,7 @@ import {
   Button,
   NavItem
 } from 'react-bootstrap';
-import { Redirect, Link, NavLink } from 'react-router-dom';
+import { Redirect, NavLink } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { IndexLinkContainer } from 'react-router-bootstrap';
 // Import component
