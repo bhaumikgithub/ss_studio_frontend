@@ -16,7 +16,8 @@ export default class HomePageGallery extends Component {
     this.state = {
       active_photos: [],
       homepage_photo: {},
-      showPopup: false
+      showPopup: false,
+      editObject: {}
     };
     this.handleImageChange = this.handleImageChange.bind(this);
   }
@@ -70,6 +71,14 @@ export default class HomePageGallery extends Component {
     this.setState({ active_photos: activePhotos });
   }
 
+  renderPhoto = (photo) => {
+    const self = this
+    const { active_photos, editObject } = self.state;
+    const activePhotos = active_photos.slice();
+    activePhotos[activePhotos.indexOf(editObject.photo)] = photo;
+    this.setState({ active_photos: activePhotos });
+  }
+
   closePopup = () => {
     this.setState({ showPopup: false, editObject: {} });
   };
@@ -83,6 +92,7 @@ export default class HomePageGallery extends Component {
             showPopup={this.state.showPopup}
             closePopup={this.closePopup}
             editObject={this.state.editObject}
+            renderPhoto={this.renderPhoto}
           />
         )}
         <Row>
@@ -129,18 +139,11 @@ export default class HomePageGallery extends Component {
                       onClick={() =>
                         this.setState({
                           showPopup: true,
-                          editObject: {active_photos}
+                          editObject: {photo}
                         })
                       }
                     >
-                      <i className="fa fa-pencil-square-o" aria-hidden="true" />
-                      <input
-                        type="file"
-                        ref={'editHomeImage' + index}
-                        className="custom-photo-edit"
-                        onChange={e =>
-                          this.handleUploadFile(e, index, photo.id)}
-                      />
+                      <i className="fa fa-pencil" aria-hidden="true" />
                     </a>
                   </div>
                 </Col>

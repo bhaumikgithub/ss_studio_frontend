@@ -3,7 +3,6 @@ import {
   Col,
   Button,
   Modal,
-  Radio,
   ControlLabel,
   FormGroup,
   FormControl,
@@ -11,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 // Import services
-import { VideoFilmService } from '../../../services/Index';
+import { HomePageGalleryService } from '../../../services/Index';
 
 // Import components
 import validationHandler from '../../common/ValidationHandler';
@@ -22,7 +21,7 @@ import { isObjectEmpty } from '../../Helper';
 // Import css
 import '../../../assets/css/admin/video-films/add-video/add-video.css';
 
-export default class VideoPopup extends Component {
+export default class HomepagePopup extends Component {
   constructor(props) {
     super(props);
     this.state = this.getInitialState();
@@ -30,70 +29,73 @@ export default class VideoPopup extends Component {
 
   getInitialState() {
     const initialState = {
-      videoForm: {
-        title: '',
-        video_type: 'youtube',
-        video_url: '',
-        status: 'published'
+      HomepageForm: {
+        position: 0,
+        slide_text: '',
+        button_text: '',
+        button_link: '',
+        is_display_text: false,
+        is_display_button: false
       },
-      showVideoUrl: true,
       errors: {}
     };
 
     return initialState;
   }
 
-  resetVideoForm() {
-    this.setState({ videoForm: this.getInitialState().videoForm });
+  resetHomepageForm() {
+    this.setState({ HomepageForm: this.getInitialState().HomepageForm });
   }
 
   componentWillMount() {
     var self = this;
-
-    if (!isObjectEmpty(self.props.editObject)) {
-      self.editVideo(self.props.editObject);
+    if (!isObjectEmpty(self.props.editObject.photo)) {
+      self.editHomepage(self.props.editObject.photo);
     }
   }
 
-  editVideo(video) {
+  editHomepage(HomepageDetail) {
     var self = this;
     self.setState({
-      videoForm: video
+      HomepageForm: HomepageDetail
     });
   }
 
   handleChange(e) {
-    const videoForm = this.state.videoForm;
+    const HomepageForm = this.state.HomepageForm;
     var key = e.target.name;
     var value = e.target.value;
-    this.handleVideoSelector(key, value);
-    videoForm[key] = e.target.value;
+    if (key === 'is_display_text' || key === 'is_display_button') {
+      HomepageForm[key] = e.target.checked;
+    } else {
+      HomepageForm[key] = value;
+    }
     this.setState({
-      videoForm
+      HomepageForm
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
     var self = this;
-    var callVideoApi = () => {};
-
-    if (isObjectEmpty(self.props.editObject)) {
-      var createParams = { video: this.state.videoForm };
-      callVideoApi = VideoFilmService.createVideoFilm(createParams);
-    } else {
+    var callHomepageApi = () => {};
+    var newHomePageForm = self.state.HomepageForm
+    if (!isObjectEmpty(self.props.editObject)) {
+      delete newHomePageForm.homepage_image
+      delete newHomePageForm.homepage_image_file_name
       var editParams = {
-        id: self.props.editObject.id,
-        videoForm: { video: self.state.videoForm }
+        id: self.props.editObject.photo.id,
+        homepage_photo: newHomePageForm
       };
-      callVideoApi = VideoFilmService.updateVideoFilm(editParams);
+      callHomepageApi = HomePageGalleryService.updateHomepagePhoto(editParams, editParams.id);
     }
 
-    callVideoApi
+    callHomepageApi
       .then(function(response) {
         self.handelResponse(response);
       })
       .catch(function(error) {
+        debugger
         const errors = error.response.data.errors;
         if (errors.length > 0) {
           self.setState({ errors: validationHandler(errors) });
@@ -106,10 +108,9 @@ export default class VideoPopup extends Component {
   handelResponse(response) {
     var responseData = response.data;
     if (response.status === 201) {
-      this.resetVideoForm();
-      this.props.renderVideo(
-        responseData.data.video,
-        isObjectEmpty(this.props.editObject) ? 'insert' : 'replace'
+      this.resetHomepageForm();
+      this.props.renderPhoto(
+        responseData.data.homepage_photo
       );
       this.props.closePopup();
     } else {
@@ -117,14 +118,8 @@ export default class VideoPopup extends Component {
     }
   }
 
-  handleVideoSelector(key, value) {
-    if (value === 'youtube' && key === 'video_type') {
-      this.handleVideoSelector(true);
-    }
-  }
-
   render() {
-    const { videoForm, showVideoUrl, errors } = this.state;
+    const { HomepageForm, errors } = this.state;
     return (
       <Modal
         show={this.props.showPopup}
@@ -147,11 +142,11 @@ export default class VideoPopup extends Component {
           <Col className="add-videofilms-title-wrap p-none" sm={5}>
             <Col xs={12} className="p-none add-videofilms-title-details">
               <img
-                src={require('../../../assets/images/admin/video-films/add-video-icon.png')}
+                src={require('../../../assets/images/admin/album/create-album/edit-album-icon.png')}
                 alt=""
                 className="add-videofilms-icon img-responsive"
               />
-              <h4 className="add-videofilms-text text-white">Add New Video</h4>
+              <h4 className="add-videofilms-text text-white">Edit Homepage Detail</h4>
             </Col>
           </Col>
           <Col className="add-videofilms-content-wrap" sm={7}>
@@ -163,17 +158,31 @@ export default class VideoPopup extends Component {
                 <FormControl
                   className="custom-form-control"
                   type="text"
-                  name="slide_order"
-                  value={videoForm.title}
+                  name="position"
+                  value={HomepageForm.position === null ? "" : HomepageForm.position}
                   onChange={this.handleChange.bind(this)}
                 />
-                {errors['slide_order'] && (
+                {errors['position'] && (
                   <span className="input-error text-red">
-                    {errors['slide_order']}
+                    {errors['position']}
                   </span>
                 )}
               </FormGroup>
-
+              <FormGroup className="custom-form-group">
+                <Checkbox
+                  className=""
+                  name="is_display_text"
+                  value={''}
+                  onClick={this.handleChange.bind(this)}
+                  defaultChecked={HomepageForm.is_display_text}
+                >
+                  {' '}
+                  <span>Display Text on Slide</span>
+                  <div className="check">
+                    <div className="inside" />
+                  </div>
+                </Checkbox>
+              </FormGroup>
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Slide Text
@@ -182,8 +191,8 @@ export default class VideoPopup extends Component {
                   className="custom-form-control"
                   type="text"
                   name="slide_text"
-                  disabled={videoForm.status === 'published' ? "" : "disabled"}
-                  value={videoForm.title}
+                  disabled={HomepageForm.is_display_text ? false : true}
+                  value={HomepageForm.slide_text === null ? "" : HomepageForm.slide_text}
                   onChange={this.handleChange.bind(this)}
                 />
                 {errors['slide_text'] && (
@@ -192,7 +201,21 @@ export default class VideoPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-
+              <FormGroup className="custom-form-group">
+                <Checkbox
+                  className=""
+                  name="is_display_button"
+                  value={''}
+                  onClick={this.handleChange.bind(this)}
+                  defaultChecked={HomepageForm.is_display_button}
+                >
+                  {' '}
+                  <span>Display Button on Slide</span>
+                  <div className="check">
+                    <div className="inside" />
+                  </div>
+                </Checkbox>
+              </FormGroup>
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Button Text
@@ -201,7 +224,8 @@ export default class VideoPopup extends Component {
                   className="custom-form-control"
                   type="text"
                   name="button_text"
-                  value={videoForm.title}
+                  value={HomepageForm.button_text === null ? "" : HomepageForm.button_text}
+                  disabled={HomepageForm.is_display_button ? false : true}
                   onChange={this.handleChange.bind(this)}
                 />
                 {errors['button_text'] && (
@@ -219,7 +243,8 @@ export default class VideoPopup extends Component {
                   className="custom-form-control"
                   type="text"
                   name="button_link"
-                  value={videoForm.title}
+                  value={HomepageForm.button_link === null ? "" : HomepageForm.button_link}
+                  disabled={HomepageForm.is_display_button ? false : true}
                   onChange={this.handleChange.bind(this)}
                 />
                 {errors['button_link'] && (
@@ -228,36 +253,6 @@ export default class VideoPopup extends Component {
                   </span>
                 )}
               </FormGroup>
-
-              <FormGroup className="custom-form-group">
-                <Checkbox
-                  className=""
-                  name="allow_text"
-                  value={''}
-                  onClick={this.handleChange.bind(this)}
-                  defaultChecked={true}
-                >
-                  {' '}
-                  <span>Display Text on Slide</span>
-                  <div className="check">
-                    <div className="inside" />
-                  </div>
-                </Checkbox>
-                <Checkbox
-                  className=""
-                  name="allow_button"
-                  value={''}
-                  onClick={this.handleChange.bind(this)}
-                  defaultChecked={false}
-                >
-                  {' '}
-                  <span>Display Button on Slide</span>
-                  <div className="check">
-                    <div className="inside" />
-                  </div>
-                </Checkbox>
-              </FormGroup>
-
               <Button
                 type="submit"
                 className="btn btn-orange create-video-submit"
