@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'react-bootstrap';
-
+import HomepagePopup from './HomepagePopup';
 // Import services
 import { HomePageGalleryService } from '../../../services/Index';
 
@@ -15,7 +15,9 @@ export default class HomePageGallery extends Component {
     super(props);
     this.state = {
       active_photos: [],
-      homepage_photo: {}
+      homepage_photo: {},
+      showPopup: false,
+      editObject: {}
     };
     this.handleImageChange = this.handleImageChange.bind(this);
   }
@@ -69,10 +71,30 @@ export default class HomePageGallery extends Component {
     this.setState({ active_photos: activePhotos });
   }
 
+  renderPhoto = (photo) => {
+    const self = this
+    const { active_photos, editObject } = self.state;
+    const activePhotos = active_photos.slice();
+    activePhotos[activePhotos.indexOf(editObject.photo)] = photo;
+    this.setState({ active_photos: activePhotos });
+  }
+
+  closePopup = () => {
+    this.setState({ showPopup: false, editObject: {} });
+  };
+
   render() {
     const { active_photos } = this.state;
     return (
       <Col xs={12} className="homepage-gallery-page-wrap">
+        {this.state.showPopup && (
+          <HomepagePopup
+            showPopup={this.state.showPopup}
+            closePopup={this.closePopup}
+            editObject={this.state.editObject}
+            renderPhoto={this.renderPhoto}
+          />
+        )}
         <Row>
           <Col xs={12} className="homepage-gallery">
             <Col xs={12} className="slider-images-wrap disable-scrollbar">
@@ -111,6 +133,17 @@ export default class HomePageGallery extends Component {
                         onChange={e =>
                           this.handleUploadFile(e, index, photo.id)}
                       />
+                    </a>
+                    <a
+                      className="edit-slide edit-slide-margin"
+                      onClick={() =>
+                        this.setState({
+                          showPopup: true,
+                          editObject: {photo}
+                        })
+                      }
+                    >
+                      <i className="fa fa-pencil" aria-hidden="true" />
                     </a>
                   </div>
                 </Col>
