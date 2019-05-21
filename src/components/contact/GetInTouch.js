@@ -126,7 +126,7 @@ export default class GetInTouch extends Component {
             <Col sm={7}>
               <div className="contact-detail-wrap">
                 <img
-                  src={require('../../assets/images/logo.png')}
+                  src={require('../../assets/images/new_logo.png')}
                   alt="Logo"
                   className="img-responsive contact-logo"
                 />

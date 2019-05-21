@@ -96,7 +96,7 @@ export default class PasscodeLogin extends Component {
           <Row>
             <Col xs={10} sm={6} className="login-form">
               <img
-                src={require('../../assets/images/admin/login/login-logo.png')}
+                src={require('../../assets/images/admin/login/login-logo-new.png')}
                 alt="Logo"
                 className="img-responsive login-logo"
               />

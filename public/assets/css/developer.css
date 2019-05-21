@@ -367,6 +367,74 @@ div.filepicker {
   width: 30px;
 }
 
+.social_media_btn {
+  position: fixed;
+  right: 0px;
+  top: 0;
+  z-index: 0;
+  bottom: 0;
+  margin: auto;
+  height: max-content;
+}
+@media(max-width:767px){
+  .social_media_btn {
+    position: relative;
+    display: flex;
+  }
+  .social_media_btn  .media-icons{
+    width: auto;
+    flex-direction: row!important;
+    justify-content: center;
+    margin: auto;
+    padding-left: 0px;
+  }
+}
+
+.social_media_btn  .media-icons{
+  display: flex;
+  flex-direction: column;
+  padding-right: 0px;
+}
+.social_media_btn  .media-icons .media-link{
+  margin-right:0px;
+  width: 40px!important;
+  height: 40px!important;
+  border-radius: 0px;
+}
+@media (max-width:420px){
+  .social_media_btn  .media-icons .media-link{
+    width: 35px!important;
+    height: 35px!important;
+  }
+}
+.social_media_btn .facebook_link{
+   background: #3b5998;
+}
+.social_media_btn .twitter_link{
+  background:#4eaded;
+}
+.social_media_btn .instagram_link{
+  background:#3f719a;
+}
+.social_media_btn .youtube_link{
+  background:#ed3034;
+}
+.social_media_btn .vimeo_link{
+  background:#52b8ea;
+}
+.social_media_btn .linkedin_link{
+  background:#397fb1;
+}
+.social_media_btn .pinterest_link{
+  background: #cb2229;
+}
+.social_media_btn .flickr_link{
+  background: #3562db;
+}
+.social_media_btn a svg .social-svg-icon{
+  fill:#fff!important;
+}
+
 /* start photo count in portfolio album detail */
 
 .portfolio-main-title {
@@ -536,6 +604,10 @@ div.filepicker {
 /* admin header page css start */
 .navbar-fixed-top {
   z-index: 11;
+}
+.header-logo{
+  width: 110px;
+  height: auto;
 }
 /* admin header page css end */
 

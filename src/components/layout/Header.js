@@ -14,9 +14,9 @@ class Header extends Component {
       >
         <Navbar.Header>
           <Navbar.Brand className="navbar-logo">
-            <Link to="/">
+            <Link to="/" className="header-logo">
               <img
-                src={require('../../assets/images/logo.png')}
+                src={require('../../assets/images/new_logo.png')}
                 alt=""
                 className="img-responsive"
               />

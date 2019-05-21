@@ -13,6 +13,7 @@
   margin: 50px auto;
   float: none;
   position: relative;
+  padding-top: 0px;
 }
 .login-details-block {
   display: block;
@@ -22,7 +23,9 @@
 
 .login-logo {
   display: block;
-  margin: 0 auto 50px;
+  margin: 0 auto 0;
+  width: 240px;
+  height: 220px;
 }
 
 .login-btn {
