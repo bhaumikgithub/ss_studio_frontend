@@ -73,6 +73,9 @@
 .p-t-40 {
   padding-top: 40px;
 }
+.developed-by-text, .developed-by-text:hover, .developed-by-text:focus{
+  color: #fff;
+}
 
 /* pagination css start */
 .custom-pagination {

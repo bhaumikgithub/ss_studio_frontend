@@ -11,7 +11,15 @@ export default class LoginFooter extends Component {
               © Copyright 2017 - Sagar Gadani , All rights reserved
             </Col>
             <Col xs={12} sm={6} className="design-by">
-              Designed By Techplus Software Pvt. Ltd.
+              Developed By{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="http://www.afterclix.com/"
+                className="developed-by-text"
+              >
+                AfterClix
+              </a>
             </Col>
           </Row>
         </Grid>
