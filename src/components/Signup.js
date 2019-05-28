@@ -12,7 +12,7 @@ import { Redirect, Link } from 'react-router-dom';
 
 // Import helper
 import { toCapitalize, isLoggedIn, currentUserRole } from './Helper';
-import validationHandler from './common/ValidationHandler';
+import signupValidationHandler from './common/SignupValidationHandler';
 
 // Import css
 import '../assets/css/admin/login.css';
@@ -104,7 +104,7 @@ export default class Login extends Component {
         console.log(errors)
         if (errors.length > 0) {
           document.getElementsByClassName('login-btn')[0].disabled = false
-          self.setState({ signup_error: validationHandler(errors) });
+          self.setState({ signup_error: signupValidationHandler(errors) });
         } else {
           console.log(error.response);
         }
