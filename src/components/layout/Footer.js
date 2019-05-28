@@ -25,7 +25,7 @@ class Footer extends Component {
   }
   render() {
     return (
-      <Col>
+      <Col className="bottom-footer">
         <div className="social_media_btn">
           {/* <a
             href="https://www.facebook.com/sagarphotocam"
