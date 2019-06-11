@@ -7,6 +7,9 @@ const signupValidationHandler = errors => {
     {
       return (validations[field] = error['detail']);
     }
+    else if(field === 'password' && errors[key].detail === "can't be blank"){
+      return (validations[field] = "Please Enter Password");
+    }
     else{
       return (validations[field] =
         errors[key]['field_label'] + ' ' + error['detail']);
