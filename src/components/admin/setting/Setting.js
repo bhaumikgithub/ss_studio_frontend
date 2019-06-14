@@ -103,7 +103,7 @@ export default class SiteContent extends Component {
     var self = this;
     let file = e.target.files[0];
     let data = new FormData();
-    data.append('watermark[photo_attributes][image]', file);
+    data.append('watermark[watermark_image]', file);
     if (self.state.watermarks.length === 0){
       WatermarkService.createWatermark(data)
       .then(function(response) {
@@ -188,10 +188,10 @@ export default class SiteContent extends Component {
               watermarks.map((watermark, index) => (
                 <Col xs={12} className="p-none" key={index}>
                   <Col className="content-about-img-wrap watermark-content-img">
-                    {watermark.photo && (
+                    {watermark && watermark.original_image && (
                       <img
                         className="img-responsive content-user-image"
-                        src={watermark.photo.original_image}
+                        src={watermark.original_image}
                         alt="user"
                       />
                     )}
