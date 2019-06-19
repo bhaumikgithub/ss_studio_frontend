@@ -3,7 +3,7 @@ import { Col, Tab, Tabs, Checkbox } from 'react-bootstrap';
 // Import component
 
 // Import services
-import { WatermarkService,UserService } from '../../../services/Index';
+import { WatermarkService,UserService, WebsiteDetailService } from '../../../services/Index';
 
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
@@ -15,6 +15,8 @@ export default class SiteContent extends Component {
     this.state = {
       watermarks: [],
       userLogo: [],
+      websiteDetail: {},
+      faviconImage: [],
       tab: 'watermark'
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
@@ -35,7 +37,9 @@ export default class SiteContent extends Component {
     UserService.getCurrentUser().then(function(response) {
       if (response.status === 200) {
         self.setState({
-          userLogo: response.data.data.user.user_logo
+          userLogo: response.data.data.user.user_logo,
+          websiteDetail: response.data.data.user.website_detail,
+          faviconImage: response.data.data.user.website_detail.favicon_image
         });
       }
     });
@@ -124,6 +128,24 @@ export default class SiteContent extends Component {
     }
   }
 
+  handleUploadFaviconImage = e =>{
+    e.preventDefault();
+
+    var self = this;
+    let file = e.target.files[0];
+    let data = new FormData();
+    data.append('website_detail[favicon_image]', file);
+      WebsiteDetailService.updateFaviconImage(data)
+        .then(function(response) {
+          if (response.status === 201) {
+            self.setState({websiteDetail: response.data.data.website_detail})
+          }
+        })
+        .catch(function(error) {
+          console.log(error.response);
+        });
+  }
+
   handleSuccessResponse(response) {
     if (response.status === 201) {
       this.handlePhotoRendering(response);
@@ -152,8 +174,13 @@ export default class SiteContent extends Component {
     inputField.click();
   }
 
+  handleEditFaviconImageClick(e){
+    var inputField = document.getElementById("favicon_image_edit")
+    inputField.click();
+  }
+
   render() {
-    const { tab, watermarks, userLogo } = this.state;
+    const { tab, watermarks, userLogo, faviconImage, websiteDetail } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
         <Tabs
@@ -260,6 +287,35 @@ export default class SiteContent extends Component {
                     ref="fileField"
                     type="file"
                     onChange={e => this.handleUploadFile(e)}
+                  />
+                </a>
+              </Col>
+            </Col>
+          </Tab>
+          <Tab
+            eventKey="site_title_favicon"
+            title="Favicon & Site Title"
+            className="about-site-content"
+          >
+          <Col xs={12} className="p-none">
+              <Col className="content-about-img-wrap">
+                {websiteDetail && websiteDetail.favicon_image && (
+                  <img
+                    className="img-responsive content-user-image"
+                    src={websiteDetail.favicon_image}
+                    alt="user"
+                  />
+                )}
+                <a className="img-edit-btn" onClick={this.handleEditFaviconImageClick}>
+                  <img
+                    src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                    alt=""
+                  />
+                  <input
+                    id="favicon_image_edit"
+                    ref="fileField"
+                    type="file"
+                    onChange={e => this.handleUploadFaviconImage(e)}
                   />
                 </a>
               </Col>

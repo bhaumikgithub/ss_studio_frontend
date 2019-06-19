@@ -186,7 +186,7 @@
 .content-about-img-wrap {
   max-width: 260px;
 }
-#about_photo_edit,#watermark_photo_edit,
+#about_photo_edit,#watermark_photo_edit, #favicon_image_edit,
 .custom-photo-edit {
   visibility: hidden;
 }
