@@ -368,7 +368,7 @@ export default class SiteContent extends Component {
             className="about-site-content"
           >
           <Col xs={12} className="p-none">
-            <Col className="content-about-img-wrap">
+            <Col className="content-about-img-wrap watermark-content-img favicon-wrap">
               {websiteDetail && websiteDetail.favicon_image && (
                 <img
                   className="img-responsive content-user-image"
@@ -391,7 +391,7 @@ export default class SiteContent extends Component {
             </Col>
           </Col>
           <Col className="edit-about-content-wrap" sm={6}>
-            <form className="admin-side edit-about-form custom-form">
+            <form className="admin-side edit-about-form custom-form admin-settings-form">
               <FormGroup className="custom-form-group required">
                 <ControlLabel className="custom-form-control-label">
                   Site Title
