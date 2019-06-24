@@ -8,7 +8,7 @@ export default class LoginFooter extends Component {
         <Grid>
           <Row>
             <Col xs={12} sm={12} className="copyright">
-              © Copyright 2018 - AfterClix , All rights reserved
+              © Copyright {(new Date().getFullYear())} - AfterClix , All rights reserved
             </Col>
             <Col xs={12} sm={6} className="design-by">
               {/* Designed By Techplus Software Pvt. Ltd. */}
