@@ -186,7 +186,21 @@
 .content-about-img-wrap {
   max-width: 260px;
 }
-#about_photo_edit,#watermark_photo_edit,
+.content-about-img-wrap.favicon-wrap{
+   min-height: 80px;
+   margin:15px 15px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+.content-about-img-wrap.favicon-wrap img{
+  height: max-content;
+}
+.admin-side.admin-settings-form .input-error{
+  position: absolute!important;
+  top:102%!important;
+}
+#about_photo_edit,#watermark_photo_edit, #favicon_image_edit,
 .custom-photo-edit {
   visibility: hidden;
 }

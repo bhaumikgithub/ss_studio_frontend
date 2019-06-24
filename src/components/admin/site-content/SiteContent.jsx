@@ -595,7 +595,7 @@ export default class SiteContent extends Component {
                 )}
             </div>
           </Tab>
-          <Tab eventKey="website_detail" title="Website Details">
+          {/* <Tab eventKey="website_detail" title="Website Details">
             <Col xs={12} className="site-content-filter p-none">
               {(websiteDetail && websiteDetail.title !== undefined) ?
                 <Button
@@ -653,7 +653,7 @@ export default class SiteContent extends Component {
               </Col>
             </Col>
             }
-          </Tab>
+          </Tab> */}
         </Tabs>
       </Col>
     );

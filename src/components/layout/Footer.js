@@ -36,7 +36,7 @@ class Footer extends Component {
       <Col xs={12} className="custom-footer">
         <Grid className="custom-container">
           <Col sm={6} className="content">
-            {this.state.websiteDetail ? this.state.websiteDetail.copyright_text : "© Copyright 2018 - AfterClix , All rights reserved"}
+            {this.state.websiteDetail ? this.state.websiteDetail.copyright_text : "© Copyright {(new Date().getFullYear())} - AfterClix , All rights reserved"}
           </Col>
 
           <Col sm={6} className="content">

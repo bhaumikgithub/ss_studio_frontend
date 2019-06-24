@@ -95,7 +95,7 @@ export default class Login extends Component {
           <Row>
             <Col xs={10} sm={6} className="login-form">
               <img
-                src={require('../../assets/images/afterclix.png')}
+                src={require('../../assets/images/logo.svg')}
                 alt=""
                 className="img-responsive login-logo"
               />

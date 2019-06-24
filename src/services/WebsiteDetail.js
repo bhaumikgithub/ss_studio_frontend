@@ -29,3 +29,11 @@ export function getWebsiteDetails(params) {
     {params}
   );
 }
+export function updateFaviconImage(params) {
+  const responsePromise = axiosInstance.patch(
+    process.env.REACT_APP_API_BASE_URL + 'website_details/update_user_logo',
+    params,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
