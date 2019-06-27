@@ -483,8 +483,8 @@ export default class AlbumsListing extends Component {
                         <a
                           href={
                             album.is_private
-                              ? window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album_login/' + album.slug
-                              : window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album/' + album.slug
+                              ? window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + album.user_name +'/shared_album_login/' + album.slug
+                              : window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + album.user_name +'/shared_album/' + album.slug
                           }
                           target="_blank"
                           className="view-album-listing"
