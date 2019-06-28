@@ -620,8 +620,8 @@ export default class AlbumDetails extends Component {
                   <a
                     href={
                       album.is_private
-                        ? process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album_login/' + albumSlug
-                        : process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album/' + albumSlug
+                        ? (album && album.domain_name ? album.domain_name+'/sites/' : process.env.REACT_APP_API_BASE_URL) + this.props.album.user_name +'/shared_album_login/' + albumSlug
+                        : (album && album.domain_name ? album.domain_name+'/sites/' : process.env.REACT_APP_API_BASE_URL) + this.props.album.user_name +'/shared_album/' + albumSlug
                     }
                     target="_blank"
                     className="view-album-detail"
@@ -636,8 +636,8 @@ export default class AlbumDetails extends Component {
                   <a
                     href={
                       album.is_private
-                        ? window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album_login/' + albumSlug
-                        : window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album/' + albumSlug
+                        ? (album && album.domain_name ? album.domain_name : window.location.protocol + '//' + window.location.host) + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album_login/' + albumSlug
+                        : (album && album.domain_name ? album.domain_name : window.location.protocol + '//' + window.location.host) + process.env.REACT_APP_API_BASE_URL + this.props.album.user_name +'/shared_album/' + albumSlug
                     }
                     target="_blank"
                     className="view-album-detail"

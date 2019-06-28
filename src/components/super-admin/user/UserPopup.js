@@ -43,7 +43,8 @@ export default class UserPopup extends Component {
         user_type_option: '',
         status_option: '',
         user_type_id: '',
-        user_type: ''
+        user_type: '',
+        domain_name: ''
       },
       countries: [],
       // roles: [],
@@ -128,7 +129,8 @@ export default class UserPopup extends Component {
       country,
       // role,
       sub_package,
-      user_type
+      user_type,
+      domain_name
     } = user;
     self.setState({
       userForm: {
@@ -141,7 +143,8 @@ export default class UserPopup extends Component {
         status_option: self.statusOptions(status === null ? [] : [{name: status}]),
         country_option: self.countryOptions((country === null || country === undefined) ? [] : [country]),
         package_option: self.packageOptions((sub_package === null || sub_package === undefined) ? [] : [sub_package]),
-        user_type_option: self.userTypeOptions(user_type === null ? [] : [{id: user_type === "Regular User" ? 0 :  user_type === "Premium User" ? 1 : 2,value: toCapitalize(user_type)}])
+        user_type_option: self.userTypeOptions(user_type === null ? [] : [{id: user_type === "Regular User" ? 0 :  user_type === "Premium User" ? 1 : 2,value: toCapitalize(user_type)}]),
+        domain_name: domain_name
       }
     });
   }
@@ -489,6 +492,23 @@ export default class UserPopup extends Component {
                 {errors['status'] && (
                   <span className="input-error text-red">
                     {errors['status']}
+                  </span>
+                )}
+              </FormGroup>
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label">
+                  Domain Name
+                </ControlLabel>
+                <FormControl
+                  className="custom-form-control"
+                  type="text"
+                  name="domain_name"
+                  value={userForm.domain_name}
+                  onChange={this.handleChange.bind(this)}
+                />
+                {errors['domain_name'] && (
+                  <span className="input-error text-red">
+                    {errors['domain_name']}
                   </span>
                 )}
               </FormGroup>
