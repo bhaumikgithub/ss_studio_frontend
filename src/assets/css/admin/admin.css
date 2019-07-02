@@ -78,6 +78,18 @@
   position: relative;
   width: auto;
 }
+.admin-site-title {
+  font-size: 14px;
+  font-weight: normal;
+  height: 80px;
+  margin-bottom: 0;
+  line-height: 80px;
+  font-family: 'ralewaymedium';
+  float: left;
+  position: relative;
+  width: auto;
+  margin-left: 5px;
+}
 .AdminApp .header {
   position: absolute;
   top: 0;

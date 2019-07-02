@@ -63,10 +63,12 @@ export default class Header extends Component {
           <label className="admin-page-title text-capitalize">
             {this.props.title}
           </label>
-          <Button className="logout-btn btn btn-orange view-my-website-btn">
+          <Button className="logout-btn btn btn-orange view-my-website-btn pull-left">
             <a
               href={
-                "http://www.afterclix.com/sites/" + currentUser().alias
+              currentUser() && currentUser().domain_name 
+              ? currentUser().domain_name
+              : "http://www.afterclix.com/sites/" + currentUser().alias
               }
               target="_blank"
               className="admin-login-btn"
@@ -74,6 +76,13 @@ export default class Header extends Component {
               View My Website
             </a>
           </Button>
+          <label className="admin-site-title">
+            {
+              currentUser() && currentUser().domain_name 
+              ? currentUser().domain_name
+              : "http://www.afterclix.com/sites/" + currentUser().alias
+              }
+          </label>
           <Navbar.Toggle />
         </Navbar.Header>
         {this.state.showChangePasswordPopup && (
