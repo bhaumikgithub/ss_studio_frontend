@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Col, Button, Tab, Tabs, Thumbnail } from 'react-bootstrap';
-import { SocialIcon } from 'react-social-icons';
+import { Col, Button, Tab, Tabs } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 // Import component
 import EditAboutContent from './EditAboutContent';
 import ServicePopup from './ServicePopup';
 import EditContactDetail from './EditContactDetail';
 import ServiceModule from '../../common/ServiceModule';
-import SocialMediaPopup from './SocialMediaPopup';
+// import SocialMediaPopup from './SocialMediaPopup';
 import EditWebsiteDetail from './EditWebsiteDetail';
 
 // Import services
@@ -35,7 +34,7 @@ export default class SiteContent extends Component {
       socialMedia: {},
       contactDetail: {},
       websiteDetail: {},
-      tab: 'about_us',
+      tab: 'home',
       admin_service: true,
       alert: {
         objectId: '',
@@ -308,14 +307,6 @@ export default class SiteContent extends Component {
             editObject={this.state.editObject}
           />
         )}
-        {this.state.AddSocialMediaShow && (
-          <SocialMediaPopup
-            AddSocialMediaShow={this.state.AddSocialMediaShow}
-            SocialMediaCloseModal={this.SocialMediaCloseModal}
-            editObject={this.state.editObject}
-            renderSocialMedia={this.renderSocialMedia}
-          />
-        )}
         {this.state.EditWebsiteDetailShow && (
           <EditWebsiteDetail
             EditWebsiteDetailShow={this.state.EditWebsiteDetailShow}
@@ -331,6 +322,41 @@ export default class SiteContent extends Component {
           id="uncontrolled-tab-example"
           className="site-content-tabs"
         >
+          <Tab eventKey="home" title="Home">
+            <Col xs={12} className="site-content-filter p-none">
+              <h5>Home</h5>
+            </Col>
+          </Tab>
+          <Tab eventKey="portfolio" title="Portfolio">
+            <Col xs={12} className="site-content-filter p-none">
+              <h5>Portfolio</h5>
+            </Col>
+          </Tab>
+          <Tab eventKey="films" title="Films">
+            <Col xs={12} className="site-content-filter p-none">
+              <h5>Films</h5>
+            </Col>
+          </Tab>
+          <Tab eventKey="services" title="Services">
+            <Col xs={12} className="site-content-filter p-none">
+              <Button
+                className="btn btn-orange pull-right add-new-service"
+                onClick={this.handleAddserviceModal}
+              >
+                <i className="fa fa-plus add-service-icon" />Add New
+              </Button>
+            </Col>
+            <ServiceModule
+              services={this.state.services}
+              showEditPopup={this.showEditPopup}
+              admin_service={this.state.admin_service}
+            />
+          </Tab>
+          <Tab eventKey="testimonials" title="Testimonials">
+            <Col xs={12} className="site-content-filter p-none">
+              <h5>Testimonials</h5>
+            </Col>
+          </Tab>
           <Tab
             eventKey="about_us"
             title="About Us"
@@ -419,21 +445,6 @@ export default class SiteContent extends Component {
               }
             </Col>
           </Tab>
-          <Tab eventKey="services" title="Services">
-            <Col xs={12} className="site-content-filter p-none">
-              <Button
-                className="btn btn-orange pull-right add-new-service"
-                onClick={this.handleAddserviceModal}
-              >
-                <i className="fa fa-plus add-service-icon" />Add New
-              </Button>
-            </Col>
-            <ServiceModule
-              services={this.state.services}
-              showEditPopup={this.showEditPopup}
-              admin_service={this.state.admin_service}
-            />
-          </Tab>
           <Tab eventKey="contact_us" title="Contact Us">
             <Col xs={12} className="site-content-filter p-none">
               {(contactDetail && contactDetail.email !== undefined) ?
@@ -509,91 +520,6 @@ export default class SiteContent extends Component {
               </Col>
             </Col>
             }
-          </Tab>
-          <Tab eventKey="social_media" title="Social Media">
-            <Col xs={12} className="site-content-filter p-none">
-              <Button
-                className="btn btn-orange pull-right add-new-service"
-                onClick={this.handleSocialMediaModal}
-              >
-                <i className="fa fa-plus add-service-icon" />Add New
-              </Button>
-            </Col>
-            <div>
-              {socialMedia &&
-                Object.keys(socialMedia).map(
-                  social_link =>
-                    socialMedia[social_link] !== '' ? (
-                      <Col
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        className="service-thumb-wrap"
-                        key={socialMedia[social_link]}
-                      >
-                        <Thumbnail className="service-thumbs">
-                          <SocialIcon
-                            url={
-                              'http://www.' +
-                              (socialMediaLink = social_link.replace(
-                                '_link',
-                                ''
-                              )) +
-                              '.com'
-                            }
-                            className="social-media-margin"
-                          />
-                          <Col className="sevice-details">
-                            <h4 className="service-title text-center">
-                              {socialMediaLink}
-                            </h4>
-                            <Col className="p-none service-description">
-                              <a
-                                href={!isObjectEmpty(socialMedia) && !isObjectEmpty(socialMedia[social_link]) && socialMedia[social_link].includes('http') ? socialMedia[social_link] : 'http://'+socialMedia[social_link]}
-                                target="_blank"
-                              >
-                                {socialMedia[social_link]}
-                              </a>
-                            </Col>
-                          </Col>
-                          <a className="edit-service-thumb custom-service-thumb">
-                            <Button
-                              className="btn-link p-none edit-testimonial-btn"
-                              onClick={() =>
-                                this.setState({
-                                  AddSocialMediaShow: true,
-                                  editObject: {
-                                    soical_media_title: social_link,
-                                    social_link: socialMedia[social_link]
-                                  }
-                                })}
-                            >
-                              <img
-                                src={require('../../../assets/images/admin/album/edit-icon.png')}
-                                alt=""
-                                className="service-edit-icon"
-                              />
-                            </Button>
-                          </a>
-                          <a className="edit-service-thumb custom-service-thumb social-media-delete">
-                            <Button
-                              className="btn-link p-none video-action-btn video-delete-btn delete-social-media"
-                              onClick={() => this.showDialogueBox(social_link)}
-                            >
-                              <img
-                                src={require('../../../assets/images/admin/album/delete-icon.png')}
-                                alt=""
-                                className="service-edit-icon"
-                              />
-                            </Button>
-                          </a>
-                        </Thumbnail>
-                      </Col>
-                    ) : (
-                      ''
-                    )
-                )}
-            </div>
           </Tab>
           {/* <Tab eventKey="website_detail" title="Website Details">
             <Col xs={12} className="site-content-filter p-none">
