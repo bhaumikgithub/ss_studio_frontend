@@ -227,7 +227,7 @@ export default class SiteContent extends Component {
         text: "You won't be able to revert this!",
         btnText: 'Yes, delete it!',
         type: 'warning',
-        confirmAction: () => this.deleteSocialMedia(),
+        confirmAction: () => this.deleteService(),
         cancelBtn: true
       }
     });
@@ -235,41 +235,58 @@ export default class SiteContent extends Component {
   hideDialogueBox() {
     this.setState({ alert: { show: false } });
   }
-  deleteSocialMedia() {
+
+  deleteService() {
     var self = this;
-    const item = self.state.alert.objectId;
-    var newMedia = Object.assign({}, self.state.socialMedia);
-
-    Object.entries(newMedia).map(([key, value]) => {
-      if (item === key) {
-        newMedia[key] = '';
+    debugger;
+    UserServiceService.deleteService(self.state.alert.objectId)
+    .then(function(response) {
+      if (response.status === 200) {
+        self.handleDeleteSuccessResponse(response);
+      } else {
+        self.handleDeleteErrorResponse(response);
       }
-      return newMedia;
+    })
+    .catch(function(error) {
+      self.handleDeleteErrorResponse(error.response);
     });
-
-    self.setState({ socialMedia: newMedia });
-    var editParams = {
-      about: self.state.socialMedia
-    };
-    AboutService.updateAboutUs(editParams)
-      .then(function(response) {
-        self.handelResponse(response);
-      })
-      .catch(function(error) {
-        console.log(error.response);
-      });
   }
 
-  handelResponse(response) {
-    var responseData = response.data;
-    if (response.status === 201) {
-      this.hideDialogueBox();
-    } else {
-      console.log(responseData.errors);
-    }
+  handleDeleteSuccessResponse(response) {
+    var self = this;
+
+    const services = self.state.services.filter(
+      testimonial => testimonial.id !== self.state.alert.objectId
+    );
+
+    self.setState({
+      services: services,
+      alert: {
+        show: true,
+        title: 'Success',
+        text: response.data.message,
+        type: 'success',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
   }
+
+  handleDeleteErrorResponse(response) {
+    var self = this;
+
+    self.setState({
+      alert: {
+        show: true,
+        title: response.data.message,
+        text: response.data.errors[0].detail,
+        type: 'warning',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia, alert, websiteDetail } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
     var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
@@ -350,6 +367,7 @@ export default class SiteContent extends Component {
               services={this.state.services}
               showEditPopup={this.showEditPopup}
               admin_service={this.state.admin_service}
+              showDialogueBox={this.showDialogueBox.bind(this)}
             />
           </Tab>
           <Tab eventKey="testimonials" title="Testimonials">

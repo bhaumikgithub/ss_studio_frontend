@@ -45,7 +45,8 @@ export default class UserPopup extends Component {
         user_type_option: '',
         user_type_id: '',
         user_type: '',
-        captcha: '28'
+        captcha: '28',
+        domain_name: ''
       },
       packages: [],
       countries: [],
@@ -397,6 +398,23 @@ export default class UserPopup extends Component {
                 {errors['package_id'] && (
                   <span className="input-error text-red">
                     {errors['package_id']}
+                  </span>
+                )}
+              </FormGroup>
+              <FormGroup className="custom-form-group">
+                <ControlLabel className="custom-form-control-label">
+                  Domain Name
+                </ControlLabel>
+                <FormControl
+                  className="custom-form-control"
+                  type="text"
+                  name="domain_name"
+                  placeholder="First Name"
+                  onChange={this.handleChange.bind(this)}
+                />
+                {errors['domain_name'] && (
+                  <span className="input-error text-red">
+                    {errors['domain_name']}
                   </span>
                 )}
               </FormGroup>

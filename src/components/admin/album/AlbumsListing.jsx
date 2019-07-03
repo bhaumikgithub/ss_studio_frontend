@@ -463,7 +463,40 @@ export default class AlbumsListing extends Component {
                         />{' '}
                         View Photos
                       </Link>
-                      <Link
+                      {process.env.NODE_ENV === 'development' ? 
+                        <a
+                          href={
+                            album.is_private
+                              ? (album && album.domain_name ? album.domain_name : process.env.REACT_APP_API_BASE_URL + album.user_name) +'/shared_album_login/' + album.slug
+                              : (album && album.domain_name ? album.domain_name : process.env.REACT_APP_API_BASE_URL + album.user_name) +'/shared_album/' + album.slug
+                          }
+                          target="_blank"
+                          className="view-album-listing"
+                        >
+                          <img
+                            src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                            alt=""
+                          />{' '}
+                          View Album
+                        </a>
+                      :
+                        <a
+                          href={
+                            album.is_private
+                              ? (album && album.domain_name ? album.domain_name : window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + album.user_name) +'/shared_album_login/' + album.slug
+                              : (album && album.domain_name ? album.domain_name : window.location.protocol + '//' + window.location.host + process.env.REACT_APP_API_BASE_URL + album.user_name) +'/shared_album/' + album.slug
+                          }
+                          target="_blank"
+                          className="view-album-listing"
+                        >
+                          <img
+                            src={require('../../../assets/images/admin/album/album-details/views-icon.png')}
+                            alt=""
+                          />{' '}
+                          View Album
+                        </a>
+                      }
+                      {/* <Link
                         to={
                           album.is_private
                             ? '/'+ album.user_name +'/shared_album_login/' + album.slug
@@ -477,7 +510,7 @@ export default class AlbumsListing extends Component {
                           alt=""
                         />{' '}
                         View Album
-                      </Link>
+                      </Link> */}
                       <Link
                         to={{
                           pathname: '/albums/' + album.slug,

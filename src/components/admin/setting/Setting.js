@@ -637,8 +637,10 @@ export default class SiteContent extends Component {
                 <ControlLabel className="custom-form-control-label">
                   Description
                 </ControlLabel>
+
                 <FormControl
                   className="custom-form-control"
+                  componentClass="textarea"
                   type="text"
                   name="meta_description"
                   value={EditWebsiteForm.meta_description}
