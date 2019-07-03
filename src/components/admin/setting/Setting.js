@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Col, Tab, Tabs, Checkbox, Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
+import { Col, Tab, Tabs, Checkbox, Button, ControlLabel, FormControl, FormGroup, Thumbnail } from 'react-bootstrap';
+import { SocialIcon } from 'react-social-icons';
+import SweetAlert from 'sweetalert-react';
 // Import component
 import validationHandler from '../../common/ValidationHandler';
+import SocialMediaPopup from './SocialMediaPopup';
 
 // Import services
-import { WatermarkService,UserService, WebsiteDetailService } from '../../../services/Index';
+import { WatermarkService,UserService, WebsiteDetailService, AboutService } from '../../../services/Index';
 
 // Import helper
-import { str2bool } from '../../Helper';
+import { str2bool, isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
@@ -17,22 +20,35 @@ export default class SiteContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      editObject: {},
       watermarks: [],
       userLogo: [],
       websiteDetail: {},
+      socialMedia: {},
       faviconImage: [],
-      tab: 'watermark',
+      tab: 'social_media',
       EditWebsiteForm: {
         title: '',
         copyright_text: '',
         meta_keywords: '',
         meta_description: ''
       },
-      errors: {}
+      errors: {},
+      alert: {
+        objectId: '',
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleEditWatermarkClick = this.handleEditWatermarkClick.bind(this)
+    this.handleSocialMediaModal = this.handleSocialMediaModal.bind(this);
   }
 
   componentWillMount() {
@@ -66,6 +82,14 @@ export default class SiteContent extends Component {
           userLogo: response.data.data.user.user_logo,
           websiteDetail: response.data.data.user.website_detail,
           faviconImage: response.data.data.user.website_detail.favicon_image
+        });
+      }
+    });
+
+    AboutService.getAboutUs().then(function(response) {
+      if (response.status === 200) {
+        self.setState({
+          socialMedia: response.data.data.about_us.social_links
         });
       }
     });
@@ -249,16 +273,187 @@ export default class SiteContent extends Component {
     this.setState({ EditWebsiteForm: this.state.EditWebsiteForm });
   }
 
+  SocialMediaCloseModal = () => {
+    this.setState({ AddSocialMediaShow: false, editObject: {} });
+  };
+
+  renderSocialMedia = (social_link, action) => {
+    const social_links = social_link;
+    this.setState({
+      socialMedia: social_links
+    });
+  };
+
+  handleSocialMediaModal() {
+    this.setState({ AddSocialMediaShow: true });
+  }
+
+  showDialogueBox(id) {
+    this.setState({
+      alert: {
+        objectId: id,
+        show: true,
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes, delete it!',
+        type: 'warning',
+        confirmAction: () => this.deleteSocialMedia(),
+        cancelBtn: true
+      }
+    });
+  }
+
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+  deleteSocialMedia() {
+    var self = this;
+    const item = self.state.alert.objectId;
+    var newMedia = Object.assign({}, self.state.socialMedia);
+
+    Object.entries(newMedia).map(([key, value]) => {
+      if (item === key) {
+        newMedia[key] = '';
+      }
+      return newMedia;
+    });
+
+    self.setState({ socialMedia: newMedia });
+    var editParams = {
+      about: self.state.socialMedia
+    };
+    AboutService.updateAboutUs(editParams)
+      .then(function(response) {
+        self.handelSocialMediaResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+  }
+
+  handelSocialMediaResponse(response) {
+    var responseData = response.data;
+    if (response.status === 201) {
+      this.hideDialogueBox();
+    } else {
+      console.log(responseData.errors);
+    }
+  }
+
   render() {
-    const { tab, watermarks, userLogo, websiteDetail, EditWebsiteForm, errors } = this.state;
+    const { tab, watermarks, userLogo, faviconImage, websiteDetail, EditWebsiteForm, errors, socialMedia, alert } = this.state;
+    var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
+        />
+        {this.state.AddSocialMediaShow && (
+          <SocialMediaPopup
+            AddSocialMediaShow={this.state.AddSocialMediaShow}
+            SocialMediaCloseModal={this.SocialMediaCloseModal}
+            editObject={this.state.editObject}
+            renderSocialMedia={this.renderSocialMedia}
+          />
+        )}
         <Tabs
           defaultActiveKey={tab}
           onSelect={this.handleTabSelect}
           id="uncontrolled-tab-example"
           className="site-content-tabs"
         >
+          <Tab eventKey="social_media" title="Social Media">
+            <Col xs={12} className="site-content-filter p-none">
+              <Button
+                className="btn btn-orange pull-right add-new-service"
+                onClick={this.handleSocialMediaModal}
+              >
+                <i className="fa fa-plus add-service-icon" />Add New
+              </Button>
+            </Col>
+            <div>
+              {socialMedia &&
+                Object.keys(socialMedia).map(
+                  social_link =>
+                    socialMedia[social_link] !== '' ? (
+                      <Col
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        className="service-thumb-wrap"
+                        key={socialMedia[social_link]}
+                      >
+                        <Thumbnail className="service-thumbs">
+                          <SocialIcon
+                            url={
+                              'http://www.' +
+                              (socialMediaLink = social_link.replace(
+                                '_link',
+                                ''
+                              )) +
+                              '.com'
+                            }
+                            className="social-media-margin"
+                          />
+                          <Col className="sevice-details">
+                            <h4 className="service-title text-center">
+                              {socialMediaLink}
+                            </h4>
+                            <Col className="p-none service-description">
+                              <a
+                                href={!isObjectEmpty(socialMedia) && !isObjectEmpty(socialMedia[social_link]) && socialMedia[social_link].includes('http') ? socialMedia[social_link] : 'http://'+socialMedia[social_link]}
+                                target="_blank"
+                              >
+                                {socialMedia[social_link]}
+                              </a>
+                            </Col>
+                          </Col>
+                          <a className="edit-service-thumb custom-service-thumb">
+                            <Button
+                              className="btn-link p-none edit-testimonial-btn"
+                              onClick={() =>
+                                this.setState({
+                                  AddSocialMediaShow: true,
+                                  editObject: {
+                                    soical_media_title: social_link,
+                                    social_link: socialMedia[social_link]
+                                  }
+                                })}
+                            >
+                              <img
+                                src={require('../../../assets/images/admin/album/edit-icon.png')}
+                                alt=""
+                                className="service-edit-icon"
+                              />
+                            </Button>
+                          </a>
+                          <a className="edit-service-thumb custom-service-thumb social-media-delete">
+                            <Button
+                              className="btn-link p-none video-action-btn video-delete-btn delete-social-media"
+                              onClick={() => this.showDialogueBox(social_link)}
+                            >
+                              <img
+                                src={require('../../../assets/images/admin/album/delete-icon.png')}
+                                alt=""
+                                className="service-edit-icon"
+                              />
+                            </Button>
+                          </a>
+                        </Thumbnail>
+                      </Col>
+                    ) : (
+                      ''
+                    )
+                )}
+            </div>
+          </Tab>
           <Tab
             eventKey="watermark"
             title="Watermark"

@@ -37,7 +37,7 @@ export default class ServiceModule extends Component {
                 {admin_service && (
                   <a
                     className="delete-service-thumb custom-service-thumb social-media-delete"
-                    onClick={() => this.props.showDialogueBox(service.id,'true')}
+                    onClick={() => this.props.showDialogueBox(service.id)}
                   >
                     <img
                       src={require('../../assets/images/admin/album/delete-icon.png')}
