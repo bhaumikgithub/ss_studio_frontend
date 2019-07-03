@@ -26,6 +26,14 @@ export function createService(params) {
   return checkStatus(responsePromise);
 }
 
+export function deleteService(id) {
+  const responsePromise = axiosInstance.delete(
+    process.env.REACT_APP_API_BASE_URL + 'services/' + id,
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
+
 export function getServiceDetails(params) {
   return axiosInstance.get(
     process.env.REACT_APP_API_BASE_URL + '/' + params.user +'/services',
