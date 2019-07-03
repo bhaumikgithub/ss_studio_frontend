@@ -250,7 +250,7 @@ export default class SiteContent extends Component {
   }
 
   render() {
-    const { tab, watermarks, userLogo, faviconImage, websiteDetail, EditWebsiteForm, errors } = this.state;
+    const { tab, watermarks, userLogo, websiteDetail, EditWebsiteForm, errors } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
         <Tabs

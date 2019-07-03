@@ -219,7 +219,7 @@ export default class SiteContent extends Component {
     });
   };
 
-  showDialogueBox(id) {
+  showDialogueBox(id,is_service) {
     this.setState({
       alert: {
         objectId: id,
@@ -228,7 +228,7 @@ export default class SiteContent extends Component {
         text: "You won't be able to revert this!",
         btnText: 'Yes, delete it!',
         type: 'warning',
-        confirmAction: () => this.deleteSocialMedia(),
+        confirmAction: () => is_service === "true" ? this.deleteService() : this.deleteSocialMedia(),
         cancelBtn: true
       }
     });
@@ -261,6 +261,55 @@ export default class SiteContent extends Component {
       });
   }
 
+  deleteService() {
+    var self = this;
+    debugger;
+    UserServiceService.deleteService(self.state.alert.objectId)
+    .then(function(response) {
+      if (response.status === 200) {
+        self.handleDeleteSuccessResponse(response);
+      } else {
+        self.handleDeleteErrorResponse(response);
+      }
+    })
+    .catch(function(error) {
+      self.handleDeleteErrorResponse(error.response);
+    });
+  }
+
+  handleDeleteSuccessResponse(response) {
+    var self = this;
+
+    const services = self.state.services.filter(
+      testimonial => testimonial.id !== self.state.alert.objectId
+    );
+
+    self.setState({
+      services: services,
+      alert: {
+        show: true,
+        title: 'Success',
+        text: response.data.message,
+        type: 'success',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
+  handleDeleteErrorResponse(response) {
+    var self = this;
+
+    self.setState({
+      alert: {
+        show: true,
+        title: response.data.message,
+        text: response.data.errors[0].detail,
+        type: 'warning',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
   handelResponse(response) {
     var responseData = response.data;
     if (response.status === 201) {
@@ -270,7 +319,7 @@ export default class SiteContent extends Component {
     }
   }
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia, alert, websiteDetail } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
     var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
@@ -432,6 +481,7 @@ export default class SiteContent extends Component {
               services={this.state.services}
               showEditPopup={this.showEditPopup}
               admin_service={this.state.admin_service}
+              showDialogueBox={this.showDialogueBox.bind(this)}
             />
           </Tab>
           <Tab eventKey="contact_us" title="Contact Us">
@@ -556,6 +606,7 @@ export default class SiteContent extends Component {
                               </a>
                             </Col>
                           </Col>
+
                           <a className="edit-service-thumb custom-service-thumb">
                             <Button
                               className="btn-link p-none edit-testimonial-btn"
@@ -578,7 +629,7 @@ export default class SiteContent extends Component {
                           <a className="edit-service-thumb custom-service-thumb social-media-delete">
                             <Button
                               className="btn-link p-none video-action-btn video-delete-btn delete-social-media"
-                              onClick={() => this.showDialogueBox(social_link)}
+                              onClick={() => this.showDialogueBox(social_link,'false')}
                             >
                               <img
                                 src={require('../../../assets/images/admin/album/delete-icon.png')}
