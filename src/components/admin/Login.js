@@ -91,6 +91,40 @@ export default class Login extends Component {
 
     return (
       <div className="login-wrap">
+        <header id="home">
+        <div className="container position-relative h-100">
+        <nav className="navbar navbar-dark navbar-expand-lg justify-content-between align-items-center">
+          <a href="#" className="navbar-brand">
+          <img src={"https://afterclix.s3.ap-south-1.amazonaws.com/shared_photos/logo-white.svg"} alt="Logo" /></a>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+              <ul className="navbar-nav">
+                  <li className="nav-item active">
+                      <a className="nav-link" href="#home">Home</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="#demo">Demo</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="#features">Features</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="#prices">Prices</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="#contact">Contact Us</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="#">Sign Up</a>
+                  </li>
+                  <li className="nav-item">
+                      <a className="nav-link" href="#">Log In</a>
+                  </li>
+              </ul>
+          </div>
+        </nav>
         <Grid className="page-inner-wrap">
           <Row>
             <Col xs={10} sm={6} className="login-form">
@@ -175,6 +209,8 @@ export default class Login extends Component {
             </Col>
           </Row>
         </Grid>
+        </div>
+        </header>
       </div>
     );
   }
