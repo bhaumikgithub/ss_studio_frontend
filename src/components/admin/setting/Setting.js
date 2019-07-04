@@ -656,6 +656,11 @@ export default class SiteContent extends Component {
             </form>
           </Col>
           </Tab>
+          <Tab eventKey="theme" title="Theme">
+            <Col xs={12} className="site-content-filter p-none">
+              <h5>Theme page</h5>
+            </Col>
+          </Tab>
         </Tabs>
       </Col>
     );
