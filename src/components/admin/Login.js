@@ -91,6 +91,17 @@ export default class Login extends Component {
 
     return (
       <div className="login-wrap">
+        <header id="home">
+          <div className="container position-relative h-100">
+            <nav>
+              <a href="#" className="navbar-brand">
+              <img src={"https://afterclix.s3.ap-south-1.amazonaws.com/shared_photos/logo-white.svg"} alt="Logo" /></a>
+              <div>
+                <a href="http://www.afterclix.com" className="navbar-brand back-link"><span className="back-arrow">&#8592;</span> Back to Afterclix</a>
+              </div>
+            </nav>
+          </div>
+        </header>
         <Grid className="page-inner-wrap">
           <Row>
             <Col xs={10} sm={6} className="login-form">
