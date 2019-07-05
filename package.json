@@ -2,7 +2,7 @@
   "name": "ss_studio_frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://www.afterclix.com/photographer",
+  "homepage": "http://www.sagargadani.com",
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
