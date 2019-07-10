@@ -1452,3 +1452,4 @@ header {
 .back-arrow{
   font-size: 30px;
 }
+li.borderless { border: none; }

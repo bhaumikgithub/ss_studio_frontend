@@ -15,6 +15,7 @@ import { str2bool, isObjectEmpty } from '../../Helper';
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
 import '../../../assets/css/contact/services.css';
+import ColorTheme from './ColorTheme';
 
 export default class SiteContent extends Component {
   constructor(props) {
@@ -595,7 +596,7 @@ export default class SiteContent extends Component {
                   className="custom-form-control"
                   type="text"
                   name="title"
-                  value={EditWebsiteForm.title}
+                  value={EditWebsiteForm ? EditWebsiteForm.title : ''}
                   onChange={this.handleChange.bind(this)}
                 />
                 {errors['title'] && (
@@ -629,7 +630,7 @@ export default class SiteContent extends Component {
                   className="custom-form-control"
                   type="text"
                   name="meta_keywords"
-                  value={EditWebsiteForm.meta_keywords}
+                  value={EditWebsiteForm && EditWebsiteForm.meta_keywords ? EditWebsiteForm.meta_keywords : ''}
                   onChange={this.handleChange.bind(this)}
                 />
               </FormGroup>
@@ -643,7 +644,7 @@ export default class SiteContent extends Component {
                   componentClass="textarea"
                   type="text"
                   name="meta_description"
-                  value={EditWebsiteForm.meta_description}
+                  value={EditWebsiteForm && EditWebsiteForm.meta_description ? EditWebsiteForm.meta_description : ''}
                   onChange={this.handleChange.bind(this)}
                 />
               </FormGroup>
@@ -658,7 +659,7 @@ export default class SiteContent extends Component {
           </Tab>
           <Tab eventKey="theme" title="Theme">
             <Col xs={12} className="site-content-filter p-none">
-              <h5>Theme page</h5>
+              <ColorTheme />
             </Col>
           </Tab>
         </Tabs>

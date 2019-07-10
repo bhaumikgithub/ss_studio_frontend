@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://www.sagargadani.com",
   "dependencies": {
+    "@syncfusion/ej2-react-inputs": "^17.1.50",
     "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
     "draft-js": "^0.10.4",
