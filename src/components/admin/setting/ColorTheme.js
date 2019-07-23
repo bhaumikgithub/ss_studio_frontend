@@ -42,6 +42,24 @@ export default class ColorTheme extends Component {
     });
   };
 
+  handleResetTheme = () => {
+    var self = this
+    var editParams = {
+      resetTheme: true
+    };
+    ThemeService.updateTheme(editParams)
+      .then(function(response) {
+        if(response.status === 201){
+          self.setState({
+            themeColors: response.data.data.theme.color_theme
+          });
+        }
+      })
+      .catch(function(error) {
+          console.log(error.response);
+      });
+  }
+
   handleSubmit(e) {
     var self = this;
     var { themeColors } = self.state;
@@ -59,11 +77,18 @@ export default class ColorTheme extends Component {
 
   render() {
     const { themeColors } = this.state;
-    debugger;
     return (
       <Col>
+        <Col xs={6} className="site-content-filter p-none pull-right">
+          <Button
+            className="btn btn-orange pull-right"
+            onClick={this.handleResetTheme}
+          >
+            Reset Theme
+          </Button>
+        </Col>
         <Col>
-          Color
+          <b>Colors</b>
         </Col>
         <br/>
         {themeColors &&
@@ -88,6 +113,10 @@ export default class ColorTheme extends Component {
           <Col>
             Content
             <ListGroup>
+            <ListGroupItem className="borderless">
+                <Col xs={2}>Header Title Color</Col>
+                <ColorPickerComponent value={themeColors && themeColors["header_title_color"] && themeColors["header_title_color"]["hex"] ? themeColors["header_title_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_title_color')} />
+              </ListGroupItem>
               <ListGroupItem className="borderless">
                 <Col xs={2}>Title Color</Col>
                 <ColorPickerComponent value={themeColors && themeColors["title_color"] && themeColors["title_color"]["hex"] ? themeColors["title_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'title_color')} />
@@ -121,6 +150,10 @@ export default class ColorTheme extends Component {
               <ListGroupItem className="borderless">
                 <Col xs={2}>Bullet / Icon Colors</Col>
                 <ColorPickerComponent value={themeColors && themeColors["bullet_icon_color"] && themeColors["bullet_icon_color"]["hex"] ? themeColors["bullet_icon_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'bullet_icon_color')} />
+              </ListGroupItem>
+              <ListGroupItem className="borderless">
+                <Col xs={2}>Image Overlay Font Color</Col>
+                <ColorPickerComponent value={themeColors && themeColors["image_overlay_font_color"] && themeColors["image_overlay_font_color"]["hex"] ? themeColors["image_overlay_font_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'image_overlay_font_color')} />
               </ListGroupItem>
             </ListGroup>
           </Col>
