@@ -1453,3 +1453,10 @@ header {
   font-size: 30px;
 }
 li.borderless { border: none; }
+.borderless{
+  display: flex;
+  border:none!important;
+}
+.borderless .color-picker-title{
+  flex: 1 1 auto;
+}
