@@ -1,6 +1,6 @@
 import { ColorPickerComponent } from '@syncfusion/ej2-react-inputs';
 import React, { Component } from 'react';
-import { Col,ListGroup,ListGroupItem,Button } from 'react-bootstrap';
+import { Col,Button,Row } from 'react-bootstrap';
 // Import services
 import {
   ThemeService,
@@ -93,70 +93,96 @@ export default class ColorTheme extends Component {
         <br/>
         {themeColors &&
         <div>
-          <Col>
-            Links
-            <ListGroup>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Header Links</Col>
-                <ColorPickerComponent value={themeColors && themeColors["header_links"] && themeColors["header_links"]["hex"] ? themeColors["header_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_links')} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Normal Links</Col>
-                <ColorPickerComponent value={themeColors && themeColors["normal_links"] && themeColors["normal_links"]["hex"] ? themeColors["normal_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"normal_links")} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Footer Links</Col>
+          <Row>
+            <Col xs={12}>
+              Links
+            </Col>
+            <Col xs={3}>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Header Links</div>
+                <ColorPickerComponent className="colorpicker" value={themeColors && themeColors["header_links"] && themeColors["header_links"]["hex"] ? themeColors["header_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_links')} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Normal Links</div>
+                  <ColorPickerComponent value={themeColors && themeColors["normal_links"] && themeColors["normal_links"]["hex"] ? themeColors["normal_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"normal_links")} />
+              </div>
+              <div className="borderless list-group-item">
+              <div className="color-picker-title">Footer Links</div>
                 <ColorPickerComponent value={themeColors && themeColors["footer_links"] && themeColors["footer_links"]["hex"] ? themeColors["footer_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"footer_links")} />
-              </ListGroupItem>
-            </ListGroup>
-          </Col>
-          <Col>
-            Content
-            <ListGroup>
-            <ListGroupItem className="borderless">
-                <Col xs={2}>Header Title Color</Col>
+              </div>
+            </Col>
+            <Col xs={3}>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Hover Header Link</div>
+                <ColorPickerComponent value={themeColors && themeColors["hover_header_link"] && themeColors["hover_header_link"]["hex"] ? themeColors["hover_header_link"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'hover_header_link')} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Active Header Link</div>
+                <ColorPickerComponent value={themeColors && themeColors["active_header_link"] && themeColors["active_header_link"]["hex"] ? themeColors["active_header_link"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"active_header_link")} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Hover Normal Link</div>
+                <ColorPickerComponent value={themeColors && themeColors["hover_normal_link"] && themeColors["hover_normal_link"]["hex"] ? themeColors["hover_normal_link"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'hover_normal_link')} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Active Normal Link</div>
+                <ColorPickerComponent value={themeColors && themeColors["active_normal_link"] && themeColors["active_normal_link"]["hex"] ? themeColors["active_normal_link"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"active_normal_link")} />
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              Content
+            </Col>
+            <Col xs={3}>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Header Title Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["header_title_color"] && themeColors["header_title_color"]["hex"] ? themeColors["header_title_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_title_color')} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Title Color</Col>
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Title Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["title_color"] && themeColors["title_color"]["hex"] ? themeColors["title_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'title_color')} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Normal Text Color</Col>
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Normal Text Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["normal_text_color"] && themeColors["normal_text_color"]["hex"] ? themeColors["normal_text_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"normal_text_color")} />
-              </ListGroupItem>
-            </ListGroup>
-          </Col>
-          <Col>
-            Background
-            <ListGroup>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Header Background</Col>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              Background
+            </Col>
+            <Col xs={3}>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Header Background</div>
                 <ColorPickerComponent value={themeColors && themeColors["header_background"] && themeColors["header_background"]["hex"] ? themeColors["header_background"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_background')} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Body Background</Col>
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Body Background</div>
                 <ColorPickerComponent value={themeColors && themeColors["body_background"] && themeColors["body_background"]["hex"] ? themeColors["body_background"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"body_background")} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Footer Background</Col>
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Footer Background</div>
                 <ColorPickerComponent value={themeColors && themeColors["footer_background"] && themeColors["footer_background"]["hex"] ? themeColors["footer_background"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"footer_background")} />
-              </ListGroupItem>
-            </ListGroup>
-          </Col>
-          <Col>
-            Others
-            <ListGroup>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Bullet / Icon Colors</Col>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              Others
+            </Col>
+            <Col xs={3}>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Bullet / Icon Colors</div>
                 <ColorPickerComponent value={themeColors && themeColors["bullet_icon_color"] && themeColors["bullet_icon_color"]["hex"] ? themeColors["bullet_icon_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'bullet_icon_color')} />
-              </ListGroupItem>
-              <ListGroupItem className="borderless">
-                <Col xs={2}>Image Overlay Font Color</Col>
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Image Overlay Font Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["image_overlay_font_color"] && themeColors["image_overlay_font_color"]["hex"] ? themeColors["image_overlay_font_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'image_overlay_font_color')} />
-              </ListGroupItem>
-            </ListGroup>
-          </Col>
+              </div>
+            </Col>
+          </Row>
           <Button
             className="btn btn-orange edit-about-submit"
             onClick={event => this.handleSubmit(event)}
