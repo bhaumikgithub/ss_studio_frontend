@@ -347,6 +347,7 @@ export default class AlbumDetails extends Component {
     newAlbum.categories = album.categories;
     newAlbum.status = album.status;
     newAlbum.updated_at = album.updated_at;
+    newAlbum.passcode = album.passcode
     this.setState({ album: newAlbum });
   };
 

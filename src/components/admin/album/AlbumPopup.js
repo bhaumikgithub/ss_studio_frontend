@@ -42,7 +42,8 @@ export default class AlbumPopup extends Component {
         status: 'active',
         category_ids: [],
         category_options: [],
-        portfolio_visibility: false
+        portfolio_visibility: false,
+        passcode: ''
       },
       categories: [],
       errors: {}
@@ -79,7 +80,8 @@ export default class AlbumPopup extends Component {
       is_private,
       status,
       portfolio_visibility,
-      categories
+      categories,
+      passcode
     } = album;
 
     self.setState({
@@ -88,7 +90,8 @@ export default class AlbumPopup extends Component {
         is_private: is_private,
         status: status,
         category_options: self.categoryOptions(categories),
-        portfolio_visibility: portfolio_visibility
+        portfolio_visibility: portfolio_visibility,
+        passcode: passcode
       }
     });
   }
@@ -355,6 +358,25 @@ export default class AlbumPopup extends Component {
                   </span>
                 </FormGroup>
               )}
+              {albumForm.is_private &&
+                <FormGroup className="custom-form-group">
+                  <ControlLabel className="custom-form-control-label required">
+                    Passcode
+                  </ControlLabel>
+                  <FormControl
+                    className="custom-form-control"
+                    type="text"
+                    name="passcode"
+                    value={albumForm.passcode}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['passcode'] && (
+                    <span className="input-error text-red">
+                      {errors['passcode']}
+                    </span>
+                  )}
+                </FormGroup>
+              }
 
               <Button
                 className="btn btn-orange create-album-submit"
