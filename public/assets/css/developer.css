@@ -1366,6 +1366,16 @@ div.filepicker {
     border-top:0px; 
 }
 
+.color-theme-title{
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.f-left{
+  float: left;
+}
+.f-right{
+  float: right;
+}
 @media only screen and (max-width: 680px) {
   .private-album,
   .public-album,

@@ -94,8 +94,8 @@ export default class ColorTheme extends Component {
         {themeColors &&
         <div>
           <Row>
-            <Col xs={12}>
-              Links
+            <Col xs={12} className="color-theme-title">
+            <b>Links</b>
             </Col>
             <Col xs={3}>
               <div className="borderless list-group-item">
@@ -131,8 +131,8 @@ export default class ColorTheme extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={12}>
-              Content
+            <Col xs={12} className="color-theme-title">
+            <b>Content</b>
             </Col>
             <Col xs={3}>
               <div className="borderless list-group-item">
@@ -147,11 +147,15 @@ export default class ColorTheme extends Component {
                 <div className="color-picker-title">Normal Text Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["normal_text_color"] && themeColors["normal_text_color"]["hex"] ? themeColors["normal_text_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"normal_text_color")} />
               </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Footer Text Color</div>
+                <ColorPickerComponent value={themeColors && themeColors["footer_text_color"] && themeColors["footer_text_color"]["hex"] ? themeColors["footer_text_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"footer_text_color")} />
+              </div>
             </Col>
           </Row>
           <Row>
-            <Col xs={12}>
-              Background
+            <Col xs={12} className="color-theme-title">
+            <b>Background</b>
             </Col>
             <Col xs={3}>
               <div className="borderless list-group-item">
@@ -169,8 +173,31 @@ export default class ColorTheme extends Component {
             </Col>
           </Row>
           <Row>
-            <Col xs={12}>
-              Others
+            <Col xs={12} className="color-theme-title">
+              <b>Buttons</b>
+            </Col>
+            <Col xs={3}>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Background Color</div>
+                <ColorPickerComponent value={themeColors && themeColors["button_background_color"] && themeColors["button_background_color"]["hex"] ? themeColors["button_background_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'button_background_color')} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Font Color</div>
+                <ColorPickerComponent value={themeColors && themeColors["button_font_color"] && themeColors["button_font_color"]["hex"] ? themeColors["button_font_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"button_font_color")} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Hover Background Color</div>
+                <ColorPickerComponent value={themeColors && themeColors["button_hover_background_color"] && themeColors["button_hover_background_color"]["hex"] ? themeColors["button_hover_background_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"button_hover_background_color")} />
+              </div>
+              <div className="borderless list-group-item">
+                <div className="color-picker-title">Hover Font Color</div>
+                <ColorPickerComponent value={themeColors && themeColors["button_hover_font_color"] && themeColors["button_hover_font_color"]["hex"] ? themeColors["button_hover_font_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"button_hover_font_color")} />
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12} className="color-theme-title">
+            <b>Others</b>
             </Col>
             <Col xs={3}>
               <div className="borderless list-group-item">
@@ -184,7 +211,7 @@ export default class ColorTheme extends Component {
             </Col>
           </Row>
           <Button
-            className="btn btn-orange edit-about-submit"
+            className="btn btn-orange edit-about-submit color-theme-title"
             onClick={event => this.handleSubmit(event)}
           >
             Save
