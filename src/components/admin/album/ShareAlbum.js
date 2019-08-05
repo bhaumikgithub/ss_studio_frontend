@@ -5,7 +5,8 @@ import {
   Modal,
   FormGroup,
   FormControl,
-  Checkbox
+  Checkbox,
+  Row
 } from 'react-bootstrap';
 import { Creatable } from 'react-select';
 import SweetAlert from 'sweetalert-react';
@@ -393,94 +394,104 @@ export default class ShareAlbum extends Component {
                 this.props.shareAlbumObject.delivery_status ===
                   'Stoped_selection' ? (
                   <Col>
-                    <div className="already-shared-with minimum-photo-selection">
-                      Minimum Photo
-                      <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
-                        {' '}
-                        {this.props.shareAlbumObject.album_recipients &&
-                        (!isObjectEmpty(album.album_recipients) &&
-                          this.props.shareAlbumObject.album_recipients.length >
-                            0 &&
-                          this.props.shareAlbumObject.album_recipients[0] !==
-                            null)
-                          ? this.props.shareAlbumObject.album_recipients[0]
-                              .minimum_photo_selection
-                          : 0}{' '}
-                      </button>
-                    </div>
-                    <div className="already-shared-with allowed-comment-margin">
-                      Comments Allowed:
-                      <span className="comment-allowed">
-                        {this.props.shareAlbumObject.album_recipients &&
-                        (!isObjectEmpty(
-                          this.props.shareAlbumObject.album_recipients
-                        ) &&
-                          this.props.shareAlbumObject.album_recipients.length >
-                            0 &&
-                          this.props.shareAlbumObject.album_recipients[0] !==
-                            null)
-                          ? this.props.shareAlbumObject.album_recipients[0]
-                              .allow_comments
-                            ? ' Yes'
-                            : ' No'
-                          : '     -'}
-                      </span>
-                    </div>
-                    <div className="already-shared-with minimum-photo-selection">
-                      Selected photos:
-                      <span className="share-count minimum-photo-selection-count">
-                        {this.props.shareAlbumObject.selected_photo_count}
-                      </span>
-                    </div>
-                    <div className="already-shared-with allowed-comment-margin">
-                      Comments:
-                      {this.props.shareAlbumObject.commented_photo_count > 0 ? (
-                        <span className="share-count minimum-photo-selection-count">
-                          {this.props.shareAlbumObject.commented_photo_count}
-                        </span>
-                      ) : (
-                        <span className="share-count minimum-photo-selection-count">
-                          {this.props.shareAlbumObject.commented_photo_count}
-                        </span>
-                      )}
-                    </div>
+                    <Row>
+                      <Col>
+                        <div className="already-shared-with minimum-photo-selection">
+                          Minimum Photo
+                          <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
+                            {' '}
+                            {this.props.shareAlbumObject.album_recipients &&
+                            (!isObjectEmpty(album.album_recipients) &&
+                              this.props.shareAlbumObject.album_recipients.length >
+                                0 &&
+                              this.props.shareAlbumObject.album_recipients[0] !==
+                                null)
+                              ? this.props.shareAlbumObject.album_recipients[0]
+                                  .minimum_photo_selection
+                              : 0}{' '}
+                          </button>
+                        </div>
+                        <div className="already-shared-with allowed-comment-margin">
+                          Comments Allowed:
+                          <span className="comment-allowed">
+                            {this.props.shareAlbumObject.album_recipients &&
+                            (!isObjectEmpty(
+                              this.props.shareAlbumObject.album_recipients
+                            ) &&
+                              this.props.shareAlbumObject.album_recipients.length >
+                                0 &&
+                              this.props.shareAlbumObject.album_recipients[0] !==
+                                null)
+                              ? this.props.shareAlbumObject.album_recipients[0]
+                                  .allow_comments
+                                ? ' Yes'
+                                : ' No'
+                              : '     -'}
+                          </span>
+                        </div>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <div className="already-shared-with minimum-photo-selection">
+                          Selected photos:
+                          <span className="share-count minimum-photo-selection-count">
+                            {this.props.shareAlbumObject.selected_photo_count}
+                          </span>
+                        </div>
+                        <div className="already-shared-with allowed-comment-margin">
+                          Comments:
+                          {this.props.shareAlbumObject.commented_photo_count > 0 ? (
+                            <span className="share-count minimum-photo-selection-count">
+                              {this.props.shareAlbumObject.commented_photo_count}
+                            </span>
+                          ) : (
+                            <span className="share-count minimum-photo-selection-count">
+                              {this.props.shareAlbumObject.commented_photo_count}
+                            </span>
+                          )}
+                        </div>
+                      </Col>
+                    </Row>
                   </Col>
                 ) : (
-                  <Col>
-                    <div className="already-shared-with minimum-photo-selection">
-                      Minimum Photo
-                      <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
-                        {' '}
-                        {this.props.shareAlbumObject.album_recipients &&
-                        (!isObjectEmpty(album.album_recipients) &&
-                          this.props.shareAlbumObject.album_recipients.length >
-                            0 &&
-                          this.props.shareAlbumObject.album_recipients[0] !==
-                            null)
-                          ? this.props.shareAlbumObject.album_recipients[0]
-                              .minimum_photo_selection
-                          : 0}{' '}
-                      </button>
-                    </div>
-                    <div className="already-shared-with allowed-comment-margin">
-                      Comments Allowed:
-                      <span className="comment-allowed">
-                        {this.props.shareAlbumObject.album_recipients &&
-                        (!isObjectEmpty(
-                          this.props.shareAlbumObject.album_recipients
-                        ) &&
-                          this.props.shareAlbumObject.album_recipients.length >
-                            0 &&
-                          this.props.shareAlbumObject.album_recipients[0] !==
-                            null)
-                          ? this.props.shareAlbumObject.album_recipients[0]
-                              .allow_comments
-                            ? ' Yes'
-                            : ' No'
-                          : '     -'}
-                      </span>
-                    </div>
-                  </Col>
+                  <Row>
+                    <Col>
+                      <div className="already-shared-with minimum-photo-selection">
+                        Minimum Photo
+                        <button className="share-count minimum-photo-selection-count photo-selection-count-with-progress">
+                          {' '}
+                          {this.props.shareAlbumObject.album_recipients &&
+                          (!isObjectEmpty(album.album_recipients) &&
+                            this.props.shareAlbumObject.album_recipients.length >
+                              0 &&
+                            this.props.shareAlbumObject.album_recipients[0] !==
+                              null)
+                            ? this.props.shareAlbumObject.album_recipients[0]
+                                .minimum_photo_selection
+                            : 0}{' '}
+                        </button>
+                      </div>
+                      <div className="already-shared-with allowed-comment-margin">
+                        Comments Allowed:
+                        <span className="comment-allowed">
+                          {this.props.shareAlbumObject.album_recipients &&
+                          (!isObjectEmpty(
+                            this.props.shareAlbumObject.album_recipients
+                          ) &&
+                            this.props.shareAlbumObject.album_recipients.length >
+                              0 &&
+                            this.props.shareAlbumObject.album_recipients[0] !==
+                              null)
+                            ? this.props.shareAlbumObject.album_recipients[0]
+                                .allow_comments
+                              ? ' Yes'
+                              : ' No'
+                            : '     -'}
+                        </span>
+                      </div>
+                    </Col>
+                  </Row>
                 )}
 
                 {/* <Button

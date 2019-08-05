@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Button, Tab, Tabs } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
+import { Link } from 'react-router-dom';
 // Import component
 import EditAboutContent from './EditAboutContent';
 import ServicePopup from './ServicePopup';
@@ -341,17 +342,41 @@ export default class SiteContent extends Component {
         >
           <Tab eventKey="home" title="Home">
             <Col xs={12} className="site-content-filter p-none">
-              <h5>Home</h5>
+              <h5 className="f-left">Home</h5>
+              <Button className="btn-orange f-right">
+                <Link
+                  to={'/homepage_gallery'}
+                  className="admin-login-btn"
+                >
+                  Manage Homepage Gallery
+                </Link>
+              </Button>
             </Col>
           </Tab>
           <Tab eventKey="portfolio" title="Portfolio">
             <Col xs={12} className="site-content-filter p-none">
-              <h5>Portfolio</h5>
+              <h5 className="f-left">Portfolio</h5>
+              <Button className="btn-orange f-right">
+                <Link
+                  to={'/albums'}
+                  className="admin-login-btn"
+                >
+                  Manage Portfolio
+                </Link>
+              </Button>
             </Col>
           </Tab>
           <Tab eventKey="films" title="Films">
             <Col xs={12} className="site-content-filter p-none">
-              <h5>Films</h5>
+              <h5 className="f-left">Films</h5>
+              <Button className="btn-orange f-right">
+                <Link
+                  to={'/video_films'}
+                  className="admin-login-btn"
+                >
+                  Manage Films
+                </Link>
+              </Button>
             </Col>
           </Tab>
           <Tab eventKey="services" title="Services">
@@ -372,7 +397,15 @@ export default class SiteContent extends Component {
           </Tab>
           <Tab eventKey="testimonials" title="Testimonials">
             <Col xs={12} className="site-content-filter p-none">
-              <h5>Testimonials</h5>
+              <h5 className="f-left">Testimonials</h5>
+              <Button className="btn-orange f-right">
+                <Link
+                  to={'/testimonials'}
+                  className="admin-login-btn"
+                >
+                  Manage Testimonials
+                </Link>
+              </Button>
             </Col>
           </Tab>
           <Tab
