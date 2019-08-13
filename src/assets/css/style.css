@@ -258,6 +258,7 @@ a:focus {
   padding-top: 94px;
   padding-bottom: 50px;
   background: Transperent;
+  position: relative;
 }
 
 .text-white {

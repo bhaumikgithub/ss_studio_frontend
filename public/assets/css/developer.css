@@ -995,9 +995,9 @@ div.filepicker {
 .login-form{
   position: absolute!important;
   right: 0px;
-  top: -40px;
+  /*top: -40px;*/
   left: 0px;
-  bottom: 0px;
+  /*bottom: 0px;*/
   max-height: max-content;
   margin: auto;
   border-radius: 20px;
