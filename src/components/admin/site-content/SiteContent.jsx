@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Col, Button, Tab, Tabs } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import { Link } from 'react-router-dom';
+import ReactAvatarEditor from 'react-avatar-editor'
 // Import component
 import EditAboutContent from './EditAboutContent';
 import ServicePopup from './ServicePopup';
@@ -46,7 +47,10 @@ export default class SiteContent extends Component {
         text: '',
         btnText: '',
         type: ''
-      }
+      },
+      allowZoomOut: false,
+      scale: 1,
+      image: ""
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handleAboutModal = this.handleAboutModal.bind(this);
@@ -285,10 +289,60 @@ export default class SiteContent extends Component {
       }
     });
   }
+  setEditorRef = (editor) => this.editor = editor
+
+  handleNewImage = e => {
+    this.setState({ image: e.target.files[0] })
+  }
+
+  handleScale = e => {
+    const scale = parseFloat(e.target.value)
+    this.setState({ scale })
+  }
+
+  toDataUrl(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var reader = new FileReader();
+      reader.onloadend = function() {
+          callback(reader.result);
+      }
+      reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}
+
+  handleSave = () => {
+    const img = this.editor.getImageScaledToCanvas().toDataURL()
+    const rect = this.editor.getCroppingRect()
+    var self = this;
+    let data = new FormData();
+    data.append('about[photo_attributes][image]', img);
+
+    AboutService.updateAboutUs(data)
+      .then(function(response) {
+        self.handleSuccessResponse(response);
+      })
+      .catch(function(error) {
+        console.log(error.response);
+      });
+    this.setState({
+      preview: {
+        img,
+        rect,
+        scale: this.state.scale,
+        width: this.state.width,
+        height: this.state.height,
+        borderRadius: this.state.borderRadius,
+      },
+    })
+  }
 
   render() {
     const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
-    var socialMediaLink = '';
+    // var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
         <SweetAlert
@@ -443,13 +497,54 @@ export default class SiteContent extends Component {
               }
             </Col>
             <Col xs={12} className="p-none">
-              <Col className="content-about-img-wrap">
+              <Col className="content-about-img-wrap about-us-img-div">
                 {aboutUs && aboutUs.photo && (
-                  <img
+                  <div>
+                  {/* <img
                     className="img-responsive content-user-image"
                     src={aboutUs.photo.image}
                     alt="user"
+                  /> */}
+                  <ReactAvatarEditor
+                    ref={this.setEditorRef}
+                    image={this.state.image === "" ? aboutUs.photo.image : this.state.image}
+                    width={259}
+                    height={259}
+                    border={50}
+                    color={[255, 255, 255, 0.6]} // RGBA
+                    scale={parseFloat(this.state.scale)}
+                    rotate={0}
+                    className="editor-canvas img-responsive"
+                    crossOrigin = 'anonymous'
                   />
+                  <input
+                    name="scale"
+                    type="range"
+                    onChange={this.handleScale}
+                    min={this.state.allowZoomOut ? '0.1' : '1'}
+                    max="2"
+                    step="0.01"
+                    defaultValue="1"
+                  />
+                  <Button
+                    className="btn btn-orange"
+                    onClick={event => this.handleSave(event)}
+                  >Submit
+                  </Button><br/>
+                  {!!this.state.preview && (
+                    <img
+                      src={this.state.preview.img}
+                      style={{
+                        borderRadius: `${(Math.min(
+                          this.state.preview.height,
+                          this.state.preview.width
+                        ) +
+                          10) *
+                          (this.state.preview.borderRadius / 2 / 100)}px`,
+                      }}
+                    />
+                  )}
+                  </div>
                 )}
                 {aboutUs && aboutUs.title_text !== undefined &&
                   <a className="img-edit-btn" onClick={this.handleEditClick}>
@@ -461,13 +556,13 @@ export default class SiteContent extends Component {
                     id="about_photo_edit"
                     ref="fileField"
                     type="file"
-                    onChange={e => this.handleUploadFile(e)}
+                    onChange={(e) => this.handleNewImage(e)}
                   />
                 </a>
                 }
               </Col>
               {aboutUs &&
-                <Col className="right-content-wrap text-grey">
+                <Col className="right-content-wrap text-grey about-us-content-div">
                   <Col xs={12} className="about-content-wrap">
                     <h3 className="about-content-title">{aboutUs.title_text}</h3>
                     <p
