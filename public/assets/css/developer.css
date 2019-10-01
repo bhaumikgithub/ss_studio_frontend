@@ -210,6 +210,12 @@
 .custom-service-thumb {
   margin-right: 10px;
 }
+.about-us-img-div{
+  max-width: 360px !important;
+}
+.about-us-content-div{
+  width: calc(100% - 360px) !important;
+}
 /* Site content about page css end */
 
 /* Home page galery css start */
