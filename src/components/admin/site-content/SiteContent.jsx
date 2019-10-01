@@ -498,7 +498,7 @@ export default class SiteContent extends Component {
             </Col>
             <Col xs={12} className="p-none">
               <Col className="content-about-img-wrap about-us-img-div">
-                {aboutUs && aboutUs.photo && (
+                {aboutUs && (
                   <div>
                   {/* <img
                     className="img-responsive content-user-image"
@@ -507,7 +507,7 @@ export default class SiteContent extends Component {
                   /> */}
                   <ReactAvatarEditor
                     ref={this.setEditorRef}
-                    image={this.state.image === "" ? aboutUs.photo.image : this.state.image}
+                    image={this.state.image === "" ? "" : this.state.image}
                     width={259}
                     height={259}
                     border={50}
