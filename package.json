@@ -27,6 +27,7 @@
     "react-google-login": "^2.9.3",
     "react-helmet": "^5.2.0",
     "react-iframe": "^1.0.7",
+    "react-image-crop": "^8.2.1",
     "react-image-lightbox": "^4.1.0",
     "react-loadable": "^4.0.5",
     "react-rating": "^0.8.1",

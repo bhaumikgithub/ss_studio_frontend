@@ -10,6 +10,7 @@ export function deleteSelectedPhotos(params) {
 }
 
 export function uploadPhoto(params, file, uploadProgress) {
+  debugger;
   const responsePromise = axiosInstance.post(
     process.env.REACT_APP_API_BASE_URL + 'photos',
     params,

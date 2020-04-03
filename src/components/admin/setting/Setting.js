@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Col, Tab, Tabs, Checkbox, Button, ControlLabel, FormControl, FormGroup, Thumbnail } from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
 import SweetAlert from 'sweetalert-react';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 // Import component
 import validationHandler from '../../common/ValidationHandler';
 import SocialMediaPopup from './SocialMediaPopup';
@@ -44,6 +46,12 @@ export default class SiteContent extends Component {
         text: '',
         btnText: '',
         type: ''
+      },
+      src: null,
+      crop: {
+        unit: "%",
+        width: 30,
+        aspect: 16 / 9
       }
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
@@ -93,6 +101,77 @@ export default class SiteContent extends Component {
           socialMedia: response.data.data.about_us.social_links
         });
       }
+    });
+  }
+
+  onSelectFile = e => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () =>
+        this.setState({ src: reader.result })
+      );
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  // If you setState the crop in here you should return false.
+  onImageLoaded = image => {
+    this.imageRef = image;
+  };
+
+  onCropComplete = crop => {
+    this.makeClientCrop(crop);
+  };
+
+  onCropChange = (crop, percentCrop) => {
+    // You could also use percentCrop:
+    // this.setState({ crop: percentCrop });
+    this.setState({ crop });
+  };
+
+  async makeClientCrop(crop) {
+    if (this.imageRef && crop.width && crop.height) {
+      const croppedImageUrl = await this.getCroppedImg(
+        this.imageRef,
+        crop,
+        "newFile.jpeg"
+      );
+      this.setState({ croppedImageUrl });
+    }
+  }
+
+  getCroppedImg(image, crop, fileName) {
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (!blob) {
+          //reject(new Error('Canvas is empty'));
+          console.error("Canvas is empty");
+          return;
+        }
+        blob.name = fileName;
+        window.URL.revokeObjectURL(this.fileUrl);
+        this.fileUrl = window.URL.createObjectURL(blob);
+        resolve(this.fileUrl);
+      }, "image/jpeg");
     });
   }
 
@@ -342,7 +421,7 @@ export default class SiteContent extends Component {
   }
 
   render() {
-    const { tab, watermarks, userLogo, faviconImage, websiteDetail, EditWebsiteForm, errors, socialMedia, alert } = this.state;
+    const { tab, watermarks, userLogo, faviconImage, websiteDetail, EditWebsiteForm, errors, socialMedia, alert, crop, croppedImageUrl, src } = this.state;
     var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
@@ -552,10 +631,22 @@ export default class SiteContent extends Component {
                     id="about_photo_edit"
                     ref="fileField"
                     type="file"
-                    onChange={e => this.handleUploadFile(e)}
+                    onChange={this.onSelectFile}
                   />
                 </a>
               </Col>
+              {src && (
+                  <ReactCrop
+                    src={src}
+                    crop={crop}
+                    onImageLoaded={this.onImageLoaded}
+                    onComplete={this.onCropComplete}
+                    onChange={this.onCropChange}
+                  />
+                )}
+                {croppedImageUrl && (
+                  <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+                )}
             </Col>
           </Tab>
           <Tab

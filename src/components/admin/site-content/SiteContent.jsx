@@ -9,6 +9,8 @@ import EditContactDetail from './EditContactDetail';
 import ServiceModule from '../../common/ServiceModule';
 // import SocialMediaPopup from './SocialMediaPopup';
 import EditWebsiteDetail from './EditWebsiteDetail';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 // Import services
 import {
@@ -46,6 +48,13 @@ export default class SiteContent extends Component {
         text: '',
         btnText: '',
         type: ''
+      },
+      src: null,
+      fileUrl: "",
+      crop: {
+        unit: "%",
+        width: 30,
+        aspect: 16 / 9
       }
     };
     this.handleTabSelect = this.handleTabSelect.bind(this);
@@ -87,6 +96,81 @@ export default class SiteContent extends Component {
         self.setState({ websiteDetail: response.data.data.website_detail });
       }
     })
+  }
+
+  onSelectFile = e => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () =>
+        this.setState({ src: reader.result })
+      );
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  // If you setState the crop in here you should return false.
+  onImageLoaded = image => {
+    this.imageRef = image;
+  };
+
+  onCropComplete = crop => {
+    this.makeClientCrop(crop);
+  };
+
+  onCropChange = (crop, percentCrop) => {
+    // You could also use percentCrop:
+    // this.setState({ crop: percentCrop });
+    this.setState({ crop });
+  };
+
+  async makeClientCrop(crop) {
+    if (this.imageRef && crop.width && crop.height) {
+      const croppedImageUrl = await this.getCroppedImg(
+        this.imageRef,
+        crop,
+        "newFile.jpeg"
+      );
+      this.setState({ croppedImageUrl });
+    }
+    debugger
+  }
+
+  getCroppedImg(image, crop, fileName) {
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => {
+        if (!blob) {
+          //reject(new Error('Canvas is empty'));
+          console.error("Canvas is empty");
+          return;
+        }
+        debugger;
+        blob.name = fileName;
+        window.URL.revokeObjectURL(this.fileUrl);
+        this.fileUrl = window.URL.createObjectURL(blob);
+        debugger
+        this.fileUrlPath=window.URL.revokeObjectURL(window.URL.createObjectURL(blob));
+        resolve(this.fileUrlPath);
+      }, "image/jpeg");
+    });
   }
 
   ServiceCloseModal = () => {
@@ -182,11 +266,11 @@ export default class SiteContent extends Component {
 
   handleUploadFile = e => {
     e.preventDefault();
-
     var self = this;
-    let file = e.target.files[0];
+    debugger;
+    // let file = e.target.files[0];
     let data = new FormData();
-    data.append('about[photo_attributes][image]', file);
+    data.append('about[photo_attributes][image]', this.state.croppedImageUrl);
 
     AboutService.updateAboutUs(data)
       .then(function(response) {
@@ -287,7 +371,7 @@ export default class SiteContent extends Component {
   }
 
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia, alert, crop, croppedImageUrl, src  } = this.state;
     var socialMediaLink = '';
     return (
       <Col xs={12} className="site-content-wrap">
@@ -461,10 +545,29 @@ export default class SiteContent extends Component {
                     id="about_photo_edit"
                     ref="fileField"
                     type="file"
-                    onChange={e => this.handleUploadFile(e)}
+                    onChange={this.onSelectFile}
                   />
                 </a>
                 }
+
+                {src && (
+                  <ReactCrop
+                    src={src}
+                    crop={crop}
+                    onImageLoaded={this.onImageLoaded}
+                    onComplete={this.onCropComplete}
+                    onChange={this.onCropChange}
+                  />
+                )}
+                {croppedImageUrl && (
+                  <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+                )}
+                <Button
+                  className="btn btn-orange pull-right edit-contact-detail"
+                  onClick={e => this.handleUploadFile(e)}
+                >
+                  Save (CROP)
+                </Button>
               </Col>
               {aboutUs &&
                 <Col className="right-content-wrap text-grey">
