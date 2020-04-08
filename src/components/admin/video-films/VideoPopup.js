@@ -192,7 +192,7 @@ export default class VideoPopup extends Component {
                     </div>
                   </Radio>
                 </span>{' '}
-                {/* <span className="custom-radio-wrap videotype-radio-wrap">
+                <span className="custom-radio-wrap videotype-radio-wrap">
                   <Radio
                     name="video_type"
                     inline
@@ -205,7 +205,7 @@ export default class VideoPopup extends Component {
                       <div className="inside" />
                     </div>
                   </Radio>
-                </span> */}
+                </span>
               </FormGroup>
               {showVideoUrl && (
                 <FormGroup className="custom-form-group required hide-show-group">
@@ -213,7 +213,7 @@ export default class VideoPopup extends Component {
                     name="video_url"
                     className="custom-form-control"
                     type="text"
-                    placeholder="Enter Youtube URL"
+                    placeholder="Enter URL"
                     value={videoForm.video_url}
                     onChange={this.handleChange.bind(this)}
                   />

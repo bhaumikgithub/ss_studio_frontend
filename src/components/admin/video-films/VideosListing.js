@@ -326,7 +326,7 @@ export default class VideoFilms extends Component {
                         >
                           <img
                             className="video-thumb"
-                            src={youtubeThumbnail(video.video_url).default.url}
+                            src={video.video_type == "vimeo" ? video.video_thumb : youtubeThumbnail(video.video_url).default.url}
                             alt="Video thumb"
                           />
                           <img
