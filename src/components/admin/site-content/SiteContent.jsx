@@ -243,7 +243,7 @@ export default class SiteContent extends Component {
 
   deleteService() {
     var self = this;
-    debugger;
+
     UserServiceService.deleteService(self.state.alert.objectId)
     .then(function(response) {
       if (response.status === 200) {

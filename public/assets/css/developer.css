@@ -1457,6 +1457,9 @@ div.filepicker {
 .edit-slide-margin{
   margin: 0px 20px;
 }
+.delete-slide-margin{
+  margin: 0px 40px;
+}
 header {
   padding-top: 20px;
   background-size: 100% 100%;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Button } from 'react-bootstrap';
+import SweetAlert from 'sweetalert-react';
 import HomepagePopup from './HomepagePopup';
+import CreateHomepagePopup from './CreateHomepagePopup';
 // Import services
 import { HomePageGalleryService } from '../../../services/Index';
 
@@ -17,7 +19,18 @@ export default class HomePageGallery extends Component {
       active_photos: [],
       homepage_photo: {},
       showPopup: false,
-      editObject: {}
+      editObject: {},
+      showCreatePopup: false,
+      alert: {
+        objectId: '',
+        show: false,
+        cancelBtn: true,
+        confirmAction: () => {},
+        title: '',
+        text: '',
+        btnText: '',
+        type: ''
+      }
     };
     this.handleImageChange = this.handleImageChange.bind(this);
   }
@@ -71,22 +84,116 @@ export default class HomePageGallery extends Component {
     this.setState({ active_photos: activePhotos });
   }
 
-  renderPhoto = (photo) => {
+  renderPhoto = (photo, action) => {
     const self = this
     const { active_photos, editObject } = self.state;
     const activePhotos = active_photos.slice();
-    activePhotos[activePhotos.indexOf(editObject.photo)] = photo;
-    this.setState({ active_photos: activePhotos });
+    if (action === 'insert') {
+      active_photos.splice(0, 0, photo);
+      this.setState({ active_photos: active_photos });
+    }else {
+      activePhotos[activePhotos.indexOf(editObject.photo)] = photo;
+      this.setState({ active_photos: activePhotos });
+    }
   }
 
   closePopup = () => {
     this.setState({ showPopup: false, editObject: {} });
   };
 
+  closeCreatePopup = () => {
+    this.setState({ showCreatePopup: false, editObject: {} });
+  }
+
+  showDialogueBox(id) {
+    this.setState({
+      alert: {
+        objectId: id,
+        show: true,
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        btnText: 'Yes, delete it!',
+        type: 'warning',
+        confirmAction: () => this.deleteHomepagePhoto(),
+        cancelBtn: true
+      }
+    });
+  }
+
+  hideDialogueBox() {
+    this.setState({ alert: { show: false } });
+  }
+  
+  deleteHomepagePhoto() {
+    var self = this;
+
+    HomePageGalleryService.deleteHomepagePhoto(self.state.alert.objectId)
+      .then(function(response) {
+        if (response.status === 200) {
+          self.handleDeleteSuccessResponse(response);
+        } else {
+          self.handleDeleteErrorResponse(response);
+        }
+      })
+      .catch(function(error) {
+        self.handleDeleteErrorResponse(error.response);
+      });
+  }
+
+  handleDeleteSuccessResponse(response) {
+    var self = this;
+
+    const active_photos = self.state.active_photos.filter(
+      active_photo => active_photo.id !== self.state.alert.objectId
+    );
+
+    self.setState({
+      active_photos: active_photos,
+      alert: {
+        show: true,
+        title: 'Success',
+        text: response.data.message,
+        type: 'success',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
+  handleDeleteErrorResponse(response) {
+    var self = this;
+
+    self.setState({
+      alert: {
+        show: true,
+        title: response.data.message,
+        text: response.data.errors[0].detail,
+        type: 'warning',
+        confirmAction: () => self.hideDialogueBox()
+      }
+    });
+  }
+
   render() {
-    const { active_photos } = this.state;
+    const { alert, active_photos } = this.state;
     return (
       <Col xs={12} className="homepage-gallery-page-wrap">
+        <SweetAlert
+          show={alert.show || false}
+          title={alert.title || ''}
+          text={alert.text || ''}
+          type={alert.type || 'success'}
+          showCancelButton={alert.cancelBtn}
+          confirmButtonText={alert.btnText}
+          onConfirm={alert.confirmAction}
+          onCancel={() => this.hideDialogueBox()}
+        />
+        {this.state.showCreatePopup && (
+          <CreateHomepagePopup
+            showCreatePopup={this.state.showCreatePopup}
+            closeCreatePopup={this.closeCreatePopup}
+            renderPhoto={this.renderPhoto}
+          />
+        )}
         {this.state.showPopup && (
           <HomepagePopup
             showPopup={this.state.showPopup}
@@ -96,6 +203,16 @@ export default class HomePageGallery extends Component {
           />
         )}
         <Row>
+          <Col xs={12} className="filter-wrap p-none album-listing-title-wrap">
+            <Col xs={12} className="p-none">
+              <Button
+                className="btn pull-right btn-green create-album-btn"
+                onClick={() => this.setState({ showCreatePopup: true })}
+              >
+                <i className="fa fa-plus add-icon" />Add Photo
+              </Button>
+            </Col>
+          </Col>
           <Col xs={12} className="homepage-gallery">
             <Col xs={12} className="slider-images-wrap disable-scrollbar">
               {active_photos.map((photo, index) => (
@@ -144,6 +261,13 @@ export default class HomePageGallery extends Component {
                       }
                     >
                       <i className="fa fa-pencil" aria-hidden="true" />
+                    </a>
+
+                    <a
+                      className="edit-slide delete-slide-margin"
+                      onClick={event => this.showDialogueBox(photo.id)}
+                    >
+                      <i className="fa fa-trash" aria-hidden="true" />
                     </a>
                   </div>
                 </Col>
