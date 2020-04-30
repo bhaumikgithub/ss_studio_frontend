@@ -19,6 +19,7 @@ import * as WatermarkService from './Watermark';
 import * as WebsiteDetailService from './WebsiteDetail';
 import * as ProfileCompletenessService from './ProfileCompleteness';
 import * as ThemeService from './Theme'
+import * as BlogService from './Blog'
 
 export {
   AboutService,
@@ -41,5 +42,6 @@ export {
   WatermarkService,
   WebsiteDetailService,
   ProfileCompletenessService,
-  ThemeService
+  ThemeService,
+  BlogService
 };

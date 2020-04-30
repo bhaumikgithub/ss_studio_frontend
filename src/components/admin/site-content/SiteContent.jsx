@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Button, Tab, Tabs } from 'react-bootstrap';
+import { Col, Button, Tab, Tabs, ControlLabel, FormControl, FormGroup, Checkbox } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import { Link } from 'react-router-dom';
 import ReactAvatarEditor from 'react-avatar-editor'
@@ -11,16 +11,20 @@ import ServiceModule from '../../common/ServiceModule';
 // import SocialMediaPopup from './SocialMediaPopup';
 import EditWebsiteDetail from './EditWebsiteDetail';
 
+// Import component
+import validationHandler from '../../common/ValidationHandler';
+
 // Import services
 import {
   AboutService,
   ContactDetailService,
   UserServiceService,
-  WebsiteDetailService
+  WebsiteDetailService,
+  BlogService
 } from '../../../services/Index';
 
 // Import helper
-import { isObjectEmpty } from '../../Helper';
+import { str2bool, isObjectEmpty } from '../../Helper';
 
 // Import css
 import '../../../assets/css/admin/site-content/site-content.css';
@@ -37,6 +41,10 @@ export default class SiteContent extends Component {
       contactDetail: {},
       websiteDetail: {},
       tab: 'home',
+      editBlogForm: {
+        is_show: false,
+        blog_url: ''
+      },
       admin_service: true,
       alert: {
         objectId: '',
@@ -48,6 +56,7 @@ export default class SiteContent extends Component {
         btnText: '',
         type: ''
       },
+      errors: {},
       allowZoomOut: false,
       scale: 1,
       image: ""
@@ -89,6 +98,19 @@ export default class SiteContent extends Component {
     WebsiteDetailService.getWebsiteDetail().then(function(response){
       if (response.status === 200) {
         self.setState({ websiteDetail: response.data.data.website_detail });
+      }
+    });
+
+    BlogService.getBlog().then(function(response){
+      if (response.status === 200) {
+        var response_data = response.data.data.blog
+        const { is_show, blog_url } = response_data;
+        self.setState({ 
+          editBlogForm: {
+            is_show: is_show,
+            blog_url: blog_url
+          } 
+        });
       }
     })
   }
@@ -200,6 +222,20 @@ export default class SiteContent extends Component {
         console.log(error.response);
       });
   };
+
+  handleChange(e) {
+    const editBlogForm = this.state.editBlogForm;
+    var key = e.target.name;
+    if (key === 'is_show') {
+      editBlogForm[key] = e.target.checked;
+    } else {
+      editBlogForm[key] = e.target.value;
+    }
+    // editBlogForm[key] = str2bool(e.target.value);
+    this.setState({
+      editBlogForm
+    });
+  }
 
   handleEditClick(e) {
     var inputField = this.refs.fileField;
@@ -340,9 +376,42 @@ export default class SiteContent extends Component {
     })
   }
 
+  handleSubmit(e) {
+    var self = this;
+    var callBlogApi = () => {};
+    var editParams = {
+      editBlogForm: { blog: self.state.editBlogForm }
+    };
+    callBlogApi = BlogService.updateBlog(editParams);
+
+    callBlogApi
+      .then(function(response) {
+        self.handelResponse(response);
+      })
+      .catch(function(error) {
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
+      });
+  }
+
+  handelResponse(response) {
+    var responseData = response.data;
+    if (response.status === 201) {
+      this.resetBlogForm();
+    } else {
+      console.log(responseData.errors);
+    }
+  }
+  resetBlogForm() {
+    this.setState({ editBlogForm: this.state.editBlogForm });
+  }
+
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia, alert } = this.state;
-    // var socialMediaLink = '';
+    const { aboutUs, contactDetail, tab, socialMedia, alert, editBlogForm, errors } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
         <SweetAlert
@@ -460,6 +529,50 @@ export default class SiteContent extends Component {
                   Manage Testimonials
                 </Link>
               </Button>
+            </Col>
+          </Tab>
+          <Tab eventKey="blog" title="Blog">
+            <Col className="edit-about-content-wrap" sm={6}>
+              <form className="admin-side edit-about-form custom-form admin-settings-form">
+                <FormGroup className="custom-form-group">
+                  <Checkbox
+                    className=""
+                    name="is_show"
+                    value={''}
+                    onClick={this.handleChange.bind(this)}
+                    checked={editBlogForm.is_show }
+                  >
+                    {' '}
+                    <span>Show this Page</span>
+                    <div className="check">
+                      <div className="inside" />
+                    </div>
+                  </Checkbox>
+                </FormGroup>
+                <FormGroup className="custom-form-group required">
+                  <ControlLabel className="custom-form-control-label">
+                    Blog URL
+                  </ControlLabel>
+                  <FormControl
+                    className="custom-form-control"
+                    type="text"
+                    name="blog_url"
+                    value={editBlogForm && editBlogForm.blog_url ? editBlogForm.blog_url : ''}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['blog_url'] && (
+                    <span className="input-error text-red">
+                      {errors['blog_url']}
+                    </span>
+                  )}
+                </FormGroup>
+                <Button
+                  className="btn btn-orange edit-about-submit"
+                  onClick={event => this.handleSubmit(event)}
+                >
+                  Save
+                </Button>
+              </form>
             </Col>
           </Tab>
           <Tab
