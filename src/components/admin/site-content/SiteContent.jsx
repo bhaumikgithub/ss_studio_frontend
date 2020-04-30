@@ -78,7 +78,8 @@ export default class SiteContent extends Component {
       if (response.status === 200) {
         self.setState({
           aboutUs: response.data.data.about_us,
-          socialMedia: response.data.data.about_us.social_links
+          socialMedia: response.data.data.about_us.social_links, 
+          image: response.data.data.about_us.photo && response.data.data.about_us.photo.image ? response.data.data.about_us.photo.image : ""
         });
       }
     });
