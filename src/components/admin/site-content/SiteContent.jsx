@@ -20,7 +20,9 @@ import {
   ContactDetailService,
   UserServiceService,
   WebsiteDetailService,
-  BlogService
+  BlogService,
+  AlbumService,
+  UserService
 } from '../../../services/Index';
 
 // Import helper
@@ -44,6 +46,10 @@ export default class SiteContent extends Component {
       editBlogForm: {
         is_show: false,
         blog_url: ''
+      },
+      editPortfolioForm: {
+        is_show: false,
+        gallery_column: 2
       },
       admin_service: true,
       alert: {
@@ -110,6 +116,19 @@ export default class SiteContent extends Component {
           editBlogForm: {
             is_show: is_show,
             blog_url: blog_url
+          } 
+        });
+      }
+    });
+
+    AlbumService.showPortfolio().then(function(response){
+      if (response.status === 200) {
+        var response_data = response.data.data.portfolio
+        const { is_show, gallery_column } = response_data;
+        self.setState({ 
+          editPortfolioForm: {
+            is_show: is_show,
+            gallery_column: gallery_column
           } 
         });
       }
@@ -235,6 +254,19 @@ export default class SiteContent extends Component {
     // editBlogForm[key] = str2bool(e.target.value);
     this.setState({
       editBlogForm
+    });
+  }
+
+  handleChangePortfolio(e) {
+    const editPortfolioForm = this.state.editPortfolioForm;
+    var key = e.target.name;
+    if (key === 'is_show') {
+      editPortfolioForm[key] = e.target.checked;
+    } else {
+      editPortfolioForm[key] = e.target.value;
+    }
+    this.setState({
+      editPortfolioForm
     });
   }
 
@@ -411,8 +443,43 @@ export default class SiteContent extends Component {
     this.setState({ editBlogForm: this.state.editBlogForm });
   }
 
+  handleSubmitPortfolio(e) {
+    var self = this;
+    var callPorfolioApi = () => {};
+    var editParams = {
+      editPortfolioForm: { portfolio: self.state.editPortfolioForm }
+    };
+    callPorfolioApi = AlbumService.updatePortfolio(editParams);
+
+    callPorfolioApi
+      .then(function(response) {
+        self.setState({ errors: {} });
+        self.handelResponsePortfolio(response);
+      })
+      .catch(function(error) {
+        const errors = error.response.data.errors;
+        if (errors.length > 0) {
+          self.setState({ errors: validationHandler(errors) });
+        } else {
+          console.log(error.response);
+        }
+      });
+  }
+
+  handelResponsePortfolio(response) {
+    var responseData = response.data;
+    if (response.status === 201) {
+      this.resetPortfolioForm();
+    } else {
+      console.log(responseData.errors);
+    }
+  }
+  resetPortfolioForm() {
+    this.setState({ editPortfolioForm: this.state.editPortfolioForm });
+  }
+
   render() {
-    const { aboutUs, contactDetail, tab, socialMedia, alert, editBlogForm, errors } = this.state;
+    const { aboutUs, contactDetail, tab, socialMedia, alert, editBlogForm, errors, editPortfolioForm } = this.state;
     return (
       <Col xs={12} className="site-content-wrap">
         <SweetAlert
@@ -479,7 +546,6 @@ export default class SiteContent extends Component {
           </Tab>
           <Tab eventKey="portfolio" title="Portfolio">
             <Col xs={12} className="site-content-filter p-none">
-              <h5 className="f-left">Portfolio</h5>
               <Button className="btn-orange f-right">
                 <Link
                   to={'/albums'}
@@ -488,6 +554,50 @@ export default class SiteContent extends Component {
                   Manage Portfolio
                 </Link>
               </Button>
+              <Col className="edit-about-content-wrap" sm={6}>
+              <h5 className="f-left">Page Settings</h5>
+              <br/>
+                <form className="admin-side edit-about-form custom-form admin-settings-form">
+                <FormGroup className="custom-form-group">
+                  <Checkbox
+                    className=""
+                    name="is_show"
+                    value={''}
+                    onClick={this.handleChangePortfolio.bind(this)}
+                    checked={editPortfolioForm.is_show }
+                  >
+                    {' '}
+                    <span>Show this Page in Front</span>
+                    <div className="check">
+                      <div className="inside" />
+                    </div>
+                  </Checkbox>
+                </FormGroup>
+                <FormGroup className="custom-form-group required">
+                  <ControlLabel className="custom-form-control-label">
+                    Gallery Columns
+                  </ControlLabel>
+                  <FormControl
+                    className="custom-form-control"
+                    type="number"
+                    name="gallery_column"
+                    value={editPortfolioForm && editPortfolioForm.gallery_column ? editPortfolioForm.gallery_column : ''}
+                    onChange={this.handleChangePortfolio.bind(this)}
+                  />
+                  {errors['gallery_column'] && (
+                    <span className="input-error text-red">
+                      {errors['gallery_column']}
+                    </span>
+                  )}
+                </FormGroup>
+                <Button
+                  className="btn btn-orange edit-about-submit"
+                  onClick={event => this.handleSubmitPortfolio(event)}
+                >
+                  Save
+                </Button>
+              </form>
+              </Col>
             </Col>
           </Tab>
           <Tab eventKey="films" title="Films">

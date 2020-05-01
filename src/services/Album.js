@@ -151,3 +151,19 @@ export function getAlbumStatusWise(params) {
   );
   return checkStatus(responsePromise);
 }
+
+export function showPortfolio() {
+  return axiosInstance.get(
+    process.env.REACT_APP_API_BASE_URL + 'albums/get_portfolio',
+    apiHeader()
+  );
+}
+
+export function updatePortfolio(params) {
+  const responsePromise = axiosInstance.patch(
+    process.env.REACT_APP_API_BASE_URL + 'albums/update_portfolio',
+    params['editPortfolioForm'],
+    apiHeader()
+  );
+  return checkStatus(responsePromise);
+}
