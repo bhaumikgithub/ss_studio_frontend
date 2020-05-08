@@ -20,6 +20,7 @@ import * as WebsiteDetailService from './WebsiteDetail';
 import * as ProfileCompletenessService from './ProfileCompleteness';
 import * as ThemeService from './Theme'
 import * as BlogService from './Blog'
+import * as WidgetService from './Widget'
 
 export {
   AboutService,
@@ -43,5 +44,6 @@ export {
   WebsiteDetailService,
   ProfileCompletenessService,
   ThemeService,
-  BlogService
+  BlogService,
+  WidgetService
 };
