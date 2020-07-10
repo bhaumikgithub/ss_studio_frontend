@@ -18,9 +18,10 @@ import * as VideoFilmService from './VideoFilms';
 import * as WatermarkService from './Watermark';
 import * as WebsiteDetailService from './WebsiteDetail';
 import * as ProfileCompletenessService from './ProfileCompleteness';
-import * as ThemeService from './Theme'
-import * as BlogService from './Blog'
-import * as WidgetService from './Widget'
+import * as ThemeService from './Theme';
+import * as BlogService from './Blog';
+import * as WidgetService from './Widget';
+import * as PageSettingService from './PageSetting';
 
 export {
   AboutService,
@@ -45,5 +46,6 @@ export {
   ProfileCompletenessService,
   ThemeService,
   BlogService,
-  WidgetService
+  WidgetService,
+  PageSettingService
 };
