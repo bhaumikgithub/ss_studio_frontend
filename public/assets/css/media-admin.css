@@ -64,16 +64,12 @@
     margin-top: 8px;
     margin-right: 0;
   }
-  .logout-btn{
-    margin-top: 15px;
-  }
+
   .AdminApp .header .menu-links li.back-to-album a {
     padding: 20px 5px;
   }
   .admin-page-title {
     font-size: 24px;
-    height: 60px;
-    line-height: 60px;
   }
   .side-toggle-btn {
     height: 60px;
@@ -207,7 +203,7 @@
   .AdminApp .header .navbar-toggle {
     display: block;
     border-color: #f9a11d;
-    margin-top: 25px;
+    margin-top: -43px !important;
     margin-right: 0px;
     margin-bottom: 0;
   }
@@ -238,7 +234,6 @@
   }
   .admin-page-title {
     font-size: 24px;
-    line-height: 64px;
   }
   .AdminApp .menu-links {
     margin-top: 0;
@@ -246,7 +241,7 @@
   .setting-dropdown-wrap {
     float: left;
     position: relative;
-    width: 100%;
+    width: fit-content !important;
     width: 86px;
   }
   .setting-dropdown-wrap i {
@@ -255,6 +250,7 @@
   .setting-dropdown-wrap img {
     float: left;
     position: relative;
+    margin-top:-5px;
   }
 
   .setting-label {
@@ -450,6 +446,9 @@
   .view-album-detail{
       margin-left: 0;
       line-height: 24px;
+  }
+  .AdminApp .header .navbar-toggle {
+        margin-top:-83px !important;
   }
 }
 @media only screen and (max-width: 460px) {

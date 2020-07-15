@@ -69,26 +69,21 @@
 .admin-page-title {
   font-size: 28px;
   font-weight: normal;
-  height: 80px;
   margin-bottom: 0;
-  line-height: 80px;
   font-family: 'ralewaymedium';
   color: #a46342;
-  float: left;
   position: relative;
   width: auto;
 }
 .admin-site-title {
   font-size: 14px;
   font-weight: normal;
-  height: 80px;
   margin-bottom: 0;
-  line-height: 80px;
   font-family: 'ralewaymedium';
   float: left;
   position: relative;
   width: auto;
-  margin-left: 5px;
+  margin-left: 15px;
 }
 .AdminApp .header {
   position: absolute;
@@ -99,9 +94,7 @@
   border: 0;
   color: #555555;
 }
-.AdminApp .header .menu-links {
-  margin-top: 15px;
-}
+
 .AdminApp .header .menu-links li a {
   color: #555555 !important;
 }
@@ -131,8 +124,8 @@
 
 .side-toggle-btn {
   float: left;
-  height: 80px;
-  width: 80px !important;
+  height: 70px;
+  width: 70px !important;
   max-width: 80px !important;
   border-radius: 0;
   font-size: 14px;
