@@ -79,25 +79,26 @@ export default class ColorTheme extends Component {
     const { themeColors } = this.state;
     return (
       <Col>
-        <Col xs={6} className="site-content-filter p-none pull-right">
-          <Button
-            className="btn btn-orange pull-right"
-            onClick={this.handleResetTheme}
-          >
-            Reset Theme
-          </Button>
+        <Col xs={12}>
+          <Col xs={6} className="site-content-filter p-none pull-right">
+            <Button
+              className="btn btn-orange pull-right"
+              onClick={this.handleResetTheme}
+            >
+              Reset Theme
+            </Button>
+          </Col>
+          <Col xs={6} className="site-content-filter p-none">
+            <b className="text-wrap">Colors</b>
+          </Col>
         </Col>
-        <Col>
-          <b>Colors</b>
-        </Col>
-        <br/>
         {themeColors &&
-        <div>
+        <Col xs={12} className="setting-tab-content p-none">
           <Row>
             <Col xs={12} className="color-theme-title">
             <b>Links</b>
             </Col>
-            <Col xs={3}>
+            <Col className="col-xs-12 col-sm-6">
               <div className="borderless list-group-item">
                 <div className="color-picker-title">Header Links</div>
                 <ColorPickerComponent className="colorpicker" value={themeColors && themeColors["header_links"] && themeColors["header_links"]["hex"] ? themeColors["header_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_links')} />
@@ -111,7 +112,7 @@ export default class ColorTheme extends Component {
                 <ColorPickerComponent value={themeColors && themeColors["footer_links"] && themeColors["footer_links"]["hex"] ? themeColors["footer_links"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,"footer_links")} />
               </div>
             </Col>
-            <Col xs={3}>
+            <Col className="col-xs-12 col-sm-6">
               <div className="borderless list-group-item">
                 <div className="color-picker-title">Hover Header Link</div>
                 <ColorPickerComponent value={themeColors && themeColors["hover_header_link"] && themeColors["hover_header_link"]["hex"] ? themeColors["hover_header_link"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'hover_header_link')} />
@@ -134,7 +135,7 @@ export default class ColorTheme extends Component {
             <Col xs={12} className="color-theme-title">
             <b>Content</b>
             </Col>
-            <Col xs={3}>
+            <Col className="col-xs-12 col-sm-6">
               <div className="borderless list-group-item">
                 <div className="color-picker-title">Header Title Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["header_title_color"] && themeColors["header_title_color"]["hex"] ? themeColors["header_title_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_title_color')} />
@@ -157,7 +158,7 @@ export default class ColorTheme extends Component {
             <Col xs={12} className="color-theme-title">
             <b>Background</b>
             </Col>
-            <Col xs={3}>
+            <Col className="col-xs-12 col-sm-6">
               <div className="borderless list-group-item">
                 <div className="color-picker-title">Header Background</div>
                 <ColorPickerComponent value={themeColors && themeColors["header_background"] && themeColors["header_background"]["hex"] ? themeColors["header_background"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'header_background')} />
@@ -176,7 +177,7 @@ export default class ColorTheme extends Component {
             <Col xs={12} className="color-theme-title">
               <b>Buttons</b>
             </Col>
-            <Col xs={3}>
+            <Col className="col-xs-12 col-sm-6">
               <div className="borderless list-group-item">
                 <div className="color-picker-title">Background Color</div>
                 <ColorPickerComponent value={themeColors && themeColors["button_background_color"] && themeColors["button_background_color"]["hex"] ? themeColors["button_background_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'button_background_color')} />
@@ -199,7 +200,7 @@ export default class ColorTheme extends Component {
             <Col xs={12} className="color-theme-title">
             <b>Others</b>
             </Col>
-            <Col xs={3}>
+            <Col className="col-xs-12 col-sm-6">
               <div className="borderless list-group-item">
                 <div className="color-picker-title">Bullet / Icon Colors</div>
                 <ColorPickerComponent value={themeColors && themeColors["bullet_icon_color"] && themeColors["bullet_icon_color"]["hex"] ? themeColors["bullet_icon_color"]["hex"] :  "#000000"} change={event => this.handleChangeComplete(event,'bullet_icon_color')} />
@@ -216,7 +217,7 @@ export default class ColorTheme extends Component {
           >
             Save
           </Button>
-        </div>
+        </Col>
         }
       </Col>
     );

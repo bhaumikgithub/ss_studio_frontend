@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Button, Tab, Tabs, ControlLabel, FormControl, FormGroup, Checkbox } from 'react-bootstrap';
+import { Col, Button, Tab, Tabs, ControlLabel, FormControl, FormGroup, Checkbox, Row } from 'react-bootstrap';
 import SweetAlert from 'sweetalert-react';
 import { Link } from 'react-router-dom';
 import ReactAvatarEditor from 'react-avatar-editor'
@@ -825,8 +825,10 @@ export default class SiteContent extends Component {
                   Manage Homepage Gallery
                 </Link>
               </Button>
-              <Col xs={12} className="p-none">
-                <Col sm={6}>
+              <Col xs={12}>
+                <Row>
+                <Col sm={6}  className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-1">
                   <h5 className="f-left">Page Settings</h5>
                   <br/>
                   <form className="admin-side edit-about-form custom-form admin-settings-form">
@@ -852,8 +854,10 @@ export default class SiteContent extends Component {
                       Save
                     </Button>
                   </form>
+                  </Col>
                 </Col>
-                <Col sm={6}>
+                <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-2">
                   <h5 className="f-left">Widget</h5>
                   <br/>
                   <form className="admin-side edit-about-form custom-form admin-settings-form">
@@ -909,7 +913,9 @@ export default class SiteContent extends Component {
                       Save
                     </Button>
                   </form>
+                  </Col>
                 </Col>
+              </Row>
               </Col>
             </Col>
           </Tab>
@@ -923,109 +929,114 @@ export default class SiteContent extends Component {
                   Manage Portfolio
                 </Link>
               </Button>
-              <h5 className="f-left">Portfolio</h5>
-            </Col>
-            <Col xs={12} className="p-none">
-              <Col sm={6}>
-              <h5 className="f-left">Page Settings</h5>
-              <br/>
-                <form className="admin-side edit-about-form custom-form admin-settings-form">
-                <FormGroup className="custom-form-group">
-                  <Checkbox
-                    className=""
-                    name="is_show"
-                    value={''}
-                    onClick={this.handleChangePortfolio.bind(this)}
-                    checked={editPortfolioForm.is_show }
-                  >
-                    {' '}
-                    <span>Show this Page in Front</span>
-                    <div className="check">
-                      <div className="inside" />
-                    </div>
-                  </Checkbox>
-                </FormGroup>
-                <FormGroup className="custom-form-group required">
-                  <ControlLabel className="custom-form-control-label">
-                    Gallery Columns
-                  </ControlLabel>
-                  <FormControl
-                    className="custom-form-control"
-                    type="number"
-                    name="gallery_column"
-                    value={editPortfolioForm && editPortfolioForm.gallery_column ? editPortfolioForm.gallery_column : ''}
-                    onChange={this.handleChangePortfolio.bind(this)}
-                  />
-                  {errors['gallery_column'] && (
-                    <span className="input-error text-red">
-                      {errors['gallery_column']}
-                    </span>
-                  )}
-                </FormGroup>
-                <Button
-                  className="btn btn-orange edit-about-submit"
-                  onClick={event => this.handleSubmitPortfolio(event)}
-                >
-                  Save
-                </Button>
-              </form>
-              </Col>
-              <Col sm={6}>
-                <h5 className="f-left">Widget</h5>
-                <br/>
-                <form className="admin-side edit-about-form custom-form admin-settings-form">
-                  <FormGroup className="custom-form-group">
-                    <Checkbox
-                      className=""
-                      name="is_active"
-                      value={''}
-                      onClick={this.handleWidgetChange.bind(this, "portfolio")}
-                      checked={editPortfolioWidgetForm.is_active }
-                    >
-                      {' '}
-                      <span>Widget Active</span>
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
-                  </FormGroup>
-                  <FormGroup className="custom-form-group">
-                    <ControlLabel className="custom-form-control-label">
-                      Widget Title
-                    </ControlLabel>
-                    <FormControl
-                      className="custom-form-control"
-                      type="text"
-                      name="title"
-                      value={editPortfolioWidgetForm && editPortfolioWidgetForm.title ? editPortfolioWidgetForm.title : ''}
-                      onChange={this.handleWidgetChange.bind(this, "portfolio")}
-                    />
-                  </FormGroup>
-                  <FormGroup className="custom-form-group required">
-                    <ControlLabel className="custom-form-control-label">
-                      Widget Code
-                    </ControlLabel>
-                    <FormControl
-                      className="custom-form-control"
-                      componentClass="textarea"
-                      type="text"
-                      name="code"
-                      value={editPortfolioWidgetForm && editPortfolioWidgetForm.code ? editPortfolioWidgetForm.code : ''}
-                      onChange={this.handleWidgetChange.bind(this, "portfolio")}
-                    />
-                    {errors['code'] && editPortfolioWidgetForm.is_active && (
-                      <span className="input-error text-red">
-                        {errors['code']}
-                      </span>
-                    )}
-                  </FormGroup>
-                  <Button
-                    className="btn btn-orange edit-about-submit"
-                    onClick={event => this.handleWidgetSubmit(event, "portfolio")}
-                  >
-                    Save
-                  </Button>
-                </form>
+              <Col xs={12}>
+                <Row>
+                  <Col sm={6} className="p-none mt-30">
+                    <Col className="setting-tab-content content-set-1">
+                      <h5 className="f-left">Page Settings</h5>
+                      <br/>
+                        <form className="admin-side edit-about-form custom-form admin-settings-form">
+                        <FormGroup className="custom-form-group">
+                          <Checkbox
+                            className=""
+                            name="is_show"
+                            value={''}
+                            onClick={this.handleChangePortfolio.bind(this)}
+                            checked={editPortfolioForm.is_show }
+                          >
+                            {' '}
+                            <span>Show this Page in Front</span>
+                            <div className="check">
+                              <div className="inside" />
+                            </div>
+                          </Checkbox>
+                        </FormGroup>
+                        <FormGroup className="custom-form-group required">
+                          <ControlLabel className="custom-form-control-label">
+                            Gallery Columns
+                          </ControlLabel>
+                          <FormControl
+                            className="custom-form-control"
+                            type="number"
+                            name="gallery_column"
+                            value={editPortfolioForm && editPortfolioForm.gallery_column ? editPortfolioForm.gallery_column : ''}
+                            onChange={this.handleChangePortfolio.bind(this)}
+                          />
+                          {errors['gallery_column'] && (
+                            <span className="input-error text-red">
+                              {errors['gallery_column']}
+                            </span>
+                          )}
+                        </FormGroup>
+                        <Button
+                          className="btn btn-orange edit-about-submit"
+                          onClick={event => this.handleSubmitPortfolio(event)}
+                        >
+                          Save
+                        </Button>
+                      </form>
+                    </Col>
+                  </Col>
+                  <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-2">
+                    <h5 className="f-left">Widget</h5>
+                    <br/>
+                    <form className="admin-side edit-about-form custom-form admin-settings-form">
+                      <FormGroup className="custom-form-group">
+                        <Checkbox
+                          className=""
+                          name="is_active"
+                          value={''}
+                          onClick={this.handleWidgetChange.bind(this, "portfolio")}
+                          checked={editPortfolioWidgetForm.is_active }
+                        >
+                          {' '}
+                          <span>Widget Active</span>
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </FormGroup>
+                      <FormGroup className="custom-form-group">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Title
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          type="text"
+                          name="title"
+                          value={editPortfolioWidgetForm && editPortfolioWidgetForm.title ? editPortfolioWidgetForm.title : ''}
+                          onChange={this.handleWidgetChange.bind(this, "portfolio")}
+                        />
+                      </FormGroup>
+                      <FormGroup className="custom-form-group required">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Code
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          componentClass="textarea"
+                          type="text"
+                          name="code"
+                          value={editPortfolioWidgetForm && editPortfolioWidgetForm.code ? editPortfolioWidgetForm.code : ''}
+                          onChange={this.handleWidgetChange.bind(this, "portfolio")}
+                        />
+                        {errors['code'] && editPortfolioWidgetForm.is_active && (
+                          <span className="input-error text-red">
+                            {errors['code']}
+                          </span>
+                        )}
+                      </FormGroup>
+                      <Button
+                        className="btn btn-orange edit-about-submit"
+                        onClick={event => this.handleWidgetSubmit(event, "portfolio")}
+                      >
+                        Save
+                      </Button>
+                    </form>
+                  </Col>
+                </Col>
+                </Row>
               </Col>
             </Col>
           </Tab>
@@ -1039,91 +1050,97 @@ export default class SiteContent extends Component {
                   Manage Films
                 </Link>
               </Button>
-              <Col xs={12} className="p-none">
-                <Col sm={6}>
-                  <h5 className="f-left">Page Settings</h5>
-                  <br/>
-                  <form className="admin-side edit-about-form custom-form admin-settings-form">
-                    <FormGroup className="custom-form-group">
-                      <Checkbox
-                        className=""
-                        name="is_show"
-                        value={''}
-                        onClick={this.handlePageSettingChange.bind(this, "film")}
-                        checked={ediFilmPageForm.is_show }
-                      >
-                        {' '}
-                        <span>Show this Page in Front</span>
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </FormGroup>
-                    <Button
-                      className="btn btn-orange edit-about-submit"
-                      onClick={event => this.handlePageSettingSubmit(event, "film")}
-                    >
-                      Save
-                    </Button>
-                  </form>
-                </Col>
-                <Col sm={6}>
-                  <h5 className="f-left">Widget</h5>
-                  <br/>
-                  <form className="admin-side edit-about-form custom-form admin-settings-form">
-                    <FormGroup className="custom-form-group">
-                      <Checkbox
-                        className=""
-                        name="is_active"
-                        value={''}
-                        onClick={this.handleWidgetChange.bind(this, "film")}
-                        checked={ediFilmWidgetForm.is_active }
-                      >
-                        {' '}
-                        <span>Widget Active</span>
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </FormGroup>
-                    <FormGroup className="custom-form-group">
-                      <ControlLabel className="custom-form-control-label">
-                        Widget Title
-                      </ControlLabel>
-                      <FormControl
-                        className="custom-form-control"
-                        type="text"
-                        name="title"
-                        value={ediFilmWidgetForm && ediFilmWidgetForm.title ? ediFilmWidgetForm.title : ''}
-                        onChange={this.handleWidgetChange.bind(this, "film")}
-                      />
-                    </FormGroup>
-                    <FormGroup className="custom-form-group required">
-                      <ControlLabel className="custom-form-control-label">
-                        Widget Code
-                      </ControlLabel>
-                      <FormControl
-                        className="custom-form-control"
-                        componentClass="textarea"
-                        type="text"
-                        name="code"
-                        value={ediFilmWidgetForm && ediFilmWidgetForm.code ? ediFilmWidgetForm.code : ''}
-                        onChange={this.handleWidgetChange.bind(this, "film")}
-                      />
-                      {errors['code'] && ediFilmWidgetForm.is_active && (
-                        <span className="input-error text-red">
-                          {errors['code']}
-                        </span>
-                      )}
-                    </FormGroup>
-                    <Button
-                      className="btn btn-orange edit-about-submit"
-                      onClick={event => this.handleWidgetSubmit(event, "film")}
-                    >
-                      Save
-                    </Button>
-                  </form>
-                </Col>
+              <Col xs={12}>
+                <Row>
+                  <Col sm={6} className="p-none mt-30">
+                    <Col className="setting-tab-content content-set-1">
+                      <h5 className="f-left">Page Settings</h5>
+                      <br/>
+                      <form className="admin-side edit-about-form custom-form admin-settings-form">
+                        <FormGroup className="custom-form-group">
+                          <Checkbox
+                            className=""
+                            name="is_show"
+                            value={''}
+                            onClick={this.handlePageSettingChange.bind(this, "film")}
+                            checked={ediFilmPageForm.is_show }
+                          >
+                            {' '}
+                            <span>Show this Page in Front</span>
+                            <div className="check">
+                              <div className="inside" />
+                            </div>
+                          </Checkbox>
+                        </FormGroup>
+                        <Button
+                          className="btn btn-orange edit-about-submit"
+                          onClick={event => this.handlePageSettingSubmit(event, "film")}
+                        >
+                          Save
+                        </Button>
+                      </form>
+                    </Col>
+                  </Col>
+                  <Col sm={6} className="p-none mt-30">
+                    <Col className="setting-tab-content content-set-2">
+                      <h5 className="f-left">Widget</h5>
+                      <br/>
+                      <form className="admin-side edit-about-form custom-form admin-settings-form">
+                        <FormGroup className="custom-form-group">
+                          <Checkbox
+                            className=""
+                            name="is_active"
+                            value={''}
+                            onClick={this.handleWidgetChange.bind(this, "film")}
+                            checked={ediFilmWidgetForm.is_active }
+                          >
+                            {' '}
+                            <span>Widget Active</span>
+                            <div className="check">
+                              <div className="inside" />
+                            </div>
+                          </Checkbox>
+                        </FormGroup>
+                        <FormGroup className="custom-form-group">
+                          <ControlLabel className="custom-form-control-label">
+                            Widget Title
+                          </ControlLabel>
+                          <FormControl
+                            className="custom-form-control"
+                            type="text"
+                            name="title"
+                            value={ediFilmWidgetForm && ediFilmWidgetForm.title ? ediFilmWidgetForm.title : ''}
+                            onChange={this.handleWidgetChange.bind(this, "film")}
+                          />
+                        </FormGroup>
+                        <FormGroup className="custom-form-group required">
+                          <ControlLabel className="custom-form-control-label">
+                            Widget Code
+                          </ControlLabel>
+                          <FormControl
+                            className="custom-form-control"
+                            componentClass="textarea"
+                            type="text"
+                            name="code"
+                            value={ediFilmWidgetForm && ediFilmWidgetForm.code ? ediFilmWidgetForm.code : ''}
+                            onChange={this.handleWidgetChange.bind(this, "film")}
+                          />
+                          {errors['code'] && ediFilmWidgetForm.is_active && (
+                            <span className="input-error text-red">
+                              {errors['code']}
+                            </span>
+                          )}
+                        </FormGroup>
+                        <Button
+                          className="btn btn-orange edit-about-submit"
+                          onClick={event => this.handleWidgetSubmit(event, "film")}
+                        >
+                          Save
+                        </Button>
+                      </form>
+                    </Col>
+                  </Col>
+                </Row>
               </Col>
             </Col>
           </Tab>
@@ -1135,91 +1152,97 @@ export default class SiteContent extends Component {
               >
                 <i className="fa fa-plus add-service-icon" />Add New
               </Button>
-              <Col xs={12} className="p-none">
-                <Col sm={6}>
-                  <h5 className="f-left">Page Settings</h5>
-                  <br/>
-                  <form className="admin-side edit-about-form custom-form admin-settings-form">
-                    <FormGroup className="custom-form-group">
-                      <Checkbox
-                        className=""
-                        name="is_show"
-                        value={''}
-                        onClick={this.handlePageSettingChange.bind(this, "service")}
-                        checked={editServicePageForm.is_show }
-                      >
-                        {' '}
-                        <span>Show this Page in Front</span>
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </FormGroup>
-                    <Button
-                      className="btn btn-orange edit-about-submit"
-                      onClick={event => this.handlePageSettingSubmit(event, "service")}
-                    >
-                      Save
-                    </Button>
-                  </form>
-                </Col>
-                <Col sm={6}>
-                  <h5 className="f-left">Widget</h5>
-                  <br/>
-                  <form className="admin-side edit-about-form custom-form admin-settings-form">
-                    <FormGroup className="custom-form-group">
-                      <Checkbox
-                        className=""
-                        name="is_active"
-                        value={''}
-                        onClick={this.handleWidgetChange.bind(this, "service")}
-                        checked={editServiceWidgetForm.is_active }
-                      >
-                        {' '}
-                        <span>Widget Active</span>
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </FormGroup>
-                    <FormGroup className="custom-form-group">
-                      <ControlLabel className="custom-form-control-label">
-                        Widget Title
-                      </ControlLabel>
-                      <FormControl
-                        className="custom-form-control"
-                        type="text"
-                        name="title"
-                        value={editServiceWidgetForm && editServiceWidgetForm.title ? editServiceWidgetForm.title : ''}
-                        onChange={this.handleWidgetChange.bind(this, "service")}
-                      />
-                    </FormGroup>
-                    <FormGroup className="custom-form-group required">
-                      <ControlLabel className="custom-form-control-label">
-                        Widget Code
-                      </ControlLabel>
-                      <FormControl
-                        className="custom-form-control"
-                        componentClass="textarea"
-                        type="text"
-                        name="code"
-                        value={editServiceWidgetForm && editServiceWidgetForm.code ? editServiceWidgetForm.code : ''}
-                        onChange={this.handleWidgetChange.bind(this, "service")}
-                      />
-                      {errors['code'] && editServiceWidgetForm.is_active && (
-                        <span className="input-error text-red">
-                          {errors['code']}
-                        </span>
-                      )}
-                    </FormGroup>
-                    <Button
-                      className="btn btn-orange edit-about-submit"
-                      onClick={event => this.handleWidgetSubmit(event, "service")}
-                    >
-                      Save
-                    </Button>
-                  </form>
-                </Col>
+              <Col xs={12}>
+                <Row>
+                  <Col sm={6} className="p-none mt-30">
+                    <Col className="setting-tab-content content-set-1">
+                      <h5 className="f-left">Page Settings</h5>
+                      <br/>
+                      <form className="admin-side edit-about-form custom-form admin-settings-form">
+                        <FormGroup className="custom-form-group">
+                          <Checkbox
+                            className=""
+                            name="is_show"
+                            value={''}
+                            onClick={this.handlePageSettingChange.bind(this, "service")}
+                            checked={editServicePageForm.is_show }
+                          >
+                            {' '}
+                            <span>Show this Page in Front</span>
+                            <div className="check">
+                              <div className="inside" />
+                            </div>
+                          </Checkbox>
+                        </FormGroup>
+                        <Button
+                          className="btn btn-orange edit-about-submit"
+                          onClick={event => this.handlePageSettingSubmit(event, "service")}
+                        >
+                          Save
+                        </Button>
+                      </form>
+                    </Col>
+                  </Col>
+                  <Col sm={6} className="p-none mt-30">
+                    <Col className="setting-tab-content content-set-2">
+                      <h5 className="f-left">Widget</h5>
+                      <br/>
+                      <form className="admin-side edit-about-form custom-form admin-settings-form">
+                        <FormGroup className="custom-form-group">
+                          <Checkbox
+                            className=""
+                            name="is_active"
+                            value={''}
+                            onClick={this.handleWidgetChange.bind(this, "service")}
+                            checked={editServiceWidgetForm.is_active }
+                          >
+                            {' '}
+                            <span>Widget Active</span>
+                            <div className="check">
+                              <div className="inside" />
+                            </div>
+                          </Checkbox>
+                        </FormGroup>
+                        <FormGroup className="custom-form-group">
+                          <ControlLabel className="custom-form-control-label">
+                            Widget Title
+                          </ControlLabel>
+                          <FormControl
+                            className="custom-form-control"
+                            type="text"
+                            name="title"
+                            value={editServiceWidgetForm && editServiceWidgetForm.title ? editServiceWidgetForm.title : ''}
+                            onChange={this.handleWidgetChange.bind(this, "service")}
+                          />
+                        </FormGroup>
+                        <FormGroup className="custom-form-group required">
+                          <ControlLabel className="custom-form-control-label">
+                            Widget Code
+                          </ControlLabel>
+                          <FormControl
+                            className="custom-form-control"
+                            componentClass="textarea"
+                            type="text"
+                            name="code"
+                            value={editServiceWidgetForm && editServiceWidgetForm.code ? editServiceWidgetForm.code : ''}
+                            onChange={this.handleWidgetChange.bind(this, "service")}
+                          />
+                          {errors['code'] && editServiceWidgetForm.is_active && (
+                            <span className="input-error text-red">
+                              {errors['code']}
+                            </span>
+                          )}
+                        </FormGroup>
+                        <Button
+                          className="btn btn-orange edit-about-submit"
+                          onClick={event => this.handleWidgetSubmit(event, "service")}
+                        >
+                          Save
+                        </Button>
+                      </form>
+                    </Col>
+                  </Col>
+                </Row>
               </Col>
             </Col>
             <br/>
@@ -1240,96 +1263,102 @@ export default class SiteContent extends Component {
                   Manage Testimonials
                 </Link>
               </Button>
-              <Col xs={12} className="p-none">
-                <Col sm={6}>
-                  <h5 className="f-left">Page Settings</h5>
-                  <br/>
-                  <form className="admin-side edit-about-form custom-form admin-settings-form">
-                    <FormGroup className="custom-form-group">
-                      <Checkbox
-                        className=""
-                        name="is_show"
-                        value={''}
-                        onClick={this.handlePageSettingChange.bind(this, "testimonial")}
-                        checked={editTestimonialPageForm.is_show }
+              <Col xs={12}>
+                <Row>
+                  <Col sm={6} className="p-none mt-30">
+                    <Col className="setting-tab-content content-set-1">
+                      <h5 className="f-left">Page Settings</h5>
+                      <br/>
+                      <form className="admin-side edit-about-form custom-form admin-settings-form">
+                        <FormGroup className="custom-form-group">
+                          <Checkbox
+                            className=""
+                            name="is_show"
+                            value={''}
+                            onClick={this.handlePageSettingChange.bind(this, "testimonial")}
+                            checked={editTestimonialPageForm.is_show }
+                          >
+                            {' '}
+                            <span>Show this Page in Front</span>
+                            <div className="check">
+                              <div className="inside" />
+                            </div>
+                          </Checkbox>
+                        </FormGroup>
+                        <Button
+                          className="btn btn-orange edit-about-submit"
+                          onClick={event => this.handlePageSettingSubmit(event, "testimonial")}
+                        >
+                          Save
+                        </Button>
+                      </form>
+                    </Col>
+                  </Col>
+                  <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-2">
+                    <h5 className="f-left">Widget</h5>
+                    <br/>
+                    <form className="admin-side edit-about-form custom-form admin-settings-form">
+                      <FormGroup className="custom-form-group">
+                        <Checkbox
+                          className=""
+                          name="is_active"
+                          value={''}
+                          onClick={this.handleWidgetChange.bind(this, "testimonial")}
+                          checked={editTestimonialWidgetForm.is_active }
+                        >
+                          {' '}
+                          <span>Widget Active</span>
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </FormGroup>
+                      <FormGroup className="custom-form-group">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Title
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          type="text"
+                          name="title"
+                          value={editTestimonialWidgetForm && editTestimonialWidgetForm.title ? editTestimonialWidgetForm.title : ''}
+                          onChange={this.handleWidgetChange.bind(this, "testimonial")}
+                        />
+                      </FormGroup>
+                      <FormGroup className="custom-form-group required">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Code
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          componentClass="textarea"
+                          type="text"
+                          name="code"
+                          value={editTestimonialWidgetForm && editTestimonialWidgetForm.code ? editTestimonialWidgetForm.code : ''}
+                          onChange={this.handleWidgetChange.bind(this, "testimonial")}
+                        />
+                        {errors['code'] && editServiceWidgetForm.is_active && (
+                          <span className="input-error text-red">
+                            {errors['code']}
+                          </span>
+                        )}
+                      </FormGroup>
+                      <Button
+                        className="btn btn-orange edit-about-submit"
+                        onClick={event => this.handleWidgetSubmit(event, "testimonial")}
                       >
-                        {' '}
-                        <span>Show this Page in Front</span>
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </FormGroup>
-                    <Button
-                      className="btn btn-orange edit-about-submit"
-                      onClick={event => this.handlePageSettingSubmit(event, "testimonial")}
-                    >
-                      Save
-                    </Button>
-                  </form>
+                        Save
+                      </Button>
+                    </form>
+                  </Col>
                 </Col>
-                <Col sm={6}>
-                  <h5 className="f-left">Widget</h5>
-                  <br/>
-                  <form className="admin-side edit-about-form custom-form admin-settings-form">
-                    <FormGroup className="custom-form-group">
-                      <Checkbox
-                        className=""
-                        name="is_active"
-                        value={''}
-                        onClick={this.handleWidgetChange.bind(this, "testimonial")}
-                        checked={editTestimonialWidgetForm.is_active }
-                      >
-                        {' '}
-                        <span>Widget Active</span>
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
-                    </FormGroup>
-                    <FormGroup className="custom-form-group">
-                      <ControlLabel className="custom-form-control-label">
-                        Widget Title
-                      </ControlLabel>
-                      <FormControl
-                        className="custom-form-control"
-                        type="text"
-                        name="title"
-                        value={editTestimonialWidgetForm && editTestimonialWidgetForm.title ? editTestimonialWidgetForm.title : ''}
-                        onChange={this.handleWidgetChange.bind(this, "testimonial")}
-                      />
-                    </FormGroup>
-                    <FormGroup className="custom-form-group required">
-                      <ControlLabel className="custom-form-control-label">
-                        Widget Code
-                      </ControlLabel>
-                      <FormControl
-                        className="custom-form-control"
-                        componentClass="textarea"
-                        type="text"
-                        name="code"
-                        value={editTestimonialWidgetForm && editTestimonialWidgetForm.code ? editTestimonialWidgetForm.code : ''}
-                        onChange={this.handleWidgetChange.bind(this, "testimonial")}
-                      />
-                      {errors['code'] && editServiceWidgetForm.is_active && (
-                        <span className="input-error text-red">
-                          {errors['code']}
-                        </span>
-                      )}
-                    </FormGroup>
-                    <Button
-                      className="btn btn-orange edit-about-submit"
-                      onClick={event => this.handleWidgetSubmit(event, "testimonial")}
-                    >
-                      Save
-                    </Button>
-                  </form>
-                </Col>
+                </Row>
               </Col>
             </Col>
           </Tab>
           <Tab eventKey="blog" title="Blog">
-            <Col className="edit-about-content-wrap" sm={6}>
+            <Col className="setting-tab-content edit-about-content-wrap mt-30" sm={12}>
               <form className="admin-side edit-about-form custom-form admin-settings-form">
                 <FormGroup className="custom-form-group">
                   <Checkbox
@@ -1500,91 +1529,97 @@ export default class SiteContent extends Component {
                 </Col>
               }
             </Col>
-            <Col xs={12} className="p-none">
-              <Col className="edit-about-content-wrap"  sm={6}>
-                <h5 className="f-left">Page Settings</h5>
-                <br/>
-                <form className="admin-side edit-about-form custom-form admin-settings-form">
-                  <FormGroup className="custom-form-group">
-                    <Checkbox
-                      className=""
-                      name="is_show"
-                      value={''}
-                      onClick={this.handlePageSettingChange.bind(this, "about_us")}
-                      checked={editAboutUsPageForm.is_show }
-                    >
-                      {' '}
-                      <span>Show this Page in Front</span>
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
-                  </FormGroup>
-                  <Button
-                    className="btn btn-orange edit-about-submit"
-                    onClick={event => this.handlePageSettingSubmit(event, "about_us")}
-                  >
-                    Save
-                  </Button>
-                </form>
-              </Col>
-              <Col className="edit-about-content-wrap"  sm={6}>
-                <h5 className="f-left">Widget</h5>
-                <br/>
-                <form className="admin-side edit-about-form custom-form admin-settings-form">
-                  <FormGroup className="custom-form-group">
-                    <Checkbox
-                      className=""
-                      name="is_active"
-                      value={''}
-                      onClick={this.handleWidgetChange.bind(this, "about_us")}
-                      checked={editAboutUsWidgetForm.is_active }
-                    >
-                      {' '}
-                      <span>Widget Active</span>
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
-                  </FormGroup>
-                  <FormGroup className="custom-form-group">
-                    <ControlLabel className="custom-form-control-label">
-                      Widget Title
-                    </ControlLabel>
-                    <FormControl
-                      className="custom-form-control"
-                      type="text"
-                      name="title"
-                      value={editAboutUsWidgetForm && editAboutUsWidgetForm.title ? editAboutUsWidgetForm.title : ''}
-                      onChange={this.handleWidgetChange.bind(this, "about_us")}
-                    />
-                  </FormGroup>
-                  <FormGroup className="custom-form-group required">
-                    <ControlLabel className="custom-form-control-label">
-                      Widget Code
-                    </ControlLabel>
-                    <FormControl
-                      className="custom-form-control"
-                      componentClass="textarea"
-                      type="text"
-                      name="code"
-                      value={editAboutUsWidgetForm && editAboutUsWidgetForm.code ? editAboutUsWidgetForm.code : ''}
-                      onChange={this.handleWidgetChange.bind(this, "about_us")}
-                    />
-                    {errors['code'] && editAboutUsWidgetForm.is_active && (
-                      <span className="input-error text-red">
-                        {errors['code']}
-                      </span>
-                    )}
-                  </FormGroup>
-                  <Button
-                    className="btn btn-orange edit-about-submit"
-                    onClick={event => this.handleWidgetSubmit(event, "about_us")}
-                  >
-                    Save
-                  </Button>
-                </form>
-              </Col>
+            <Col xs={12}>
+              <Row>
+                <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-1">
+                    <h5 className="f-left">Page Settings</h5>
+                    <br/>
+                    <form className="admin-side edit-about-form custom-form admin-settings-form">
+                      <FormGroup className="custom-form-group">
+                        <Checkbox
+                          className=""
+                          name="is_show"
+                          value={''}
+                          onClick={this.handlePageSettingChange.bind(this, "about_us")}
+                          checked={editAboutUsPageForm.is_show }
+                        >
+                          {' '}
+                          <span>Show this Page in Front</span>
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </FormGroup>
+                      <Button
+                        className="btn btn-orange edit-about-submit"
+                        onClick={event => this.handlePageSettingSubmit(event, "about_us")}
+                      >
+                        Save
+                      </Button>
+                    </form>
+                  </Col>
+                </Col>
+                <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-2">
+                    <h5 className="f-left">Widget</h5>
+                    <br/>
+                    <form className="admin-side edit-about-form custom-form admin-settings-form">
+                      <FormGroup className="custom-form-group">
+                        <Checkbox
+                          className=""
+                          name="is_active"
+                          value={''}
+                          onClick={this.handleWidgetChange.bind(this, "about_us")}
+                          checked={editAboutUsWidgetForm.is_active }
+                        >
+                          {' '}
+                          <span>Widget Active</span>
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </FormGroup>
+                      <FormGroup className="custom-form-group">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Title
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          type="text"
+                          name="title"
+                          value={editAboutUsWidgetForm && editAboutUsWidgetForm.title ? editAboutUsWidgetForm.title : ''}
+                          onChange={this.handleWidgetChange.bind(this, "about_us")}
+                        />
+                      </FormGroup>
+                      <FormGroup className="custom-form-group required">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Code
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          componentClass="textarea"
+                          type="text"
+                          name="code"
+                          value={editAboutUsWidgetForm && editAboutUsWidgetForm.code ? editAboutUsWidgetForm.code : ''}
+                          onChange={this.handleWidgetChange.bind(this, "about_us")}
+                        />
+                        {errors['code'] && editAboutUsWidgetForm.is_active && (
+                          <span className="input-error text-red">
+                            {errors['code']}
+                          </span>
+                        )}
+                      </FormGroup>
+                      <Button
+                        className="btn btn-orange edit-about-submit"
+                        onClick={event => this.handleWidgetSubmit(event, "about_us")}
+                      >
+                        Save
+                      </Button>
+                    </form>
+                  </Col>
+                </Col>
+              </Row>
             </Col>
           </Tab>
           <Tab eventKey="contact_us" title="Contact Us">
@@ -1662,91 +1697,97 @@ export default class SiteContent extends Component {
               </Col>
             </Col>
             }
-            <Col xs={12} className="p-none">
-              <Col className="edit-about-content-wrap"  sm={6}>
-                <h5 className="f-left">Page Settings</h5>
-                <br/>
-                <form className="admin-side edit-about-form custom-form admin-settings-form">
-                  <FormGroup className="custom-form-group">
-                    <Checkbox
-                      className=""
-                      name="is_show"
-                      value={''}
-                      onClick={this.handlePageSettingChange.bind(this, "contact_us")}
-                      checked={editContactUsPageForm.is_show }
-                    >
-                      {' '}
-                      <span>Show this Page in Front</span>
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
-                  </FormGroup>
-                  <Button
-                    className="btn btn-orange edit-about-submit"
-                    onClick={event => this.handlePageSettingSubmit(event, "contact_us")}
-                  >
-                    Save
-                  </Button>
-                </form>
-              </Col>
-              <Col className="edit-about-content-wrap" sm={6}>
-                <h5 className="f-left">Widget</h5>
-                <br/>
-                <form className="admin-side edit-about-form custom-form admin-settings-form">
-                  <FormGroup className="custom-form-group">
-                    <Checkbox
-                      className=""
-                      name="is_active"
-                      value={''}
-                      onClick={this.handleWidgetChange.bind(this, "contact_us")}
-                      checked={editContactUsWidgetForm.is_active }
-                    >
-                      {' '}
-                      <span>Widget Active</span>
-                      <div className="check">
-                        <div className="inside" />
-                      </div>
-                    </Checkbox>
-                  </FormGroup>
-                  <FormGroup className="custom-form-group">
-                    <ControlLabel className="custom-form-control-label">
-                      Widget Title
-                    </ControlLabel>
-                    <FormControl
-                      className="custom-form-control"
-                      type="text"
-                      name="title"
-                      value={editContactUsWidgetForm && editContactUsWidgetForm.title ? editContactUsWidgetForm.title : ''}
-                      onChange={this.handleWidgetChange.bind(this, "contact_us")}
-                    />
-                  </FormGroup>
-                  <FormGroup className="custom-form-group required">
-                    <ControlLabel className="custom-form-control-label">
-                      Widget Code
-                    </ControlLabel>
-                    <FormControl
-                      className="custom-form-control"
-                      componentClass="textarea"
-                      type="text"
-                      name="code"
-                      value={editContactUsWidgetForm && editContactUsWidgetForm.code ? editContactUsWidgetForm.code : ''}
-                      onChange={this.handleWidgetChange.bind(this, "contact_us")}
-                    />
-                    {errors['code'] && editServiceWidgetForm.is_active && (
-                      <span className="input-error text-red">
-                        {errors['code']}
-                      </span>
-                    )}
-                  </FormGroup>
-                  <Button
-                    className="btn btn-orange edit-about-submit"
-                    onClick={event => this.handleWidgetSubmit(event, "contact_us")}
-                  >
-                    Save
-                  </Button>
-                </form>
-              </Col>
+            <Col xs={12}>
+              <Row>
+                <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-1">
+                    <h5 className="f-left">Page Settings</h5>
+                    <br/>
+                    <form className="admin-side edit-about-form custom-form admin-settings-form">
+                      <FormGroup className="custom-form-group">
+                        <Checkbox
+                          className=""
+                          name="is_show"
+                          value={''}
+                          onClick={this.handlePageSettingChange.bind(this, "contact_us")}
+                          checked={editContactUsPageForm.is_show }
+                        >
+                          {' '}
+                          <span>Show this Page in Front</span>
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </FormGroup>
+                      <Button
+                        className="btn btn-orange edit-about-submit"
+                        onClick={event => this.handlePageSettingSubmit(event, "contact_us")}
+                      >
+                        Save
+                      </Button>
+                    </form>
+                  </Col>
+                </Col>
+                <Col sm={6} className="p-none mt-30">
+                  <Col className="setting-tab-content content-set-2">
+                    <h5 className="f-left">Widget</h5>
+                    <br/>
+                    <form className="admin-side edit-about-form custom-form admin-settings-form">
+                      <FormGroup className="custom-form-group">
+                        <Checkbox
+                          className=""
+                          name="is_active"
+                          value={''}
+                          onClick={this.handleWidgetChange.bind(this, "contact_us")}
+                          checked={editContactUsWidgetForm.is_active }
+                        >
+                          {' '}
+                          <span>Widget Active</span>
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </FormGroup>
+                      <FormGroup className="custom-form-group">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Title
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          type="text"
+                          name="title"
+                          value={editContactUsWidgetForm && editContactUsWidgetForm.title ? editContactUsWidgetForm.title : ''}
+                          onChange={this.handleWidgetChange.bind(this, "contact_us")}
+                        />
+                      </FormGroup>
+                      <FormGroup className="custom-form-group required">
+                        <ControlLabel className="custom-form-control-label">
+                          Widget Code
+                        </ControlLabel>
+                        <FormControl
+                          className="custom-form-control"
+                          componentClass="textarea"
+                          type="text"
+                          name="code"
+                          value={editContactUsWidgetForm && editContactUsWidgetForm.code ? editContactUsWidgetForm.code : ''}
+                          onChange={this.handleWidgetChange.bind(this, "contact_us")}
+                        />
+                        {errors['code'] && editServiceWidgetForm.is_active && (
+                          <span className="input-error text-red">
+                            {errors['code']}
+                          </span>
+                        )}
+                      </FormGroup>
+                      <Button
+                        className="btn btn-orange edit-about-submit"
+                        onClick={event => this.handleWidgetSubmit(event, "contact_us")}
+                      >
+                        Save
+                      </Button>
+                    </form>
+                  </Col>
+                </Col>
+              </Row>
             </Col>
           </Tab>
           {/* <Tab eventKey="website_detail" title="Website Details">

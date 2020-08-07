@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Tab, Tabs, Checkbox, Button, ControlLabel, FormControl, FormGroup, Thumbnail } from 'react-bootstrap';
+import { Col, Tab, Tabs, Checkbox, Button, ControlLabel, FormControl, FormGroup, Thumbnail, Row } from 'react-bootstrap';
 import { SocialIcon } from 'react-social-icons';
 import SweetAlert from 'sweetalert-react';
 // Import component
@@ -379,7 +379,7 @@ export default class SiteContent extends Component {
                 <i className="fa fa-plus add-service-icon" />Add New
               </Button>
             </Col>
-            <div>
+            <Col>
               {socialMedia &&
                 Object.keys(socialMedia).map(
                   social_link =>
@@ -453,7 +453,7 @@ export default class SiteContent extends Component {
                       ''
                     )
                 )}
-            </div>
+            </Col>
           </Tab>
           <Tab
             eventKey="watermark"
@@ -479,53 +479,61 @@ export default class SiteContent extends Component {
             }
             {watermarks &&
               watermarks.map((watermark, index) => (
-                <Col xs={12} className="p-none" key={index}>
-                  <Col className="content-about-img-wrap watermark-content-img">
-                    {watermark && watermark.original_image && (
-                      <img
-                        className="img-responsive content-user-image"
-                        src={watermark.original_image}
-                        alt="user"
-                      />
-                    )}
-                    <a className="img-edit-btn" onClick={this.handleEditWatermarkClick}>
-                      <img
-                        src={require('../../../assets/images/admin/site-content/edit-icon.png')}
-                        alt=""
-                      />
-                      <input
-                        id="watermark_photo_edit"
-                        ref="fileField"
-                        type="file"
-                        onChange={e => this.handleWatermarkUpload(e, watermark.id)}
-                      />
-                    </a>
-                  </Col>
-                  <Col className="right-content-wrap text-grey">
-                    <Col xs={12} className="about-content-wrap">
-                      <Checkbox
-                        name="active-checkbox"
-                        className=" album-status-checkboxes"
-                        defaultChecked={
-                          watermark.status === 'active' ? true : false
-                        }
-                        onClick={event =>
-                          this.handleWatermarkModel(event, watermark.id)}
-                      >
-                        Add watermark while uploading photos
-                        <div className="check">
-                          <div className="inside" />
-                        </div>
-                      </Checkbox>
+                <Row>
+                  <Col xs={12} className="setting-tab-content p-none" key={index}>
+                    <Col className="content-about-img-wrap watermark-content-img">
+                      {watermark && watermark.original_image && (
+                        <img
+                          className="img-responsive content-user-image"
+                          src={watermark.original_image}
+                          alt="user"
+                        />
+                      )}
+                      <a className="img-edit-btn" onClick={this.handleEditWatermarkClick}>
+                        <img
+                          src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                          alt=""
+                        />
+                        <input
+                          id="watermark_photo_edit"
+                          ref="fileField"
+                          type="file"
+                          onChange={e => this.handleWatermarkUpload(e, watermark.id)}
+                        />
+                      </a>
                     </Col>
-                    <h4 className="col-sm-6 preview-text">Preview</h4>
-                    <img
-                      alt=""
-                      src={watermark.status === 'active' ? watermark.dummy_image : "https://www.crystalclear-systems.com/wp-content/uploads/2016/12/dummy-image.jpg"}
-                      className="dummy-image"
-                    />
+                    <Col className="right-content-wrap text-grey">
+                      <Row>
+                      <Col xs={12} className="about-content-wrap">
+                        <Checkbox
+                          name="active-checkbox"
+                          className=" album-status-checkboxes"
+                          defaultChecked={
+                            watermark.status === 'active' ? true : false
+                          }
+                          onClick={event =>
+                            this.handleWatermarkModel(event, watermark.id)}
+                        >
+                          Add watermark while uploading photos
+                          <div className="check">
+                            <div className="inside" />
+                          </div>
+                        </Checkbox>
+                      </Col>
+                      </Row>
+                      <Row>
+                        <Col className="col-sm-9 col-xs-12">
+                          <h4 className="preview-text">Preview</h4>
+                          <img
+                            alt=""
+                            src={watermark.status === 'active' ? watermark.dummy_image : "https://www.crystalclear-systems.com/wp-content/uploads/2016/12/dummy-image.jpg"}
+                            className="image-responsive"
+                          />
+                        </Col>
+                      </Row>
+                    </Col>
                   </Col>
-                </Col>
+                </Row>
               ))}
           </Tab>
           <Tab
@@ -533,7 +541,7 @@ export default class SiteContent extends Component {
             title="Logo"
             className="about-site-content"
           >
-            <Col xs={12} className="p-none">
+            <Col xs={12} className="setting-tab-content p-none mt-30">
               <Col className="content-about-img-wrap">
                 {userLogo && userLogo.image && (
                   <img
@@ -563,102 +571,104 @@ export default class SiteContent extends Component {
             title="Favicon & Site Title"
             className="about-site-content"
           >
-          <Col xs={12} className="p-none">
-            <Col className="content-about-img-wrap watermark-content-img favicon-wrap">
-              {websiteDetail && websiteDetail.favicon_image && (
-                <img
-                  className="img-responsive content-user-image"
-                  src={websiteDetail.favicon_image}
-                  alt="user"
-                />
-              )}
-              <a className="img-edit-btn" onClick={this.handleEditFaviconImageClick}>
-                <img
-                  src={require('../../../assets/images/admin/site-content/edit-icon.png')}
-                  alt=""
-                />
-                <input
-                  id="favicon_image_edit"
-                  ref="fileField"
-                  type="file"
-                  onChange={e => this.handleUploadFaviconImage(e)}
-                />
-              </a>
+          <Col xs={12} className="setting-tab-content p-none mt-30">
+            <Col xs={12} className="p-none">
+              <Col className="content-about-img-wrap watermark-content-img favicon-wrap">
+                {websiteDetail && websiteDetail.favicon_image && (
+                  <img
+                    className="img-responsive content-user-image"
+                    src={websiteDetail.favicon_image}
+                    alt="user"
+                  />
+                )}
+                <a className="img-edit-btn" onClick={this.handleEditFaviconImageClick}>
+                  <img
+                    src={require('../../../assets/images/admin/site-content/edit-icon.png')}
+                    alt=""
+                  />
+                  <input
+                    id="favicon_image_edit"
+                    ref="fileField"
+                    type="file"
+                    onChange={e => this.handleUploadFaviconImage(e)}
+                  />
+                </a>
+              </Col>
             </Col>
-          </Col>
-          <Col className="edit-about-content-wrap" sm={6}>
-            <form className="admin-side edit-about-form custom-form admin-settings-form">
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-form-control-label">
-                  Site Title
-                </ControlLabel>
-                <FormControl
-                  className="custom-form-control"
-                  type="text"
-                  name="title"
-                  value={EditWebsiteForm ? EditWebsiteForm.title : ''}
-                  onChange={this.handleChange.bind(this)}
-                />
-                {errors['title'] && (
-                  <span className="input-error text-red">
-                    {errors['title']}
-                  </span>
-                )}
-              </FormGroup>
-              <FormGroup className="custom-form-group required">
-                <ControlLabel className="custom-form-control-label">
-                    Copyright Text
-                </ControlLabel>
-                <FormControl
-                  className="custom-form-control num-input"
-                  type="text"
-                  name="copyright_text"
-                  value={EditWebsiteForm.copyright_text}
-                  onChange={this.handleChange.bind(this)}
-                />
-                {errors['copyright_text'] && (
-                  <span className="input-error text-red">
-                    {errors['copyright_text']}
-                  </span>
-                )}
-              </FormGroup>
-              <FormGroup className="custom-form-group">
-                <ControlLabel className="custom-form-control-label">
-                  Keywords
-                </ControlLabel>
-                <FormControl
-                  className="custom-form-control"
-                  type="text"
-                  name="meta_keywords"
-                  value={EditWebsiteForm && EditWebsiteForm.meta_keywords ? EditWebsiteForm.meta_keywords : ''}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </FormGroup>
-              <FormGroup className="custom-form-group">
-                <ControlLabel className="custom-form-control-label">
-                  Description
-                </ControlLabel>
+            <Col className="edit-about-content-wrap" sm={6}>
+              <form className="admin-side edit-about-form custom-form admin-settings-form">
+                <FormGroup className="custom-form-group required">
+                  <ControlLabel className="custom-form-control-label">
+                    Site Title
+                  </ControlLabel>
+                  <FormControl
+                    className="custom-form-control"
+                    type="text"
+                    name="title"
+                    value={EditWebsiteForm ? EditWebsiteForm.title : ''}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['title'] && (
+                    <span className="input-error text-red">
+                      {errors['title']}
+                    </span>
+                  )}
+                </FormGroup>
+                <FormGroup className="custom-form-group required">
+                  <ControlLabel className="custom-form-control-label">
+                      Copyright Text
+                  </ControlLabel>
+                  <FormControl
+                    className="custom-form-control num-input"
+                    type="text"
+                    name="copyright_text"
+                    value={EditWebsiteForm.copyright_text}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  {errors['copyright_text'] && (
+                    <span className="input-error text-red">
+                      {errors['copyright_text']}
+                    </span>
+                  )}
+                </FormGroup>
+                <FormGroup className="custom-form-group">
+                  <ControlLabel className="custom-form-control-label">
+                    Keywords
+                  </ControlLabel>
+                  <FormControl
+                    className="custom-form-control"
+                    type="text"
+                    name="meta_keywords"
+                    value={EditWebsiteForm && EditWebsiteForm.meta_keywords ? EditWebsiteForm.meta_keywords : ''}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </FormGroup>
+                <FormGroup className="custom-form-group">
+                  <ControlLabel className="custom-form-control-label">
+                    Description
+                  </ControlLabel>
 
-                <FormControl
-                  className="custom-form-control"
-                  componentClass="textarea"
-                  type="text"
-                  name="meta_description"
-                  value={EditWebsiteForm && EditWebsiteForm.meta_description ? EditWebsiteForm.meta_description : ''}
-                  onChange={this.handleChange.bind(this)}
-                />
-              </FormGroup>
-              <Button
-                className="btn btn-orange edit-about-submit"
-                onClick={event => this.handleSubmit(event)}
-              >
-                Save
-              </Button>
-            </form>
+                  <FormControl
+                    className="custom-form-control"
+                    componentClass="textarea"
+                    type="text"
+                    name="meta_description"
+                    value={EditWebsiteForm && EditWebsiteForm.meta_description ? EditWebsiteForm.meta_description : ''}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </FormGroup>
+                <Button
+                  className="btn btn-orange edit-about-submit"
+                  onClick={event => this.handleSubmit(event)}
+                >
+                  Save
+                </Button>
+              </form>
+            </Col>
           </Col>
           </Tab>
           <Tab eventKey="theme" title="Theme">
-            <Col xs={12} className="site-content-filter p-none">
+            <Col xs={12} className="p-none">
               <ColorTheme />
             </Col>
           </Tab>
