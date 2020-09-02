@@ -93,6 +93,16 @@ export default class Sidebar extends Component {
                 Video films
               </ListGroupItem>
             </NavLink>
+            <NavLink to="/site_contents">
+              <ListGroupItem>
+                <img
+                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
+                  className="link-icons"
+                  alt=""
+                />{' '}
+                Site Pages
+              </ListGroupItem>
+            </NavLink>
             <NavLink to="/testimonials">
               <ListGroupItem href="">
                 <img
@@ -113,7 +123,7 @@ export default class Sidebar extends Component {
                 Homepage Gallery
               </ListGroupItem>
             </NavLink>
-            <NavLink to="/contacts">
+            {/* <NavLink to="/contacts">
               <ListGroupItem>
                 <img
                   src={require('../../../assets/images/admin/album/contacts-icon.png')}
@@ -122,17 +132,7 @@ export default class Sidebar extends Component {
                 />{' '}
                 My Contacts
               </ListGroupItem>
-            </NavLink>
-            <NavLink to="/site_contents">
-              <ListGroupItem>
-                <img
-                  src={require('../../../assets/images/admin/album/site-content-icon.png')}
-                  className="link-icons"
-                  alt=""
-                />{' '}
-                Site Content
-              </ListGroupItem>
-            </NavLink>
+            </NavLink> */}
             <NavLink to="/categories">
               <ListGroupItem>
                 <img

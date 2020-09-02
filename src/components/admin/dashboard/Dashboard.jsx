@@ -133,7 +133,11 @@ export default class Dashboard extends Component {
                       </h5>
                   }
               <div className="w-100">
-            Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b><br></br>
+              {profileCompleteness && profileCompleteness.percentage < 100 &&
+                <span>Profile Completeness  <b>{profileCompleteness && profileCompleteness.percentage}%</b></span>
+              }
+              <br></br>
+              
             <p></p>
             {profileCompleteness && profileCompleteness.percentage < 100 &&
               <div>
