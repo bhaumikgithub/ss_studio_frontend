@@ -5,7 +5,7 @@
   "homepage": "http://www.sagargadani.com",
   "dependencies": {
     "@syncfusion/ej2-react-inputs": "^17.1.50",
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "bootstrap": "^3.3.7",
     "draft-js": "^0.10.4",
     "draftjs-to-html": "^0.7.6",
