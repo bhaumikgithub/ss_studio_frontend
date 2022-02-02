@@ -310,7 +310,7 @@
   background: #c8c8c8 !important;
 }
 .share-album-title-details {
-  top: calc(100% - 256px) !important;
+  top: calc(100% - 370px) !important;
 }
 .selected-photo-count {
   text-align: left;
@@ -1427,6 +1427,10 @@ div.filepicker {
   display: inline-block;
 }
 /* end css for white backgroung */
+.qr-code-passcode{
+  color: #fff;
+  font-size: 14px;
+}
 @media only screen and (max-width: 1199px) {
   .header-1-wrapper{
     min-width: 450px;

@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 import { Creatable } from 'react-select';
 import SweetAlert from 'sweetalert-react';
+import { QRCode } from "react-qr-svg";
 
 // Import services
 import { AlbumRecipientService, AlbumService } from '../../../services/Index';
@@ -335,6 +336,19 @@ export default class ShareAlbum extends Component {
               :
                 <h4 className="create-album-text text-white font-size-16">Share Album</h4>
                }
+              <QRCode
+                bgColor="#FFFFFF"
+                fgColor="#000000"
+                level="Q"
+                style={{ width: 200 }}
+                value={album.show_album_url}
+              />
+              <br/>
+              {album.is_private && (
+                <span className="view-album-url qr-code-passcode">
+                  Password: {album.passcode} <hr />
+                </span>
+              )}
             </Col>
           </Col>
           <Col className="modal-share-content-wrap" sm={7}>
