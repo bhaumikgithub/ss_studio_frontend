@@ -6,7 +6,7 @@
   "dependencies": {
     "@syncfusion/ej2-react-inputs": "^17.1.50",
     "axios": "^0.16.2",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "draft-js": "^0.10.4",
     "draftjs-to-html": "^0.7.6",
     "font-awesome": "^4.7.0",
