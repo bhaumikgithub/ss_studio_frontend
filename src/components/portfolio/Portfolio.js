@@ -76,6 +76,7 @@ export default class Portfolio extends Component {
               </label>
             </PageHeader>
           </Col>
+          <div className="test">Testing..</div>
           <Col xs={12} className="p-none">
             <Tab.Container
               id="tabs-with-dropdown porfolio-tab-wrap"
